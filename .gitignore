@@ -1,0 +1,11 @@
+Unity/Assets/External/
+Unity/AssetBundles/
+Unity/Library/
+Unity/Logs/
+Unity/obj/
+Unity/Packages/
+Unity/ProjectSettings/
+Unity/UIElementsSchema/
+Unity/Assembly-CSharp.csproj
+Unity/Assembly-CSharp-Editor.csproj
+Unity/ror2_TTGL_survivor.sln
