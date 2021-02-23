@@ -12,7 +12,6 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 
 ## To-Do
 - Working on the ultimate for lagann
-- Replacing the placeholder texts
 - Balancing stats / buffs
 - Find a suitable place for the spiral power gauge
 - Make my own soundbank
