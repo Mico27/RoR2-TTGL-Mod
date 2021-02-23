@@ -6,12 +6,13 @@ namespace TTGL_Survivor.SkillStates
 {
     public class DrillRush : BaseMeleeAttack
     {
+        public const float c_DamageCoefficient = 3.0f;
         public override void OnEnter()
         {
             this.hitboxName = "DrillRushHitbox";
             this.playbackRateString = "DrillRush.playbackRate";
             this.damageType = DamageType.BypassArmor;
-            this.damageCoefficient = 2.4f;
+            this.damageCoefficient = c_DamageCoefficient;
             this.procCoefficient = 1f;
             this.pushForce = 500f;
             this.bonusForce = Vector3.zero;

@@ -7,10 +7,11 @@ namespace TTGL_Survivor.SkillStates
 {
     public class LagannImpact : BaseSkillState
     {
-        public static float damageCoefficient = 16f;
+        public static float damageCoefficient = 15f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.65f;
         public static float throwForce = 80f;
+        public static int bounceCount = 3;
 
         private float duration;
         private float fireTime;

@@ -228,11 +228,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\TTGL-mod\\TTGL_Survivor\\TTGL_Survivor.csproj",
+      "projectUniqueName": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj",
       "projectName": "TTGL_Survivor",
-      "projectPath": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\TTGL-mod\\TTGL_Survivor\\TTGL_Survivor.csproj",
+      "projectPath": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj",
       "packagesPath": "C:\\Users\\Mico27\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\TTGL-mod\\TTGL_Survivor\\obj\\",
+      "outputPath": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

@@ -9,7 +9,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class ShootRifle : BaseSkillState
     {
-        public static float damageCoefficient = 4.8f;
+        public static float damageCoefficient = 2.0f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
