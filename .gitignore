@@ -9,3 +9,5 @@ Unity/UIElementsSchema/
 Unity/Assembly-CSharp.csproj
 Unity/Assembly-CSharp-Editor.csproj
 Unity/ror2_TTGL_survivor.sln
+Unity/.vs/
+src/.vs/
