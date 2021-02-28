@@ -86,29 +86,33 @@ namespace TTGL_Survivor.SkillStates
                     bulletAttack.hitCallback = (ref BulletAttack.BulletHit hitInfo) =>
                     {
                         var result = bulletAttack.DefaultHitCallback(ref hitInfo);
-                        if (hitInfo.hitHurtBox && bulletAttack.isCrit)
+                        if (hitInfo.hitHurtBox)
                         {
-                            CritRicochetOrb critRicochetOrb = new CritRicochetOrb();
-                            critRicochetOrb.damageValue = bulletAttack.damage;
-                            critRicochetOrb.isCrit = base.RollCrit();
-                            critRicochetOrb.teamIndex = TeamComponent.GetObjectTeam(base.gameObject);
-                            critRicochetOrb.attacker = base.gameObject;
-                            critRicochetOrb.attackerBody = base.characterBody;
-                            critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
-                            critRicochetOrb.speed = 100.0f;
-                            critRicochetOrb.bouncedObjects = new List<HealthComponent>();
-                            critRicochetOrb.range = hitInfo.distance;
-                            critRicochetOrb.tracerEffectPrefab = bulletAttack.tracerEffectPrefab;
-                            critRicochetOrb.hitEffectPrefab = bulletAttack.hitEffectPrefab;
-
-                            var nextTarget = critRicochetOrb.PickNextTarget(hitInfo.point);
-                            if (nextTarget)
+                            base.characterBody.outOfCombatStopwatch = 0f;
+                            if (bulletAttack.isCrit)
                             {
-                                critRicochetOrb.origin = hitInfo.point;
-                                critRicochetOrb.target = nextTarget;
-                                OrbManager.instance.AddOrb(critRicochetOrb);
+                                CritRicochetOrb critRicochetOrb = new CritRicochetOrb();
+                                critRicochetOrb.damageValue = bulletAttack.damage;
+                                critRicochetOrb.isCrit = base.RollCrit();
+                                critRicochetOrb.teamIndex = TeamComponent.GetObjectTeam(base.gameObject);
+                                critRicochetOrb.attacker = base.gameObject;
+                                critRicochetOrb.attackerBody = base.characterBody;
+                                critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
+                                critRicochetOrb.speed = 100.0f;
+                                critRicochetOrb.bouncedObjects = new List<HealthComponent>();
+                                critRicochetOrb.range = hitInfo.distance;
+                                critRicochetOrb.tracerEffectPrefab = bulletAttack.tracerEffectPrefab;
+                                critRicochetOrb.hitEffectPrefab = bulletAttack.hitEffectPrefab;
+
+                                var nextTarget = critRicochetOrb.PickNextTarget(hitInfo.point);
+                                if (nextTarget)
+                                {
+                                    critRicochetOrb.origin = hitInfo.point;
+                                    critRicochetOrb.target = nextTarget;
+                                    OrbManager.instance.AddOrb(critRicochetOrb);
+                                }
                             }
-                        }
+                        }                        
                         return result;
                     };
                     bulletAttack.Fire();

@@ -48,12 +48,7 @@ namespace TTGL_Survivor.Modules.Survivors
                     podPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod")
                 });
                 //Setup spiritEnergy components
-                GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
-                ChildLocator childLocator = model.GetComponent<ChildLocator>();                
-                var spiralPowerPanel = childLocator.FindChild("SpiralPowerPanel").gameObject;
-                var spiritPowerGauge = spiralPowerPanel.AddComponent<SpiralPowerGauge>();
-                var spiritEnergy = characterPrefab.AddComponent<SpiralEnergy>();
-                spiritPowerGauge.source = spiritEnergy;
+                characterPrefab.AddComponent<SpiralEnergy>();
                 characterPrefab.AddComponent<Modules.Components.LagannController>();
                 characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannMain));
                 #endregion
@@ -203,11 +198,11 @@ namespace TTGL_Survivor.Modules.Survivors
                 skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannImpact)),
-                activationStateMachineName = "Weapon",
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannImpact)),
+                activationStateMachineName = "Body",
                 baseMaxStock = 1,
-                baseRechargeInterval = 8f,
-                beginSkillCooldownOnSkillEnd = false,
+                baseRechargeInterval = 12f,
+                beginSkillCooldownOnSkillEnd = true,
                 canceledFromSprinting = false,
                 forceSprintDuringState = false,
                 fullRestockOnAssign = true,

@@ -137,13 +137,13 @@ namespace TTGL_Survivor.Modules
 
             GameObject cameraPivot = new GameObject("CameraPivot");
             cameraPivot.transform.parent = modelBase.transform;
-            cameraPivot.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            cameraPivot.transform.localPosition = new Vector3(0f, 2.6f, 0f);
             cameraPivot.transform.localRotation = Quaternion.identity;
             cameraPivot.transform.localScale = Vector3.one;
 
             GameObject aimOrigin = new GameObject("AimOrigin");
             aimOrigin.transform.parent = modelBase.transform;
-            aimOrigin.transform.localPosition = new Vector3(0f, 2.2f, 0f);
+            aimOrigin.transform.localPosition = new Vector3(0f, 2.6f, 0f);
             aimOrigin.transform.localRotation = Quaternion.identity;
             aimOrigin.transform.localScale = Vector3.one;
             prefab.GetComponent<CharacterBody>().aimOriginTransform = aimOrigin.transform;

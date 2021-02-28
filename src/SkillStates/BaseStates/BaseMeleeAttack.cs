@@ -54,7 +54,7 @@ namespace TTGL_Survivor.SkillStates.BaseStates
             this.hasFired = false;
             this.animator = base.GetModelAnimator();
             base.StartAimMode(0.5f + this.duration, false);
-            base.characterBody.outOfCombatStopwatch = 0f;
+            
 
             HitBoxGroup hitBoxGroup = null;
             Transform modelTransform = base.GetModelTransform();
@@ -101,7 +101,7 @@ namespace TTGL_Survivor.SkillStates.BaseStates
         protected virtual void OnHitEnemyAuthority()
         {
             Util.PlaySound(this.hitSoundString, base.gameObject);
-
+            base.characterBody.outOfCombatStopwatch = 0f;
             if (!this.hasHopped)
             {
                 if (base.characterMotor && !base.characterMotor.isGrounded)

@@ -56,7 +56,7 @@ namespace TTGL_Survivor.Modules
                     rectTransform.anchorMax = new Vector2(1, 0);
                     rectTransform.pivot = new Vector2(1, 0);
                     rectTransform.sizeDelta = new Vector2(120, 120);
-                    rectTransform.anchoredPosition = new Vector2(0, 200);
+                    rectTransform.anchoredPosition = new Vector2(-20, 200);
                     rectTransform.localScale = new Vector3(2, 2, 2);
                     
                     
@@ -122,11 +122,11 @@ namespace TTGL_Survivor.Modules
             }
             else if (!this.body.outOfCombat || !this.body.outOfDanger)
             {
-                newNormalizedChargeRate = ((this.healthCoefficient + this.monsterCountCoefficient) / ((!this.body.outOfDanger) ? 10 : 20));
+                newNormalizedChargeRate = (Mathf.Pow((this.healthCoefficient + this.monsterCountCoefficient), 2) / ((!this.body.outOfDanger) ? 30 : 60));
             }
             else
             {
-                newNormalizedChargeRate = (this.energy > 10) ?  -0.01f: 0.02f;
+                newNormalizedChargeRate = (this.energy > 10) ?  (-0.02f * this.energy / 100): 0.02f;
             }
             if (this.normalizedChargeRate != newNormalizedChargeRate)
             {
@@ -141,8 +141,8 @@ namespace TTGL_Survivor.Modules
         private void UpdateSpiralEnergyStatEffects()
         {
             this.body.damage += (this.body.damage * (this.energy / 100));
-            this.body.regen += (this.body.regen * (this.energy / 200));
-            this.body.moveSpeed += (this.body.moveSpeed * (this.energy / 300));            
+            this.body.regen += (this.body.regen * (this.energy / 300));
+            this.body.moveSpeed += (this.body.moveSpeed * (this.energy / 500));            
         }
     }
 }

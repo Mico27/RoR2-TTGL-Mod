@@ -33,7 +33,7 @@ namespace TTGL_Survivor.UI
                 if (m_rate != newRate)
                 {
                     m_rate = newRate;
-                    m_animator.SetFloat("rate", this.source.normalizedChargeRate);
+                    m_animator.SetFloat("rate", this.source.normalizedChargeRate * 3);
                 }
                 var newAmount = this.source.energy;
                 if (m_amount != newAmount)

@@ -71,14 +71,14 @@ namespace TTGL_Survivor.SkillStates
             }
             bool isVertical = (this.burstDirection == Vector3.up);
             this.duration = (isVertical) ? SpiralBurst.vertical_duration : SpiralBurst.horizontal_duration;
-            this.RecalculateBurstSpeed();
+            this.RecalculateBurstSpeed(isVertical);
             
             this.damageType = DamageType.BypassArmor;
             this.procCoefficient = 1f;
             this.pushForce = 500f;
             this.bonusForce = Vector3.zero;
-            this.attackStartTime = 0.2f;
-            this.attackEndTime = 0.4f;
+            this.attackStartTime = 0.1f;
+            this.attackEndTime = 0.9f;
             this.baseEarlyExitTime = 0.3f;
             this.hitStopDuration = 0.115f;
             this.attackRecoil = 0.75f;
@@ -132,16 +132,16 @@ namespace TTGL_Survivor.SkillStates
             }
         }
 
-        private void RecalculateBurstSpeed()
+        private void RecalculateBurstSpeed(bool isVertical)
         {
-            this.burstSpeed = this.moveSpeedStat * Mathf.Lerp(SpiralBurst.initialSpeedCoefficient, SpiralBurst.finalSpeedCoefficient, base.fixedAge / this.duration);
+            this.burstSpeed = ((!isVertical)?this.moveSpeedStat: 7f) * Mathf.Lerp(SpiralBurst.initialSpeedCoefficient, SpiralBurst.finalSpeedCoefficient, base.fixedAge / this.duration);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
             bool isVertical = (this.burstDirection == Vector3.up);
-            this.RecalculateBurstSpeed();
+            this.RecalculateBurstSpeed(isVertical);
             this.hitPauseTimer -= Time.fixedDeltaTime;
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
@@ -165,7 +165,7 @@ namespace TTGL_Survivor.SkillStates
                 this.FireAttack();
             }
             if (!isVertical && base.characterDirection) base.characterDirection.forward = this.burstDirection;
-            if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(SpiralBurst.dodgeFOV, 60f, base.fixedAge / this.duration);
+            //if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = Mathf.Lerp(SpiralBurst.dodgeFOV, 60f, base.fixedAge / this.duration);
             if (!isVertical)
             {
                 Vector3 normalized = (base.transform.position - this.previousPosition).normalized;
@@ -190,6 +190,7 @@ namespace TTGL_Survivor.SkillStates
         
         protected virtual void OnHitEnemyAuthority()
         {
+            base.characterBody.outOfCombatStopwatch = 0f;
             Util.PlaySound(this.hitSoundString, base.gameObject);
 
             if (!this.inHitPause)
@@ -225,7 +226,7 @@ namespace TTGL_Survivor.SkillStates
 
         public override void OnExit()
         {
-            if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;
+            //if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;
             base.OnExit();
 
             if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
