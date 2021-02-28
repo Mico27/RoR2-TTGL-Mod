@@ -11,7 +11,8 @@
 feel free to ping/dm me with any questions or complaints on the modding discord- @Mico27#0642
 
 ## To-Do
-- Working on the ultimate for lagann
+- Add hit feedbacks on some of the skills
 - Balancing stats / buffs
-- Find a suitable place for the spiral power gauge
+- Some general polishing
+- Maybe some alternate loadouts?
 - Make my own soundbank
