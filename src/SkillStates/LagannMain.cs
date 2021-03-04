@@ -23,6 +23,15 @@ namespace TTGL_Survivor.SkillStates
                 float i = 1;
                 if (this.animator.GetBool("isGrounded")) i = 0;
                 this.animator.SetFloat("inAir", i);
+
+                if (this.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
+                {
+                    this.animator.SetBool("spiralPowerOverflow", true);
+                }
+                else
+                {
+                    this.animator.SetBool("spiralPowerOverflow", false);
+                }
             }
         }
     }

@@ -25,12 +25,11 @@ namespace TTGL_Survivor.SkillStates
             this.hitHopVelocity = 6f;
 
             this.swingSoundString = "HenryPunchSwing";
-            this.hitSoundString = "";
             this.muzzleString = swingIndex % 2 == 0 ? "LeftDrillMuzzle" : "RightDrillMuzzle";
             //this.swingEffectPrefab = Modules.Assets.swordSwingEffect;
             this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
 
-            this.impactSound = Modules.Assets.punchHitSoundEvent.index;
+            this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
 
             base.OnEnter();
         }

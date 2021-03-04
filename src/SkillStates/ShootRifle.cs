@@ -47,7 +47,7 @@ namespace TTGL_Survivor.SkillStates
 
                 base.characterBody.AddSpreadBloom(1.5f);
                 EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, this.muzzleString, false);
-                Util.PlaySound("HenryShootPistol", base.gameObject);
+                Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
 
                 if (base.isAuthority)
                 {
@@ -81,7 +81,7 @@ namespace TTGL_Survivor.SkillStates
                         spreadPitchScale = 0f,
                         spreadYawScale = 0f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol.hitEffectPrefab,
+                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol.hitEffectPrefab,                        
                     };
                     bulletAttack.hitCallback = (ref BulletAttack.BulletHit hitInfo) =>
                     {
@@ -103,10 +103,12 @@ namespace TTGL_Survivor.SkillStates
                                 critRicochetOrb.range = hitInfo.distance;
                                 critRicochetOrb.tracerEffectPrefab = bulletAttack.tracerEffectPrefab;
                                 critRicochetOrb.hitEffectPrefab = bulletAttack.hitEffectPrefab;
+                                critRicochetOrb.hitSoundString = "TTGLTokoRifleCrit";
 
                                 var nextTarget = critRicochetOrb.PickNextTarget(hitInfo.point);
                                 if (nextTarget)
                                 {
+                                    Util.PlaySound("TTGLTokoRifleCrit", nextTarget.gameObject);
                                     critRicochetOrb.origin = hitInfo.point;
                                     critRicochetOrb.target = nextTarget;
                                     OrbManager.instance.AddOrb(critRicochetOrb);

@@ -60,6 +60,7 @@ namespace TTGL_Survivor.Orbs
                     HurtBox hurtBox = this.PickNextTarget(this.target.transform.position);
                     if (hurtBox)
                     {
+                        Util.PlaySound(this.hitSoundString, this.target.gameObject);
                         CritRicochetOrb CritRicochetOrb = new CritRicochetOrb();
                         CritRicochetOrb.search = this.search;
                         CritRicochetOrb.origin = this.target.transform.position;
@@ -79,6 +80,7 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.damageType = this.damageType;
                         CritRicochetOrb.tracerEffectPrefab = this.tracerEffectPrefab;
                         CritRicochetOrb.hitEffectPrefab = this.hitEffectPrefab;
+                        CritRicochetOrb.hitSoundString = this.hitSoundString;
                         OrbManager.instance.AddOrb(CritRicochetOrb);
                     }
                 }
@@ -140,6 +142,8 @@ namespace TTGL_Survivor.Orbs
         public GameObject hitEffectPrefab;
 
         public GameObject tracerEffectPrefab;
+
+        public string hitSoundString;
 
     }
 }

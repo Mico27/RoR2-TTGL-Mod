@@ -6,7 +6,7 @@ namespace TTGL_Survivor.Modules
     {
         internal static void RegisterUnlockables()
         {
-            UnlockablesAPI.AddUnlockable<Achievements.LagannUnlockAchievement>(true);
+            //UnlockablesAPI.AddUnlockable<Achievements.LagannUnlockAchievement>(true);
         }
     }
 }

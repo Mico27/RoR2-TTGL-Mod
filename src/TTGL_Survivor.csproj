@@ -7,11 +7,13 @@
   <ItemGroup>
     <None Remove="examplesurvivorbundle_copy" />
     <None Remove="HenryBank.bnk" />
+    <None Remove="TTGLSoundbank.bnk" />
     <None Remove="ttglsurvivorbundle" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="HenryBank.bnk" />
+    <EmbeddedResource Include="TTGLSoundbank.bnk" />
     <EmbeddedResource Include="ttglsurvivorbundle" />
   </ItemGroup>
 
@@ -144,6 +146,10 @@
       <HintPath>libs\Zio.dll</HintPath>
       <Private>false</Private>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Achievements\" />
   </ItemGroup>
 
 </Project>

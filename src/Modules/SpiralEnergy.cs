@@ -2,6 +2,8 @@
 using EntityStates;
 using RoR2;
 using TTGL_Survivor.UI;
+using UnityEngine.Networking;
+using System.Collections;
 
 namespace TTGL_Survivor.Modules
 {
@@ -11,6 +13,8 @@ namespace TTGL_Survivor.Modules
         private CharacterBody body = null;
         private float monsterCountCoefficient = 0.0f;
         private float healthCoefficient = 0.0f;
+        private bool wasPaused;
+        private bool hadFullBuff;
 
         public new void Awake()
         {
@@ -22,6 +26,7 @@ namespace TTGL_Survivor.Modules
             On.RoR2.HealthComponent.Heal += HealthComponent_Heal;
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.UI.HUD.Awake += HUD_Awake;
+            MusicController.pickTrackHook += MusicController_pickTrackHook;
         }
 
         public void OnDestroy()
@@ -31,14 +36,39 @@ namespace TTGL_Survivor.Modules
             On.RoR2.HealthComponent.Heal -= HealthComponent_Heal;
             On.RoR2.CharacterBody.RecalculateStats -= CharacterBody_RecalculateStats;
             On.RoR2.UI.HUD.Awake -= HUD_Awake;
+            MusicController.pickTrackHook -= MusicController_pickTrackHook;
+            if (this.hadFullBuff)
+            {
+                AkSoundEngine.PostEvent("TTGLFullBuffStop", this.body.gameObject);
+            }
+        }
+        private void LateUpdate()
+        {
+            if (this.hadFullBuff)
+            {
+                bool flag = Time.timeScale == 0f;
+                if (this.wasPaused != flag)
+                {
+                    AkSoundEngine.PostEvent(flag ? "TTGLFullBuffPause" : "TTGLFullBuffResume", base.gameObject);
+                    this.wasPaused = flag;
+                }
+            }
+        }
+
+        private void MusicController_pickTrackHook(MusicController musicController, ref MusicTrackDef newTrack)
+        {
+            if (this.hadFullBuff)
+            {
+                newTrack = null;
+            }
         }
 
         private void HUD_Awake(On.RoR2.UI.HUD.orig_Awake orig, RoR2.UI.HUD self)
         {
             orig(self);
-            if (self != null && self.mainContainer != null)
+            if (self != null && self.mainUIPanel != null)
             {
-                var existingSpiralEnergyGauge = self.mainContainer.GetComponentInChildren<SpiralPowerGauge>();
+                var existingSpiralEnergyGauge = self.mainUIPanel.GetComponentInChildren<SpiralPowerGauge>();
                 if (!existingSpiralEnergyGauge)
                 {
                     TTGL_SurvivorPlugin.instance.Logger.LogMessage("SpiralPowerNotFound, creating one");
@@ -47,8 +77,8 @@ namespace TTGL_Survivor.Modules
                     var spiritPowerGauge = spiralPowerPanel.AddComponent<SpiralPowerGauge>();
                     TTGL_SurvivorPlugin.instance.Logger.LogMessage("SpiralPowerGauge added to panel");
                     spiritPowerGauge.source = this;
-                    TTGL_SurvivorPlugin.instance.Logger.LogMessage("Setting parent to maimainContainernUIPanel");
-                    spiralPowerPanel.transform.SetParent(self.mainContainer.transform);
+                    TTGL_SurvivorPlugin.instance.Logger.LogMessage("Setting parent to mainUIPanel");
+                    spiralPowerPanel.transform.SetParent(self.mainUIPanel.transform);
                     
                     TTGL_SurvivorPlugin.instance.Logger.LogMessage("Setting positioning");
                     var rectTransform = spiralPowerPanel.GetComponent<RectTransform>();
@@ -108,7 +138,7 @@ namespace TTGL_Survivor.Modules
         }
 
         private void UpdateSpiralEnergyRegen(bool setDirty)
-        {
+        {            
             var monsterCount = TeamComponent.GetTeamMembers(TeamIndex.Monster).Count;
             this.monsterCountCoefficient = ((float)monsterCount / 40.0f);
             if (this.body.healthComponent != null && this.body.healthComponent.fullCombinedHealth != 0)
@@ -116,7 +146,11 @@ namespace TTGL_Survivor.Modules
                 this.healthCoefficient = this.body.healthComponent.missingCombinedHealth / this.body.healthComponent.fullCombinedHealth;
             }
             var newNormalizedChargeRate = 0.0f;
-            if (healthCoefficient >= 1.0f)
+            if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
+            {
+                newNormalizedChargeRate = 0.5f;
+            }
+            else if (healthCoefficient >= 1.0f)
             {
                 newNormalizedChargeRate = -0.5f;
             }
@@ -126,7 +160,7 @@ namespace TTGL_Survivor.Modules
             }
             else
             {
-                newNormalizedChargeRate = (this.energy > 10) ?  (-0.02f * this.energy / 100): 0.02f;
+                newNormalizedChargeRate = (this.energy > 10) ?  (0.05f * this.energy / 100): 0.02f;
             }
             if (this.normalizedChargeRate != newNormalizedChargeRate)
             {
@@ -142,7 +176,43 @@ namespace TTGL_Survivor.Modules
         {
             this.body.damage += (this.body.damage * (this.energy / 100));
             this.body.regen += (this.body.regen * (this.energy / 300));
-            this.body.moveSpeed += (this.body.moveSpeed * (this.energy / 500));            
+            this.body.moveSpeed += (this.body.moveSpeed * (this.energy / 500));
+            var hasFullEnergyBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff);
+            var hasFullEnergyDeBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerDeBuff);
+            if (!this.hadFullBuff && !hasFullEnergyDeBuff && this.energy == C_SPIRALENERGYCAP)
+            {
+                if (NetworkServer.active)
+                {
+                    this.body.AddTimedBuff(Modules.Buffs.maxSpiralPowerBuff, 100f);
+                    StartCoroutine(this.AddFullSpiralPowerDebuff());
+                }
+                AkSoundEngine.PostEvent("TTGLFullBuffPlay", this.body.gameObject);
+                hasFullEnergyBuff = true;
+                this.hadFullBuff = true;
+            }
+            else if (this.hadFullBuff && !hasFullEnergyBuff)
+            {
+                this.hadFullBuff = false;
+            }
+            if (hasFullEnergyBuff)
+            {
+                this.body.armor += 300f;
+            }
         }
+
+        private IEnumerator AddFullSpiralPowerDebuff()
+        {
+            if (isWaitingForDebuff)
+                yield break;
+
+            isWaitingForDebuff = true;
+            yield return new WaitForSeconds(95.0f);
+            if (NetworkServer.active)
+            {
+                this.body.AddTimedBuff(Modules.Buffs.maxSpiralPowerDeBuff, 120f);
+            }
+            isWaitingForDebuff = false;
+        }
+        private bool isWaitingForDebuff = false;
     }
 }

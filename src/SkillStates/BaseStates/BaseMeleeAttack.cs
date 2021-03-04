@@ -27,7 +27,6 @@ namespace TTGL_Survivor.SkillStates.BaseStates
         protected float hitHopVelocity = 4f;
 
         protected string swingSoundString = "";
-        protected string hitSoundString = "";
         protected string muzzleString = "SwingCenter";
         protected string playbackRateString = "Slash.playbackRate";
         protected GameObject swingEffectPrefab;
@@ -100,7 +99,6 @@ namespace TTGL_Survivor.SkillStates.BaseStates
 
         protected virtual void OnHitEnemyAuthority()
         {
-            Util.PlaySound(this.hitSoundString, base.gameObject);
             base.characterBody.outOfCombatStopwatch = 0f;
             if (!this.hasHopped)
             {

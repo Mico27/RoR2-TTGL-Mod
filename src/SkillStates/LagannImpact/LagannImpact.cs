@@ -37,6 +37,7 @@ namespace TTGL_Survivor.SkillStates
             this.animator = base.GetModelAnimator();
             this.animator.SetInteger("LagannImpact.stage", 2);
             Util.PlaySound(EvisDash.beginSoundString, base.gameObject);
+            //Util.PlaySound("TTGLLagannImpactFire", base.gameObject);
             if (NetworkServer.active)
             {
                 base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
@@ -66,6 +67,7 @@ namespace TTGL_Survivor.SkillStates
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
                 hitEffectPrefab = Modules.Assets.punchImpactEffect,
+                impactSound = Modules.Assets.genericHitSoundEvent.index,
             };
         }
 
@@ -75,6 +77,7 @@ namespace TTGL_Survivor.SkillStates
             effectData.rotation = Util.QuaternionSafeLookRotation(m_CurrentDirection);
             effectData.origin = origin;
             EffectManager.SpawnEffect(EvisDash.blinkPrefab, effectData, false);
+            //Ancient Scepter
         }
 
         public override void FixedUpdate()
@@ -94,6 +97,7 @@ namespace TTGL_Survivor.SkillStates
                 {
                     this.animator.SetInteger("LagannImpact.stage", 2);
                     Util.PlaySound(EvisDash.beginSoundString, base.gameObject);
+                   // Util.PlaySound("TTGLLagannImpactFire", base.gameObject);
                     this.CreateBlinkEffect(base.characterBody.corePosition);
                     m_IsBouncing = false;
                     return;
@@ -132,14 +136,14 @@ namespace TTGL_Survivor.SkillStates
                         {
                             base.characterMotor.rootMotion += m_CurrentDirection * (this.moveSpeedStat * c_SpeedCoefficient * Time.fixedDeltaTime);
                         }
-                    }
-                    if (NetworkServer.active)
+                    }                    
+                }
+                if (base.isAuthority)
+                {
+                    if (this.overlapAttack.Fire())
                     {
-                        if (this.overlapAttack.Fire())
-                        {
-                            base.characterBody.outOfCombatStopwatch = 0f;
-                            //Util.PlaySound(this.hitSoundString, base.gameObject);
-                        }
+                        base.characterBody.outOfCombatStopwatch = 0f;
+                        //Util.PlaySound(this.hitSoundString, base.gameObject);
                     }
                 }
             }

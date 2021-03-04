@@ -48,7 +48,6 @@ namespace TTGL_Survivor.SkillStates
         protected string playbackRateString = "";
         protected GameObject swingEffectPrefab;
         protected GameObject hitEffectPrefab;
-        protected NetworkSoundEventIndex impactSound;
 
         private bool hasFired;
         private float hitPauseTimer;
@@ -105,7 +104,7 @@ namespace TTGL_Survivor.SkillStates
             this.attack.pushAwayForce = this.pushForce;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
-            this.attack.impactSound = this.impactSound;
+            this.attack.impactSound = Modules.Assets.genericHitSoundEvent.index;
 
             if (base.characterMotor)
             {
@@ -191,7 +190,7 @@ namespace TTGL_Survivor.SkillStates
         protected virtual void OnHitEnemyAuthority()
         {
             base.characterBody.outOfCombatStopwatch = 0f;
-            Util.PlaySound(this.hitSoundString, base.gameObject);
+            //Util.PlaySound(this.hitSoundString, base.gameObject);
 
             if (!this.inHitPause)
             {

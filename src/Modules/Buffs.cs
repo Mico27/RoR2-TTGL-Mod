@@ -7,11 +7,13 @@ namespace TTGL_Survivor.Modules
     public static class Buffs
     {
         // armor buff gained during roll
-        internal static BuffIndex kaminaSpiritBuff;
+        internal static BuffIndex maxSpiralPowerBuff;
+        internal static BuffIndex maxSpiralPowerDeBuff;
 
         internal static void RegisterBuffs()
         {
-            kaminaSpiritBuff = AddNewBuff("KaminaSpiritBuff", "Textures/BuffIcons/texBuffGenericShield", Color.green, false, false);
+            maxSpiralPowerBuff = AddNewBuff("MaxSpiralPowerBuff", "Textures/BuffIcons/texBuffGenericShield", Color.green, false, false);
+            maxSpiralPowerDeBuff = AddNewBuff("MaxSpiralPowerDeBuff", "Textures/BuffIcons/texBuffGenericShield", Color.red, false, true);
         }
 
         // simple helper method

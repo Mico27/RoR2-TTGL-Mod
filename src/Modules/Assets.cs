@@ -15,15 +15,17 @@ namespace TTGL_Survivor.Modules
         internal static AssetBundle mainAssetBundle;
 
         // particle effects
-        internal static GameObject swordSwingEffect;
-        internal static GameObject swordHitImpactEffect;
-
         internal static GameObject punchImpactEffect;
-
-        internal static GameObject bombExplosionEffect;
-
-        internal static NetworkSoundEventDef swordHitSoundEvent;
-        internal static NetworkSoundEventDef punchHitSoundEvent;
+                
+        internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
+        internal static NetworkSoundEventDef genericHitSoundEvent;
+        internal static NetworkSoundEventDef lagannImpactFireSoundEvent;
+        internal static NetworkSoundEventDef drillRushHitSoundEvent;
+        internal static NetworkSoundEventDef fullBuffResumeSoundEvent;
+        internal static NetworkSoundEventDef fullBuffPauseSoundEvent;
+        internal static NetworkSoundEventDef fullBuffStopSoundEvent;
+        internal static NetworkSoundEventDef tokoRifleFireSoundEvent;
+        internal static NetworkSoundEventDef tokoRifleCritSoundEvent;
 
         // cache these and use to create our own materials
         public static Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/HGStandard");
@@ -48,8 +50,22 @@ namespace TTGL_Survivor.Modules
                 SoundAPI.SoundBanks.Add(array);
             }
 
-            swordHitSoundEvent = CreateNetworkSoundEventDef("HenrySwordHit");
-            punchHitSoundEvent = CreateNetworkSoundEventDef("HenryPunchHit");
+            using (Stream manifestResourceStream3 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.TTGLSoundbank.bnk"))
+            {
+                byte[] array = new byte[manifestResourceStream3.Length];
+                manifestResourceStream3.Read(array, 0, array.Length);
+                SoundAPI.SoundBanks.Add(array);
+                //MusicTrackOverride
+            }
+            fullBuffPlaySoundEvent = CreateNetworkSoundEventDef("TTGLFullBuffPlay");
+            genericHitSoundEvent = CreateNetworkSoundEventDef("TTGLGenericHit");
+            lagannImpactFireSoundEvent = CreateNetworkSoundEventDef("TTGLLagannImpactFire");
+            drillRushHitSoundEvent = CreateNetworkSoundEventDef("TTGLDrillRushHit");
+            fullBuffResumeSoundEvent = CreateNetworkSoundEventDef("TTGLFullBuffResume");
+            fullBuffPauseSoundEvent = CreateNetworkSoundEventDef("TTGLFullBuffPause");
+            fullBuffStopSoundEvent = CreateNetworkSoundEventDef("TTGLFullBuffStop");
+            tokoRifleFireSoundEvent = CreateNetworkSoundEventDef("TTGLTokoRifleFire");
+            tokoRifleCritSoundEvent = CreateNetworkSoundEventDef("TTGLTokoRifleCrit");
 
             /*
             bombExplosionEffect = LoadEffect("BombExplosionEffect", "");
