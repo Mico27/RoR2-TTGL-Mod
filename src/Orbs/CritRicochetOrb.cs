@@ -1,6 +1,7 @@
 ﻿using RoR2;
 using RoR2.Orbs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,24 +11,24 @@ namespace TTGL_Survivor.Orbs
     public class CritRicochetOrb : Orb
     {
         public override void Begin()
-        {            
-            base.duration = base.distanceToTarget / this.speed;
+        {
             if (this.tracerEffectPrefab)
             {
                 EffectData effectData = new EffectData
                 {
-                    origin = this.origin,
-                    genericFloat = base.duration
+                    origin = this.target.transform.position,
+                    start = this.origin,                     
                 };
-                effectData.SetHurtBoxReference(this.target);
                 EffectManager.SpawnEffect(this.tracerEffectPrefab, effectData, true);
             }
+
         }
 
         public override void OnArrival()
         {
             if (this.target)
             {
+                
                 if (this.hitEffectPrefab)
                 {
                     EffectManager.SimpleImpactEffect(this.hitEffectPrefab, this.target.transform.position, Vector3.zero, true);
@@ -59,8 +60,7 @@ namespace TTGL_Survivor.Orbs
                     }
                     HurtBox hurtBox = this.PickNextTarget(this.target.transform.position);
                     if (hurtBox)
-                    {
-                        Util.PlaySound(this.hitSoundString, this.target.gameObject);
+                    {                        
                         CritRicochetOrb CritRicochetOrb = new CritRicochetOrb();
                         CritRicochetOrb.search = this.search;
                         CritRicochetOrb.origin = this.target.transform.position;
@@ -80,8 +80,8 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.damageType = this.damageType;
                         CritRicochetOrb.tracerEffectPrefab = this.tracerEffectPrefab;
                         CritRicochetOrb.hitEffectPrefab = this.hitEffectPrefab;
-                        CritRicochetOrb.hitSoundString = this.hitSoundString;
-                        OrbManager.instance.AddOrb(CritRicochetOrb);
+                        CritRicochetOrb.hitSoundString = this.hitSoundString;                        
+                        CritRicochetOrb.FireDelayed();
                     }
                 }
             }
@@ -111,6 +111,12 @@ namespace TTGL_Survivor.Orbs
             return hurtBox;
         }
         
+        public void FireDelayed()
+        {
+            Util.PlaySound(this.hitSoundString, this.target.gameObject);
+            OrbManager.instance.AddOrb(this);
+        }
+
         public float speed = 100f;
 
         public float damageValue;

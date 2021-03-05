@@ -160,7 +160,7 @@ namespace TTGL_Survivor.Modules
             }
             else
             {
-                newNormalizedChargeRate = (this.energy > 10) ?  (0.05f * this.energy / 100): 0.02f;
+                newNormalizedChargeRate = (this.energy > 10) ?  (-0.03f * this.energy / 100): 0.02f;
             }
             if (this.normalizedChargeRate != newNormalizedChargeRate)
             {

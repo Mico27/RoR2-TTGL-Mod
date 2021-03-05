@@ -16,7 +16,11 @@ namespace TTGL_Survivor.Modules
 
         // particle effects
         internal static GameObject punchImpactEffect;
-                
+        internal static GameObject yokoRifleHitSmallEffect;
+        internal static GameObject yokoRifleMuzzleBigEffect;
+        internal static GameObject yokoRifleMuzzleSmallEffect;
+        internal static GameObject yokoRifleTracer;
+
         internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
         internal static NetworkSoundEventDef genericHitSoundEvent;
         internal static NetworkSoundEventDef lagannImpactFireSoundEvent;
@@ -93,6 +97,11 @@ namespace TTGL_Survivor.Modules
             punchImpactEffect.AddComponent<NetworkIdentity>();
 
             EffectAPI.AddEffect(punchImpactEffect);
+
+            yokoRifleHitSmallEffect = Assets.LoadEffect("YokoRifleHitSmallEffect");
+            yokoRifleMuzzleBigEffect = Assets.LoadEffect("YokoRifleMuzzleBigEffect");
+            yokoRifleMuzzleSmallEffect = Assets.LoadEffect("YokoRifleMuzzleSmallEffect");
+            yokoRifleTracer = Assets.LoadEffect("YokoRifleTracer");
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)

@@ -6,7 +6,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class LagannMain : GenericCharacterMain
     {
-        private Animator animator;
+        private Animator animator;        
 
         public override void OnEnter()
         {

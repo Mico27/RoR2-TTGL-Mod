@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using EntityStates.Mage.Weapon;
 using RoR2;
 using RoR2.Orbs;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace TTGL_Survivor.SkillStates
         public static float force = 800f;
         public static float recoil = 3f;
         public static float range = 256f;
-        public static GameObject tracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
+       // public static GameObject tracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
 
         private float duration;
         private float fireTime;
@@ -46,7 +47,7 @@ namespace TTGL_Survivor.SkillStates
                 this.hasFired = true;
 
                 base.characterBody.AddSpreadBloom(1.5f);
-                EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol.effectPrefab, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleBigEffect, base.gameObject, this.muzzleString, false);
                 Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
 
                 if (base.isAuthority)
@@ -77,11 +78,11 @@ namespace TTGL_Survivor.SkillStates
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
-                        tracerEffectPrefab = ShootRifle.tracerEffectPrefab,
+                        tracerEffectPrefab = FireLaserbolt.tracerEffectPrefab,
                         spreadPitchScale = 0f,
                         spreadYawScale = 0f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                        hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol.hitEffectPrefab,                        
+                        hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect,                        
                     };
                     bulletAttack.hitCallback = (ref BulletAttack.BulletHit hitInfo) =>
                     {
@@ -98,20 +99,19 @@ namespace TTGL_Survivor.SkillStates
                                 critRicochetOrb.attacker = base.gameObject;
                                 critRicochetOrb.attackerBody = base.characterBody;
                                 critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
-                                critRicochetOrb.speed = 100.0f;
+                                critRicochetOrb.speed = 1.0f;
                                 critRicochetOrb.bouncedObjects = new List<HealthComponent>();
-                                critRicochetOrb.range = hitInfo.distance;
-                                critRicochetOrb.tracerEffectPrefab = bulletAttack.tracerEffectPrefab;
-                                critRicochetOrb.hitEffectPrefab = bulletAttack.hitEffectPrefab;
+                                critRicochetOrb.range = Mathf.Max(30f, hitInfo.distance);
+                                critRicochetOrb.tracerEffectPrefab = FireLaserbolt.tracerEffectPrefab;
+                                critRicochetOrb.hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect;
                                 critRicochetOrb.hitSoundString = "TTGLTokoRifleCrit";
-
+                                critRicochetOrb.origin = hitInfo.point;
+                                critRicochetOrb.bouncedObjects.Add(hitInfo.hitHurtBox.healthComponent);
                                 var nextTarget = critRicochetOrb.PickNextTarget(hitInfo.point);
                                 if (nextTarget)
                                 {
-                                    Util.PlaySound("TTGLTokoRifleCrit", nextTarget.gameObject);
-                                    critRicochetOrb.origin = hitInfo.point;
                                     critRicochetOrb.target = nextTarget;
-                                    OrbManager.instance.AddOrb(critRicochetOrb);
+                                    critRicochetOrb.FireDelayed();
                                 }
                             }
                         }                        
