@@ -40,7 +40,7 @@ namespace TTGL_Survivor.Modules.Survivors
                     characterPortrait = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon"),
                     crosshair = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair"),
                     damage = 12f,
-                    crit = 100f,
+                    //crit = 100f,
                     healthGrowth = 33f,
                     healthRegen = 1.5f,
                     jumpCount = 1,

@@ -12,15 +12,7 @@ namespace TTGL_Survivor.Orbs
     {
         public override void Begin()
         {
-            if (this.tracerEffectPrefab)
-            {
-                EffectData effectData = new EffectData
-                {
-                    origin = this.target.transform.position,
-                    start = this.origin,                     
-                };
-                EffectManager.SpawnEffect(this.tracerEffectPrefab, effectData, true);
-            }
+            
 
         }
 
@@ -28,7 +20,16 @@ namespace TTGL_Survivor.Orbs
         {
             if (this.target)
             {
-                
+                Util.PlaySound(this.hitSoundString, this.target.gameObject);
+                if (this.tracerEffectPrefab)
+                {
+                    EffectData effectData = new EffectData
+                    {
+                        origin = this.target.transform.position,
+                        start = this.origin,
+                    };
+                    EffectManager.SpawnEffect(this.tracerEffectPrefab, effectData, true);
+                }
                 if (this.hitEffectPrefab)
                 {
                     EffectManager.SimpleImpactEffect(this.hitEffectPrefab, this.target.transform.position, Vector3.zero, true);
@@ -75,7 +76,7 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.procChainMask = this.procChainMask;
                         CritRicochetOrb.procCoefficient = this.procCoefficient;
                         CritRicochetOrb.damageColorIndex = this.damageColorIndex;
-                        CritRicochetOrb.speed = this.speed;
+                        CritRicochetOrb.duration = this.duration;                        
                         CritRicochetOrb.range = this.range;
                         CritRicochetOrb.damageType = this.damageType;
                         CritRicochetOrb.tracerEffectPrefab = this.tracerEffectPrefab;
@@ -112,13 +113,10 @@ namespace TTGL_Survivor.Orbs
         }
         
         public void FireDelayed()
-        {
-            Util.PlaySound(this.hitSoundString, this.target.gameObject);
+        {            
             OrbManager.instance.AddOrb(this);
         }
-
-        public float speed = 100f;
-
+        
         public float damageValue;
 
         public GameObject attacker;

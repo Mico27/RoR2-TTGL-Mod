@@ -47,7 +47,7 @@ namespace TTGL_Survivor.SkillStates
                 this.hasFired = true;
 
                 base.characterBody.AddSpreadBloom(1.5f);
-                EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleBigEffect, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
                 Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
 
                 if (base.isAuthority)
@@ -99,7 +99,7 @@ namespace TTGL_Survivor.SkillStates
                                 critRicochetOrb.attacker = base.gameObject;
                                 critRicochetOrb.attackerBody = base.characterBody;
                                 critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
-                                critRicochetOrb.speed = 1.0f;
+                                critRicochetOrb.duration = 0.5f;
                                 critRicochetOrb.bouncedObjects = new List<HealthComponent>();
                                 critRicochetOrb.range = Mathf.Max(30f, hitInfo.distance);
                                 critRicochetOrb.tracerEffectPrefab = FireLaserbolt.tracerEffectPrefab;
