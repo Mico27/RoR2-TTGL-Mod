@@ -161,6 +161,32 @@ namespace TTGL_Survivor.Modules.Survivors
             });
 
             Modules.Skills.AddSecondarySkill(characterPrefab, shootRifleSkillDef);
+
+            SkillDef explosiveRifleSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
+                skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
+                skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ExplosiveRifle)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 2f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                isBullets = false,
+                isCombatSkill = false,
+                mustKeyPress = false,
+                noSprint = true,
+                rechargeStock = 1,
+                requiredStock = 1,
+                shootDelay = 0f,
+                stockToConsume = 1
+            });
+            Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
             #endregion
 
             #region Utility

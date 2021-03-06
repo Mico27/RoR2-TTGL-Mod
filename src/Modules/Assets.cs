@@ -19,7 +19,7 @@ namespace TTGL_Survivor.Modules
         internal static GameObject yokoRifleHitSmallEffect;
         internal static GameObject yokoRifleMuzzleBigEffect;
         internal static GameObject yokoRifleMuzzleSmallEffect;
-        internal static GameObject yokoRifleTracer;
+        internal static GameObject yokoRifleExplosiveRoundExplosion;
 
         internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
         internal static NetworkSoundEventDef genericHitSoundEvent;
@@ -98,10 +98,10 @@ namespace TTGL_Survivor.Modules
 
             EffectAPI.AddEffect(punchImpactEffect);
 
-            yokoRifleHitSmallEffect = Assets.LoadEffect("YokoRifleHitSmallEffect");
-            yokoRifleMuzzleBigEffect = Assets.LoadEffect("YokoRifleMuzzleBigEffect");
-            yokoRifleMuzzleSmallEffect = Assets.LoadEffect("YokoRifleMuzzleSmallEffect");
-            yokoRifleTracer = Assets.LoadEffect("YokoRifleTracer");
+            yokoRifleHitSmallEffect = Assets.LoadEffect("YokoRifleHitSmallEffect", 1.0f);
+            yokoRifleMuzzleBigEffect = Assets.LoadEffect("YokoRifleMuzzleBigEffect", 1.0f);
+            yokoRifleMuzzleSmallEffect = Assets.LoadEffect("YokoRifleMuzzleSmallEffect", 1.0f);
+            yokoRifleExplosiveRoundExplosion = Assets.LoadEffect("YokoRifleExplosiveRoundExplosion", 1.0f);
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
@@ -132,16 +132,11 @@ namespace TTGL_Survivor.Modules
             }
         }
 
-        private static GameObject LoadEffect(string resourceName)
-        {
-            return LoadEffect(resourceName, "");
-        }
-
-        private static GameObject LoadEffect(string resourceName, string soundName)
+        private static GameObject LoadEffect(string resourceName, float duration)
         {
             GameObject newEffect = mainAssetBundle.LoadAsset<GameObject>(resourceName);
 
-            newEffect.AddComponent<DestroyOnTimer>().duration = 12;
+            newEffect.AddComponent<DestroyOnTimer>().duration = duration;
             newEffect.AddComponent<NetworkIdentity>();
             newEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
             var effect = newEffect.AddComponent<EffectComponent>();
@@ -149,7 +144,6 @@ namespace TTGL_Survivor.Modules
             effect.effectIndex = EffectIndex.Invalid;
             effect.parentToReferencedTransform = true;
             effect.positionAtReferencedTransform = true;
-            effect.soundName = soundName;
 
             EffectAPI.AddEffect(newEffect);
 
