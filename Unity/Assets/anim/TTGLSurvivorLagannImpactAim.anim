@@ -19,7 +19,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -274.848, y: 0, z: 0}
+        value: {x: -271.373, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -28,7 +28,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -274.848, y: 0, z: 0}
+        value: {x: -271.373, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -170,7 +170,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.004451281, y: 0.0116, z: 0.0519}
+        value: {x: -0.004451281, y: 0.01, z: -0.007}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -179,7 +179,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -0.004451281, y: 0.0116, z: 0.0519}
+        value: {x: -0.004451281, y: 0.01, z: -0.007}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -912,7 +912,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.0116
+        value: 0.01
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -921,7 +921,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.0116
+        value: 0.01
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -940,7 +940,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.0519
+        value: -0.007
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -949,7 +949,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.0519
+        value: -0.007
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -968,7 +968,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -274.848
+        value: -271.373
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -977,7 +977,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: -274.848
+        value: -271.373
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -2571,7 +2571,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: LagganArmature/Root
+    path: LagganArmature/Root/Head/Right_Upper_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2581,7 +2581,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: LagganArmature/Root
+    path: LagganArmature/Root/Head/Right_Upper_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2591,7 +2591,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: LagganArmature/Root
+    path: LagganArmature/Root/Head/Right_Upper_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2661,7 +2661,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: LagganArmature/Root/Head/Right_Upper_Leg
+    path: LagganArmature/Root
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2671,7 +2671,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: LagganArmature/Root/Head/Right_Upper_Leg
+    path: LagganArmature/Root
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2681,7 +2681,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: LagganArmature/Root/Head/Right_Upper_Leg
+    path: LagganArmature/Root
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
