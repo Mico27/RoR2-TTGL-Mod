@@ -12,12 +12,16 @@ https://thunderstore.io/package/Mico27/TTGL_Mod/
 feel free to ping/dm me with any questions or complaints on the modding discord- @Mico27#0642
 
 ## To-Do
-- Add hit feedbacks on some of the skills
 - Balancing stats / buffs
 - Some general polishing
-- Maybe some alternate loadouts?
+- More loadouts
+- Gurren ????? :)
 
 ## Changelog
+`0.0.3`
+- Made spiral power networkable
+- Fixed bug with full spiral power music and plays only localy
+- Added Ancient Scepter effect to upgrade Yoko's rifle skill
 `0.0.2`
 - Added custom sounds
 - Added full spiral energy state
