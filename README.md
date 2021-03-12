@@ -22,6 +22,7 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 - Made spiral power networkable
 - Fixed bug with full spiral power music and plays only localy
 - Added Ancient Scepter effect to upgrade Yoko's rifle skill
+
 `0.0.2`
 - Added custom sounds
 - Added full spiral energy state
@@ -29,5 +30,6 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 - Added a variant of Yoko rifle skill using explosive rounds
 - Fixed model scaling issues which made some overlay effects look blown out
 - Implemented the Ancient Scepter item effect, modifying Yoko rifle skill to be hitscan, ricochet on crit, have improved dmg AND explode on hit.
+
 `0.0.1`
 - Initial release
