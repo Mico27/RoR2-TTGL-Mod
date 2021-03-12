@@ -1,14 +1,6 @@
-# RoR2-TTGL-Mod
 ## TTGL Mod for Risk of rain 2
 - TTGL themed mod that currently adds Lagann as a playable survivor in Risk of rain 2
-- Made this public so people can have more examples for making mods for the game. For Lagann I used https://github.com/ArcPh1r3/HenryMod as a base since I liked how everything was pretty modular.
 - Currently wip, working on the moveset.
-
-## How to install
-- Make sure you have https://thunderstore.io/package/bbepis/BepInExPack/ installed for Risk of Rain 2
-- Put the TTGL_Survivor.dll located in https://github.com/Mico27/RoR2-TTGL-Mod/tree/main/src/bin/Release/netstandard2.0 inside ../Risk of Rain 2/BepInEx/plugins
-- Start the game, Lagann should be in the survivor selection menu.
-
 
 [![](https://cdn.discordapp.com/attachments/194257452374425600/813609655145201665/Lagann1.png)]()
 
@@ -21,4 +13,14 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 - Balancing stats / buffs
 - Some general polishing
 - Maybe some alternate loadouts?
-- Make my own soundbank
+
+## Changelog
+`0.0.2`
+- Added custom sounds
+- Added full spiral energy state
+- Refined Yoko rifle skill visual and sound effects
+- Added a variant of Yoko rifle skill using explosive rounds
+- Fixed model scaling issues which made some overlay effects look blown out
+- Implemented the Ancient Scepter item effect, modifying Yoko rifle skill to be hitscan, ricochet on crit, have improved dmg AND explode on hit.
+`0.0.1`
+- Initial release

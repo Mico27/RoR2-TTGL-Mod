@@ -104,7 +104,7 @@ namespace TTGL_Survivor.SkillStates
             this.attack.pushAwayForce = this.pushForce;
             this.attack.hitBoxGroup = hitBoxGroup;
             this.attack.isCrit = base.RollCrit();
-            this.attack.impactSound = Modules.Assets.genericHitSoundEvent.index;
+            //this.attack.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
 
             if (base.characterMotor)
             {
@@ -189,8 +189,7 @@ namespace TTGL_Survivor.SkillStates
         
         protected virtual void OnHitEnemyAuthority()
         {
-            base.characterBody.outOfCombatStopwatch = 0f;
-            //Util.PlaySound(this.hitSoundString, base.gameObject);
+            Util.PlaySound("TTGLDrillRushHit", base.gameObject);
 
             if (!this.inHitPause)
             {

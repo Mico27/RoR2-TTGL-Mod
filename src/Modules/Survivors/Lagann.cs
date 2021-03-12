@@ -3,6 +3,7 @@ using RoR2;
 using RoR2.Skills;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using TTGL_Survivor.UI;
 using UnityEngine;
 
@@ -24,7 +25,6 @@ namespace TTGL_Survivor.Modules.Survivors
 
         internal static void CreateCharacter()
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("CreateCharacter");
             // this creates a config option to enable the character- feel free to remove if the character is the only thing in your mod
             //characterEnabled = Modules.Config.CharacterEnableConfig("LAGANN");
 
@@ -49,7 +49,7 @@ namespace TTGL_Survivor.Modules.Survivors
                     podPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod")
                 });
                 //Setup spiritEnergy components
-                characterPrefab.AddComponent<SpiralEnergy>();
+                characterPrefab.AddComponent<SpiralEnergyComponent>();
                 characterPrefab.AddComponent<Modules.Components.LagannController>();
                 characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannMain));
                 #endregion
@@ -91,12 +91,13 @@ namespace TTGL_Survivor.Modules.Survivors
                 CreateSkills();
                 CreateSkins();
                 CreateItemDisplays();
+
+                if (TTGL_SurvivorPlugin.scepterInstalled) CreateScepterSkills();
             }
         }
 
         private static void CreateHitboxes()
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("CreateHitboxes");
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
@@ -115,7 +116,6 @@ namespace TTGL_Survivor.Modules.Survivors
 
         private static void CreateSkills()
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("CreateSkills");
             Modules.Skills.CreateSkillFamilies(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
@@ -150,7 +150,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 fullRestockOnAssign = true,
                 interruptPriority = EntityStates.InterruptPriority.Skill,
                 isBullets = false,
-                isCombatSkill = false,
+                isCombatSkill = true,
                 mustKeyPress = false,
                 noSprint = false,
                 rechargeStock = 1,
@@ -178,7 +178,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 fullRestockOnAssign = true,
                 interruptPriority = EntityStates.InterruptPriority.Skill,
                 isBullets = false,
-                isCombatSkill = false,
+                isCombatSkill = true,
                 mustKeyPress = false,
                 noSprint = true,
                 rechargeStock = 1,
@@ -187,6 +187,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 stockToConsume = 1
             });
             Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
+
             #endregion
 
             #region Utility
@@ -206,7 +207,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 fullRestockOnAssign = true,
                 interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
                 isBullets = false,
-                isCombatSkill = false,
+                isCombatSkill = true,
                 mustKeyPress = false,
                 noSprint = false,
                 rechargeStock = 1,
@@ -250,7 +251,6 @@ namespace TTGL_Survivor.Modules.Survivors
 
         private static void CreateSkins()
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("CreateSkins");
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
 
@@ -330,7 +330,6 @@ namespace TTGL_Survivor.Modules.Survivors
 
         private static void CreateItemDisplays()
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("CreateItemDisplays");
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
 
@@ -2965,18 +2964,38 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
 
             characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
         }
-        /*
-        private static CharacterModel.RendererInfo[] SkinRendererInfos(CharacterModel.RendererInfo[] defaultRenderers, Material[] materials)
+        
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void CreateScepterSkills()
         {
-            CharacterModel.RendererInfo[] newRendererInfos = new CharacterModel.RendererInfo[defaultRenderers.Length];
-            defaultRenderers.CopyTo(newRendererInfos, 0);
+            string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
-            newRendererInfos[0].defaultMaterial = materials[0];
-            newRendererInfos[1].defaultMaterial = materials[1];
-            newRendererInfos[bodyRendererIndex].defaultMaterial = materials[2];
+            SkillDef scepterSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
+                skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
+                skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ScepterRifle)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,                
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                isBullets = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                noSprint = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                shootDelay = 0f,
+                stockToConsume = 1,
+            });
 
-            return newRendererInfos;
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, bodyName, SkillSlot.Secondary, 0);
         }
-        */
     }
 }

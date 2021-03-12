@@ -10,7 +10,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class ShootRifle : BaseSkillState
     {
-        public static float damageCoefficient = 2.0f;
+        public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
@@ -23,6 +23,8 @@ namespace TTGL_Survivor.SkillStates
         private bool hasFired;
         private Animator animator;
         private string muzzleString;
+        private Transform yokoTargetBase;
+        private Vector3 yokoTargetBaseDefaultLocalPos;
 
         public override void OnEnter()
         {
@@ -89,7 +91,6 @@ namespace TTGL_Survivor.SkillStates
                         var result = bulletAttack.DefaultHitCallback(ref hitInfo);
                         if (hitInfo.hitHurtBox)
                         {
-                            base.characterBody.outOfCombatStopwatch = 0f;
                             if (bulletAttack.isCrit)
                             {
                                 CritRicochetOrb critRicochetOrb = new CritRicochetOrb();

@@ -38,7 +38,6 @@ namespace TTGL_Survivor.SkillStates
                 base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             }
             this.m_OriginalRotation = base.characterDirection.targetTransform.rotation;
-            base.characterDirection.targetTransform.rotation = Util.QuaternionSafeLookRotation(base.inputBank.aimDirection);
             base.characterDirection.enabled = false;
         }
 

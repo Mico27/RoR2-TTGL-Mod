@@ -6,12 +6,14 @@ namespace TTGL_Survivor.SkillStates
 {
     public class LagannMain : GenericCharacterMain
     {
-        private Animator animator;        
+        private Animator animator;
+        
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.animator = base.GetModelAnimator();
+            
         }
 
         public override void FixedUpdate()
@@ -33,6 +35,7 @@ namespace TTGL_Survivor.SkillStates
                     this.animator.SetBool("spiralPowerOverflow", false);
                 }
             }
+            
         }
     }
 }

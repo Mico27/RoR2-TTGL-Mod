@@ -8,7 +8,7 @@ namespace TTGL_Survivor.UI
     // just a class to run some custom code for things like weapon models
     public class SpiralPowerGauge : MonoBehaviour
     {
-        public SpiralEnergy source { get; set; }
+        public SpiralEnergyComponent source { get; set; }
 
         private void Awake()
         {
@@ -29,17 +29,17 @@ namespace TTGL_Survivor.UI
         {
             if (this.source && m_animator)
             {
-                var newRate = this.source.chargeRate;
+                var newRate = this.source.charge_rate;
                 if (m_rate != newRate)
                 {
                     m_rate = newRate;
-                    m_animator.SetFloat("rate", this.source.normalizedChargeRate * 3);
+                    m_animator.SetFloat("rate", newRate * 3);
                 }
                 var newAmount = this.source.energy;
                 if (m_amount != newAmount)
                 {
                     m_amount = newAmount;
-                    m_animator.SetFloat("amount", Mathf.Clamp01(newAmount / (this.source.capacity + 1)));
+                    m_animator.SetFloat("amount", Mathf.Clamp01(newAmount / (SpiralEnergyComponent.C_SPIRALENERGYCAP + 1)));
                 }                
             }
         }

@@ -34,24 +34,28 @@ namespace TTGL_Survivor.Orbs
                 {
                     EffectManager.SimpleImpactEffect(this.hitEffectPrefab, this.target.transform.position, Vector3.zero, true);
                 }
-                HealthComponent healthComponent = this.target.healthComponent;
-                if (healthComponent)
+                if (this.damageValue > 0f)
                 {
-                    DamageInfo damageInfo = new DamageInfo();
-                    damageInfo.damage = this.damageValue;
-                    damageInfo.attacker = this.attacker;
-                    damageInfo.inflictor = this.inflictor;
-                    damageInfo.force = Vector3.zero;
-                    damageInfo.crit = this.isCrit;
-                    damageInfo.procChainMask = this.procChainMask;
-                    damageInfo.procCoefficient = this.procCoefficient;
-                    damageInfo.position = this.target.transform.position;
-                    damageInfo.damageColorIndex = this.damageColorIndex;
-                    damageInfo.damageType = this.damageType;
-                    healthComponent.TakeDamage(damageInfo);
-                    GlobalEventManager.instance.OnHitEnemy(damageInfo, healthComponent.gameObject);
-                    GlobalEventManager.instance.OnHitAll(damageInfo, healthComponent.gameObject);
+                    HealthComponent healthComponent = this.target.healthComponent;
+                    if (healthComponent)
+                    {
+                        DamageInfo damageInfo = new DamageInfo();
+                        damageInfo.damage = this.damageValue;
+                        damageInfo.attacker = this.attacker;
+                        damageInfo.inflictor = this.inflictor;
+                        damageInfo.force = Vector3.zero;
+                        damageInfo.crit = this.isCrit;
+                        damageInfo.procChainMask = this.procChainMask;
+                        damageInfo.procCoefficient = this.procCoefficient;
+                        damageInfo.position = this.target.transform.position;
+                        damageInfo.damageColorIndex = this.damageColorIndex;
+                        damageInfo.damageType = this.damageType;
+                        healthComponent.TakeDamage(damageInfo);
+                        GlobalEventManager.instance.OnHitEnemy(damageInfo, healthComponent.gameObject);
+                        GlobalEventManager.instance.OnHitAll(damageInfo, healthComponent.gameObject);
+                    }
                 }
+                this.hitCallback?.Invoke(this);
                 if (this.isCrit)
                 {
                     if (this.bouncedObjects != null)
@@ -81,7 +85,8 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.damageType = this.damageType;
                         CritRicochetOrb.tracerEffectPrefab = this.tracerEffectPrefab;
                         CritRicochetOrb.hitEffectPrefab = this.hitEffectPrefab;
-                        CritRicochetOrb.hitSoundString = this.hitSoundString;                        
+                        CritRicochetOrb.hitSoundString = this.hitSoundString;
+                        CritRicochetOrb.hitCallback = this.hitCallback;
                         CritRicochetOrb.FireDelayed();
                     }
                 }
@@ -148,6 +153,10 @@ namespace TTGL_Survivor.Orbs
         public GameObject tracerEffectPrefab;
 
         public string hitSoundString;
+
+        public delegate void HitCallback(CritRicochetOrb orb);
+
+        public CritRicochetOrb.HitCallback hitCallback;
 
     }
 }

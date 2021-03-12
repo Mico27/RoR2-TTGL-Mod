@@ -67,7 +67,7 @@ namespace TTGL_Survivor.SkillStates
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
                 hitEffectPrefab = Modules.Assets.punchImpactEffect,
-                impactSound = Modules.Assets.genericHitSoundEvent.index,
+                impactSound = Modules.Assets.drillRushHitSoundEvent.index,
             };
         }
 
@@ -77,7 +77,6 @@ namespace TTGL_Survivor.SkillStates
             effectData.rotation = Util.QuaternionSafeLookRotation(m_CurrentDirection);
             effectData.origin = origin;
             EffectManager.SpawnEffect(EvisDash.blinkPrefab, effectData, false);
-            //Ancient Scepter
         }
 
         public override void FixedUpdate()
@@ -142,7 +141,6 @@ namespace TTGL_Survivor.SkillStates
                 {
                     if (this.overlapAttack.Fire())
                     {
-                        base.characterBody.outOfCombatStopwatch = 0f;
                         //Util.PlaySound(this.hitSoundString, base.gameObject);
                     }
                 }

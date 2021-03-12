@@ -16,7 +16,6 @@ namespace TTGL_Survivor.Modules
 
         internal static void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string namePrefix, string unlockString)
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("RegisterNewSurvivor");
             SurvivorDef survivorDef = new SurvivorDef
             {
                 name = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME",
@@ -35,7 +34,6 @@ namespace TTGL_Survivor.Modules
 
         internal static GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("CreateDisplayPrefab");
             GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
 
             GameObject model = CreateModel(newPrefab, modelName);
@@ -166,7 +164,6 @@ namespace TTGL_Survivor.Modules
 
         internal static void SetupCharacterModel(GameObject prefab, CustomRendererInfo[] rendererInfo, int mainRendererIndex)
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("SetupCharacterModel");
             CharacterModel characterModel = prefab.GetComponent<ModelLocator>().modelTransform.gameObject.AddComponent<CharacterModel>();
             ChildLocator childLocator = characterModel.GetComponent<ChildLocator>();
             characterModel.body = prefab.GetComponent<CharacterBody>();

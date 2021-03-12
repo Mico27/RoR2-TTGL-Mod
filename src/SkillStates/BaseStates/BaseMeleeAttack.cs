@@ -99,7 +99,6 @@ namespace TTGL_Survivor.SkillStates.BaseStates
 
         protected virtual void OnHitEnemyAuthority()
         {
-            base.characterBody.outOfCombatStopwatch = 0f;
             if (!this.hasHopped)
             {
                 if (base.characterMotor && !base.characterMotor.isGrounded)

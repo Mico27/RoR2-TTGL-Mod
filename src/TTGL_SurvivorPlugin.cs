@@ -5,12 +5,16 @@ using RoR2;
 using System.Security;
 using System.Security.Permissions;
 using BepInEx.Logging;
+using TTGL_Survivor.UI;
+using UnityEngine;
+using TTGL_Survivor.Modules;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
 namespace TTGL_Survivor
 {
+    [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]
@@ -36,24 +40,26 @@ namespace TTGL_Survivor
             MODVERSION = "1.0.0";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
+        // soft dependency 
+        public static bool scepterInstalled = false;
 
         public static TTGL_SurvivorPlugin instance;
 
-        public static event Action awake;
-        public static event Action start;
 
         // plugin constructor, ignore this
         public TTGL_SurvivorPlugin()
         {
-            awake += TTGL_SurvivorPlugin_Load;
-            start += TTGL_SurvivorPlugin_LoadStart;
+            
         }
 
-        private void TTGL_SurvivorPlugin_Load()
+        public void Awake()
         {
+            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {
+                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
+
                 // load assets and read config
                 Logger.LogMessage("PopulateAssets");
                 Modules.Assets.PopulateAssets();
@@ -72,40 +78,72 @@ namespace TTGL_Survivor
                 Modules.Unlockables.RegisterUnlockables(); // add unlockables
                 Logger.LogMessage("AddTokens");
                 Modules.Tokens.AddTokens(); // register name tokens
-                //CreateDoppelganger(); // artifact of vengeance(not yet implemented)
+                //CreateDoppelganger(); // artifact of vengeance(not yet implemented)    
+                On.RoR2.UI.HUD.Awake += HUD_Awake;
+                RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
 
             }
             catch (Exception e)
             {
                 Logger.LogError(e.Message);
             }
-            
+
         }
 
-        private void TTGL_SurvivorPlugin_LoadStart()
+        private void HUD_Awake(On.RoR2.UI.HUD.orig_Awake orig, RoR2.UI.HUD self)
         {
-            // any code you need to run in Start() goes here
+            CreateSpiralPowerGauge(self);
+            orig(self);            
         }
 
-        public void Awake()
+        private void HUD_onHudTargetChangedGlobal(RoR2.UI.HUD obj)
         {
-            Action awake = TTGL_SurvivorPlugin.awake;
-            if (awake == null)
+            if (obj && obj.targetBodyObject && m_SpiralPowerGauge)
             {
-                return;
+                var spiralEnergy = obj.targetBodyObject.GetComponent<SpiralEnergyComponent>();
+                if (spiralEnergy)
+                {
+                    m_SpiralPowerGauge.gameObject.SetActive(true);
+                    m_SpiralPowerGauge.source = spiralEnergy;
+                }
+                else
+                {
+                    m_SpiralPowerGauge.gameObject.SetActive(false);
+                    m_SpiralPowerGauge.source = null;
+                }
             }
-            awake();
         }
-
-        public void Start()
+        
+        #region HUD
+        
+        private void CreateSpiralPowerGauge(RoR2.UI.HUD hud)
         {
-            Action start = TTGL_SurvivorPlugin.start;
-            if (start == null)
+            if (!m_SpiralPowerGauge)
             {
-                return;
+                if (hud != null && hud.mainUIPanel != null)
+                {
+                    m_SpiralPowerGauge = hud.mainUIPanel.GetComponentInChildren<SpiralPowerGauge>();
+                    if (!m_SpiralPowerGauge)
+                    {
+                        var spiralPowerPanel = Instantiate(Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("SpiralPowerPanel"));
+                        m_SpiralPowerGauge = spiralPowerPanel.AddComponent<SpiralPowerGauge>();
+                        spiralPowerPanel.transform.SetParent(hud.mainUIPanel.transform);
+                        var rectTransform = spiralPowerPanel.GetComponent<RectTransform>();
+                        rectTransform.anchorMin = new Vector2(1, 0);
+                        rectTransform.anchorMax = new Vector2(1, 0);
+                        rectTransform.pivot = new Vector2(1, 0);
+                        rectTransform.sizeDelta = new Vector2(120, 120);
+                        rectTransform.anchoredPosition = new Vector2(-20, 200);
+                        rectTransform.localScale = new Vector3(2, 2, 2);
+                        spiralPowerPanel.SetActive(false);
+                    }
+                }
             }
-            start();
         }
+        
+        private SpiralPowerGauge m_SpiralPowerGauge;
+
+        #endregion
 
         public new ManualLogSource Logger
         {

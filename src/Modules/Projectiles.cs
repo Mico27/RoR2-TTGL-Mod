@@ -52,13 +52,11 @@ namespace TTGL_Survivor.Modules
             projectileImpactExplosion.childrenCount = 0;
             projectileImpactExplosion.childrenDamageCoefficient = 0f;
             projectileImpactExplosion.childrenProjectilePrefab = null;
-            projectileImpactExplosion.destroyOnEnemy = false;
             projectileImpactExplosion.destroyOnWorld = false;
             projectileImpactExplosion.explosionSoundString = "";
-            projectileImpactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.None;
+            projectileImpactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.Linear;
             projectileImpactExplosion.fireChildren = false;
             projectileImpactExplosion.impactEffect = null;
-            projectileImpactExplosion.lifetime = 0f;
             projectileImpactExplosion.lifetimeAfterImpact = 0f;
             projectileImpactExplosion.lifetimeExpiredSoundString = "";
             projectileImpactExplosion.lifetimeRandomOffset = 0f;
