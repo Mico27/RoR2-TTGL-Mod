@@ -18,6 +18,12 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 - Gurren ????? :)
 
 ## Changelog
+
+`0.0.4`
+- Fixed visual bug with Poison affix effect
+- Added Toggle Canopy utility skill
+- Made some new icons
+
 `0.0.3`
 - Made spiral power networkable
 - Fixed bug with full spiral power music and plays only localy

@@ -40,6 +40,10 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME", "Spiral Burst");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION", $"Lagann launches itself upward or in any inputed direction, dealing <style=cIsDamage>{100f * SkillStates.SpiralBurst.damageCoefficient}% damage</style> on its path. <style=cIsUtility>Lagann cannot be hit during this.</style>");
 
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME", "Toggle Canopy");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION", $"Toggle on/off Lagann's canopy. When the canopy is on, you gain <style=cIsUtility>150 Armor</style> and <style=cIsUtility>is immune to movement impairing effects</style>. However, in this state, Yoko cannot use her rifle.");
+
+
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME", "Lagann Impact");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.c_DamageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.c_MaxRebound} times.");
 

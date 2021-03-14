@@ -126,7 +126,6 @@ namespace TTGL_Survivor.SkillStates
             Util.PlaySound(SpiralBurst.dodgeSoundString, base.gameObject);
             if (NetworkServer.active)
             {
-                //base.characterBody.AddTimedBuff(Modules.Buffs.kaminaSpiritBuff, 3f * SpiralBurst.duration);
                 base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
             }
         }

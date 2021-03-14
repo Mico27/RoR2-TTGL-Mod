@@ -59,6 +59,10 @@ namespace TTGL_Survivor.Modules.Survivors
                 Modules.Prefabs.SetupCharacterModel(characterPrefab, new CustomRendererInfo[] {
                 new CustomRendererInfo
                 {
+                    childName = "Lagann",
+                },
+                new CustomRendererInfo
+                {
                     childName = "Yoko",
                 },
                 new CustomRendererInfo
@@ -76,11 +80,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 new CustomRendererInfo
                 {
                     childName = "KaminaCape",
-                },
-                new CustomRendererInfo
-                {
-                    childName = "Lagann",
-                }}, 4);
+                }}, 0);
                 #endregion
 
                 displayPrefab = Modules.Prefabs.CreateDisplayPrefab("LagannMenuPrefab", characterPrefab);
@@ -167,7 +167,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 skillName = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
                 skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleExplosionIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ExplosiveRifle)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
@@ -217,6 +217,33 @@ namespace TTGL_Survivor.Modules.Survivors
             });
 
             Modules.Skills.AddUtilitySkill(characterPrefab, spiralBurstSkillDef);
+
+            SkillDef toggleCanopySkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME",
+                skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME",
+                skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("ToggleCanopyIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ToggleCanopy)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = true,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
+                isBullets = false,
+                isCombatSkill = false,
+                mustKeyPress = true,
+                noSprint = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                shootDelay = 0f,
+                stockToConsume = 1
+            });
+            
+            Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
             #endregion
 
             #region Special
@@ -229,7 +256,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannImpact)),
                 activationStateMachineName = "Body",
                 baseMaxStock = 1,
-                baseRechargeInterval = 12f,
+                baseRechargeInterval = 8f,
                 beginSkillCooldownOnSkillEnd = true,
                 canceledFromSprinting = false,
                 forceSprintDuringState = false,
@@ -2962,7 +2989,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
             itemDisplayRuleSet.namedItemRuleGroups = item;
             itemDisplayRuleSet.namedEquipmentRuleGroups = equip;
 
-            characterModel.itemDisplayRuleSet = itemDisplayRuleSet;
+            characterModel.itemDisplayRuleSet = null;
         }
         
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -2975,7 +3002,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
                 skillName = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
                 skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleAncientScepterIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ScepterRifle)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,

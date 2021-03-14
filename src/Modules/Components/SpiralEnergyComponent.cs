@@ -23,10 +23,10 @@ namespace TTGL_Survivor.Modules
         private float trottleUpdateTime = 0.0f;
         private float energyUptimeStopwatch = 0.0f;
 
-        public new void Awake()
+        public void Awake()
         {
             this.body = base.GetComponent<CharacterBody>();
-            this.outer = base.GetComponent<EntityStateMachine>();
+            this.outer = base.GetComponent<EntityStateMachine>();            
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;            
             MusicController.pickTrackHook += MusicController_pickTrackHook;
         }
@@ -59,6 +59,10 @@ namespace TTGL_Survivor.Modules
             {
                 this.ServerFixedUpdate();
             }
+            if (isAuthority)
+            {
+                this.AuthorityFixedUpdate();
+            }            
         }
 
         private void MusicController_pickTrackHook(MusicController musicController, ref MusicTrackDef newTrack)
@@ -85,74 +89,21 @@ namespace TTGL_Survivor.Modules
 
             // a simple stat hook, adds armor after stats are recalculated
             if (self && self == this.body)
-            {              
-                this.UpdateSpiralEnergyStatEffects();
-            }
-        }
-
-        private void UpdateSpiralEnergyStatEffects()
-        {
-            this.body.damage += (this.body.damage * (this.energy / 100));
-            this.body.regen += (this.body.regen * (this.energy / 300));
-            this.body.moveSpeed += (this.body.moveSpeed * (this.energy / 500));
-            var hasFullEnergyBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff);
-            var hasFullEnergyDeBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerDeBuff);
-            if (NetworkServer.active)
             {
-                if (!this.hadFullBuff && !hasFullEnergyDeBuff && this.energy >= C_SPIRALENERGYCAP)
+                this.body.damage += (this.body.damage * (this.energy / 100));
+                this.body.regen += (this.body.regen * (this.energy / 300));
+                this.body.moveSpeed += (this.body.moveSpeed * (this.energy / 500));
+                if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
                 {
-                    this.body.AddTimedBuff(Modules.Buffs.maxSpiralPowerBuff, 100f);
-                    StartCoroutine(this.AddFullSpiralPowerDebuff());
-                    this.hadFullBuff = true;
+                    this.body.armor += 300f;
                 }
-                else if (this.hadFullBuff && hasFullEnergyDeBuff)
-                {
-                    this.hadFullBuff = false;
-                }
-            }            
-
-            if (hasFullEnergyBuff)
-            {
-                if (!playedMusic && isAuthority)
-                {
-                    AkSoundEngine.PostEvent("TTGLFullBuffPlay", this.body.gameObject);
-                    playedMusic = true;
-                }
-                this.body.armor += 300f;
-            }
-            else if (playedMusic)
-            {
-                playedMusic = false;
             }
         }
-
-        private bool playedMusic;
-
-        private IEnumerator AddFullSpiralPowerDebuff()
-        {
-            if (isWaitingForDebuff)
-                yield break;
-
-            isWaitingForDebuff = true;
-            yield return new WaitForSeconds(95.0f);
-            if (NetworkServer.active)
-            {
-                this.body.AddTimedBuff(Modules.Buffs.maxSpiralPowerDeBuff, 120f);
-            }
-            isWaitingForDebuff = false;
-        }
-
-        private bool isWaitingForDebuff = false;
-        protected bool isAuthority
-        {
-            get
-            {
-                return Util.HasEffectiveAuthority(this.outer.networkIdentity);
-            }
-        }
-
+        
         private void ServerFixedUpdate()
         {
+            var hasFullEnergyBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff);
+            var hasFullEnergyDeBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerDeBuff);
             if (energyUptimeStopwatch < C_MaxEnergyUptime)
             {
                 energyUptimeStopwatch += Time.fixedDeltaTime;
@@ -181,11 +132,11 @@ namespace TTGL_Survivor.Modules
                 }
                 else if (energyUptimeStopwatch < C_MaxEnergyUptime)
                 {
-                    newChargeRate = (Mathf.Pow((this.healthCoefficient + this.monsterCountCoefficient), 2f) / ((this.body.HasBuff(Modules.Buffs.maxSpiralPowerDeBuff)) ? 60f : 30f));
+                    newChargeRate = (Mathf.Pow((this.healthCoefficient + this.monsterCountCoefficient), 2f) / ((hasFullEnergyDeBuff) ? 60f : 30f));
                 }
                 else
                 {
-                    newChargeRate = (this.energy > (5.0f + this.body.level))? (this.body.HasBuff(Modules.Buffs.maxSpiralPowerDeBuff)) ? -0.03f : -0.01f : 0.02f;
+                    newChargeRate = (this.energy > (5.0f + this.body.level))? (hasFullEnergyDeBuff) ? -0.03f : -0.01f : 0.02f;
                 }
                 if (this.charge_rate != newChargeRate)
                 {
@@ -194,6 +145,41 @@ namespace TTGL_Survivor.Modules
                 }
             }
             this.NetworkEnergy = Mathf.Clamp(this.energy + this.charge_rate * Time.fixedDeltaTime * C_SPIRALENERGYCAP, 0.0f, C_SPIRALENERGYCAP);
+                        
+            if (!this.hadFullBuff && !hasFullEnergyDeBuff && this.energy >= C_SPIRALENERGYCAP)
+            {
+                this.body.AddTimedBuff(Modules.Buffs.maxSpiralPowerBuff, 100f);
+                this.hadFullBuff = true;
+            }
+            else if (this.hadFullBuff && !hasFullEnergyBuff)
+            {
+                this.body.AddTimedBuff(Modules.Buffs.maxSpiralPowerDeBuff, 120f);
+                this.hadFullBuff = false;
+            }
+        }
+
+        private void AuthorityFixedUpdate()
+        {
+            if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
+            {
+                if (!playedMusic)
+                {
+                    AkSoundEngine.PostEvent("TTGLFullBuffPlay", this.body.gameObject);
+                    playedMusic = true;
+                }
+            }
+            else if (playedMusic)
+            {
+                playedMusic = false;
+            }
+        }
+
+        protected bool isAuthority
+        {
+            get
+            {
+                return Util.HasEffectiveAuthority(this.outer.networkIdentity);
+            }
         }
 
         public float NetworkEnergy
@@ -283,5 +269,7 @@ namespace TTGL_Survivor.Modules
         [HideInInspector]
         [SyncVar]
         public float charge_rate = 0f;
+        
+        private bool playedMusic;
     }
 }

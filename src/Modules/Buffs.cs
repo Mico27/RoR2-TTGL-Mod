@@ -9,11 +9,13 @@ namespace TTGL_Survivor.Modules
         // armor buff gained during roll
         internal static BuffIndex maxSpiralPowerBuff;
         internal static BuffIndex maxSpiralPowerDeBuff;
+        internal static BuffIndex canopyBuff;
 
         internal static void RegisterBuffs()
         {
-            maxSpiralPowerBuff = AddNewBuff("MaxSpiralPowerBuff", "Textures/BuffIcons/texBuffGenericShield", Color.green, false, false);
-            maxSpiralPowerDeBuff = AddNewBuff("MaxSpiralPowerDeBuff", "Textures/BuffIcons/texBuffGenericShield", Color.red, false, true);
+            maxSpiralPowerBuff = AddNewBuff("MaxSpiralPowerBuff", "@TTGL_Survivor:texBuffSpiralIcon", Color.green, false, false);
+            maxSpiralPowerDeBuff = AddNewBuff("MaxSpiralPowerDeBuff", "@TTGL_Survivor:texBuffSpiralIcon", Color.red, false, true);
+            canopyBuff = AddNewBuff("CanopyBuff", "@TTGL_Survivor:texCanopyBuffIcon", new Color(1.0f,0.8f,0.8f), false, false);
         }
 
         // simple helper method
