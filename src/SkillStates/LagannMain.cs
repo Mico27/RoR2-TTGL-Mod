@@ -137,7 +137,7 @@ namespace TTGL_Survivor.SkillStates
             // a simple stat hook, adds armor after stats are recalculated
             if (self == this.characterBody && this.HasBuff(Modules.Buffs.canopyBuff))
             {
-                this.characterBody.armor += ToggleCanopy.c_ArmorBuffAmount;
+                this.characterBody.armor += LagannToggleCanopy.c_ArmorBuffAmount;
             }
         }
 

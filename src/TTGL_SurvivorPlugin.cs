@@ -8,6 +8,7 @@ using BepInEx.Logging;
 using TTGL_Survivor.UI;
 using UnityEngine;
 using TTGL_Survivor.Modules;
+using TTGL_Survivor.Modules.Survivors;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -67,7 +68,8 @@ namespace TTGL_Survivor
                 Modules.Config.ReadConfig();
                 Logger.LogMessage("PopulateDisplays");
                 Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
-                Modules.Survivors.Lagann.CreateCharacter();
+                new Lagann().CreateCharacter();
+                new GurrenLagann().CreateCharacter();
                 Logger.LogMessage("RegisterStates");
                 Modules.States.RegisterStates(); // register states(not yet implemented)
                 Logger.LogMessage("RegisterBuffs");

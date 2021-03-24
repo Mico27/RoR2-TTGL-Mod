@@ -12,21 +12,24 @@ namespace TTGL_Survivor.Modules
     internal static class Projectiles
     {
         internal static GameObject explosiveRifleRoundPrefab;
+        internal static GameObject shadesWhirlPrefab;
 
         internal static void RegisterProjectiles()
         {
             // only separating into separate methods for my sanity
             CreateBomb();
+            CreateGurrenLagannShadesProjectile();
 
             ProjectileCatalog.getAdditionalEntries += list =>
             {
                 list.Add(explosiveRifleRoundPrefab);
+                list.Add(shadesWhirlPrefab);
             };
         }
 
         private static void CreateBomb()
         {
-            explosiveRifleRoundPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "HenryBombProjectile");
+            explosiveRifleRoundPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "YokoExplosiveRifleProjectile");
 
             ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
             InitializeImpactExplosion(impactExplosion);
@@ -75,6 +78,20 @@ namespace TTGL_Survivor.Modules
             //Modules.Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
 
             return ghostPrefab;
+        }
+
+        private static void CreateGurrenLagannShadesProjectile()
+        {
+            shadesWhirlPrefab = CloneProjectilePrefab("Sawmerang", "GurrenLagannShadesProjectile"); ;
+
+            BoomerangProjectile boomerang = shadesWhirlPrefab.GetComponent<BoomerangProjectile>();
+
+            boomerang.canHitWorld = true;
+            boomerang.canHitCharacters = false;
+
+            ProjectileController projectileController = shadesWhirlPrefab.GetComponent<ProjectileController>();
+            projectileController.ghostPrefab = CreateGhostPrefab("ShadesWhirlind");
+            projectileController.startSound = "";
         }
 
         private static GameObject CloneProjectilePrefab(string prefabName, string newPrefabName)

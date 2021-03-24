@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TTGL_Survivor.Modules.Survivors
 {
-    internal static class Lagann
+    public class Lagann: BaseSurvivor
     {
         internal static GameObject characterPrefab;
         internal static GameObject displayPrefab;
@@ -23,7 +23,7 @@ namespace TTGL_Survivor.Modules.Survivors
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> itemRules;
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> equipmentRules;
 
-        internal static void CreateCharacter()
+        public void CreateCharacter()
         {
             // this creates a config option to enable the character- feel free to remove if the character is the only thing in your mod
             //characterEnabled = Modules.Config.CharacterEnableConfig("LAGANN");
@@ -31,7 +31,7 @@ namespace TTGL_Survivor.Modules.Survivors
             if (true)//characterEnabled.Value)
             {
                 #region Body
-                characterPrefab = Modules.Prefabs.CreatePrefab(bodyName, "LagannPrefab", new BodyInfo
+                characterPrefab = CreatePrefab(bodyName, "LagannPrefab", new BodyInfo
                 {
                     armor = 20f,
                     armorGrowth = 0f,
@@ -56,7 +56,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
                 #region Model
                 
-                Modules.Prefabs.SetupCharacterModel(characterPrefab, new CustomRendererInfo[] {
+                SetupCharacterModel(characterPrefab, new CustomRendererInfo[] {
                 new CustomRendererInfo
                 {
                     childName = "Lagann",
@@ -83,10 +83,11 @@ namespace TTGL_Survivor.Modules.Survivors
                 }}, 0);
                 #endregion
 
-                displayPrefab = Modules.Prefabs.CreateDisplayPrefab("LagannMenuPrefab", characterPrefab);
+                displayPrefab = CreateDisplayPrefab("LagannMenuPrefab", characterPrefab);
 
-                Modules.Prefabs.RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", "");// TTGL_SurvivorPlugin.developerPrefix + "_HENRY_BODY_UNLOCKABLE_REWARD_ID");
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", "");// TTGL_SurvivorPlugin.developerPrefix + "_HENRY_BODY_UNLOCKABLE_REWARD_ID");
 
+                CreateHurtBoxes();
                 CreateHitboxes();
                 CreateSkills();
                 CreateSkins();
@@ -96,25 +97,54 @@ namespace TTGL_Survivor.Modules.Survivors
             }
         }
 
-        private static void CreateHitboxes()
+        private void CreateHurtBoxes()
+        {
+            GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
+            HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
+            ChildLocator childLocator = model.GetComponent<ChildLocator>();
+
+            if (!childLocator.FindChild("Head"))
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not set up main hurtbox: make sure you have a transform pair in your prefab's ChildLocator component called 'Head'");
+                return;
+            }
+
+            HurtBox mainHurtbox = childLocator.FindChild("Head").gameObject.AddComponent<HurtBox>();
+            mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
+            mainHurtbox.healthComponent = characterPrefab.GetComponent<HealthComponent>();
+            mainHurtbox.isBullseye = true;
+            mainHurtbox.damageModifier = HurtBox.DamageModifier.Normal;
+            mainHurtbox.hurtBoxGroup = hurtBoxGroup;
+            mainHurtbox.indexInGroup = 0;
+
+            hurtBoxGroup.hurtBoxes = new HurtBox[]
+            {
+                mainHurtbox
+            };
+
+            hurtBoxGroup.mainHurtBox = mainHurtbox;
+            hurtBoxGroup.bullseyeCount = 1;
+        }
+
+        private void CreateHitboxes()
         {
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
             Transform hitboxTransform = childLocator.FindChild("DrillRushHitbox");
-            Modules.Prefabs.SetupHitbox(model, hitboxTransform, "DrillRushHitbox");
+            SetupHitbox(model, hitboxTransform, "DrillRushHitbox");
 
             hitboxTransform = childLocator.FindChild("LagannImpactHitbox");
-            Modules.Prefabs.SetupHitbox(model, hitboxTransform, "LagannImpactHitbox");
+            SetupHitbox(model, hitboxTransform, "LagannImpactHitbox");
 
             hitboxTransform = childLocator.FindChild("SpiralBurst1Hitbox");
-            Modules.Prefabs.SetupHitbox(model, hitboxTransform, "SpiralBurst1Hitbox");
+            SetupHitbox(model, hitboxTransform, "SpiralBurst1Hitbox");
 
             hitboxTransform = childLocator.FindChild("SpiralBurst2Hitbox");
-            Modules.Prefabs.SetupHitbox(model, hitboxTransform, "SpiralBurst2Hitbox");
+            SetupHitbox(model, hitboxTransform, "SpiralBurst2Hitbox");
         }
 
-        private static void CreateSkills()
+        private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
 
@@ -130,7 +160,35 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
 
             #region Primary
-            Modules.Skills.AddPrimarySkill(characterPrefab, Modules.Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.DrillRush)), "Weapon", prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME", prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION", Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon"), true));
+
+            SkillDef drillRushSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME",
+                skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME",
+                skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannDrillRush)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 0f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Any,
+                isBullets = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                noSprint = false,
+                rechargeStock = 1,
+                requiredStock = 0,
+                shootDelay = 0f,
+                stockToConsume = 0,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
+
+            Modules.Skills.AddPrimarySkill(characterPrefab, drillRushSkillDef);
+
             #endregion
 
             #region Secondary
@@ -140,7 +198,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootRifle)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoShootRifle)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
                 baseRechargeInterval = 1f,
@@ -168,7 +226,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleExplosionIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ExplosiveRifle)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoExplosiveRifle)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
                 baseRechargeInterval = 2f,
@@ -197,7 +255,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.SpiralBurst)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannSpiralBurst)),
                 activationStateMachineName = "Body",
                 baseMaxStock = 1,
                 baseRechargeInterval = 4f,
@@ -224,7 +282,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("ToggleCanopyIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ToggleCanopy)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannToggleCanopy)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
                 baseRechargeInterval = 1f,
@@ -276,7 +334,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
         }
 
-        private static void CreateSkins()
+        private void CreateSkins()
         {
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
@@ -355,7 +413,7 @@ namespace TTGL_Survivor.Modules.Survivors
             skinController.skins = skins.ToArray();
         }
 
-        private static void CreateItemDisplays()
+        private void CreateItemDisplays()
         {
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
             CharacterModel characterModel = model.GetComponent<CharacterModel>();
@@ -2993,7 +3051,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
         }
         
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private static void CreateScepterSkills()
+        private void CreateScepterSkills()
         {
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -3003,7 +3061,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
                 skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
                 skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleAncientScepterIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ScepterRifle)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoScepterRifle)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
                 baseRechargeInterval = 1f,                

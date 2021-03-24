@@ -111,40 +111,6 @@ namespace TTGL_Survivor.Modules
             };
         }
 
-        internal static SkillDef CreatePrimarySkillDef(SerializableEntityStateType state, string stateMachine, string skillNameToken, string skillDescriptionToken, Sprite skillIcon, bool agile)
-        {
-            SkillDef skillDef = ScriptableObject.CreateInstance<SkillDef>();
-
-            skillDef.skillName = skillNameToken;
-            skillDef.skillNameToken = skillNameToken;
-            skillDef.skillDescriptionToken = skillDescriptionToken;
-            skillDef.icon = skillIcon;
-
-            skillDef.activationState = state;
-            skillDef.activationStateMachineName = stateMachine;
-            skillDef.baseMaxStock = 1;
-            skillDef.baseRechargeInterval = 0;
-            skillDef.beginSkillCooldownOnSkillEnd = false;
-            skillDef.canceledFromSprinting = false;
-            skillDef.forceSprintDuringState = false;
-            skillDef.fullRestockOnAssign = true;
-            skillDef.interruptPriority = InterruptPriority.Any;
-            skillDef.isBullets = false;
-            skillDef.isCombatSkill = true;
-            skillDef.mustKeyPress = false;
-            skillDef.noSprint = !agile;
-            skillDef.rechargeStock = 1;
-            skillDef.requiredStock = 0;
-            skillDef.shootDelay = 0f;
-            skillDef.stockToConsume = 0;
-
-            if (agile) skillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-
-            LoadoutAPI.AddSkillDef(skillDef);
-
-            return skillDef;
-        }
-
         internal static SkillDef CreateSkillDef(SkillDefInfo skillDefInfo)
         {
             SkillDef skillDef = ScriptableObject.CreateInstance<SkillDef>();
