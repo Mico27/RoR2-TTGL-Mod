@@ -2,6 +2,7 @@
 using EntityStates;
 using RoR2;
 using UnityEngine.Networking;
+using static RoR2.RoR2Content;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -144,14 +145,14 @@ namespace TTGL_Survivor.SkillStates
         private void CharacterBody_AddTimedBuff(On.RoR2.CharacterBody.orig_AddTimedBuff orig, CharacterBody self, BuffIndex buffType, float duration)
         {
             if (self == this.characterBody && this.HasBuff(Modules.Buffs.canopyBuff) &&
-                (buffType == BuffIndex.Entangle ||
-                    buffType == BuffIndex.Nullified ||
-                    buffType == BuffIndex.Slow50 ||
-                    buffType == BuffIndex.Slow60 ||
-                    buffType == BuffIndex.Slow80 ||
-                    buffType == BuffIndex.ClayGoo ||
-                    buffType == BuffIndex.Slow30 ||
-                    buffType == BuffIndex.Cripple))
+                (buffType == Buffs.Entangle.buffIndex ||
+                    buffType == Buffs.Nullified.buffIndex ||
+                    buffType == Buffs.Slow50.buffIndex ||
+                    buffType == Buffs.Slow60.buffIndex ||
+                    buffType == Buffs.Slow80.buffIndex ||
+                    buffType == Buffs.ClayGoo.buffIndex ||
+                    buffType == Buffs.Slow30.buffIndex ||
+                    buffType == Buffs.Cripple.buffIndex))
             {
                 return;
             }
@@ -161,14 +162,14 @@ namespace TTGL_Survivor.SkillStates
         private void CharacterBody_AddBuff(On.RoR2.CharacterBody.orig_AddBuff orig, CharacterBody self, BuffIndex buffType)
         {
             if (self == this.characterBody && this.HasBuff(Modules.Buffs.canopyBuff) &&
-                (buffType == BuffIndex.Entangle ||
-                    buffType == BuffIndex.Nullified ||
-                    buffType == BuffIndex.Slow50 ||
-                    buffType == BuffIndex.Slow60 ||
-                    buffType == BuffIndex.Slow80 ||
-                    buffType == BuffIndex.ClayGoo ||
-                    buffType == BuffIndex.Slow30 ||
-                    buffType == BuffIndex.Cripple))
+                (buffType == Buffs.Entangle.buffIndex ||
+                    buffType == Buffs.Nullified.buffIndex ||
+                    buffType == Buffs.Slow50.buffIndex ||
+                    buffType == Buffs.Slow60.buffIndex ||
+                    buffType == Buffs.Slow80.buffIndex ||
+                    buffType == Buffs.ClayGoo.buffIndex ||
+                    buffType == Buffs.Slow30.buffIndex ||
+                    buffType == Buffs.Cripple.buffIndex))
             {
                 return;
             }

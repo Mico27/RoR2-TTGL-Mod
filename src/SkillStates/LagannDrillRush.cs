@@ -135,7 +135,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayScaledSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {

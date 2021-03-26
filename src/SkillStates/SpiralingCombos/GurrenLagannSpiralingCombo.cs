@@ -101,7 +101,7 @@ namespace TTGL_Survivor.SkillStates
                     switch (randomStateIndex)
                     {
                         case 0:
-                            this.outer.SetNextState(new GurrenLagannFlyingKick
+                            this.outer.SetNextState(new GurrenLagannMmaKick
                             {
                                 comboCounter = this.comboCounter,
                             });

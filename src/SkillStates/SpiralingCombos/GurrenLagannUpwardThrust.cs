@@ -9,7 +9,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannUpwardThrust : GurrenLagannBaseCombo
     {
-        public const float c_DamageCoefficient = 2.1f;
+        public const float c_DamageCoefficient = 3.1f;
 
         protected override void PlayAttackAnimation()
         {
@@ -27,7 +27,7 @@ namespace TTGL_Survivor.SkillStates
             attack.procCoefficient = 0.5f;
             attack.hitEffectPrefab = this.hitEffectPrefab;
             attack.forceVector = Vector3.zero;
-            attack.pushAwayForce = -900f;
+            attack.pushAwayForce = -2000f;
             attack.hitBoxGroup = hitBoxGroup;
             attack.isCrit = base.RollCrit();
             attack.impactSound = this.impactSound;

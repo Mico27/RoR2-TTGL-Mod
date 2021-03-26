@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System;
 using UnityEngine;
 
 namespace TTGL_Survivor.Modules
@@ -13,9 +14,9 @@ namespace TTGL_Survivor.Modules
 
         internal static void RegisterBuffs()
         {
-            maxSpiralPowerBuff = AddNewBuff("MaxSpiralPowerBuff", "@TTGL_Survivor:texBuffSpiralIcon", Color.green, false, false);
-            maxSpiralPowerDeBuff = AddNewBuff("MaxSpiralPowerDeBuff", "@TTGL_Survivor:texBuffSpiralIcon", Color.red, false, true);
-            canopyBuff = AddNewBuff("CanopyBuff", "@TTGL_Survivor:texCanopyBuffIcon", new Color(1.0f,0.8f,0.8f), false, false);
+            maxSpiralPowerBuff = AddNewBuff("MaxSpiralPowerBuff", "texBuffSpiralIcon", Color.green, false, false);
+            maxSpiralPowerDeBuff = AddNewBuff("MaxSpiralPowerDeBuff", "texBuffSpiralIcon", Color.red, false, true);
+            canopyBuff = AddNewBuff("CanopyBuff", "texCanopyBuffIcon", new Color(1.0f,0.8f,0.8f), false, false);
         }
 
         // simple helper method
@@ -24,13 +25,12 @@ namespace TTGL_Survivor.Modules
             CustomBuff tempBuff = new CustomBuff(new BuffDef
             {
                 name = buffName,
-                iconPath = iconPath,
+                iconSprite = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>(iconPath),
                 buffColor = buffColor,
                 canStack = canStack,
                 isDebuff = isDebuff,
-                eliteIndex = EliteIndex.None
             });
-
+            
             return BuffAPI.Add(tempBuff);
         }
     }

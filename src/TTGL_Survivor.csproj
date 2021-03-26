@@ -154,6 +154,7 @@
 
   <ItemGroup>
     <Folder Include="Modules\Achievements\" />
+    <Folder Include="Projectiles\" />
   </ItemGroup>
 
 </Project>

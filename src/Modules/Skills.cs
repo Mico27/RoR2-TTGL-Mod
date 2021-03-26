@@ -42,14 +42,6 @@ namespace TTGL_Survivor.Modules
             skillLocator.special._skillFamily = specialFamily;
             LoadoutAPI.AddSkillFamily(specialFamily);
         }
-        internal static void AddPassiveSkill(GameObject targetPrefab, SkillDefInfo skillDef)
-        {
-            SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
-            skillLocator.passiveSkill.enabled = true;
-            skillLocator.passiveSkill.skillNameToken = skillDef.skillNameToken;
-            skillLocator.passiveSkill.skillDescriptionToken = skillDef.skillDescriptionToken;
-            skillLocator.passiveSkill.icon = skillDef.skillIcon;
-        }
         // this could all be a lot cleaner but at least it's simple and easy to work with
         internal static void AddPrimarySkill(GameObject targetPrefab, SkillDef skillDef)
         {
@@ -109,40 +101,6 @@ namespace TTGL_Survivor.Modules
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
-        }
-
-        internal static SkillDef CreateSkillDef(SkillDefInfo skillDefInfo)
-        {
-            SkillDef skillDef = ScriptableObject.CreateInstance<SkillDef>();
-
-            skillDef.skillName = skillDefInfo.skillName;
-            skillDef.skillNameToken = skillDefInfo.skillNameToken;
-            skillDef.skillDescriptionToken = skillDefInfo.skillDescriptionToken;
-            skillDef.icon = skillDefInfo.skillIcon;
-
-            skillDef.activationState = skillDefInfo.activationState;
-            skillDef.activationStateMachineName = skillDefInfo.activationStateMachineName;
-            skillDef.baseMaxStock = skillDefInfo.baseMaxStock;
-            skillDef.baseRechargeInterval = skillDefInfo.baseRechargeInterval;
-            skillDef.beginSkillCooldownOnSkillEnd = skillDefInfo.beginSkillCooldownOnSkillEnd;
-            skillDef.canceledFromSprinting = skillDefInfo.canceledFromSprinting;
-            skillDef.forceSprintDuringState = skillDefInfo.forceSprintDuringState;
-            skillDef.fullRestockOnAssign = skillDefInfo.fullRestockOnAssign;
-            skillDef.interruptPriority = skillDefInfo.interruptPriority;
-            skillDef.isBullets = skillDefInfo.isBullets;
-            skillDef.isCombatSkill = skillDefInfo.isCombatSkill;
-            skillDef.mustKeyPress = skillDefInfo.mustKeyPress;
-            skillDef.noSprint = skillDefInfo.noSprint;
-            skillDef.rechargeStock = skillDefInfo.rechargeStock;
-            skillDef.requiredStock = skillDefInfo.requiredStock;
-            skillDef.shootDelay = skillDefInfo.shootDelay;
-            skillDef.stockToConsume = skillDefInfo.stockToConsume;
-
-            skillDef.keywordTokens = skillDefInfo.keywordTokens;
-
-            LoadoutAPI.AddSkillDef(skillDef);
-
-            return skillDef;
         }
     }
 }

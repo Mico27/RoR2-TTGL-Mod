@@ -9,7 +9,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannLegSweep : GurrenLagannBaseCombo
     {
-        public const float c_DamageCoefficient = 1.0f;
+        public const float c_DamageCoefficient = 2.5f;
                 
         protected override void PlayAttackAnimation()
         {
@@ -26,8 +26,8 @@ namespace TTGL_Survivor.SkillStates
             attack.damage = c_DamageCoefficient * this.damageStat;
             attack.procCoefficient = 0.3f;
             attack.hitEffectPrefab = this.hitEffectPrefab;
-            attack.forceVector = Vector3.up * 1500f;
-            attack.pushAwayForce = 0f;
+            attack.forceVector = Vector3.zero;
+            attack.pushAwayForce = -2000f;
             attack.hitBoxGroup = hitBoxGroup;
             attack.isCrit = base.RollCrit();
             attack.impactSound = this.impactSound;

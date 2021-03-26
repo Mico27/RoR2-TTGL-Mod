@@ -1,6 +1,8 @@
 ﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using RoR2.Skills;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,9 +17,7 @@ namespace TTGL_Survivor.Modules.Survivors
         internal static GameObject displayPrefab;
 
         internal static ConfigEntry<bool> characterEnabled;
-
-        public const string bodyName = "LagannBody";
-
+        
         // item display stuffs
         internal static ItemDisplayRuleSet itemDisplayRuleSet;
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> itemRules;
@@ -31,23 +31,7 @@ namespace TTGL_Survivor.Modules.Survivors
             if (true)//characterEnabled.Value)
             {
                 #region Body
-                characterPrefab = CreatePrefab(bodyName, "LagannPrefab", new BodyInfo
-                {
-                    armor = 20f,
-                    armorGrowth = 0f,
-                    bodyName = bodyName,
-                    bodyNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_NAME",
-                    characterPortrait = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon"),
-                    crosshair = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair"),
-                    damage = 12f,
-                    //crit = 100f,
-                    healthGrowth = 33f,
-                    healthRegen = 1.5f,
-                    jumpCount = 1,
-                    maxHealth = 110f,
-                    subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_SUBTITLE",
-                    podPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod")
-                });
+                characterPrefab = CreatePrefab("LagannBody", "LagannPrefab");
                 //Setup spiritEnergy components
                 characterPrefab.AddComponent<SpiralEnergyComponent>();
                 characterPrefab.AddComponent<Modules.Components.LagannController>();
@@ -151,186 +135,165 @@ namespace TTGL_Survivor.Modules.Survivors
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
             #region Passive
-            Modules.Skills.AddPassiveSkill(characterPrefab, new SkillDefInfo
-            {
-                skillNameToken = prefix + "_LAGANN_BODY_PASSIVE_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_PASSIVE_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralPowerIcon"),
-            });
+
+            SkillLocator skillLocator = characterPrefab.GetComponent<SkillLocator>();
+            skillLocator.passiveSkill.enabled = true;
+            skillLocator.passiveSkill.skillNameToken = prefix + "_LAGANN_BODY_PASSIVE_NAME";
+            skillLocator.passiveSkill.skillDescriptionToken = prefix + "_LAGANN_BODY_PASSIVE_DESCRIPTION";
+            skillLocator.passiveSkill.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralPowerIcon");
+
             #endregion
 
             #region Primary
 
-            SkillDef drillRushSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannDrillRush)),
-                activationStateMachineName = "Weapon",
-                baseMaxStock = 1,
-                baseRechargeInterval = 0f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Any,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = false,
-                rechargeStock = 1,
-                requiredStock = 0,
-                shootDelay = 0f,
-                stockToConsume = 0,
-                keywordTokens = new string[] { "KEYWORD_AGILE" }
-            });
-
+            SkillDef drillRushSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            drillRushSkillDef.skillName = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME";
+            drillRushSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME";
+            drillRushSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION";
+            drillRushSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon");
+            drillRushSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannDrillRush));
+            drillRushSkillDef.activationStateMachineName = "Weapon";
+            drillRushSkillDef.baseMaxStock = 1;
+            drillRushSkillDef.baseRechargeInterval = 0f;
+            drillRushSkillDef.beginSkillCooldownOnSkillEnd = false;
+            drillRushSkillDef.canceledFromSprinting = false;
+            drillRushSkillDef.forceSprintDuringState = false;
+            drillRushSkillDef.fullRestockOnAssign = true;
+            drillRushSkillDef.interruptPriority = EntityStates.InterruptPriority.Any;
+            drillRushSkillDef.isCombatSkill = true;
+            drillRushSkillDef.mustKeyPress = false;
+            drillRushSkillDef.cancelSprintingOnActivation = false;
+            drillRushSkillDef.rechargeStock = 1;
+            drillRushSkillDef.requiredStock = 0;
+            drillRushSkillDef.stockToConsume = 0;
+            drillRushSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
+            LoadoutAPI.AddSkillDef(drillRushSkillDef);
             Modules.Skills.AddPrimarySkill(characterPrefab, drillRushSkillDef);
 
             #endregion
 
             #region Secondary
-            SkillDef shootRifleSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoShootRifle)),
-                activationStateMachineName = "Weapon",
-                baseMaxStock = 1,
-                baseRechargeInterval = 1f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1,
-                keywordTokens = new string [] { "KEYWORD_AGILE" }
-            });
-
+            SkillDef shootRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            shootRifleSkillDef.skillName = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME";
+            shootRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME";
+            shootRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION";
+            shootRifleSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon");
+            shootRifleSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoShootRifle));
+            shootRifleSkillDef.activationStateMachineName = "Weapon";
+            shootRifleSkillDef.baseMaxStock = 1;
+            shootRifleSkillDef.baseRechargeInterval = 1f;
+            shootRifleSkillDef.beginSkillCooldownOnSkillEnd = false;
+            shootRifleSkillDef.canceledFromSprinting = false;
+            shootRifleSkillDef.forceSprintDuringState = false;
+            shootRifleSkillDef.fullRestockOnAssign = true;
+            shootRifleSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            shootRifleSkillDef.isCombatSkill = true;
+            shootRifleSkillDef.mustKeyPress = false;
+            shootRifleSkillDef.cancelSprintingOnActivation = false;
+            shootRifleSkillDef.rechargeStock = 1;
+            shootRifleSkillDef.requiredStock = 1;
+            shootRifleSkillDef.stockToConsume = 1;
+            shootRifleSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
+            LoadoutAPI.AddSkillDef(shootRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, shootRifleSkillDef);
 
-            SkillDef explosiveRifleSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleExplosionIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoExplosiveRifle)),
-                activationStateMachineName = "Weapon",
-                baseMaxStock = 1,
-                baseRechargeInterval = 2f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = true,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
+            SkillDef explosiveRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            explosiveRifleSkillDef.skillName = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME";
+            explosiveRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME";
+            explosiveRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION";
+            explosiveRifleSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleExplosionIcon");
+            explosiveRifleSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoExplosiveRifle));
+            explosiveRifleSkillDef.activationStateMachineName = "Weapon";
+            explosiveRifleSkillDef.baseMaxStock = 1;
+            explosiveRifleSkillDef.baseRechargeInterval = 2f;
+            explosiveRifleSkillDef.beginSkillCooldownOnSkillEnd = false;
+            explosiveRifleSkillDef.canceledFromSprinting = false;
+            explosiveRifleSkillDef.forceSprintDuringState = false;
+            explosiveRifleSkillDef.fullRestockOnAssign = true;
+            explosiveRifleSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            explosiveRifleSkillDef.isCombatSkill = true;
+            explosiveRifleSkillDef.mustKeyPress = false;
+            explosiveRifleSkillDef.cancelSprintingOnActivation = true;
+            explosiveRifleSkillDef.rechargeStock = 1;
+            explosiveRifleSkillDef.requiredStock = 1;
+            explosiveRifleSkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(explosiveRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
 
             #endregion
 
             #region Utility
-            SkillDef spiralBurstSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannSpiralBurst)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 4f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = true,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
-
+            SkillDef spiralBurstSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            spiralBurstSkillDef.skillName = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME";
+            spiralBurstSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME";
+            spiralBurstSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION";
+            spiralBurstSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon");
+            spiralBurstSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannSpiralBurst));
+            spiralBurstSkillDef.activationStateMachineName = "Body";
+            spiralBurstSkillDef.baseMaxStock = 1;
+            spiralBurstSkillDef.baseRechargeInterval = 4f;
+            spiralBurstSkillDef.beginSkillCooldownOnSkillEnd = false;
+            spiralBurstSkillDef.canceledFromSprinting = false;
+            spiralBurstSkillDef.forceSprintDuringState = true;
+            spiralBurstSkillDef.fullRestockOnAssign = true;
+            spiralBurstSkillDef.interruptPriority = EntityStates.InterruptPriority.PrioritySkill;
+            spiralBurstSkillDef.isCombatSkill = true;
+            spiralBurstSkillDef.mustKeyPress = false;
+            spiralBurstSkillDef.cancelSprintingOnActivation = false;
+            spiralBurstSkillDef.rechargeStock = 1;
+            spiralBurstSkillDef.requiredStock = 1;
+            spiralBurstSkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(spiralBurstSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, spiralBurstSkillDef);
 
-            SkillDef toggleCanopySkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("ToggleCanopyIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannToggleCanopy)),
-                activationStateMachineName = "Weapon",
-                baseMaxStock = 1,
-                baseRechargeInterval = 1f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = true,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
-                isBullets = false,
-                isCombatSkill = false,
-                mustKeyPress = true,
-                noSprint = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
-            
+            SkillDef toggleCanopySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            toggleCanopySkillDef.skillName = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME";
+            toggleCanopySkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME";
+            toggleCanopySkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION";
+            toggleCanopySkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("ToggleCanopyIcon");
+            toggleCanopySkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannToggleCanopy));
+            toggleCanopySkillDef.activationStateMachineName = "Weapon";
+            toggleCanopySkillDef.baseMaxStock = 1;
+            toggleCanopySkillDef.baseRechargeInterval = 1f;
+            toggleCanopySkillDef.beginSkillCooldownOnSkillEnd = false;
+            toggleCanopySkillDef.canceledFromSprinting = false;
+            toggleCanopySkillDef.forceSprintDuringState = true;
+            toggleCanopySkillDef.fullRestockOnAssign = true;
+            toggleCanopySkillDef.interruptPriority = EntityStates.InterruptPriority.PrioritySkill;
+            toggleCanopySkillDef.isCombatSkill = false;
+            toggleCanopySkillDef.mustKeyPress = true;
+            toggleCanopySkillDef.cancelSprintingOnActivation = false;
+            toggleCanopySkillDef.rechargeStock = 1;
+            toggleCanopySkillDef.requiredStock = 1;
+            toggleCanopySkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(toggleCanopySkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
             #endregion
 
             #region Special
-            SkillDef lagannImpactSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannImpact)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 8f,
-                beginSkillCooldownOnSkillEnd = true,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = true,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
-
+            SkillDef lagannImpactSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            lagannImpactSkillDef.skillName = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME";
+            lagannImpactSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME";
+            lagannImpactSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION";
+            lagannImpactSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            lagannImpactSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannImpact));
+            lagannImpactSkillDef.activationStateMachineName = "Body";
+            lagannImpactSkillDef.baseMaxStock = 1;
+            lagannImpactSkillDef.baseRechargeInterval = 8f;
+            lagannImpactSkillDef.beginSkillCooldownOnSkillEnd = true;
+            lagannImpactSkillDef.canceledFromSprinting = false;
+            lagannImpactSkillDef.forceSprintDuringState = false;
+            lagannImpactSkillDef.fullRestockOnAssign = true;
+            lagannImpactSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            lagannImpactSkillDef.isCombatSkill = true;
+            lagannImpactSkillDef.mustKeyPress = false;
+            lagannImpactSkillDef.cancelSprintingOnActivation = true;
+            lagannImpactSkillDef.rechargeStock = 1;
+            lagannImpactSkillDef.requiredStock = 1;
+            lagannImpactSkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(lagannImpactSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, lagannImpactSkillDef);
+
             #endregion
         }
 
@@ -3055,32 +3018,31 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
         {
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
-            SkillDef scepterSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
-                skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME",
-                skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleAncientScepterIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoScepterRifle)),
-                activationStateMachineName = "Weapon",
-                baseMaxStock = 1,
-                baseRechargeInterval = 1f,                
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1,
-            });
+            SkillDef scepterSkillDef = ScriptableObject.CreateInstance<SkillDef>();
 
-            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, bodyName, SkillSlot.Secondary, 0);
+            scepterSkillDef.skillName = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME";
+            scepterSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME";
+            scepterSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION";
+            scepterSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleAncientScepterIcon");
+            scepterSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoScepterRifle));
+            scepterSkillDef.activationStateMachineName = "Weapon";
+            scepterSkillDef.baseMaxStock = 1;
+            scepterSkillDef.baseRechargeInterval = 1f;
+            scepterSkillDef.beginSkillCooldownOnSkillEnd = false;
+            scepterSkillDef.canceledFromSprinting = false;
+            scepterSkillDef.forceSprintDuringState = false;
+            scepterSkillDef.fullRestockOnAssign = true;
+            scepterSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            scepterSkillDef.isCombatSkill = true;
+            scepterSkillDef.mustKeyPress = false;
+            scepterSkillDef.cancelSprintingOnActivation = false;
+            scepterSkillDef.rechargeStock = 1;
+            scepterSkillDef.requiredStock = 1;
+            scepterSkillDef.stockToConsume = 1;
+
+            LoadoutAPI.AddSkillDef(scepterSkillDef);
+
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
         }
     }
 }

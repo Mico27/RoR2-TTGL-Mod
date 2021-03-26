@@ -5,6 +5,7 @@ using RoR2.Projectile;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RoR2.RoR2Content;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -40,7 +41,7 @@ namespace TTGL_Survivor.SkillStates
             //Util.PlaySound("TTGLLagannImpactFire", base.gameObject);
             if (NetworkServer.active)
             {
-                base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+                base.characterBody.AddBuff(Buffs.HiddenInvincibility);
             }
             base.PlayAnimation("FullBody, Override", "LagannImpact2");            
             base.characterDirection.enabled = false;
@@ -156,7 +157,7 @@ namespace TTGL_Survivor.SkillStates
             Util.PlaySound(EvisDash.endSoundString, base.gameObject);
             if (NetworkServer.active)
             {
-                base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+                base.characterBody.RemoveBuff(Buffs.HiddenInvincibility);
             }
             base.OnExit();
         }

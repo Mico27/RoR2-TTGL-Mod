@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,8 +16,7 @@ namespace TTGL_Survivor.Modules
         {
             SurvivorDef survivorDef = new SurvivorDef
             {
-                name = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME",
-                unlockableName = unlockString,
+                cachedName = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME",
                 descriptionToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_DESCRIPTION",
                 primaryColor = charColor,
                 bodyPrefab = bodyPrefab,
@@ -40,68 +40,15 @@ namespace TTGL_Survivor.Modules
             return model.gameObject;
         }
 
-        protected virtual GameObject CreatePrefab(string bodyName, string modelName, BodyInfo bodyInfo)
+        protected virtual GameObject CreatePrefab(string bodyName, string modelName)
         {
             GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
 
             GameObject model = CreateModel(newPrefab, modelName);
             Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
 
-            #region CharacterBody
-            CharacterBody bodyComponent = newPrefab.GetComponent<CharacterBody>();
-
-            bodyComponent.bodyIndex = -1;
-            bodyComponent.name = bodyInfo.bodyName;
-            bodyComponent.baseNameToken = bodyInfo.bodyNameToken;
-            bodyComponent.subtitleNameToken = bodyInfo.subtitleNameToken;
-            bodyComponent.portraitIcon = bodyInfo.characterPortrait;
-            bodyComponent.crosshairPrefab = bodyInfo.crosshair;
-
-            bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
-            bodyComponent.rootMotionInMainState = false;
-
-            bodyComponent.baseMaxHealth = bodyInfo.maxHealth;
-            bodyComponent.levelMaxHealth = bodyInfo.healthGrowth;
-
-            bodyComponent.baseRegen = bodyInfo.healthRegen;
-            bodyComponent.levelRegen = bodyComponent.baseRegen * 0.2f;
-
-            bodyComponent.baseMaxShield = bodyInfo.shield;
-            bodyComponent.levelMaxShield = bodyInfo.shieldGrowth;
-
-            bodyComponent.baseMoveSpeed = bodyInfo.moveSpeed;
-            bodyComponent.levelMoveSpeed = bodyInfo.moveSpeedGrowth;
-
-            bodyComponent.baseAcceleration = bodyInfo.acceleration;
-
-            bodyComponent.baseJumpPower = bodyInfo.jumpPower;
-            bodyComponent.levelJumpPower = bodyInfo.jumpPowerGrowth;
-
-            bodyComponent.baseDamage = bodyInfo.damage;
-            bodyComponent.levelDamage = bodyComponent.baseDamage * 0.2f;
-
-            bodyComponent.baseAttackSpeed = bodyInfo.attackSpeed;
-            bodyComponent.levelAttackSpeed = bodyInfo.attackSpeedGrowth;
-
-            bodyComponent.baseArmor = bodyInfo.armor;
-            bodyComponent.levelArmor = bodyInfo.armorGrowth;
-
-            bodyComponent.baseCrit = bodyInfo.crit;
-            bodyComponent.levelCrit = bodyInfo.critGrowth;
-
-            bodyComponent.baseJumpCount = bodyInfo.jumpCount;
-
-            bodyComponent.sprintingSpeedMultiplier = 1.45f;
-
-            bodyComponent.hideCrosshair = false;
-            bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
-            bodyComponent.hullClassification = HullClassification.Human;
-
-            bodyComponent.preferredPodPrefab = bodyInfo.podPrefab;
-
-            bodyComponent.isChampion = false;
-            #endregion
-
+            SetupCharacterBody(bodyName, newPrefab, modelBaseTransform);
+            SetupCharacterMotor(newPrefab);
             SetupCharacterDirection(newPrefab, modelBaseTransform, model.transform);
             SetupCameraTargetParams(newPrefab);
             SetupModelLocator(newPrefab, modelBaseTransform, model.transform);
@@ -110,13 +57,73 @@ namespace TTGL_Survivor.Modules
             SetupFootstepController(model);
             SetupRagdoll(model);
             SetupAimAnimator(newPrefab, model);
-
-            BodyCatalog.getAdditionalEntries += delegate (List<GameObject> list)
-            {
-                list.Add(newPrefab);
-            };
-
+            
+            Array.Resize(ref ContentManager.bodyPrefabs, ContentManager.bodyPrefabs.Length + 1);
+            ContentManager.bodyPrefabs[ContentManager.bodyPrefabs.Length - 1] = newPrefab;
+            
             return newPrefab;
+        }
+
+        protected virtual void SetupCharacterBody(string bodyName, GameObject newPrefab, Transform modelBaseTransform)
+        {
+            CharacterBody bodyComponent = newPrefab.GetComponent<CharacterBody>();
+
+            bodyComponent.bodyIndex = BodyIndex.None;
+            bodyComponent.name = bodyName;
+            bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_NAME";
+            bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_SUBTITLE";
+            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon");
+            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+
+            bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
+            bodyComponent.rootMotionInMainState = false;
+
+            bodyComponent.baseMaxHealth = 110f;
+            bodyComponent.levelMaxHealth = 33f;
+
+            bodyComponent.baseRegen = 1.5f;
+            bodyComponent.levelRegen = 0.3f;
+
+            bodyComponent.baseMaxShield = 0f;
+            bodyComponent.levelMaxShield = 0f;
+
+            bodyComponent.baseMoveSpeed = 7f;
+            bodyComponent.levelMoveSpeed = 0f;
+
+            bodyComponent.baseAcceleration = 80f;
+
+            bodyComponent.baseJumpPower = 15f;
+            bodyComponent.levelJumpPower = 0f;
+
+            bodyComponent.baseDamage = 12f;
+            bodyComponent.levelDamage = 2.4f;
+
+            bodyComponent.baseAttackSpeed = 1f;
+            bodyComponent.levelAttackSpeed = 0f;
+
+            bodyComponent.baseArmor = 20f;
+            bodyComponent.levelArmor = 0f;
+
+            bodyComponent.baseCrit = 0f;
+            bodyComponent.levelCrit = 0f;
+
+            bodyComponent.baseJumpCount = 1;
+
+            bodyComponent.sprintingSpeedMultiplier = 1.45f;
+
+            bodyComponent.hideCrosshair = false;
+            bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
+            bodyComponent.hullClassification = HullClassification.Human;
+
+            bodyComponent.preferredPodPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
+
+            bodyComponent.isChampion = false;
+        }
+
+        protected virtual void SetupCharacterMotor(GameObject newPrefab)
+        {
+            CharacterMotor motorComponent = newPrefab.GetComponent<CharacterMotor>();
+            motorComponent.mass = 1;
         }
 
         #region ModelSetup
@@ -302,48 +309,6 @@ namespace TTGL_Survivor.Modules
         }
         #endregion
     }
-}
-
-// for simplifying characterbody creation
-public class BodyInfo
-{
-    internal string bodyName = "";
-    internal string bodyNameToken = "";
-    internal string subtitleNameToken = "";
-
-    internal Texture characterPortrait = null;
-
-    internal GameObject crosshair = null;
-    internal GameObject podPrefab = null;
-
-    internal float maxHealth = 100f;
-    internal float healthGrowth = 2f;
-
-    internal float healthRegen = 2f;
-
-    internal float shield = 0f;// base shield is a thing apparently. neat
-    internal float shieldGrowth = 0f;
-
-    internal float moveSpeed = 7f;
-    internal float moveSpeedGrowth = 0f;
-
-    internal float acceleration = 80f;
-
-    internal float jumpPower = 15f;
-    internal float jumpPowerGrowth = 0f;// jump power per level exists for some reason
-
-    internal float damage = 12f;
-
-    internal float attackSpeed = 1f;
-    internal float attackSpeedGrowth = 0f;
-
-    internal float armor = 0f;
-    internal float armorGrowth = 0f;
-
-    internal float crit = 1f;
-    internal float critGrowth = 0f;
-
-    internal int jumpCount = 1;
 }
 
 // for simplifying rendererinfo creation

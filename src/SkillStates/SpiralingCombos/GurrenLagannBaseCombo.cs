@@ -4,6 +4,7 @@ using EntityStates;
 using RoR2.Audio;
 using System;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -50,7 +51,7 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            
+            base.characterBody.SetAimTimer(2f);
             this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
             this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
 
@@ -89,6 +90,7 @@ namespace TTGL_Survivor.SkillStates
                 this.hitPauseTimer = this.hitStopDuration / this.attackSpeedStat;
                 this.inHitPause = true;
             }
+
         }
 
         private void FireAttack()
@@ -96,7 +98,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayScaledSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
             }
 
             if (base.isAuthority)

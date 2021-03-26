@@ -6,6 +6,7 @@ using RoR2;
 using System.IO;
 using RoR2.Audio;
 using System.Collections.Generic;
+using System;
 
 namespace TTGL_Survivor.Modules
 {
@@ -109,11 +110,9 @@ namespace TTGL_Survivor.Modules
             NetworkSoundEventDef networkSoundEventDef = ScriptableObject.CreateInstance<NetworkSoundEventDef>();
             networkSoundEventDef.akId = AkSoundEngine.GetIDFromString(eventName);
             networkSoundEventDef.eventName = eventName;
-
-            NetworkSoundEventCatalog.getSoundEventDefs += delegate (List<NetworkSoundEventDef> list)
-            {
-                list.Add(networkSoundEventDef);
-            };
+                        
+            Array.Resize(ref ContentManager.networkSoundEventDefs, ContentManager.networkSoundEventDefs.Length + 1);
+            ContentManager.networkSoundEventDefs[ContentManager.networkSoundEventDefs.Length - 1] = networkSoundEventDef;
 
             return networkSoundEventDef;
         }

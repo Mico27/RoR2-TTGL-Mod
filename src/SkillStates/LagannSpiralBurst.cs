@@ -4,6 +4,7 @@ using RoR2.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RoR2.RoR2Content;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -126,7 +127,7 @@ namespace TTGL_Survivor.SkillStates
             Util.PlaySound(LagannSpiralBurst.dodgeSoundString, base.gameObject);
             if (NetworkServer.active)
             {
-                base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+                base.characterBody.AddBuff(Buffs.HiddenInvincibility);
             }
         }
 
@@ -204,7 +205,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayScaledSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {
@@ -226,7 +227,7 @@ namespace TTGL_Survivor.SkillStates
             //if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;
             base.OnExit();
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.HiddenInvincibility);
         }
 
         public override void OnSerialize(NetworkWriter writer)

@@ -20,11 +20,9 @@ namespace TTGL_Survivor.Modules
             CreateBomb();
             CreateGurrenLagannShadesProjectile();
 
-            ProjectileCatalog.getAdditionalEntries += list =>
-            {
-                list.Add(explosiveRifleRoundPrefab);
-                list.Add(shadesWhirlPrefab);
-            };
+            Array.Resize(ref ContentManager.projectilePrefabs, ContentManager.projectilePrefabs.Length + 2);
+            ContentManager.projectilePrefabs[ContentManager.projectilePrefabs.Length - 2] = explosiveRifleRoundPrefab;
+            ContentManager.projectilePrefabs[ContentManager.projectilePrefabs.Length - 1] = shadesWhirlPrefab;
         }
 
         private static void CreateBomb()
@@ -82,13 +80,7 @@ namespace TTGL_Survivor.Modules
 
         private static void CreateGurrenLagannShadesProjectile()
         {
-            shadesWhirlPrefab = CloneProjectilePrefab("Sawmerang", "GurrenLagannShadesProjectile"); ;
-
-            BoomerangProjectile boomerang = shadesWhirlPrefab.GetComponent<BoomerangProjectile>();
-
-            boomerang.canHitWorld = true;
-            boomerang.canHitCharacters = false;
-
+            shadesWhirlPrefab = CloneProjectilePrefab("Sawmerang", "GurrenLagannShadesProjectile");
             ProjectileController projectileController = shadesWhirlPrefab.GetComponent<ProjectileController>();
             projectileController.ghostPrefab = CreateGhostPrefab("ShadesWhirlind");
             projectileController.startSound = "";

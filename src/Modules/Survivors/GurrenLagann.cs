@@ -1,9 +1,12 @@
 ﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using RoR2.Skills;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.UI;
 using UnityEngine;
 
@@ -15,9 +18,7 @@ namespace TTGL_Survivor.Modules.Survivors
         internal static GameObject displayPrefab;
 
         internal static ConfigEntry<bool> characterEnabled;
-
-        public const string bodyName = "GurrenLagannBody";
-
+        
         // item display stuffs
         internal static ItemDisplayRuleSet itemDisplayRuleSet;
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> itemRules;
@@ -31,25 +32,10 @@ namespace TTGL_Survivor.Modules.Survivors
             if (true)//characterEnabled.Value)
             {
                 #region Body
-                characterPrefab = CreatePrefab(bodyName, "GurrenLagannPrefab", new BodyInfo
-                {
-                    armor = 20f,
-                    armorGrowth = 0f,
-                    bodyName = bodyName,
-                    bodyNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_NAME",
-                    characterPortrait = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon"),
-                    crosshair = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair"),
-                    damage = 12f,
-                    //crit = 100f,
-                    healthGrowth = 33f,
-                    healthRegen = 1.5f,
-                    jumpCount = 1,
-                    maxHealth = 110f,
-                    subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_SUBTITLE",
-                    podPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod")
-                });
+                characterPrefab = CreatePrefab("GurrenLagannBody", "GurrenLagannPrefab");
                 //Setup spiritEnergy components
                 characterPrefab.AddComponent<SpiralEnergyComponent>();
+                characterPrefab.AddComponent<GurrenLagannController>();
                 characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannMain));
 
                 //Fix interaction distance because GurrenLagann is too big
@@ -85,6 +71,68 @@ namespace TTGL_Survivor.Modules.Survivors
                 CreateItemDisplays();
 
             }
+        }
+
+        protected override void SetupCharacterBody(string bodyName, GameObject newPrefab, Transform modelBaseTransform)
+        {
+            CharacterBody bodyComponent = newPrefab.GetComponent<CharacterBody>();
+
+            bodyComponent.bodyIndex = BodyIndex.None;
+            bodyComponent.name = bodyName;
+            bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_NAME";
+            bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_SUBTITLE";
+            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon");
+            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+
+            bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
+            bodyComponent.rootMotionInMainState = false;
+
+            bodyComponent.baseMaxHealth = 210f;
+            bodyComponent.levelMaxHealth = 43f;
+
+            bodyComponent.baseRegen = 2.5f;
+            bodyComponent.levelRegen = 0.6f;
+
+            bodyComponent.baseMaxShield = 0f;
+            bodyComponent.levelMaxShield = 0f;
+
+            bodyComponent.baseMoveSpeed = 7f;
+            bodyComponent.levelMoveSpeed = 0f;
+            
+            bodyComponent.baseAcceleration = 40f;
+
+            bodyComponent.baseJumpPower = 25f;
+            bodyComponent.levelJumpPower = 0f;
+
+            bodyComponent.baseDamage = 12f;
+            bodyComponent.levelDamage = 2.4f;
+
+            bodyComponent.baseAttackSpeed = 1f;
+            bodyComponent.levelAttackSpeed = 0f;
+
+            bodyComponent.baseArmor = 20f;
+            bodyComponent.levelArmor = 0f;
+
+            bodyComponent.baseCrit = 0f;
+            bodyComponent.levelCrit = 0f;
+
+            bodyComponent.baseJumpCount = 1;
+
+            bodyComponent.sprintingSpeedMultiplier = 2.5f;
+
+            bodyComponent.hideCrosshair = false;
+            bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
+            bodyComponent.hullClassification = HullClassification.Human;
+
+            bodyComponent.preferredPodPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
+
+            bodyComponent.isChampion = false;
+        }
+
+        protected override void SetupCharacterMotor(GameObject newPrefab)
+        {
+            CharacterMotor motorComponent = newPrefab.GetComponent<CharacterMotor>();
+            motorComponent.mass = 2000f;
         }
 
         protected override Transform SetupModel(GameObject prefab, Transform modelTransform, bool isDisplay)
@@ -126,6 +174,11 @@ namespace TTGL_Survivor.Modules.Survivors
             cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
             cameraTargetParams.cameraParams.standardLocalCameraPos *= 3;
+        }
+        protected override void SetupRigidbody(GameObject prefab)
+        {
+            Rigidbody rigidbody = prefab.GetComponent<Rigidbody>();
+            rigidbody.mass = 2000f;
         }
 
         private void CreateHurtBoxes()
@@ -188,159 +241,141 @@ namespace TTGL_Survivor.Modules.Survivors
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
             #region Passive
-            Modules.Skills.AddPassiveSkill(characterPrefab, new SkillDefInfo
-            {
-                skillNameToken = prefix + "_GURRENLAGANN_BODY_PASSIVE_NAME",
-                skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_PASSIVE_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralPowerIcon"),
-            });
+
+            SkillLocator skillLocator = characterPrefab.GetComponent<SkillLocator>();
+            skillLocator.passiveSkill.enabled = true;
+            skillLocator.passiveSkill.skillNameToken = prefix + "_GURRENLAGANN_BODY_PASSIVE_NAME";
+            skillLocator.passiveSkill.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_PASSIVE_DESCRIPTION";
+            skillLocator.passiveSkill.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralPowerIcon");
+
             #endregion
 
             #region Primary
-
-            SkillDef spiralingComboSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME",
-                skillNameToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME",
-                skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSpiralingCombo)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 0f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Any,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = true,
-                rechargeStock = 1,
-                requiredStock = 0,
-                shootDelay = 0f,
-                stockToConsume = 0,
-            });
-
+            SkillDef spiralingComboSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            spiralingComboSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME";
+            spiralingComboSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME";
+            spiralingComboSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION";
+            spiralingComboSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon");
+            spiralingComboSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSpiralingCombo));
+            spiralingComboSkillDef.activationStateMachineName = "Body";
+            spiralingComboSkillDef.baseMaxStock = 1;
+            spiralingComboSkillDef.baseRechargeInterval = 0f;
+            spiralingComboSkillDef.beginSkillCooldownOnSkillEnd = false;
+            spiralingComboSkillDef.canceledFromSprinting = false;
+            spiralingComboSkillDef.forceSprintDuringState = false;
+            spiralingComboSkillDef.fullRestockOnAssign = true;
+            spiralingComboSkillDef.interruptPriority = EntityStates.InterruptPriority.Any;
+            spiralingComboSkillDef.cancelSprintingOnActivation = false;
+            spiralingComboSkillDef.isCombatSkill = true;
+            spiralingComboSkillDef.mustKeyPress = false;
+            spiralingComboSkillDef.rechargeStock = 1;
+            spiralingComboSkillDef.requiredStock = 0;
+            spiralingComboSkillDef.stockToConsume = 0;
+            LoadoutAPI.AddSkillDef(spiralingComboSkillDef);
             Modules.Skills.AddPrimarySkill(characterPrefab, spiralingComboSkillDef);
 
             #endregion
 
             #region Secondary
-            SkillDef throwingShadesSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME",
-                skillNameToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME",
-                skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades)),
-                activationStateMachineName = "Weapon",
-                baseMaxStock = 2,
-                baseRechargeInterval = 3f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = false,
-                rechargeStock = 2,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1,
-                keywordTokens = new string [] { "KEYWORD_AGILE" }
-            });
-
+            SkillDef throwingShadesSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            throwingShadesSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME";
+            throwingShadesSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME";
+            throwingShadesSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION";
+            throwingShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon");
+            throwingShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
+            throwingShadesSkillDef.activationStateMachineName = "Weapon";
+            throwingShadesSkillDef.baseMaxStock = 2;
+            throwingShadesSkillDef.baseRechargeInterval = 60f;
+            throwingShadesSkillDef.beginSkillCooldownOnSkillEnd = false;
+            throwingShadesSkillDef.canceledFromSprinting = false;
+            throwingShadesSkillDef.forceSprintDuringState = false;
+            throwingShadesSkillDef.fullRestockOnAssign = true;
+            throwingShadesSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            throwingShadesSkillDef.isCombatSkill = true;
+            throwingShadesSkillDef.mustKeyPress = false;
+            throwingShadesSkillDef.cancelSprintingOnActivation = false;
+            throwingShadesSkillDef.rechargeStock = 2;
+            throwingShadesSkillDef.requiredStock = 1;
+            throwingShadesSkillDef.stockToConsume = 1;
+            throwingShadesSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
+            LoadoutAPI.AddSkillDef(throwingShadesSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, throwingShadesSkillDef);
 
             #endregion
 
             #region Utility
-            SkillDef tornadoKickSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME",
-                skillNameToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME",
-                skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannTornadoKick)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 4f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = true,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
-
+            SkillDef tornadoKickSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            tornadoKickSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME";
+            tornadoKickSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME";
+            tornadoKickSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION";
+            tornadoKickSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon");
+            tornadoKickSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannTornadoKick));
+            tornadoKickSkillDef.activationStateMachineName = "Body";
+            tornadoKickSkillDef.baseMaxStock = 1;
+            tornadoKickSkillDef.baseRechargeInterval = 4f;
+            tornadoKickSkillDef.beginSkillCooldownOnSkillEnd = false;
+            tornadoKickSkillDef.canceledFromSprinting = false;
+            tornadoKickSkillDef.forceSprintDuringState = true;
+            tornadoKickSkillDef.fullRestockOnAssign = true;
+            tornadoKickSkillDef.interruptPriority = EntityStates.InterruptPriority.PrioritySkill;
+            tornadoKickSkillDef.isCombatSkill = true;
+            tornadoKickSkillDef.mustKeyPress = false;
+            tornadoKickSkillDef.cancelSprintingOnActivation = false;
+            tornadoKickSkillDef.rechargeStock = 1;
+            tornadoKickSkillDef.requiredStock = 1;
+            tornadoKickSkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(tornadoKickSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, tornadoKickSkillDef);
 
             #endregion
 
             #region Special
 
-            SkillDef gigaDrillMaximumSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME",
-                skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME",
-                skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillMaximum)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 8f,
-                beginSkillCooldownOnSkillEnd = true,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                noSprint = true,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
-
+            SkillDef gigaDrillMaximumSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            gigaDrillMaximumSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
+            gigaDrillMaximumSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
+            gigaDrillMaximumSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION";
+            gigaDrillMaximumSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            gigaDrillMaximumSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillMaximum));
+            gigaDrillMaximumSkillDef.activationStateMachineName = "Body";
+            gigaDrillMaximumSkillDef.baseMaxStock = 1;
+            gigaDrillMaximumSkillDef.baseRechargeInterval = 8f;
+            gigaDrillMaximumSkillDef.beginSkillCooldownOnSkillEnd = true;
+            gigaDrillMaximumSkillDef.canceledFromSprinting = false;
+            gigaDrillMaximumSkillDef.forceSprintDuringState = false;
+            gigaDrillMaximumSkillDef.fullRestockOnAssign = true;
+            gigaDrillMaximumSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            gigaDrillMaximumSkillDef.isCombatSkill = true;
+            gigaDrillMaximumSkillDef.mustKeyPress = false;
+            gigaDrillMaximumSkillDef.cancelSprintingOnActivation = true;
+            gigaDrillMaximumSkillDef.rechargeStock = 1;
+            gigaDrillMaximumSkillDef.requiredStock = 1;
+            gigaDrillMaximumSkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(gigaDrillMaximumSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, gigaDrillMaximumSkillDef);
 
-            SkillDef gigaDrillBreakerSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME",
-                skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME",
-                skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillBreak)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 60f,
-                beginSkillCooldownOnSkillEnd = true,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                isBullets = false,
-                isCombatSkill = true,
-                mustKeyPress = true,
-                noSprint = true,
-                rechargeStock = 1,
-                requiredStock = 1,
-                shootDelay = 0f,
-                stockToConsume = 1
-            });
+            SkillDef gigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            gigaDrillBreakerSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
+            gigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
+            gigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
+            gigaDrillBreakerSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            gigaDrillBreakerSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillBreak));
+            gigaDrillBreakerSkillDef.activationStateMachineName = "Body";
+            gigaDrillBreakerSkillDef.baseMaxStock = 1;
+            gigaDrillBreakerSkillDef.baseRechargeInterval = 60f;
+            gigaDrillBreakerSkillDef.beginSkillCooldownOnSkillEnd = true;
+            gigaDrillBreakerSkillDef.canceledFromSprinting = false;
+            gigaDrillBreakerSkillDef.forceSprintDuringState = false;
+            gigaDrillBreakerSkillDef.fullRestockOnAssign = true;
+            gigaDrillBreakerSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            gigaDrillBreakerSkillDef.isCombatSkill = true;
+            gigaDrillBreakerSkillDef.mustKeyPress = true;
+            gigaDrillBreakerSkillDef.cancelSprintingOnActivation = true;
+            gigaDrillBreakerSkillDef.rechargeStock = 1;
+            gigaDrillBreakerSkillDef.requiredStock = 1;
+            gigaDrillBreakerSkillDef.stockToConsume = 1;
+            LoadoutAPI.AddSkillDef(gigaDrillBreakerSkillDef);
+
             #endregion
         }
 

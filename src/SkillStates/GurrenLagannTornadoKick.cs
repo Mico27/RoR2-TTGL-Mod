@@ -4,13 +4,14 @@ using RoR2.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RoR2.RoR2Content;
 
 namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannTornadoKick : BaseSkillState
     {
-        public static float horizontal_duration = 0.5f;
-        public static float vertical_duration = 1.0f;
+        public static float horizontal_duration = 2.5f;
+        public static float vertical_duration = 2.0f;
         public static float initialSpeedCoefficient = 5f;
         public static float finalSpeedCoefficient = 2.5f;
         public static float damageCoefficient = 2.5f;
@@ -124,7 +125,7 @@ namespace TTGL_Survivor.SkillStates
             Util.PlaySound(GurrenLagannTornadoKick.dodgeSoundString, base.gameObject);
             if (NetworkServer.active)
             {
-                base.characterBody.AddBuff(BuffIndex.HiddenInvincibility);
+                base.characterBody.AddBuff(Buffs.HiddenInvincibility);
             }
         }
 
@@ -202,7 +203,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayScaledSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {
@@ -224,7 +225,7 @@ namespace TTGL_Survivor.SkillStates
             //if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;
             base.OnExit();
 
-            if (NetworkServer.active) base.characterBody.RemoveBuff(BuffIndex.HiddenInvincibility);
+            if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.HiddenInvincibility);
         }
 
         public override void OnSerialize(NetworkWriter writer)

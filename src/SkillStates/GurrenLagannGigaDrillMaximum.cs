@@ -62,10 +62,10 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.baseDuration = 1.3f;
-            this.attackStartTime = 0.1f;
-            this.attackEndTime = 0.9f;
-            this.baseEarlyExitTime = 0.3f;
+            this.baseDuration = 3.0f;
+            this.attackStartTime = 0.33f;
+            this.attackEndTime = 0.75f;
+            this.baseEarlyExitTime = 0.25f;
             this.hitStopDuration = 0.115f;
             this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
             this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
@@ -112,7 +112,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayScaledSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
             }
 
             if (base.isAuthority)

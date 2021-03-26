@@ -8,7 +8,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannThrowingShades : BaseSkillState
     {
-        public static float damageCoefficient = 1.5f;
+        public static float damageCoefficient = 1.0f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 2.3f;
         public static float throwForce = 200f;
@@ -49,7 +49,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayScaledSound(ThrowGlaive.attackSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(ThrowGlaive.attackSoundString, base.gameObject, this.attackSpeedStat);
 
                 if (base.isAuthority)
                 {
