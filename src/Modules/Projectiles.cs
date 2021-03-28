@@ -20,9 +20,8 @@ namespace TTGL_Survivor.Modules
             CreateBomb();
             CreateGurrenLagannShadesProjectile();
 
-            Array.Resize(ref ContentManager.projectilePrefabs, ContentManager.projectilePrefabs.Length + 2);
-            ContentManager.projectilePrefabs[ContentManager.projectilePrefabs.Length - 2] = explosiveRifleRoundPrefab;
-            ContentManager.projectilePrefabs[ContentManager.projectilePrefabs.Length - 1] = shadesWhirlPrefab;
+            ContentPacks.projectilePrefabs.Add(explosiveRifleRoundPrefab);
+            ContentPacks.projectilePrefabs.Add(shadesWhirlPrefab);
         }
 
         private static void CreateBomb()

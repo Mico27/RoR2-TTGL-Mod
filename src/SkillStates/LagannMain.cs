@@ -32,10 +32,11 @@ namespace TTGL_Survivor.SkillStates
                 this.yokoSkill = base.skillLocator.secondary;
             }
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
-            On.RoR2.CharacterBody.AddBuff += CharacterBody_AddBuff;
-            On.RoR2.CharacterBody.AddTimedBuff += CharacterBody_AddTimedBuff;
+            On.RoR2.CharacterBody.AddBuff_BuffDef += CharacterBody_AddBuff_BuffDef; ;
+            On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float += CharacterBody_AddTimedBuff_BuffDef_float; ;
+            On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int += CharacterBody_AddTimedBuff_BuffDef_float_int;
         }
-
+        
         public override void FixedUpdate()
         {
             base.FixedUpdate();
@@ -120,8 +121,9 @@ namespace TTGL_Survivor.SkillStates
         public override void OnExit()
         {
             On.RoR2.CharacterBody.RecalculateStats -= CharacterBody_RecalculateStats;
-            On.RoR2.CharacterBody.AddBuff -= CharacterBody_AddBuff;
-            On.RoR2.CharacterBody.AddTimedBuff -= CharacterBody_AddTimedBuff;
+            On.RoR2.CharacterBody.AddBuff_BuffDef -= CharacterBody_AddBuff_BuffDef; ;
+            On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float -= CharacterBody_AddTimedBuff_BuffDef_float; ;
+            On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int -= CharacterBody_AddTimedBuff_BuffDef_float_int;
             if (this.setStateOnHurt)
             {
                 setStateOnHurt.canBeFrozen = this.defaultCanBeFrozen;
@@ -142,39 +144,45 @@ namespace TTGL_Survivor.SkillStates
             }
         }
 
-        private void CharacterBody_AddTimedBuff(On.RoR2.CharacterBody.orig_AddTimedBuff orig, CharacterBody self, BuffIndex buffType, float duration)
+
+        private void CharacterBody_AddTimedBuff_BuffDef_float_int(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float_int orig, CharacterBody self, BuffDef buffDef, float duration, int maxStacks)
         {
-            if (self == this.characterBody && this.HasBuff(Modules.Buffs.canopyBuff) &&
-                (buffType == Buffs.Entangle.buffIndex ||
-                    buffType == Buffs.Nullified.buffIndex ||
-                    buffType == Buffs.Slow50.buffIndex ||
-                    buffType == Buffs.Slow60.buffIndex ||
-                    buffType == Buffs.Slow80.buffIndex ||
-                    buffType == Buffs.ClayGoo.buffIndex ||
-                    buffType == Buffs.Slow30.buffIndex ||
-                    buffType == Buffs.Cripple.buffIndex))
+            if (this.CanCancelBuff(self, buffDef))
             {
                 return;
             }
-            orig(self, buffType, duration);
+            orig(self, buffDef, duration, maxStacks);
         }
 
-        private void CharacterBody_AddBuff(On.RoR2.CharacterBody.orig_AddBuff orig, CharacterBody self, BuffIndex buffType)
+        private void CharacterBody_AddTimedBuff_BuffDef_float(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float orig, CharacterBody self, BuffDef buffDef, float duration)
         {
-            if (self == this.characterBody && this.HasBuff(Modules.Buffs.canopyBuff) &&
-                (buffType == Buffs.Entangle.buffIndex ||
-                    buffType == Buffs.Nullified.buffIndex ||
-                    buffType == Buffs.Slow50.buffIndex ||
-                    buffType == Buffs.Slow60.buffIndex ||
-                    buffType == Buffs.Slow80.buffIndex ||
-                    buffType == Buffs.ClayGoo.buffIndex ||
-                    buffType == Buffs.Slow30.buffIndex ||
-                    buffType == Buffs.Cripple.buffIndex))
+            if (this.CanCancelBuff(self, buffDef))
             {
                 return;
             }
-            orig(self, buffType);
+            orig(self, buffDef, duration);
         }
 
+        private void CharacterBody_AddBuff_BuffDef(On.RoR2.CharacterBody.orig_AddBuff_BuffDef orig, CharacterBody self, BuffDef buffDef)
+        {
+            if (this.CanCancelBuff(self, buffDef))
+            {
+                return;
+            }
+            orig(self, buffDef);
+        }
+        
+        private bool CanCancelBuff(CharacterBody self, BuffDef buffDef)
+        {
+            return (self == this.characterBody && this.HasBuff(Modules.Buffs.canopyBuff) &&
+                (buffDef.buffIndex == Buffs.Entangle.buffIndex ||
+                    buffDef.buffIndex == Buffs.Nullified.buffIndex ||
+                    buffDef.buffIndex == Buffs.Slow50.buffIndex ||
+                    buffDef.buffIndex == Buffs.Slow60.buffIndex ||
+                    buffDef.buffIndex == Buffs.Slow80.buffIndex ||
+                    buffDef.buffIndex == Buffs.ClayGoo.buffIndex ||
+                    buffDef.buffIndex == Buffs.Slow30.buffIndex ||
+                    buffDef.buffIndex == Buffs.Cripple.buffIndex));
+        }
     }
 }

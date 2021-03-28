@@ -1,7 +1,5 @@
 ﻿using System;
 using BepInEx;
-using R2API.Utils;
-using RoR2;
 using System.Security;
 using System.Security.Permissions;
 using BepInEx.Logging;
@@ -9,6 +7,7 @@ using TTGL_Survivor.UI;
 using UnityEngine;
 using TTGL_Survivor.Modules;
 using TTGL_Survivor.Modules.Survivors;
+using R2API.Utils;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -22,14 +21,9 @@ namespace TTGL_Survivor
     [R2APISubmoduleDependency(new string[]
     {
         "PrefabAPI",
-        "SurvivorAPI",
-        "LoadoutAPI",
-        "BuffAPI",
         "LanguageAPI",
         "SoundAPI",
-        "EffectAPI",
-        "UnlockablesAPI",
-        "ResourcesAPI"
+        "ResourcesAPI",
     })]
 
     public class TTGL_SurvivorPlugin : BaseUnityPlugin
@@ -38,7 +32,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.0.4";
+            MODVERSION = "0.1.0";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -61,33 +55,25 @@ namespace TTGL_Survivor
             {
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
 
-                // load assets and read config
-                Logger.LogMessage("PopulateAssets");
                 Modules.Assets.PopulateAssets();
-                Logger.LogMessage("ReadConfig");
                 Modules.Config.ReadConfig();
-                Logger.LogMessage("PopulateDisplays");
-                Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
+                Modules.ItemDisplays.PopulateDisplays();
+                Modules.States.RegisterStates();
+                Modules.Buffs.RegisterBuffs();
+                Modules.Projectiles.RegisterProjectiles();
+                Modules.Unlockables.RegisterUnlockables();
+                Modules.Tokens.AddTokens();
                 new Lagann().CreateCharacter();
-                new GurrenLagann().CreateCharacter();
-                Logger.LogMessage("RegisterStates");
-                Modules.States.RegisterStates(); // register states(not yet implemented)
-                Logger.LogMessage("RegisterBuffs");
-                Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
-                Logger.LogMessage("RegisterProjectiles");
-                Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles(not yet implemented)
-                Logger.LogMessage("RegisterUnlockables");
-                Modules.Unlockables.RegisterUnlockables(); // add unlockables
-                Logger.LogMessage("AddTokens");
-                Modules.Tokens.AddTokens(); // register name tokens
-                //CreateDoppelganger(); // artifact of vengeance(not yet implemented)    
+                //new GurrenLagann().CreateCharacter();
+                ContentPacks.CreateContentPack();
+
                 On.RoR2.UI.HUD.Awake += HUD_Awake;
                 RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
 
             }
             catch (Exception e)
             {
-                Logger.LogError(e.Message);
+                Logger.LogError(e.Message + " - " + e.StackTrace);
             }
 
         }

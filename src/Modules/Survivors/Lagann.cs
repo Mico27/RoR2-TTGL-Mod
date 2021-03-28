@@ -1,5 +1,4 @@
 ﻿using BepInEx.Configuration;
-using R2API;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -76,9 +75,16 @@ namespace TTGL_Survivor.Modules.Survivors
                 CreateSkills();
                 CreateSkins();
                 CreateItemDisplays();
+                CreateGenericDoppelganger(characterPrefab, "HenryMonsterMaster", "Merc");
 
                 if (TTGL_SurvivorPlugin.scepterInstalled) CreateScepterSkills();
             }
+        }
+
+        protected override void SetupCharacterMotor(GameObject newPrefab)
+        {
+            CharacterMotor motorComponent = newPrefab.GetComponent<CharacterMotor>();
+            motorComponent.mass = 100f;
         }
 
         private void CreateHurtBoxes()
@@ -167,7 +173,7 @@ namespace TTGL_Survivor.Modules.Survivors
             drillRushSkillDef.requiredStock = 0;
             drillRushSkillDef.stockToConsume = 0;
             drillRushSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-            LoadoutAPI.AddSkillDef(drillRushSkillDef);
+            ContentPacks.skillDefs.Add(drillRushSkillDef);
             Modules.Skills.AddPrimarySkill(characterPrefab, drillRushSkillDef);
 
             #endregion
@@ -194,7 +200,7 @@ namespace TTGL_Survivor.Modules.Survivors
             shootRifleSkillDef.requiredStock = 1;
             shootRifleSkillDef.stockToConsume = 1;
             shootRifleSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-            LoadoutAPI.AddSkillDef(shootRifleSkillDef);
+            ContentPacks.skillDefs.Add(shootRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, shootRifleSkillDef);
 
             SkillDef explosiveRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -217,7 +223,7 @@ namespace TTGL_Survivor.Modules.Survivors
             explosiveRifleSkillDef.rechargeStock = 1;
             explosiveRifleSkillDef.requiredStock = 1;
             explosiveRifleSkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(explosiveRifleSkillDef);
+            ContentPacks.skillDefs.Add(explosiveRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
 
             #endregion
@@ -243,7 +249,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralBurstSkillDef.rechargeStock = 1;
             spiralBurstSkillDef.requiredStock = 1;
             spiralBurstSkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(spiralBurstSkillDef);
+            ContentPacks.skillDefs.Add(spiralBurstSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, spiralBurstSkillDef);
 
             SkillDef toggleCanopySkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -266,7 +272,7 @@ namespace TTGL_Survivor.Modules.Survivors
             toggleCanopySkillDef.rechargeStock = 1;
             toggleCanopySkillDef.requiredStock = 1;
             toggleCanopySkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(toggleCanopySkillDef);
+            ContentPacks.skillDefs.Add(toggleCanopySkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
             #endregion
 
@@ -291,7 +297,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannImpactSkillDef.rechargeStock = 1;
             lagannImpactSkillDef.requiredStock = 1;
             lagannImpactSkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(lagannImpactSkillDef);
+            ContentPacks.skillDefs.Add(lagannImpactSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, lagannImpactSkillDef);
 
             #endregion
@@ -3040,7 +3046,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
             scepterSkillDef.requiredStock = 1;
             scepterSkillDef.stockToConsume = 1;
 
-            LoadoutAPI.AddSkillDef(scepterSkillDef);
+            ContentPacks.skillDefs.Add(scepterSkillDef);
 
             AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
         }

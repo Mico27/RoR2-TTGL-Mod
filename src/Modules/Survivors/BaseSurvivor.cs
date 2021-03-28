@@ -22,9 +22,9 @@ namespace TTGL_Survivor.Modules
                 bodyPrefab = bodyPrefab,
                 displayPrefab = displayPrefab,
                 outroFlavorToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR",
+                desiredSortPosition = 12f,
             };
-
-            SurvivorAPI.AddSurvivor(survivorDef);
+            ContentPacks.survivorDefinitions.Add(survivorDef);
         }
 
         protected virtual GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
@@ -57,10 +57,8 @@ namespace TTGL_Survivor.Modules
             SetupFootstepController(model);
             SetupRagdoll(model);
             SetupAimAnimator(newPrefab, model);
-            
-            Array.Resize(ref ContentManager.bodyPrefabs, ContentManager.bodyPrefabs.Length + 1);
-            ContentManager.bodyPrefabs[ContentManager.bodyPrefabs.Length - 1] = newPrefab;
-            
+
+            ContentPacks.bodyPrefabs.Add(newPrefab);
             return newPrefab;
         }
 
@@ -70,6 +68,7 @@ namespace TTGL_Survivor.Modules
 
             bodyComponent.bodyIndex = BodyIndex.None;
             bodyComponent.name = bodyName;
+            bodyComponent.bodyColor = new Color(0.25f, 0.65f, 0.25f);
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_SUBTITLE";
             bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon");
@@ -307,6 +306,14 @@ namespace TTGL_Survivor.Modules
             hitBoxes.Add(hitBox);
             hitBoxGroup.hitBoxes = hitBoxes.ToArray();
         }
+
+        protected virtual void CreateGenericDoppelganger(GameObject bodyPrefab, string masterName, string masterToCopy)
+        {
+            GameObject gameObject = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName, true, "C:\\Users\\rseid\\Documents\\GitHub\\HenryMod\\HenryMod\\Modules\\Prefabs.cs", "CreateGenericDoppelganger", 143);
+            gameObject.GetComponent<CharacterMaster>().bodyPrefab = bodyPrefab;
+            ContentPacks.masterPrefabs.Add(gameObject);
+        }
+
         #endregion
     }
 }

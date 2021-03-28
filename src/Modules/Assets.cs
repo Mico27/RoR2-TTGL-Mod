@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using R2API;
 using UnityEngine;
 using UnityEngine.Networking;
 using RoR2;
@@ -7,6 +6,7 @@ using System.IO;
 using RoR2.Audio;
 using System.Collections.Generic;
 using System;
+using R2API;
 
 namespace TTGL_Survivor.Modules
 {
@@ -42,9 +42,7 @@ namespace TTGL_Survivor.Modules
             {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.ttglsurvivorbundle"))
                 {
-                    mainAssetBundle = AssetBundle.LoadFromStream(assetStream);
-                    var provider = new AssetBundleResourcesProvider("@TTGL_Survivor", mainAssetBundle);
-                    ResourcesAPI.AddProvider(provider);
+                    mainAssetBundle = AssetBundle.LoadFromStream(assetStream);                    
                 }
             }
 
@@ -97,7 +95,14 @@ namespace TTGL_Survivor.Modules
             punchImpactEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniImpactVFXLoader"), "ImpactHenryPunch");
             punchImpactEffect.AddComponent<NetworkIdentity>();
 
-            EffectAPI.AddEffect(punchImpactEffect);
+            ContentPacks.effectDefs.Add(new EffectDef()
+            {
+                prefab = punchImpactEffect,
+                prefabEffectComponent = punchImpactEffect.GetComponent<EffectComponent>(),
+                prefabVfxAttributes = punchImpactEffect.GetComponent<VFXAttributes>(),
+                prefabName = punchImpactEffect.name,
+                spawnSoundEventName = punchImpactEffect.GetComponent<EffectComponent>().soundName
+            });
 
             yokoRifleHitSmallEffect = Assets.LoadEffect("YokoRifleHitSmallEffect", 1.0f);
             yokoRifleMuzzleBigEffect = Assets.LoadEffect("YokoRifleMuzzleBigEffect", 1.0f);
@@ -109,11 +114,7 @@ namespace TTGL_Survivor.Modules
         {
             NetworkSoundEventDef networkSoundEventDef = ScriptableObject.CreateInstance<NetworkSoundEventDef>();
             networkSoundEventDef.akId = AkSoundEngine.GetIDFromString(eventName);
-            networkSoundEventDef.eventName = eventName;
-                        
-            Array.Resize(ref ContentManager.networkSoundEventDefs, ContentManager.networkSoundEventDefs.Length + 1);
-            ContentManager.networkSoundEventDefs[ContentManager.networkSoundEventDefs.Length - 1] = networkSoundEventDef;
-
+            networkSoundEventDef.eventName = eventName;                        
             return networkSoundEventDef;
         }
 
@@ -137,14 +138,22 @@ namespace TTGL_Survivor.Modules
 
             newEffect.AddComponent<DestroyOnTimer>().duration = duration;
             newEffect.AddComponent<NetworkIdentity>();
-            newEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
+            var vfx = newEffect.AddComponent<VFXAttributes>();
+            vfx.vfxPriority = VFXAttributes.VFXPriority.Always;
             var effect = newEffect.AddComponent<EffectComponent>();
             effect.applyScale = false;
             effect.effectIndex = EffectIndex.Invalid;
             effect.parentToReferencedTransform = true;
             effect.positionAtReferencedTransform = true;
 
-            EffectAPI.AddEffect(newEffect);
+            ContentPacks.effectDefs.Add(new EffectDef()
+            {
+                prefab = newEffect,
+                prefabEffectComponent = effect,
+                prefabVfxAttributes = vfx,
+                prefabName = newEffect.name,
+                spawnSoundEventName = effect.soundName
+            });
 
             return newEffect;
         }

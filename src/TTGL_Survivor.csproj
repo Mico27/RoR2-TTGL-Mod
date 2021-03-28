@@ -56,7 +56,6 @@
     </Reference>
     <Reference Include="MMHOOK_Assembly-CSharp">
       <HintPath>libs\MMHOOK_Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>libs\Mono.Cecil.dll</HintPath>
@@ -88,7 +87,6 @@
     </Reference>
     <Reference Include="R2API">
       <HintPath>libs\R2API.dll</HintPath>
-      <Private>false</Private>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>libs\Unity.Postprocessing.Runtime.dll</HintPath>

@@ -1,5 +1,4 @@
 ﻿using BepInEx.Configuration;
-using R2API;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -271,7 +270,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralingComboSkillDef.rechargeStock = 1;
             spiralingComboSkillDef.requiredStock = 0;
             spiralingComboSkillDef.stockToConsume = 0;
-            LoadoutAPI.AddSkillDef(spiralingComboSkillDef);
+            ContentPacks.skillDefs.Add(spiralingComboSkillDef);
             Modules.Skills.AddPrimarySkill(characterPrefab, spiralingComboSkillDef);
 
             #endregion
@@ -298,7 +297,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwingShadesSkillDef.requiredStock = 1;
             throwingShadesSkillDef.stockToConsume = 1;
             throwingShadesSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-            LoadoutAPI.AddSkillDef(throwingShadesSkillDef);
+            ContentPacks.skillDefs.Add(throwingShadesSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, throwingShadesSkillDef);
 
             #endregion
@@ -324,7 +323,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tornadoKickSkillDef.rechargeStock = 1;
             tornadoKickSkillDef.requiredStock = 1;
             tornadoKickSkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(tornadoKickSkillDef);
+            ContentPacks.skillDefs.Add(tornadoKickSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, tornadoKickSkillDef);
 
             #endregion
@@ -351,7 +350,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillMaximumSkillDef.rechargeStock = 1;
             gigaDrillMaximumSkillDef.requiredStock = 1;
             gigaDrillMaximumSkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(gigaDrillMaximumSkillDef);
+            ContentPacks.skillDefs.Add(gigaDrillMaximumSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, gigaDrillMaximumSkillDef);
 
             SkillDef gigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -374,7 +373,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillBreakerSkillDef.rechargeStock = 1;
             gigaDrillBreakerSkillDef.requiredStock = 1;
             gigaDrillBreakerSkillDef.stockToConsume = 1;
-            LoadoutAPI.AddSkillDef(gigaDrillBreakerSkillDef);
+            ContentPacks.skillDefs.Add(gigaDrillBreakerSkillDef);
 
             #endregion
         }

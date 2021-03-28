@@ -1,9 +1,6 @@
 ## TTGL Mod for Risk of rain 2
 - TTGL themed mod that currently adds Lagann as a playable survivor in Risk of rain 2
-- Currently wip, working on the moveset.
-
-## Install
-https://thunderstore.io/package/Mico27/TTGL_Mod/
+- Currently wip.
 
 [![](https://cdn.discordapp.com/attachments/194257452374425600/813609655145201665/Lagann1.png)]()
 
@@ -18,6 +15,9 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 - Gurren ????? :)
 
 ## Changelog
+
+`0.1.0`
+- Fixed mod to work with the anniversary update
 
 `0.0.4`
 - Fixed visual bug with Poison affix effect
