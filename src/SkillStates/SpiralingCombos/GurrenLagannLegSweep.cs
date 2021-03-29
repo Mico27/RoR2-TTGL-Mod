@@ -26,8 +26,8 @@ namespace TTGL_Survivor.SkillStates
             attack.damage = c_DamageCoefficient * this.damageStat;
             attack.procCoefficient = 0.3f;
             attack.hitEffectPrefab = this.hitEffectPrefab;
-            attack.forceVector = Vector3.zero;
-            attack.pushAwayForce = -2000f;
+            attack.forceVector = Vector3.up * 3000f;
+            attack.pushAwayForce = 0f;
             attack.hitBoxGroup = hitBoxGroup;
             attack.isCrit = base.RollCrit();
             attack.impactSound = this.impactSound;
@@ -37,8 +37,8 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             this.baseDuration = 2.0f;
-            this.attackStartTime = 0.1f;
-            this.attackEndTime = 0.9f;
+            this.attackStartTime = 0.4f;
+            this.attackEndTime = 0.7f;
             this.baseEarlyExitTime = 0.5f;
             this.hitStopDuration = 0.115f;
             base.OnEnter();            

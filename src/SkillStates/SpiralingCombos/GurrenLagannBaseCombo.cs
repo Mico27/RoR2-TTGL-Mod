@@ -35,6 +35,13 @@ namespace TTGL_Survivor.SkillStates
         private BaseState.HitStopCachedState hitStopCachedState;
         private Vector3 storedVelocity;
 
+        public Transform pullOrigin;
+        public float pullRadius;
+        public float pullForce;
+        public AnimationCurve pullStrengthCurve;
+        public int maximumPullCount = int.MaxValue;
+        private List<CharacterBody> pullList = new List<CharacterBody>();
+        private bool pulling;
 
         protected abstract void PlayAttackAnimation();
 
@@ -68,6 +75,11 @@ namespace TTGL_Survivor.SkillStates
             {
                 hitBoxGroup = Array.Find<HitBoxGroup>(modelTransform.GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == this.hitboxName);
             }
+            var childLocator = this.GetModelChildLocator();
+            this.pullOrigin = childLocator.FindChild(this.hitboxName);
+            this.pullRadius = 20f;
+            this.pullStrengthCurve = AnimationCurve.EaseInOut(0.1f, 0f, 1f, 1f);
+            this.pullForce = 80f;
 
             this.PlayAttackAnimation();
 
@@ -135,12 +147,13 @@ namespace TTGL_Survivor.SkillStates
 
             if (this.stopwatch >= (this.duration * this.attackStartTime) && this.stopwatch <= (this.duration * this.attackEndTime))
             {
+                this.PullEnemies(Time.fixedDeltaTime);
                 this.FireAttack();
             }
 
             if (base.fixedAge >= (this.duration - this.earlyExitTime) && base.isAuthority)
             {
-                if (base.inputBank.skill1.down)
+                if (base.inputBank && base.inputBank.skill1.down)
                 {
                     if (!this.hasFired) this.FireAttack();
                     this.FollowUpComboState();
@@ -152,6 +165,78 @@ namespace TTGL_Survivor.SkillStates
             {
                 this.outer.SetNextStateToMain();
                 return;
+            }
+        }
+
+        private void PullEnemies(float deltaTime)
+        {
+            if (!this.pulling)
+            {
+                InitializePull();
+            }
+            for (int i = 0; i < this.pullList.Count; i++)
+            {
+                CharacterBody characterBody = this.pullList[i];
+                Vector3 vector = ((this.pullOrigin)? this.pullOrigin.position: base.transform.position) - characterBody.corePosition;
+                float d = this.pullStrengthCurve.Evaluate(vector.magnitude / this.pullRadius);
+                Vector3 b = vector.normalized * d * deltaTime * this.pullForce;
+                CharacterMotor component = characterBody.GetComponent<CharacterMotor>();
+                if (component)
+                {
+                    component.rootMotion += b;
+                    if (component.useGravity)
+                    {
+                        component.rootMotion.y -= (Physics.gravity.y * deltaTime * d);
+                    }
+                }
+                else
+                {
+                    Rigidbody component2 = characterBody.GetComponent<Rigidbody>();
+                    if (component2)
+                    {
+                        component2.velocity += b;
+                    }
+                }
+            }
+        }
+
+        private void InitializePull()
+        {
+            if (this.pulling)
+            {
+                return;
+            }
+            this.pulling = true;
+            Collider[] array = Physics.OverlapSphere(((this.pullOrigin) ? this.pullOrigin.position : base.transform.position), this.pullRadius, LayerIndex.defaultLayer.mask);
+            int num = 0;
+            int num2 = 0;
+            while (num < array.Length && num2 < this.maximumPullCount)
+            {
+                HealthComponent component = array[num].GetComponent<HealthComponent>();
+                if (component)
+                {
+                    TeamComponent component2 = component.GetComponent<TeamComponent>();
+                    bool flag = false;
+                    if (component2)
+                    {
+                        flag = (component2.teamIndex == base.GetTeam());
+                    }
+                    if (!flag)
+                    {
+                        this.AddToPullList(component.gameObject);
+                        num2++;
+                    }
+                }
+                num++;
+            }
+        }
+
+        private void AddToPullList(GameObject affectedObject)
+        {
+            CharacterBody component = affectedObject.GetComponent<CharacterBody>();
+            if (!this.pullList.Contains(component))
+            {
+                this.pullList.Add(component);
             }
         }
 

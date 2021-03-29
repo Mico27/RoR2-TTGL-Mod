@@ -83,6 +83,21 @@ namespace TTGL_Survivor.Modules
             ProjectileController projectileController = shadesWhirlPrefab.GetComponent<ProjectileController>();
             projectileController.ghostPrefab = CreateGhostPrefab("ShadesWhirlind");
             projectileController.startSound = "";
+
+            BoomerangProjectile boomerangProjectile = shadesWhirlPrefab.GetComponent<BoomerangProjectile>();
+            GurrenLagannShadesProjectile gurrenLagannShadesProjectile = shadesWhirlPrefab.AddComponent<GurrenLagannShadesProjectile>();
+            gurrenLagannShadesProjectile.canHitWorld = true;
+            gurrenLagannShadesProjectile.crosshairPrefab = boomerangProjectile.crosshairPrefab;
+            gurrenLagannShadesProjectile.impactSpark = boomerangProjectile.impactSpark;
+
+            var collider = shadesWhirlPrefab.GetComponent<BoxCollider>();
+            collider.size = new Vector3(3.0f, 1.0f, 3.0f);
+
+            var hitbox = shadesWhirlPrefab.GetComponentInChildren<HitBox>();
+            hitbox.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+
+            TTGL_SurvivorPlugin.DestroyImmediate(boomerangProjectile);
+
         }
 
         private static GameObject CloneProjectilePrefab(string prefabName, string newPrefabName)

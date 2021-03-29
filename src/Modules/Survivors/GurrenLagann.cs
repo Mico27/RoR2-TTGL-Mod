@@ -312,7 +312,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tornadoKickSkillDef.activationStateMachineName = "Body";
             tornadoKickSkillDef.baseMaxStock = 1;
             tornadoKickSkillDef.baseRechargeInterval = 4f;
-            tornadoKickSkillDef.beginSkillCooldownOnSkillEnd = false;
+            tornadoKickSkillDef.beginSkillCooldownOnSkillEnd = true;
             tornadoKickSkillDef.canceledFromSprinting = false;
             tornadoKickSkillDef.forceSprintDuringState = true;
             tornadoKickSkillDef.fullRestockOnAssign = true;

@@ -10,11 +10,11 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannTornadoKick : BaseSkillState
     {
-        public static float horizontal_duration = 2.5f;
+        public static float horizontal_duration = 1.5f;
         public static float vertical_duration = 2.0f;
         public static float initialSpeedCoefficient = 5f;
         public static float finalSpeedCoefficient = 2.5f;
-        public static float damageCoefficient = 2.5f;
+        public static float damageCoefficient = 1.5f;
 
         public static string hitboxName = "DammageHitbox";
 
@@ -58,6 +58,9 @@ namespace TTGL_Survivor.SkillStates
         private BaseState.HitStopCachedState hitStopCachedState;
         private Vector3 storedVelocity;
 
+        private float hitIntervalStopwatch = 0.0f;
+        private float hitInterval = 0.5f;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -82,6 +85,7 @@ namespace TTGL_Survivor.SkillStates
             this.hitStopDuration = 0.115f;
             this.attackRecoil = 0.75f;
             this.hitHopVelocity = 6f;
+            this.hitInterval = 0.5f * this.attackSpeedStat;
 
             HitBoxGroup hitBoxGroup = null;
             Transform modelTransform = base.GetModelTransform();
@@ -150,6 +154,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.inHitPause)
             {
                 this.stopwatch += Time.fixedDeltaTime;
+                this.hitIntervalStopwatch += Time.fixedDeltaTime;
             }
             else
             {
@@ -159,6 +164,11 @@ namespace TTGL_Survivor.SkillStates
 
             if (this.stopwatch >= (this.duration * this.attackStartTime) && this.stopwatch <= (this.duration * this.attackEndTime))
             {
+                if (this.hitIntervalStopwatch >= this.hitInterval)
+                {
+                    this.hitIntervalStopwatch = 0.0f;
+                    this.attack.ignoredHealthComponentList.Clear();
+                }
                 this.FireAttack();
             }
             if (!isVertical && base.characterDirection) base.characterDirection.forward = this.burstDirection;

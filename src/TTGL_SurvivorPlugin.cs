@@ -64,7 +64,7 @@ namespace TTGL_Survivor
                 Modules.Unlockables.RegisterUnlockables();
                 Modules.Tokens.AddTokens();
                 new Lagann().CreateCharacter();
-                //new GurrenLagann().CreateCharacter();
+                new GurrenLagann().CreateCharacter();
                 ContentPacks.CreateContentPack();
 
                 On.RoR2.UI.HUD.Awake += HUD_Awake;
