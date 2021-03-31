@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -21,6 +22,8 @@ namespace TTGL_Survivor.Modules.Survivors
         internal static ItemDisplayRuleSet itemDisplayRuleSet;
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> itemRules;
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> equipmentRules;
+
+        public static SkillDef canopyOverrideSkillDef;
 
         public void CreateCharacter()
         {
@@ -81,12 +84,63 @@ namespace TTGL_Survivor.Modules.Survivors
             }
         }
 
+        protected override GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
+        {
+            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
+
+            GameObject model = CreateModel(newPrefab, modelName);
+
+            Transform modelBaseTransform = SetupModel(newPrefab, model.transform, true);
+
+            model.AddComponent<CharacterModel>().baseRendererInfos = prefab.GetComponentInChildren<CharacterModel>().baseRendererInfos;
+
+            return model.gameObject;
+        }
+
+        protected override GameObject CreatePrefab(string bodyName, string modelName)
+        {
+            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
+
+            GameObject model = CreateModel(newPrefab, modelName);
+            Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
+
+            SetupCharacterBody(bodyName, newPrefab, modelBaseTransform);
+            SetupCharacterMotor(newPrefab);
+            SetupCharacterDirection(newPrefab, modelBaseTransform, model.transform);
+            SetupCameraTargetParams(newPrefab);
+            SetupModelLocator(newPrefab, modelBaseTransform, model.transform);
+            SetupRigidbody(newPrefab);
+            SetupCapsuleCollider(newPrefab);
+            SetupFootstepController(model);
+            SetupRagdoll(model);
+            SetupAimAnimator(newPrefab, model);
+
+            ContentPacks.bodyPrefabs.Add(newPrefab);
+            return newPrefab;
+        }
+
         protected override void SetupCharacterMotor(GameObject newPrefab)
         {
             CharacterMotor motorComponent = newPrefab.GetComponent<CharacterMotor>();
             motorComponent.mass = 100f;
         }
-
+        protected override void SetupCameraTargetParams(GameObject prefab)
+        {
+            CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
+            cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
+            cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+            cameraTargetParams.recoil = Vector2.zero;
+            cameraTargetParams.idealLocalCameraPos = Vector3.zero;
+            cameraTargetParams.dontRaycastToPivot = false;
+            cameraTargetParams.cameraParams = new CharacterCameraParams()
+            {
+                maxPitch = cameraTargetParams.cameraParams.maxPitch,
+                minPitch = cameraTargetParams.cameraParams.minPitch,
+                pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset,
+                standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 1.1f,
+                wallCushion = cameraTargetParams.cameraParams.wallCushion,
+            };
+        }
         private void CreateHurtBoxes()
         {
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
@@ -274,6 +328,9 @@ namespace TTGL_Survivor.Modules.Survivors
             toggleCanopySkillDef.stockToConsume = 1;
             ContentPacks.skillDefs.Add(toggleCanopySkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
+
+            canopyOverrideSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ContentPacks.skillDefs.Add(canopyOverrideSkillDef);
             #endregion
 
             #region Special

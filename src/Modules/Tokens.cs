@@ -47,6 +47,27 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME", "Lagann Impact");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.c_DamageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.c_MaxRebound} times.");
 
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_NAME", "Gurren Lagann (Aplha)");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_DESCRIPTION", desc);
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SUBTITLE", "Gunman");
+
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_DEFAULT_SKIN_NAME", "Default");
+
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_PASSIVE_NAME", "Spiral Power");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_PASSIVE_DESCRIPTION", "When in a pinch, spiral power increases, also increasing Lagann's <style=cIsDamage>damage</style>, <style=cIsUtility>movement speed</style> and <style=cIsHealing>health regen</style>");
+
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME", "Spiraling Combo");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION", $" ");
+
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME", "Throwin' Shades");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION", $" ");
+
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME", "Tornado Kick");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION", $" ");
+            
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME", "Giga Drill Maximum");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION", $" ");
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using R2API;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -72,6 +73,40 @@ namespace TTGL_Survivor.Modules.Survivors
             }
         }
 
+        protected override GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
+        {
+            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
+
+            GameObject model = CreateModel(newPrefab, modelName);
+
+            Transform modelBaseTransform = SetupModel(newPrefab, model.transform, true);
+
+            model.AddComponent<CharacterModel>().baseRendererInfos = prefab.GetComponentInChildren<CharacterModel>().baseRendererInfos;
+
+            return model.gameObject;
+        }
+
+        protected override GameObject CreatePrefab(string bodyName, string modelName)
+        {
+            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
+
+            GameObject model = CreateModel(newPrefab, modelName);
+            Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
+
+            SetupCharacterBody(bodyName, newPrefab, modelBaseTransform);
+            SetupCharacterMotor(newPrefab);
+            SetupCharacterDirection(newPrefab, modelBaseTransform, model.transform);
+            SetupCameraTargetParams(newPrefab);
+            SetupModelLocator(newPrefab, modelBaseTransform, model.transform);
+            SetupRigidbody(newPrefab);
+            SetupCapsuleCollider(newPrefab);
+            SetupFootstepController(model);
+            SetupRagdoll(model);
+            SetupAimAnimator(newPrefab, model);
+
+            ContentPacks.bodyPrefabs.Add(newPrefab);
+            return newPrefab;
+        }
         protected override void SetupCharacterBody(string bodyName, GameObject newPrefab, Transform modelBaseTransform)
         {
             CharacterBody bodyComponent = newPrefab.GetComponent<CharacterBody>();
@@ -166,18 +201,32 @@ namespace TTGL_Survivor.Modules.Survivors
         protected override void SetupCameraTargetParams(GameObject prefab)
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
-            cameraTargetParams.cameraParams = Resources.Load<GameObject>("Prefabs/CharacterBodies/MercBody").GetComponent<CameraTargetParams>().cameraParams;
             cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
             cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;
             cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
-            cameraTargetParams.cameraParams.standardLocalCameraPos *= 3;
+            cameraTargetParams.cameraParams = new CharacterCameraParams()
+            {
+                 maxPitch = cameraTargetParams.cameraParams.maxPitch,
+                 minPitch = cameraTargetParams.cameraParams.minPitch,
+                 pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset,
+                 standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 3,
+                 wallCushion = cameraTargetParams.cameraParams.wallCushion,
+            };
         }
         protected override void SetupRigidbody(GameObject prefab)
         {
             Rigidbody rigidbody = prefab.GetComponent<Rigidbody>();
             rigidbody.mass = 2000f;
+        }
+
+        protected override void SetupFootstepController(GameObject model)
+        {
+            var footstepHandler = model.AddComponent<FootstepHandler>();
+            footstepHandler.enableFootstepDust = true;
+            footstepHandler.baseFootstepString = "Play_player_footstep";
+            footstepHandler.footstepDustPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("DustDirtyPoofSoft");
         }
 
         private void CreateHurtBoxes()

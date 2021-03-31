@@ -8,6 +8,8 @@ using UnityEngine;
 using TTGL_Survivor.Modules;
 using TTGL_Survivor.Modules.Survivors;
 using R2API.Utils;
+using RoR2;
+using TTGL_Survivor.SkillStates;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -23,7 +25,6 @@ namespace TTGL_Survivor
         "PrefabAPI",
         "LanguageAPI",
         "SoundAPI",
-        "ResourcesAPI",
     })]
 
     public class TTGL_SurvivorPlugin : BaseUnityPlugin
@@ -32,7 +33,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.1.0";
+            MODVERSION = "0.1.3";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -66,10 +67,7 @@ namespace TTGL_Survivor
                 new Lagann().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
                 ContentPacks.CreateContentPack();
-
-                On.RoR2.UI.HUD.Awake += HUD_Awake;
-                RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
-
+                Hooks();                
             }
             catch (Exception e)
             {
@@ -77,11 +75,35 @@ namespace TTGL_Survivor
             }
 
         }
+        public void OnDestroy()
+        {
+            try
+            {
+                UnHooks();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message + " - " + e.StackTrace);
+            }
+        }
 
+        private void Hooks()
+        {
+            On.RoR2.UI.HUD.Awake += HUD_Awake;
+            RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
+        }
+
+        private void UnHooks()
+        {
+            On.RoR2.UI.HUD.Awake -= HUD_Awake;
+            RoR2.UI.HUD.onHudTargetChangedGlobal -= HUD_onHudTargetChangedGlobal;
+        }
+
+        #region HUD
         private void HUD_Awake(On.RoR2.UI.HUD.orig_Awake orig, RoR2.UI.HUD self)
         {
             CreateSpiralPowerGauge(self);
-            orig(self);            
+            orig(self);
         }
 
         private void HUD_onHudTargetChangedGlobal(RoR2.UI.HUD obj)
@@ -101,9 +123,6 @@ namespace TTGL_Survivor
                 }
             }
         }
-        
-        #region HUD
-        
         private void CreateSpiralPowerGauge(RoR2.UI.HUD hud)
         {
             if (!m_SpiralPowerGauge)

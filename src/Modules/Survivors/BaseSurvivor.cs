@@ -14,53 +14,20 @@ namespace TTGL_Survivor.Modules
 
         protected void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string namePrefix, string unlockString)
         {
-            SurvivorDef survivorDef = new SurvivorDef
-            {
-                cachedName = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME",
-                descriptionToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_DESCRIPTION",
-                primaryColor = charColor,
-                bodyPrefab = bodyPrefab,
-                displayPrefab = displayPrefab,
-                outroFlavorToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR",
-                desiredSortPosition = 12f,
-            };
+            SurvivorDef survivorDef = ScriptableObject.CreateInstance<SurvivorDef>();
+            survivorDef.cachedName = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME";
+            survivorDef.descriptionToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_DESCRIPTION";
+            survivorDef.primaryColor = charColor;
+            survivorDef.bodyPrefab = bodyPrefab;
+            survivorDef.displayPrefab = displayPrefab;
+            survivorDef.outroFlavorToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR";
+            survivorDef.desiredSortPosition = 12f;
             ContentPacks.survivorDefinitions.Add(survivorDef);
         }
 
-        protected virtual GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
-        {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
+        protected abstract GameObject CreateDisplayPrefab(string modelName, GameObject prefab);
 
-            GameObject model = CreateModel(newPrefab, modelName);
-
-            Transform modelBaseTransform = SetupModel(newPrefab, model.transform, true);
-
-            model.AddComponent<CharacterModel>().baseRendererInfos = prefab.GetComponentInChildren<CharacterModel>().baseRendererInfos;
-
-            return model.gameObject;
-        }
-
-        protected virtual GameObject CreatePrefab(string bodyName, string modelName)
-        {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
-
-            GameObject model = CreateModel(newPrefab, modelName);
-            Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
-
-            SetupCharacterBody(bodyName, newPrefab, modelBaseTransform);
-            SetupCharacterMotor(newPrefab);
-            SetupCharacterDirection(newPrefab, modelBaseTransform, model.transform);
-            SetupCameraTargetParams(newPrefab);
-            SetupModelLocator(newPrefab, modelBaseTransform, model.transform);
-            SetupRigidbody(newPrefab);
-            SetupCapsuleCollider(newPrefab);
-            SetupFootstepController(model);
-            SetupRagdoll(model);
-            SetupAimAnimator(newPrefab, model);
-
-            ContentPacks.bodyPrefabs.Add(newPrefab);
-            return newPrefab;
-        }
+        protected abstract GameObject CreatePrefab(string bodyName, string modelName);
 
         protected virtual void SetupCharacterBody(string bodyName, GameObject newPrefab, Transform modelBaseTransform)
         {
@@ -208,7 +175,6 @@ namespace TTGL_Survivor.Modules
         protected virtual void SetupCameraTargetParams(GameObject prefab)
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
-            cameraTargetParams.cameraParams = Resources.Load<GameObject>("Prefabs/CharacterBodies/MercBody").GetComponent<CameraTargetParams>().cameraParams;
             cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
             cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;
@@ -240,14 +206,10 @@ namespace TTGL_Survivor.Modules
 
         protected virtual void SetupFootstepController(GameObject model)
         {
-            var footstepHandler = model.GetComponent<FootstepHandler>();
-            if (!footstepHandler)
-            {
-                footstepHandler = model.AddComponent<FootstepHandler>();
-                footstepHandler.enableFootstepDust = true;
-                footstepHandler.baseFootstepString = "Play_player_footstep";
-                footstepHandler.footstepDustPrefab = Resources.Load<GameObject>("Prefabs/GenericFootstepDust");
-            }
+            var footstepHandler = model.AddComponent<FootstepHandler>();
+            footstepHandler.enableFootstepDust = true;
+            footstepHandler.baseFootstepString = "Play_player_footstep";
+            footstepHandler.footstepDustPrefab = Resources.Load<GameObject>("Prefabs/GenericFootstepDust");
         }
 
         protected virtual void SetupRagdoll(GameObject model)

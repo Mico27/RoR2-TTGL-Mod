@@ -177,24 +177,27 @@ namespace TTGL_Survivor.SkillStates
             for (int i = 0; i < this.pullList.Count; i++)
             {
                 CharacterBody characterBody = this.pullList[i];
-                Vector3 vector = ((this.pullOrigin)? this.pullOrigin.position: base.transform.position) - characterBody.corePosition;
-                float d = this.pullStrengthCurve.Evaluate(vector.magnitude / this.pullRadius);
-                Vector3 b = vector.normalized * d * deltaTime * this.pullForce;
-                CharacterMotor component = characterBody.GetComponent<CharacterMotor>();
-                if (component)
+                if (characterBody && characterBody.transform)
                 {
-                    component.rootMotion += b;
-                    if (component.useGravity)
+                    Vector3 vector = ((this.pullOrigin) ? this.pullOrigin.position : base.transform.position) - characterBody.corePosition;
+                    float d = this.pullStrengthCurve.Evaluate(vector.magnitude / this.pullRadius);
+                    Vector3 b = vector.normalized * d * deltaTime * this.pullForce;
+                    CharacterMotor component = characterBody.GetComponent<CharacterMotor>();
+                    if (component)
                     {
-                        component.rootMotion.y -= (Physics.gravity.y * deltaTime * d);
+                        component.rootMotion += b;
+                        if (component.useGravity)
+                        {
+                            component.rootMotion.y -= (Physics.gravity.y * deltaTime * d);
+                        }
                     }
-                }
-                else
-                {
-                    Rigidbody component2 = characterBody.GetComponent<Rigidbody>();
-                    if (component2)
+                    else
                     {
-                        component2.velocity += b;
+                        Rigidbody component2 = characterBody.GetComponent<Rigidbody>();
+                        if (component2)
+                        {
+                            component2.velocity += b;
+                        }
                     }
                 }
             }

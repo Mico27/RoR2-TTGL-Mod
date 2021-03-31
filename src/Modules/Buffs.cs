@@ -35,14 +35,12 @@ namespace TTGL_Survivor.Modules
             {
                 TTGL_SurvivorPlugin.instance.Logger.LogMessage("buffSprite: " + iconSprite.name);
             }
-            var buffDef = new BuffDef
-            {
-                name = buffName,
-                iconSprite = iconSprite,
-                buffColor = buffColor,
-                canStack = canStack,
-                isDebuff = isDebuff,
-            };
+            var buffDef = ScriptableObject.CreateInstance<BuffDef>();
+            buffDef.name = buffName;
+            buffDef.iconSprite = iconSprite;
+            buffDef.buffColor = buffColor;
+            buffDef.canStack = canStack;
+            buffDef.isDebuff = isDebuff;
             ContentPacks.buffDefs.Add(buffDef);            
             return buffDef;
         }
