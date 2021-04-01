@@ -6,6 +6,9 @@
 
 [![](https://cdn.discordapp.com/attachments/194257452374425600/813609659998273566/Lagann2.png)]()
 
+[![](https://cdn.discordapp.com/attachments/194257452374425600/827050534107217950/unknown.png)]()
+
+
 feel free to ping/dm me with any questions or complaints on the modding discord- @Mico27#0642
 
 ## To-Do
@@ -15,6 +18,24 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 - Gurren ????? :)
 
 ## Changelog
+
+`0.1.5`
+- Added Gurren Lagann (wip)
+- Added some new icons
+- Fixed some mod conflicts
+
+`0.1.4`
+- forgot to add dependencies ...
+
+`0.1.3`
+- Fixed some perfomance bugs
+- Added an alpha version of Gurren lagann
+
+`0.1.2`
+- Removing R2API dependency (Hopefully this works)
+
+`0.1.1`
+- Attempting Fixing HHook conflict
 
 `0.1.0`
 - Fixed mod to work with the anniversary update
