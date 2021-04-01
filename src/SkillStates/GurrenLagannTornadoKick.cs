@@ -12,8 +12,8 @@ namespace TTGL_Survivor.SkillStates
     {
         public static float horizontal_duration = 1.5f;
         public static float vertical_duration = 2.0f;
-        public static float initialSpeedCoefficient = 5f;
-        public static float finalSpeedCoefficient = 2.5f;
+        public static float initialSpeedCoefficient = 2.5f;
+        public static float finalSpeedCoefficient = 2.0f;
         public static float damageCoefficient = 1.5f;
 
         public static string hitboxName = "DammageHitbox";

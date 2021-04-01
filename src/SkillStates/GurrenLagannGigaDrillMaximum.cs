@@ -10,7 +10,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannGigaDrillMaximum : BaseSkillState
     {
-        public const float c_DamageCoefficient = 5.0f;
+        public const float c_DamageCoefficient = 7.5f;
         public int comboCounter;
         protected string hitboxName = "DammageHitbox";
 

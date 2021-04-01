@@ -8,7 +8,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannThrowingShades : BaseSkillState
     {
-        public static float damageCoefficient = 1.0f;
+        public static float damageCoefficient = 3.0f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 2.3f;
         public static float throwForce = 200f;
@@ -35,7 +35,14 @@ namespace TTGL_Survivor.SkillStates
             {
                 animationString = "GurrenLagannThrowShadesLeft";
             }
-            base.PlayAnimation("Gesture, Override", animationString, "skill2.playbackRate", this.duration);
+            if (this.isGrounded && this.characterMotor && this.characterMotor.velocity.magnitude <= 1.0f)
+            {
+                base.PlayAnimation("FullBody, Override", animationString, "skill2.playbackRate", this.duration);
+            }
+            else
+            {
+                base.PlayAnimation("Gesture, Override", animationString, "skill2.playbackRate", this.duration);
+            }
         }
 
         public override void OnExit()

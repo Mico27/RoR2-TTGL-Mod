@@ -132,14 +132,13 @@ namespace TTGL_Survivor.Modules.Survivors
             cameraTargetParams.recoil = Vector2.zero;
             cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
-            cameraTargetParams.cameraParams = new CharacterCameraParams()
-            {
-                maxPitch = cameraTargetParams.cameraParams.maxPitch,
-                minPitch = cameraTargetParams.cameraParams.minPitch,
-                pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset,
-                standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 1.1f,
-                wallCushion = cameraTargetParams.cameraParams.wallCushion,
-            };
+            var cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
+            cameraParams.maxPitch = cameraTargetParams.cameraParams.maxPitch;
+            cameraParams.minPitch = cameraTargetParams.cameraParams.minPitch;
+            cameraParams.pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset;
+            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 1.2f;
+            cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
+            cameraTargetParams.cameraParams = cameraParams;
         }
         private void CreateHurtBoxes()
         {
@@ -330,6 +329,10 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
 
             canopyOverrideSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            canopyOverrideSkillDef.skillName = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
+            canopyOverrideSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
+            canopyOverrideSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION";
+            canopyOverrideSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DisableYokoRifleIcon");
             ContentPacks.skillDefs.Add(canopyOverrideSkillDef);
             #endregion
 

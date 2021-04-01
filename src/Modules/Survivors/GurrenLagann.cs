@@ -115,7 +115,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.name = bodyName;
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_SUBTITLE";
-            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon");
+            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenLagannIcon");
             bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
@@ -138,13 +138,13 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.baseJumpPower = 25f;
             bodyComponent.levelJumpPower = 0f;
 
-            bodyComponent.baseDamage = 12f;
-            bodyComponent.levelDamage = 2.4f;
+            bodyComponent.baseDamage = 14f;
+            bodyComponent.levelDamage = 2.8f;
 
             bodyComponent.baseAttackSpeed = 1f;
             bodyComponent.levelAttackSpeed = 0f;
 
-            bodyComponent.baseArmor = 20f;
+            bodyComponent.baseArmor = 40f;
             bodyComponent.levelArmor = 0f;
 
             bodyComponent.baseCrit = 0f;
@@ -206,14 +206,13 @@ namespace TTGL_Survivor.Modules.Survivors
             cameraTargetParams.recoil = Vector2.zero;
             cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
-            cameraTargetParams.cameraParams = new CharacterCameraParams()
-            {
-                 maxPitch = cameraTargetParams.cameraParams.maxPitch,
-                 minPitch = cameraTargetParams.cameraParams.minPitch,
-                 pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset,
-                 standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 3,
-                 wallCushion = cameraTargetParams.cameraParams.wallCushion,
-            };
+            var cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
+            cameraParams.maxPitch = cameraTargetParams.cameraParams.maxPitch;
+            cameraParams.minPitch = cameraTargetParams.cameraParams.minPitch;
+            cameraParams.pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset;
+            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 3;
+            cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
+            cameraTargetParams.cameraParams = cameraParams;
         }
         protected override void SetupRigidbody(GameObject prefab)
         {
@@ -303,7 +302,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralingComboSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME";
             spiralingComboSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME";
             spiralingComboSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION";
-            spiralingComboSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon");
+            spiralingComboSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralComboIcon");
             spiralingComboSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSpiralingCombo));
             spiralingComboSkillDef.activationStateMachineName = "Body";
             spiralingComboSkillDef.baseMaxStock = 1;
@@ -329,7 +328,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwingShadesSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME";
             throwingShadesSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME";
             throwingShadesSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION";
-            throwingShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon");
+            throwingShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenLagannShadeThrowIcon");
             throwingShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
             throwingShadesSkillDef.activationStateMachineName = "Weapon";
             throwingShadesSkillDef.baseMaxStock = 2;
@@ -356,7 +355,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tornadoKickSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME";
             tornadoKickSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME";
             tornadoKickSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION";
-            tornadoKickSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon");
+            tornadoKickSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("HuricaneKickIcon");
             tornadoKickSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannTornadoKick));
             tornadoKickSkillDef.activationStateMachineName = "Body";
             tornadoKickSkillDef.baseMaxStock = 1;
@@ -383,7 +382,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillMaximumSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
             gigaDrillMaximumSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
             gigaDrillMaximumSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION";
-            gigaDrillMaximumSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            gigaDrillMaximumSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GigaDrillMaximumIcon");
             gigaDrillMaximumSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillMaximum));
             gigaDrillMaximumSkillDef.activationStateMachineName = "Body";
             gigaDrillMaximumSkillDef.baseMaxStock = 1;

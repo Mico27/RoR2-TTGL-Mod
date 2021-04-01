@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,19 +16,30 @@ namespace TTGL_Survivor.Modules
 
         internal static void RegisterBuffs()
         {
+            IL.RoR2.BuffCatalog.Init += FixBuffCatalog;
             maxSpiralPowerBuff = AddNewBuff("MaxSpiralPowerBuff", "texBuffSpiralIcon", Color.green, false, false);
             maxSpiralPowerDeBuff = AddNewBuff("MaxSpiralPowerDeBuff", "texBuffSpiralIcon", Color.red, false, true);
-            canopyBuff = AddNewBuff("CanopyBuff", "texCanopyBuffIcon", new Color(1.0f,0.8f,0.8f), false, false);
-            
-            On.RoR2.BuffCatalog.Init += BuffCatalog_Init;
+            canopyBuff = AddNewBuff("CanopyBuff", "texCanopyBuffIcon", new Color(1.0f,0.8f,0.8f), false, false);            
         }
 
-        private static void BuffCatalog_Init(On.RoR2.BuffCatalog.orig_Init orig)
+        internal static void FixBuffCatalog(ILContext il)
         {
-            BuffDef[] array = ContentManager.buffDefs;
-            BuffCatalog.SetBuffDefs(array);
-        }
+            try
+            {
+                ILCursor c = new ILCursor(il);
+                if (!c.Next.MatchLdsfld(typeof(RoR2Content.Buffs), nameof(RoR2Content.Buffs.buffDefs)))
+                {
+                    return;
+                }
+                c.Remove();
+                c.Emit(OpCodes.Ldsfld, typeof(ContentManager).GetField(nameof(ContentManager.buffDefs)));
+            }
+            catch
+            {
 
+            }
+        }
+        
         // simple helper method
         internal static BuffDef AddNewBuff(string buffName, string iconPath, Color buffColor, bool canStack, bool isDebuff)
         {
