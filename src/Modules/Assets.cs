@@ -45,14 +45,14 @@ namespace TTGL_Survivor.Modules
                     mainAssetBundle = AssetBundle.LoadFromStream(assetStream);                    
                 }
             }
-
+            
             using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.HenryBank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream2.Length];
                 manifestResourceStream2.Read(array, 0, array.Length);
                 SoundAPI.SoundBanks.Add(array);
             }
-
+            
             using (Stream manifestResourceStream3 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.TTGLSoundbank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream3.Length];

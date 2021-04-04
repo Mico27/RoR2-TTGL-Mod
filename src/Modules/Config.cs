@@ -4,15 +4,20 @@ namespace TTGL_Survivor.Modules
 {
     public static class Config
     {
+        public static ConfigEntry<bool> ttglMusicEnabled;
+        public static ConfigEntry<bool> woopsEnabled;
         public static void ReadConfig()
         {
             // there actually isn't any config right now but if you wanted to add some it would go here.
+            ttglMusicEnabled = Modules.Config.GetSetConfig("TTGLMusic", "Enabled", true, "Set to false to disable TTGL music");
+            woopsEnabled = Modules.Config.GetSetConfig("WoopsSkin", "Enabled", false, "Set to true to enable woops skin");
+            
         }
 
         // this helper automatically makes config entries for disabling survivors
-        internal static ConfigEntry<bool> CharacterEnableConfig(string characterName)
+        internal static ConfigEntry<T> GetSetConfig<T>(string section, string key, T defaultValue, string description)
         {
-            return TTGL_SurvivorPlugin.instance.Config.Bind<bool>(new ConfigDefinition(characterName, "Enabled"), true, new ConfigDescription("Set to false to disable this character"));
+            return TTGL_SurvivorPlugin.instance.Config.Bind<T>(new ConfigDefinition(section, key), defaultValue, new ConfigDescription(description));
         }
     }
 }

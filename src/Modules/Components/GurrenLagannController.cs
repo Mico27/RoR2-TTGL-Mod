@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using System;
+using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,6 +11,7 @@ namespace TTGL_Survivor.Modules.Components
         private CharacterBody body;
         private Animator animator;
         private bool hadFullSpiralPowerBuff;
+        private CharacterBody currentGigaDrillBreakerTarget;
 
         public void Awake()
         {
@@ -48,6 +50,46 @@ namespace TTGL_Survivor.Modules.Components
                     hadFullSpiralPowerBuff = false;
                     this.animator.SetBool("spiralPowerOverflow", false);
                 }
+            }
+        }
+
+        public void SetGigaDrillBreakerTarget(CharacterBody bossBody)
+        {
+            if (currentGigaDrillBreakerTarget != bossBody)
+            {
+                if (currentGigaDrillBreakerTarget)
+                {
+                    DetachShadesBinding();
+                }
+                currentGigaDrillBreakerTarget = bossBody;
+                if (currentGigaDrillBreakerTarget)
+                {
+                    AttachShadesBinding(0);
+                }             
+            }
+            else if (currentGigaDrillBreakerTarget)
+            {
+                AttachShadesBinding(1);
+            }
+            if (bossBody)
+            {
+                SetStateOnHurt.SetStunOnObject(bossBody.gameObject, 10f);
+            }
+        }
+
+        private void AttachShadesBinding(int count)
+        {
+            if (currentGigaDrillBreakerTarget)
+            {
+                TTGL_Survivor.TTGL_SurvivorPlugin.instance.Logger.LogMessage("Boss " + currentGigaDrillBreakerTarget.GetDisplayName() + " was struck with Gurren Lagann's shades " + (count +1) + " time(s)!");
+            }            
+        }
+
+        private void DetachShadesBinding()
+        {
+            if (currentGigaDrillBreakerTarget)
+            {
+                TTGL_Survivor.TTGL_SurvivorPlugin.instance.Logger.LogMessage("Boss " + currentGigaDrillBreakerTarget.GetDisplayName() + " was freed from Gurren Lagann's shades!");
             }
         }
     }

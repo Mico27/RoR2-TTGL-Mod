@@ -113,6 +113,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             bodyComponent.bodyIndex = BodyIndex.None;
             bodyComponent.name = bodyName;
+            bodyComponent.bodyColor = new Color(0.25f, 0.65f, 0.25f);
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_SUBTITLE";
             bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenLagannIcon");
@@ -332,7 +333,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwingShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
             throwingShadesSkillDef.activationStateMachineName = "Weapon";
             throwingShadesSkillDef.baseMaxStock = 2;
-            throwingShadesSkillDef.baseRechargeInterval = 60f;
+            throwingShadesSkillDef.baseRechargeInterval = 3f;
             throwingShadesSkillDef.beginSkillCooldownOnSkillEnd = false;
             throwingShadesSkillDef.canceledFromSprinting = false;
             throwingShadesSkillDef.forceSprintDuringState = false;
@@ -341,7 +342,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwingShadesSkillDef.isCombatSkill = true;
             throwingShadesSkillDef.mustKeyPress = false;
             throwingShadesSkillDef.cancelSprintingOnActivation = false;
-            throwingShadesSkillDef.rechargeStock = 2;
+            throwingShadesSkillDef.rechargeStock = 1;
             throwingShadesSkillDef.requiredStock = 1;
             throwingShadesSkillDef.stockToConsume = 1;
             throwingShadesSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };

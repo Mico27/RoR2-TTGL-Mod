@@ -1583,66 +1583,6 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: LagganArmature/Root/Head/Right_Upper_Arm/Right_Lower_Arm
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: LagganArmature/Root/Head/Right_Upper_Arm/Right_Lower_Arm
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: LagganArmature/Root/Head/Right_Upper_Arm/Right_Lower_Arm
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: LagganArmature/Root/Head
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: LagganArmature/Root/Head
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: LagganArmature/Root/Head
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
     path: LagganArmature/Root/Head/Left_Upper_Arm/Left_Lower_Arm
     classID: 4
     script: {fileID: 0}
@@ -1673,7 +1613,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: LagganArmature/Root/Head/Left_Upper_Leg
+    path: LagganArmature/Root/Head/Left_Upper_Leg/Left_Lower_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1683,7 +1623,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: LagganArmature/Root/Head/Left_Upper_Leg
+    path: LagganArmature/Root/Head/Left_Upper_Leg/Left_Lower_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1693,7 +1633,37 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: LagganArmature/Root/Head/Left_Upper_Leg
+    path: LagganArmature/Root/Head/Left_Upper_Leg/Left_Lower_Leg
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.z
+    path: LagganArmature/Root/Head/Right_Upper_Arm/Right_Lower_Arm
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: LagganArmature/Root/Head/Right_Upper_Arm/Right_Lower_Arm
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: LagganArmature/Root/Head/Right_Upper_Arm/Right_Lower_Arm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1733,7 +1703,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: LagganArmature/Root/Head/Left_Upper_Leg/Left_Lower_Leg
+    path: LagganArmature/Root/Head/Left_Upper_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1743,7 +1713,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: LagganArmature/Root/Head/Left_Upper_Leg/Left_Lower_Leg
+    path: LagganArmature/Root/Head/Left_Upper_Leg
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1753,7 +1723,37 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: LagganArmature/Root/Head/Left_Upper_Leg/Left_Lower_Leg
+    path: LagganArmature/Root/Head/Left_Upper_Leg
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.z
+    path: LagganArmature/Root/Head
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: LagganArmature/Root/Head
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: LagganArmature/Root/Head
     classID: 4
     script: {fileID: 0}
   - curve:

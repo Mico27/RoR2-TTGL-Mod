@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using TTGL_Survivor.Modules.Components;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -13,11 +14,13 @@ namespace RoR2.Projectile
         private void Start()
         {
             this.rigidbody = base.GetComponent<Rigidbody>();
+            this.hitBoxGroup = base.GetComponent<HitBoxGroup>();
             this.projectileController = base.GetComponent<ProjectileController>();
             if (this.projectileController && this.projectileController.owner)
             {
                 this.ownerTransform = this.projectileController.owner.transform;
                 var stateMachine = this.ownerTransform.GetComponent<EntityStateMachine>();
+                gurrenLagannController = this.ownerTransform.GetComponent<GurrenLagannController>();
                 if (stateMachine)
                 {
                     var childLocator = stateMachine.commonComponents.modelLocator.modelTransform.GetComponentInChildren<ChildLocator>();
@@ -28,23 +31,7 @@ namespace RoR2.Projectile
                 }
             }
         }
-
-        private void OnDestroy()
-        {
-            if (this.ownerTransform)
-            {
-                var stateMachine = this.ownerTransform.GetComponent<EntityStateMachine>();
-                if (stateMachine)
-                {                    
-                    var skillLocator = stateMachine.commonComponents.skillLocator;
-                    if (skillLocator)
-                    {
-                        skillLocator.secondary.AddOneStock();
-                    }
-                }
-            }
-        }
-
+        
         public void OnProjectileImpact(ProjectileImpactInfo impactInfo)
         {
             if (!this.canHitWorld)
@@ -75,61 +62,93 @@ namespace RoR2.Projectile
         }
 
         public void FixedUpdate()
-        {
-            if (NetworkServer.active)
-            {
+        {            
+            //if (NetworkServer.active)
+            //{
                 if (!this.projectileController.owner)
                 {
-                    UnityEngine.Object.Destroy(base.gameObject);
+                    if (NetworkServer.active)
+                    {
+                        UnityEngine.Object.Destroy(base.gameObject);
+                    }
                     return;
                 }
                 switch (this.boomerangState)
                 {
                     case 0:
-                        if (NetworkServer.active)
+                        this.rigidbody.velocity = this.travelSpeed * base.transform.forward;
+                        this.stopwatch += Time.fixedDeltaTime;
+                        if (this.stopwatch >= this.maxFlyStopwatch)
                         {
-                            this.rigidbody.velocity = this.travelSpeed * base.transform.forward;
-                            this.stopwatch += Time.fixedDeltaTime;
-                            if (this.stopwatch >= this.maxFlyStopwatch)
-                            {
-                                this.stopwatch = 0f;
-                                this.NetworkboomerangState = 1;
-                                return;
-                            }
+                            this.stopwatch = 0f;
+                            this.NetworkboomerangState = 1;                            
+                            return;
                         }
                         break;
                     case 1:
+                        this.stopwatch += Time.fixedDeltaTime;
+                        float num = this.stopwatch / this.transitionDuration;
+                        Vector3 a = this.CalculatePullDirection();
+                        this.rigidbody.velocity = Vector3.Lerp(this.travelSpeed * base.transform.forward, this.travelSpeed * a, num);
+                        if (num >= 1f)
                         {
-                            this.stopwatch += Time.fixedDeltaTime;
-                            float num = this.stopwatch / this.transitionDuration;
-                            Vector3 a = this.CalculatePullDirection();
-                            this.rigidbody.velocity = Vector3.Lerp(this.travelSpeed * base.transform.forward, this.travelSpeed * a, num);
-                            if (num >= 1f)
-                            {
-                                this.stopwatch = 0f;
-                                this.NetworkboomerangState = 2;
-                                return;
-                            }
-                            break;
+                            this.stopwatch = 0f;                        
+                            this.NetworkboomerangState = 2;                        
+                            return;
                         }
+                        break;
                     case 2:
+                        this.stopwatch += Time.fixedDeltaTime;
+                        bool flag = this.Reel();
+                        this.canHitWorld = false;
+                        Vector3 a2 = this.CalculatePullDirection();
+                        this.rigidbody.velocity = this.travelSpeed * a2;
+                        if (flag || (this.stopwatch >= this.maxFlyBackStopwatch))
                         {
-                            this.stopwatch += Time.fixedDeltaTime;
-                            bool flag = this.Reel();
                             if (NetworkServer.active)
                             {
-                                this.canHitWorld = false;
-                                Vector3 a2 = this.CalculatePullDirection();
-                                this.rigidbody.velocity = this.travelSpeed * a2;
-                                if (flag || (this.stopwatch >= this.maxFlyBackStopwatch))
-                                {
-                                    UnityEngine.Object.Destroy(base.gameObject);
-                                }
+                                UnityEngine.Object.Destroy(base.gameObject);
                             }
-                            break;
                         }
+                        break;
                     default:
                         return;
+                }
+                //StunLockBoss();
+            //}
+        }
+
+        private void StunLockBoss()
+        {
+            if (!hasHitBoss)
+            {
+                HitBox[] hitBoxes = this.hitBoxGroup.hitBoxes;
+                foreach (HitBox hitBox in hitBoxes)
+                {
+                    Transform transform = hitBox.transform;
+                    Vector3 position = transform.position;
+                    Vector3 vector = transform.lossyScale * 0.5f;
+                    Quaternion rotation = transform.rotation;
+                    Collider[] overlapColliders = Physics.OverlapBox(position, vector, rotation, LayerIndex.entityPrecise.mask);
+                    foreach (Collider collider in overlapColliders)
+                    {
+                        HurtBox component = collider.GetComponent<HurtBox>();
+                        if (component && component.healthComponent &&
+                            component.healthComponent.body &&
+                            component.healthComponent.body.isBoss)
+                        {
+                            hasHitBoss = true;
+                            if (gurrenLagannController)
+                            {                                
+                                gurrenLagannController.SetGigaDrillBreakerTarget(component.healthComponent.body);
+                            }                            
+                            break;
+                        }
+                    }
+                    if (hasHitBoss)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -146,7 +165,9 @@ namespace RoR2.Projectile
             }
             return base.transform.forward;
         }
-
+        private void UNetVersion()
+        {
+        }
         public int NetworkboomerangState
         {
             get
@@ -156,6 +177,7 @@ namespace RoR2.Projectile
             [param: In]
             set
             {
+                
                 base.SetSyncVar<int>(value, ref this.boomerangState, 1U);
             }
         }
@@ -214,6 +236,8 @@ namespace RoR2.Projectile
 
         private ProjectileController projectileController;
 
+        private GurrenLagannController gurrenLagannController;
+
         [SyncVar]
         public int boomerangState;
 
@@ -223,7 +247,11 @@ namespace RoR2.Projectile
         
         private Rigidbody rigidbody;
 
+        private HitBoxGroup hitBoxGroup;
+
         private float stopwatch;
+
+        private bool hasHitBoss = false;
                 
     }
 }

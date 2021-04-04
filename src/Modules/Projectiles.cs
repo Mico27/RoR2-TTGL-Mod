@@ -91,10 +91,10 @@ namespace TTGL_Survivor.Modules
             gurrenLagannShadesProjectile.impactSpark = boomerangProjectile.impactSpark;
 
             var collider = shadesWhirlPrefab.GetComponent<BoxCollider>();
-            collider.size = new Vector3(3.0f, 1.0f, 3.0f);
+            collider.size = new Vector3(6.0f, 1.0f, 6.0f);
 
             var hitbox = shadesWhirlPrefab.GetComponentInChildren<HitBox>();
-            hitbox.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+            hitbox.transform.localScale = new Vector3(8.0f, 3.0f, 8.0f);
 
             TTGL_SurvivorPlugin.DestroyImmediate(boomerangProjectile);
 

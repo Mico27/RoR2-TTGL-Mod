@@ -33,7 +33,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.1.5";
+            MODVERSION = "0.1.8";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -91,12 +91,14 @@ namespace TTGL_Survivor
         {
             On.RoR2.UI.HUD.Awake += HUD_Awake;
             RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
+            On.RoR2.PickupPickerController.FixedUpdateServer += PickupPickerController_FixedUpdateServer;
         }
 
         private void UnHooks()
         {
             On.RoR2.UI.HUD.Awake -= HUD_Awake;
             RoR2.UI.HUD.onHudTargetChangedGlobal -= HUD_onHudTargetChangedGlobal;
+            On.RoR2.PickupPickerController.FixedUpdateServer -= PickupPickerController_FixedUpdateServer;
         }
 
         #region HUD
@@ -149,6 +151,21 @@ namespace TTGL_Survivor
         }
         
         private SpiralPowerGauge m_SpiralPowerGauge;
+
+
+        private void PickupPickerController_FixedUpdateServer(On.RoR2.PickupPickerController.orig_FixedUpdateServer orig, PickupPickerController self)
+        {
+            CharacterMaster currentParticipantMaster = self.networkUIPromptController.currentParticipantMaster;
+            if (currentParticipantMaster)
+            {
+                CharacterBody body = currentParticipantMaster.GetBody();
+                var interactor = (body)? body.GetComponent<Interactor>(): null;                
+                if (!body || (body.inputBank.aimOrigin - self.transform.position).sqrMagnitude > ((interactor)? Math.Pow((interactor.maxInteractionDistance + self.cutoffDistance), 2f): (self.cutoffDistance * self.cutoffDistance)))
+                {                    
+                    self.networkUIPromptController.SetParticipantMaster(null);
+                }
+            }
+        }
 
         #endregion
 

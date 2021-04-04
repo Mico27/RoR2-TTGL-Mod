@@ -22,6 +22,7 @@ namespace TTGL_Survivor.Modules
         private bool hadFullBuff;
         private float trottleUpdateTime = 0.0f;
         private float energyUptimeStopwatch = 0.0f;
+        private bool ttglMusicEnabled;
 
         public void Awake()
         {
@@ -29,6 +30,7 @@ namespace TTGL_Survivor.Modules
             this.outer = base.GetComponent<EntityStateMachine>();            
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;            
             MusicController.pickTrackHook += MusicController_pickTrackHook;
+            this.ttglMusicEnabled = Modules.Config.ttglMusicEnabled.Value;
         }
 
         public void OnDestroy()
@@ -162,7 +164,7 @@ namespace TTGL_Survivor.Modules
         {
             if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
             {
-                if (!playedMusic)
+                if (!playedMusic && ttglMusicEnabled)
                 {
                     AkSoundEngine.PostEvent("TTGLFullBuffPlay", this.body.gameObject);
                     playedMusic = true;

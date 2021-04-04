@@ -8,19 +8,14 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannThrowingShades : BaseSkillState
     {
-        public static float damageCoefficient = 3.0f;
+        public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 2.3f;
         public static float throwForce = 200f;
-        // public static GameObject tracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
 
         private float duration;
         private float fireTime;
         private bool hasFired;
-        private Animator animator;
-        private string muzzleString;
-        private Transform yokoTargetBase;
-        private Vector3 yokoTargetBaseDefaultLocalPos;
 
         public override void OnEnter()
         {
@@ -28,8 +23,6 @@ namespace TTGL_Survivor.SkillStates
             this.duration = GurrenLagannThrowingShades.baseDuration / this.attackSpeedStat;
             this.fireTime = 0.4f * this.duration;
             base.characterBody.SetAimTimer(2f);
-            this.animator = base.GetModelAnimator();
-            this.muzzleString = "ShadesMuzzle";
             var animationString = "GurrenLagannThrowShadesRight";
             if (this.skillLocator && this.skillLocator.secondary && this.skillLocator.secondary.stock % 2 == 1)
             {

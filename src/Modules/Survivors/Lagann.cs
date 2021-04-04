@@ -370,6 +370,8 @@ namespace TTGL_Survivor.Modules.Survivors
 
             ModelSkinController skinController = model.AddComponent<ModelSkinController>();
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
+            GameObject yoko = childLocator.FindChild("Yoko").gameObject;
+            GameObject meshWoopsYokoSkin = childLocator.FindChild("MeshWoopsYokoSkin").gameObject;
 
             SkinnedMeshRenderer mainRenderer = characterModel.mainSkinnedMeshRenderer;
 
@@ -383,62 +385,52 @@ namespace TTGL_Survivor.Modules.Survivors
                 defaultRenderers,
                 mainRenderer,
                 model);
-            /*
-            defaultSkin.meshReplacements = new SkinDef.MeshReplacement[]
+
+            defaultSkin.gameObjectActivations = new SkinDef.GameObjectActivation[]
             {
-                new SkinDef.MeshReplacement
+                new SkinDef.GameObjectActivation
                 {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenrySword"),
-                    renderer = defaultRenderers[0].renderer
+                    gameObject = yoko,
+                    shouldActivate = true
                 },
-                new SkinDef.MeshReplacement
+                new SkinDef.GameObjectActivation
                 {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenryGun"),
-                    renderer = defaultRenderers[1].renderer
-                },
-                new SkinDef.MeshReplacement
-                {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenry"),
-                    renderer = defaultRenderers[bodyRendererIndex].renderer
+                    gameObject = meshWoopsYokoSkin,
+                    shouldActivate = false
                 }
             };
-            */
+
             skins.Add(defaultSkin);
             #endregion
-            /*
-            #region MasterySkin
-            Material masteryMat = Modules.Assets.CreateMaterial("matHenryAlt");
-            CharacterModel.RendererInfo[] masteryRendererInfos = SkinRendererInfos(defaultRenderers, new Material[]
-            {
-                masteryMat,
-                masteryMat,
-                masteryMat
-            });
 
-            SkinDef masterySkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_HENRY_BODY_MASTERY_SKIN_NAME",
-                Assets.mainAssetBundle.LoadAsset<Sprite>("texMasteryAchievement"),
-                masteryRendererInfos,
+            #region WoopsSkin
+            var woopsEnabled = Modules.Config.woopsEnabled;
+            if (woopsEnabled.Value)
+            {
+                SkinDef woopsSkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_WOOPS_SKIN_NAME",
+                Assets.mainAssetBundle.LoadAsset<Sprite>("WoopsSkinIcon"),
+                defaultRenderers,
                 mainRenderer,
-                model,
-                TTGL_SurvivorPlugin.developerPrefix + "_HENRY_BODY_MASTERYUNLOCKABLE_REWARD_ID");
+                model);
 
-            masterySkin.meshReplacements = new SkinDef.MeshReplacement[]
-            {
-                new SkinDef.MeshReplacement
+                woopsSkin.gameObjectActivations = new SkinDef.GameObjectActivation[]
                 {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenrySwordAlt"),
-                    renderer = defaultRenderers[0].renderer
+                new SkinDef.GameObjectActivation
+                {
+                    gameObject = meshWoopsYokoSkin,
+                    shouldActivate = true
                 },
-                new SkinDef.MeshReplacement
+                new SkinDef.GameObjectActivation
                 {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenryAlt"),
-                    renderer = defaultRenderers[bodyRendererIndex].renderer
+                    gameObject = yoko,
+                    shouldActivate = false
                 }
-            };
+                };
 
-            skins.Add(masterySkin);
+                skins.Add(woopsSkin);
+            }
             #endregion
-    */
+            
             skinController.skins = skins.ToArray();
         }
 

@@ -36,10 +36,24 @@ namespace TTGL_Survivor.Modules
 
             ContentPacks.entityStates.Add(typeof(GurrenLagannMain));
             ContentPacks.entityStates.Add(typeof(GurrenLagannSpiralingCombo));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannBaseCombo));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannHookPunch));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannInsideCrescentKick));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannLegSweep));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannMartelo2));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannMmaKick));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannSpiralingCombo));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannStabbingLeft));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannStabbingRight));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannThrustSlash));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannUppercut));
+            ContentPacks.entityStates.Add(typeof(GurrenLagannUpwardThrust));            
+
             ContentPacks.entityStates.Add(typeof(GurrenLagannThrowingShades));
             ContentPacks.entityStates.Add(typeof(GurrenLagannTornadoKick));
             ContentPacks.entityStates.Add(typeof(GurrenLagannGigaDrillMaximum));
             ContentPacks.entityStates.Add(typeof(GurrenLagannGigaDrillBreak));
+
         }
 
         private static void SetStateTypeHook(ref this SerializableEntityStateType self, Type value)

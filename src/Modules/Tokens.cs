@@ -21,6 +21,7 @@ namespace TTGL_Survivor.Modules
 
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_DEFAULT_SKIN_NAME", "Default");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_WOOPS_SKIN_NAME", "Woops");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_PASSIVE_NAME", "Spiral Power");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_PASSIVE_DESCRIPTION", "When in a pinch, spiral power increases, also increasing Lagann's <style=cIsDamage>damage</style>, <style=cIsUtility>movement speed</style> and <style=cIsHealing>health regen</style>");
