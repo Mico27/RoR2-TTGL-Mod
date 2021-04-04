@@ -19,6 +19,16 @@ feel free to ping/dm me with any questions or complaints on the modding discord-
 
 ## Changelog
 
+`0.1.8`
+- Fixed multiplayer bug not showing spiral combo animations for other players and throwin shades not moving for the non-host player
+
+`0.1.7`
+- Added secret skin
+
+`0.1.6`
+- Fixed an issue where gurren lagann couldnt open pickup menus such as the scrapper and artifact of command
+- Buffed Gurren lagann throwing shades hitbox
+
 `0.1.5`
 - Added Gurren Lagann (wip)
 - Added some new icons
