@@ -10,6 +10,11 @@ using TTGL_Survivor.Modules.Survivors;
 using R2API.Utils;
 using RoR2;
 using TTGL_Survivor.SkillStates;
+using R2API;
+using RoR2.ContentManagement;
+using System.Collections.Generic;
+using RoR2.Skills;
+using System.Collections;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -19,21 +24,15 @@ namespace TTGL_Survivor
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
-    [BepInPlugin(MODUID, MODNAME, MODVERSION)]
-    [R2APISubmoduleDependency(new string[]
-    {
-        "PrefabAPI",
-        "LanguageAPI",
-        "SoundAPI",
-    })]
-
-    public class TTGL_SurvivorPlugin : BaseUnityPlugin
+    [BepInPlugin(MODUID, MODNAME, MODVERSION)]    
+    [R2APISubmoduleDependency(nameof(PrefabAPI), nameof(LanguageAPI), nameof(SoundAPI))]
+    public class TTGL_SurvivorPlugin : BaseUnityPlugin, IContentPackProvider
     {
         public const string
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.1.8";
+            MODVERSION = "0.1.9";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -50,23 +49,22 @@ namespace TTGL_Survivor
 
         public void Awake()
         {
-            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
+            On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
-
                 Modules.Assets.PopulateAssets();
                 Modules.Config.ReadConfig();
                 Modules.ItemDisplays.PopulateDisplays();
                 Modules.States.RegisterStates();
                 Modules.Buffs.RegisterBuffs();
                 Modules.Projectiles.RegisterProjectiles();
+                Modules.TemporaryVisualEffects.RegisterTemporaryVisualEffects();
                 Modules.Unlockables.RegisterUnlockables();
                 Modules.Tokens.AddTokens();
                 new Lagann().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
-                ContentPacks.CreateContentPack();
                 Hooks();                
             }
             catch (Exception e)
@@ -89,13 +87,15 @@ namespace TTGL_Survivor
 
         private void Hooks()
         {
+            ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
             On.RoR2.UI.HUD.Awake += HUD_Awake;
             RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
             On.RoR2.PickupPickerController.FixedUpdateServer += PickupPickerController_FixedUpdateServer;
         }
-
+        
         private void UnHooks()
         {
+            ContentManager.collectContentPackProviders -= ContentManager_collectContentPackProviders;
             On.RoR2.UI.HUD.Awake -= HUD_Awake;
             RoR2.UI.HUD.onHudTargetChangedGlobal -= HUD_onHudTargetChangedGlobal;
             On.RoR2.PickupPickerController.FixedUpdateServer -= PickupPickerController_FixedUpdateServer;
@@ -168,6 +168,57 @@ namespace TTGL_Survivor
         }
 
         #endregion
+        
+        private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider)
+        {
+            addContentPackProvider(this);
+        }
+
+        public IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args)
+        {         
+            this.contentPack.identifier = this.identifier;
+            contentPack.bodyPrefabs.Add(bodyPrefabs.ToArray());
+            contentPack.buffDefs.Add(buffDefs.ToArray());
+            contentPack.effectDefs.Add(effectDefs.ToArray());
+            contentPack.entityStateTypes.Add(entityStates.ToArray());
+            contentPack.masterPrefabs.Add(masterPrefabs.ToArray());
+            contentPack.networkSoundEventDefs.Add(networkSoundEventDefs.ToArray());
+            contentPack.projectilePrefabs.Add(projectilePrefabs.ToArray());
+            contentPack.skillDefs.Add(skillDefs.ToArray());
+            contentPack.skillFamilies.Add(skillFamilies.ToArray());
+            contentPack.survivorDefs.Add(survivorDefinitions.ToArray());
+
+            args.ReportProgress(1f);
+            yield break;
+        }
+
+        public IEnumerator GenerateContentPackAsync(GetContentPackAsyncArgs args)
+        {
+            ContentPack.Copy(this.contentPack, args.output);
+            args.ReportProgress(1f);
+            yield break;
+        }
+
+        public IEnumerator FinalizeAsync(FinalizeAsyncArgs args)
+        {
+            args.ReportProgress(1f);
+            yield break;
+        }
+
+        public ContentPack contentPack = new ContentPack();
+        public string identifier => TTGL_SurvivorPlugin.MODUID;
+
+        internal static List<BuffDef> buffDefs = new List<BuffDef>();
+        internal static List<SurvivorDef> survivorDefinitions = new List<SurvivorDef>();
+        internal static List<GameObject> bodyPrefabs = new List<GameObject>();
+        internal static List<GameObject> masterPrefabs = new List<GameObject>();
+        internal static List<GameObject> projectilePrefabs = new List<GameObject>();
+        internal static List<EffectDef> effectDefs = new List<EffectDef>();
+        internal static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
+        internal static List<SkillFamily> skillFamilies = new List<SkillFamily>();
+        internal static List<SkillDef> skillDefs = new List<SkillDef>();
+        internal static List<Type> entityStates = new List<Type>();
+
 
         public new ManualLogSource Logger
         {

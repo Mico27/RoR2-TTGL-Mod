@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using KinematicCharacterController;
 using R2API;
 using RoR2;
 using RoR2.Skills;
@@ -16,6 +17,7 @@ namespace TTGL_Survivor.Modules.Survivors
     {
         internal static GameObject characterPrefab;
         internal static GameObject displayPrefab;
+        internal static SkillDef gigaDrillBreakerSkillDef;
 
         internal static ConfigEntry<bool> characterEnabled;
         
@@ -104,7 +106,21 @@ namespace TTGL_Survivor.Modules.Survivors
             SetupRagdoll(model);
             SetupAimAnimator(newPrefab, model);
 
-            ContentPacks.bodyPrefabs.Add(newPrefab);
+            ChildLocator childLocator = model.GetComponent<ChildLocator>();
+            if (childLocator)
+            {
+                var specialMoveCameraSource = childLocator.FindChild("SpecialMoveCameraSource");
+                if (specialMoveCameraSource)
+                {
+                    var forcedCamera = specialMoveCameraSource.gameObject.AddComponent<ForcedCamera>();
+                    forcedCamera.allowUserHud = false;
+                    forcedCamera.allowUserLook = false;
+                    forcedCamera.entryLerpDuration = 0f;
+                    forcedCamera.exitLerpDuration = 1f;
+                }
+            }
+
+            TTGL_SurvivorPlugin.bodyPrefabs.Add(newPrefab);
             return newPrefab;
         }
         protected override void SetupCharacterBody(string bodyName, GameObject newPrefab, Transform modelBaseTransform)
@@ -168,6 +184,12 @@ namespace TTGL_Survivor.Modules.Survivors
         {
             CharacterMotor motorComponent = newPrefab.GetComponent<CharacterMotor>();
             motorComponent.mass = 2000f;
+            KinematicCharacterMotor kinematicCharacterMotor = newPrefab.GetComponent<KinematicCharacterMotor>();
+            if (kinematicCharacterMotor)
+            {
+                kinematicCharacterMotor.MaxStepHeight = 3f;
+                TTGL_SurvivorPlugin.instance.Logger.LogMessage("MaxStepHeight = 3f");
+            }
         }
 
         protected override Transform SetupModel(GameObject prefab, Transform modelTransform, bool isDisplay)
@@ -319,7 +341,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralingComboSkillDef.rechargeStock = 1;
             spiralingComboSkillDef.requiredStock = 0;
             spiralingComboSkillDef.stockToConsume = 0;
-            ContentPacks.skillDefs.Add(spiralingComboSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(spiralingComboSkillDef);
             Modules.Skills.AddPrimarySkill(characterPrefab, spiralingComboSkillDef);
 
             #endregion
@@ -346,7 +368,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwingShadesSkillDef.requiredStock = 1;
             throwingShadesSkillDef.stockToConsume = 1;
             throwingShadesSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-            ContentPacks.skillDefs.Add(throwingShadesSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(throwingShadesSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, throwingShadesSkillDef);
 
             #endregion
@@ -372,7 +394,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tornadoKickSkillDef.rechargeStock = 1;
             tornadoKickSkillDef.requiredStock = 1;
             tornadoKickSkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(tornadoKickSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(tornadoKickSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, tornadoKickSkillDef);
 
             #endregion
@@ -399,10 +421,10 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillMaximumSkillDef.rechargeStock = 1;
             gigaDrillMaximumSkillDef.requiredStock = 1;
             gigaDrillMaximumSkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(gigaDrillMaximumSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(gigaDrillMaximumSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, gigaDrillMaximumSkillDef);
 
-            SkillDef gigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            gigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
             gigaDrillBreakerSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
             gigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
             gigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
@@ -422,7 +444,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillBreakerSkillDef.rechargeStock = 1;
             gigaDrillBreakerSkillDef.requiredStock = 1;
             gigaDrillBreakerSkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(gigaDrillBreakerSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(gigaDrillBreakerSkillDef);
 
             #endregion
         }

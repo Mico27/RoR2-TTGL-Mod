@@ -22,7 +22,7 @@ namespace TTGL_Survivor.Modules
             survivorDef.displayPrefab = displayPrefab;
             survivorDef.outroFlavorToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR";
             survivorDef.desiredSortPosition = 12f;
-            ContentPacks.survivorDefinitions.Add(survivorDef);
+            TTGL_SurvivorPlugin.survivorDefinitions.Add(survivorDef);
         }
 
         protected abstract GameObject CreateDisplayPrefab(string modelName, GameObject prefab);
@@ -273,7 +273,7 @@ namespace TTGL_Survivor.Modules
         {
             GameObject gameObject = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName, true, "C:\\Users\\rseid\\Documents\\GitHub\\HenryMod\\HenryMod\\Modules\\Prefabs.cs", "CreateGenericDoppelganger", 143);
             gameObject.GetComponent<CharacterMaster>().bodyPrefab = bodyPrefab;
-            ContentPacks.masterPrefabs.Add(gameObject);
+            TTGL_SurvivorPlugin.masterPrefabs.Add(gameObject);
         }
 
         #endregion

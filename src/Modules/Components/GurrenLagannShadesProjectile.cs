@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using TTGL_Survivor.Modules.Components;
+using TTGL_Survivor.Modules;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -20,7 +21,6 @@ namespace RoR2.Projectile
             {
                 this.ownerTransform = this.projectileController.owner.transform;
                 var stateMachine = this.ownerTransform.GetComponent<EntityStateMachine>();
-                gurrenLagannController = this.ownerTransform.GetComponent<GurrenLagannController>();
                 if (stateMachine)
                 {
                     var childLocator = stateMachine.commonComponents.modelLocator.modelTransform.GetComponentInChildren<ChildLocator>();
@@ -62,60 +62,60 @@ namespace RoR2.Projectile
         }
 
         public void FixedUpdate()
-        {            
-            //if (NetworkServer.active)
-            //{
-                if (!this.projectileController.owner)
+        {
+            if (!this.projectileController.owner)
+            {
+                if (NetworkServer.active)
                 {
-                    if (NetworkServer.active)
+                    UnityEngine.Object.Destroy(base.gameObject);
+                }
+                return;
+            }
+            switch (this.boomerangState)
+            {
+                case 0:
+                    this.rigidbody.velocity = this.travelSpeed * base.transform.forward;
+                    this.stopwatch += Time.fixedDeltaTime;
+                    if (this.stopwatch >= this.maxFlyStopwatch)
                     {
-                        UnityEngine.Object.Destroy(base.gameObject);
-                    }
-                    return;
-                }
-                switch (this.boomerangState)
-                {
-                    case 0:
-                        this.rigidbody.velocity = this.travelSpeed * base.transform.forward;
-                        this.stopwatch += Time.fixedDeltaTime;
-                        if (this.stopwatch >= this.maxFlyStopwatch)
-                        {
-                            this.stopwatch = 0f;
-                            this.NetworkboomerangState = 1;                            
-                            return;
-                        }
-                        break;
-                    case 1:
-                        this.stopwatch += Time.fixedDeltaTime;
-                        float num = this.stopwatch / this.transitionDuration;
-                        Vector3 a = this.CalculatePullDirection();
-                        this.rigidbody.velocity = Vector3.Lerp(this.travelSpeed * base.transform.forward, this.travelSpeed * a, num);
-                        if (num >= 1f)
-                        {
-                            this.stopwatch = 0f;                        
-                            this.NetworkboomerangState = 2;                        
-                            return;
-                        }
-                        break;
-                    case 2:
-                        this.stopwatch += Time.fixedDeltaTime;
-                        bool flag = this.Reel();
-                        this.canHitWorld = false;
-                        Vector3 a2 = this.CalculatePullDirection();
-                        this.rigidbody.velocity = this.travelSpeed * a2;
-                        if (flag || (this.stopwatch >= this.maxFlyBackStopwatch))
-                        {
-                            if (NetworkServer.active)
-                            {
-                                UnityEngine.Object.Destroy(base.gameObject);
-                            }
-                        }
-                        break;
-                    default:
+                        this.stopwatch = 0f;
+                        this.NetworkboomerangState = 1;
                         return;
-                }
-                //StunLockBoss();
-            //}
+                    }
+                    break;
+                case 1:
+                    this.stopwatch += Time.fixedDeltaTime;
+                    float num = this.stopwatch / this.transitionDuration;
+                    Vector3 a = this.CalculatePullDirection();
+                    this.rigidbody.velocity = Vector3.Lerp(this.travelSpeed * base.transform.forward, this.travelSpeed * a, num);
+                    if (num >= 1f)
+                    {
+                        this.stopwatch = 0f;
+                        this.NetworkboomerangState = 2;
+                        return;
+                    }
+                    break;
+                case 2:
+                    this.stopwatch += Time.fixedDeltaTime;
+                    bool flag = this.Reel();
+                    this.canHitWorld = false;
+                    Vector3 a2 = this.CalculatePullDirection();
+                    this.rigidbody.velocity = this.travelSpeed * a2;
+                    if (flag || (this.stopwatch >= this.maxFlyBackStopwatch))
+                    {
+                        if (NetworkServer.active)
+                        {
+                            UnityEngine.Object.Destroy(base.gameObject);
+                        }
+                    }
+                    break;
+                default:
+                    return;
+            }
+            if (NetworkServer.active)
+            {
+                StunLockBoss();
+            }
         }
 
         private void StunLockBoss()
@@ -137,11 +137,9 @@ namespace RoR2.Projectile
                             component.healthComponent.body &&
                             component.healthComponent.body.isBoss)
                         {
-                            hasHitBoss = true;
-                            if (gurrenLagannController)
-                            {                                
-                                gurrenLagannController.SetGigaDrillBreakerTarget(component.healthComponent.body);
-                            }                            
+                            hasHitBoss = true;                           
+                            this.ConstrictBoss(component.healthComponent.body);
+                            UnityEngine.Object.Destroy(base.gameObject);
                             break;
                         }
                     }
@@ -165,6 +163,24 @@ namespace RoR2.Projectile
             }
             return base.transform.forward;
         }
+
+        private void ConstrictBoss(CharacterBody bossBody)
+        {
+            var existingConstrict = bossBody.GetComponentInChildren<GurrenLagannShadesConstrictComponent>();
+            if (!existingConstrict || existingConstrict.visualState == 1)
+            {
+                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(TemporaryVisualEffects.gurrenLagannShadesBindingEffect, bossBody.corePosition, Quaternion.identity);
+                var component = gameObject.GetComponent<GurrenLagannShadesConstrictComponent>();
+                component.duration = 8f;
+                component.parentTransform = bossBody.transform;
+                gameObject.transform.SetParent(bossBody.transform);
+            }
+            else
+            {
+                existingConstrict.durationCounter = 0f;
+            }            
+        }
+
         private void UNetVersion()
         {
         }
@@ -235,9 +251,7 @@ namespace RoR2.Projectile
         public bool canHitWorld;
 
         private ProjectileController projectileController;
-
-        private GurrenLagannController gurrenLagannController;
-
+        
         [SyncVar]
         public int boomerangState;
 

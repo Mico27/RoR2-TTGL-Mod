@@ -115,7 +115,7 @@ namespace TTGL_Survivor.Modules.Survivors
             SetupRagdoll(model);
             SetupAimAnimator(newPrefab, model);
 
-            ContentPacks.bodyPrefabs.Add(newPrefab);
+            TTGL_SurvivorPlugin.bodyPrefabs.Add(newPrefab);
             return newPrefab;
         }
 
@@ -226,7 +226,7 @@ namespace TTGL_Survivor.Modules.Survivors
             drillRushSkillDef.requiredStock = 0;
             drillRushSkillDef.stockToConsume = 0;
             drillRushSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-            ContentPacks.skillDefs.Add(drillRushSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(drillRushSkillDef);
             Modules.Skills.AddPrimarySkill(characterPrefab, drillRushSkillDef);
 
             #endregion
@@ -253,7 +253,7 @@ namespace TTGL_Survivor.Modules.Survivors
             shootRifleSkillDef.requiredStock = 1;
             shootRifleSkillDef.stockToConsume = 1;
             shootRifleSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
-            ContentPacks.skillDefs.Add(shootRifleSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(shootRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, shootRifleSkillDef);
 
             SkillDef explosiveRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -276,7 +276,7 @@ namespace TTGL_Survivor.Modules.Survivors
             explosiveRifleSkillDef.rechargeStock = 1;
             explosiveRifleSkillDef.requiredStock = 1;
             explosiveRifleSkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(explosiveRifleSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(explosiveRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
 
             #endregion
@@ -302,7 +302,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralBurstSkillDef.rechargeStock = 1;
             spiralBurstSkillDef.requiredStock = 1;
             spiralBurstSkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(spiralBurstSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(spiralBurstSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, spiralBurstSkillDef);
 
             SkillDef toggleCanopySkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -325,7 +325,7 @@ namespace TTGL_Survivor.Modules.Survivors
             toggleCanopySkillDef.rechargeStock = 1;
             toggleCanopySkillDef.requiredStock = 1;
             toggleCanopySkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(toggleCanopySkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(toggleCanopySkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
 
             canopyOverrideSkillDef = ScriptableObject.CreateInstance<SkillDef>();
@@ -333,7 +333,7 @@ namespace TTGL_Survivor.Modules.Survivors
             canopyOverrideSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
             canopyOverrideSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION";
             canopyOverrideSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DisableYokoRifleIcon");
-            ContentPacks.skillDefs.Add(canopyOverrideSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(canopyOverrideSkillDef);
             #endregion
 
             #region Special
@@ -357,7 +357,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannImpactSkillDef.rechargeStock = 1;
             lagannImpactSkillDef.requiredStock = 1;
             lagannImpactSkillDef.stockToConsume = 1;
-            ContentPacks.skillDefs.Add(lagannImpactSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(lagannImpactSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, lagannImpactSkillDef);
 
             #endregion
@@ -3098,7 +3098,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
             scepterSkillDef.requiredStock = 1;
             scepterSkillDef.stockToConsume = 1;
 
-            ContentPacks.skillDefs.Add(scepterSkillDef);
+            TTGL_SurvivorPlugin.skillDefs.Add(scepterSkillDef);
 
             AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
         }

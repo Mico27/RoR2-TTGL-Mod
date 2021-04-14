@@ -21,6 +21,7 @@ namespace TTGL_Survivor.Modules
         internal static GameObject yokoRifleMuzzleBigEffect;
         internal static GameObject yokoRifleMuzzleSmallEffect;
         internal static GameObject yokoRifleExplosiveRoundExplosion;
+        internal static GameObject specialExplosion;
 
         internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
         internal static NetworkSoundEventDef genericHitSoundEvent;
@@ -95,7 +96,7 @@ namespace TTGL_Survivor.Modules
             punchImpactEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniImpactVFXLoader"), "ImpactHenryPunch");
             punchImpactEffect.AddComponent<NetworkIdentity>();
 
-            ContentPacks.effectDefs.Add(new EffectDef()
+            TTGL_SurvivorPlugin.effectDefs.Add(new EffectDef()
             {
                 prefab = punchImpactEffect,
                 prefabEffectComponent = punchImpactEffect.GetComponent<EffectComponent>(),
@@ -108,6 +109,7 @@ namespace TTGL_Survivor.Modules
             yokoRifleMuzzleBigEffect = Assets.LoadEffect("YokoRifleMuzzleBigEffect", 1.0f);
             yokoRifleMuzzleSmallEffect = Assets.LoadEffect("YokoRifleMuzzleSmallEffect", 1.0f);
             yokoRifleExplosiveRoundExplosion = Assets.LoadEffect("YokoRifleExplosiveRoundExplosion", 1.0f);
+            specialExplosion = Assets.LoadEffect("SpecialExplosion", 5.0f);
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
@@ -146,7 +148,7 @@ namespace TTGL_Survivor.Modules
             effect.parentToReferencedTransform = true;
             effect.positionAtReferencedTransform = true;
 
-            ContentPacks.effectDefs.Add(new EffectDef()
+            TTGL_SurvivorPlugin.effectDefs.Add(new EffectDef()
             {
                 prefab = newEffect,
                 prefabEffectComponent = effect,

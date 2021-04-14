@@ -21,25 +21,25 @@ namespace TTGL_Survivor.Modules
             SkillFamily primaryFamily = ScriptableObject.CreateInstance<SkillFamily>();
             primaryFamily.variants = new SkillFamily.Variant[0];
             skillLocator.primary._skillFamily = primaryFamily;
-            ContentPacks.skillFamilies.Add(primaryFamily);
+            TTGL_SurvivorPlugin.skillFamilies.Add(primaryFamily);
 
             skillLocator.secondary = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily secondaryFamily = ScriptableObject.CreateInstance<SkillFamily>();
             secondaryFamily.variants = new SkillFamily.Variant[0];
             skillLocator.secondary._skillFamily = secondaryFamily;
-            ContentPacks.skillFamilies.Add(secondaryFamily);
+            TTGL_SurvivorPlugin.skillFamilies.Add(secondaryFamily);
 
             skillLocator.utility = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily utilityFamily = ScriptableObject.CreateInstance<SkillFamily>();
             utilityFamily.variants = new SkillFamily.Variant[0];
             skillLocator.utility._skillFamily = utilityFamily;
-            ContentPacks.skillFamilies.Add(utilityFamily);
+            TTGL_SurvivorPlugin.skillFamilies.Add(utilityFamily);
 
             skillLocator.special = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily specialFamily = ScriptableObject.CreateInstance<SkillFamily>();
             specialFamily.variants = new SkillFamily.Variant[0];
             skillLocator.special._skillFamily = specialFamily;
-            ContentPacks.skillFamilies.Add(specialFamily);
+            TTGL_SurvivorPlugin.skillFamilies.Add(specialFamily);
         }
         // this could all be a lot cleaner but at least it's simple and easy to work with
         internal static void AddPrimarySkill(GameObject targetPrefab, SkillDef skillDef)

@@ -23,37 +23,37 @@ namespace TTGL_Survivor.Modules
             set_stateTypeHook = new Hook(type.GetMethod("set_stateType", allFlags), new set_stateTypeDelegate(SetStateTypeHook), cfg);
             set_typeNameHook = new Hook(type.GetMethod("set_typeName", allFlags), new set_typeNameDelegate(SetTypeName), cfg);
 
-            ContentPacks.entityStates.Add(typeof(LagannMain));
-            ContentPacks.entityStates.Add(typeof(LagannDrillRush));
-            ContentPacks.entityStates.Add(typeof(YokoShootRifle));
-            ContentPacks.entityStates.Add(typeof(YokoExplosiveRifle));
-            ContentPacks.entityStates.Add(typeof(YokoScepterRifle));
-            ContentPacks.entityStates.Add(typeof(LagannSpiralBurst));
-            ContentPacks.entityStates.Add(typeof(LagannToggleCanopy));
-            ContentPacks.entityStates.Add(typeof(PrepareLagannImpact));
-            ContentPacks.entityStates.Add(typeof(LagannImpact));
-            ContentPacks.entityStates.Add(typeof(AimLagannImpact));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannMain));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannDrillRush));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoShootRifle));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoExplosiveRifle));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoScepterRifle));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannSpiralBurst));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannToggleCanopy));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(PrepareLagannImpact));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannImpact));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(AimLagannImpact));
 
-            ContentPacks.entityStates.Add(typeof(GurrenLagannMain));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannSpiralingCombo));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannBaseCombo));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannHookPunch));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannInsideCrescentKick));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannLegSweep));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannMartelo2));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannMmaKick));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannSpiralingCombo));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannStabbingLeft));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannStabbingRight));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannThrustSlash));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannUppercut));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannUpwardThrust));            
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannMain));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannSpiralingCombo));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannBaseCombo));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannHookPunch));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannInsideCrescentKick));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannLegSweep));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannMartelo2));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannMmaKick));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannSpiralingCombo));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannStabbingLeft));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannStabbingRight));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannThrustSlash));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannUppercut));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannUpwardThrust));            
 
-            ContentPacks.entityStates.Add(typeof(GurrenLagannThrowingShades));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannTornadoKick));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannGigaDrillMaximum));
-            ContentPacks.entityStates.Add(typeof(GurrenLagannGigaDrillBreak));
-
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannThrowingShades));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannTornadoKick));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannGigaDrillMaximum));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannGigaDrillBreak));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannShadesConstrictState));
         }
 
         private static void SetStateTypeHook(ref this SerializableEntityStateType self, Type value)

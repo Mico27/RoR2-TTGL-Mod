@@ -1,5 +1,7 @@
 ﻿using System;
 using RoR2;
+using TTGL_Survivor.Modules.Survivors;
+using TTGL_Survivor.SkillStates;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,12 +14,21 @@ namespace TTGL_Survivor.Modules.Components
         private Animator animator;
         private bool hadFullSpiralPowerBuff;
         private CharacterBody currentGigaDrillBreakerTarget;
+        private GenericSkill secondarySkill;
+        private SkillLocator skillLocator;
+        private bool hadGigaDrillBreakPrerequisite;
+        internal EntityStateMachine gigaDrillBreakTarget;
 
         public void Awake()
         {
             this.body = base.GetComponent<CharacterBody>();
             var model = base.GetComponent<ModelLocator>();
             this.animator = model.modelTransform.GetComponent<Animator>();
+            this.skillLocator = base.GetComponent<SkillLocator>();
+            if (this.skillLocator)
+            {
+                this.secondarySkill = this.skillLocator.secondary;
+            }
         }
 
 
@@ -30,6 +41,54 @@ namespace TTGL_Survivor.Modules.Components
                 this.animator.SetFloat("inAir", i);
 
                 UpdateMaxSpiralPowerBuffEffects();
+            }
+            DetectGigaDrillBreakPrerequisites();
+        }
+
+        private void DetectGigaDrillBreakPrerequisites()
+        {
+            if (gigaDrillBreakTarget)
+            {
+                if (gigaDrillBreakTarget.state is GurrenLagannShadesConstrictState)
+                {
+                    return;
+                }
+                else
+                {
+                    gigaDrillBreakTarget = null;
+                }
+            }
+            var monsters = TeamComponent.GetTeamMembers(TeamIndex.Monster);           
+            if (monsters != null)
+            {
+                foreach(var monster in monsters)
+                {
+                    if (monster.body && monster.body.isBoss)
+                    {
+                        var entityState = monster.body.GetComponent<EntityStateMachine>();
+                        if (entityState && entityState.state is GurrenLagannShadesConstrictState)
+                        {
+                            gigaDrillBreakTarget = entityState;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (gigaDrillBreakTarget && !hadGigaDrillBreakPrerequisite)
+            {
+                hadGigaDrillBreakPrerequisite = true;
+                if (this.secondarySkill)
+                {
+                    this.secondarySkill.SetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                }
+            }
+            else if (!gigaDrillBreakTarget && hadGigaDrillBreakPrerequisite)
+            {
+                hadGigaDrillBreakPrerequisite = false;
+                if (this.secondarySkill)
+                {
+                    this.secondarySkill.UnsetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                }
             }
         }
 
