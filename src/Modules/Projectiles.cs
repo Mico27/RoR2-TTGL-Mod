@@ -35,7 +35,7 @@ namespace TTGL_Survivor.Modules
             impactExplosion.destroyOnEnemy = true;
             impactExplosion.lifetime = 12f;
             impactExplosion.impactEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
-            impactExplosion.explosionSoundString = "HenryBombExplosion";
+            //impactExplosion.lifetimeExpiredSound
             impactExplosion.timerAfterImpact = true;
             impactExplosion.lifetimeAfterImpact = 0.1f;
 

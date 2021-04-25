@@ -36,7 +36,9 @@ namespace TTGL_Survivor.Modules.Survivors
                 #region Body
                 characterPrefab = CreatePrefab("GurrenLagannBody", "GurrenLagannPrefab");
                 //Setup spiritEnergy components
-                characterPrefab.AddComponent<SpiralEnergyComponent>();
+                characterPrefab.AddComponent<TTGLMusicRemote>();
+                var spiralEnergyComponent = characterPrefab.AddComponent<SpiralEnergyComponent>();
+                spiralEnergyComponent.energyModifier = 2.0f;
                 characterPrefab.AddComponent<GurrenLagannController>();
                 characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannMain));
 
@@ -64,14 +66,14 @@ namespace TTGL_Survivor.Modules.Survivors
 
                 displayPrefab = CreateDisplayPrefab("GurrenLagannMenuPrefab", characterPrefab);
 
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", "");// TTGL_SurvivorPlugin.developerPrefix + "_HENRY_BODY_UNLOCKABLE_REWARD_ID");
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", "");
 
                 CreateHurtBoxes();
                 CreateHitboxes();
                 CreateSkills();
                 CreateSkins();
                 CreateItemDisplays();
-
+                CreateGenericDoppelganger(characterPrefab, "GurrenLagannMonsterMaster", "Merc");
             }
         }
 
@@ -138,11 +140,11 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
 
-            bodyComponent.baseMaxHealth = 210f;
-            bodyComponent.levelMaxHealth = 43f;
+            bodyComponent.baseMaxHealth = 440f;
+            bodyComponent.levelMaxHealth = 132f;
 
-            bodyComponent.baseRegen = 2.5f;
-            bodyComponent.levelRegen = 0.6f;
+            bodyComponent.baseRegen = 6.0f;
+            bodyComponent.levelRegen = 1.2f;
 
             bodyComponent.baseMaxShield = 0f;
             bodyComponent.levelMaxShield = 0f;
@@ -155,8 +157,8 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.baseJumpPower = 25f;
             bodyComponent.levelJumpPower = 0f;
 
-            bodyComponent.baseDamage = 14f;
-            bodyComponent.levelDamage = 2.8f;
+            bodyComponent.baseDamage = 24f;
+            bodyComponent.levelDamage = 4.8f;
 
             bodyComponent.baseAttackSpeed = 1f;
             bodyComponent.levelAttackSpeed = 0f;
@@ -187,8 +189,7 @@ namespace TTGL_Survivor.Modules.Survivors
             KinematicCharacterMotor kinematicCharacterMotor = newPrefab.GetComponent<KinematicCharacterMotor>();
             if (kinematicCharacterMotor)
             {
-                kinematicCharacterMotor.MaxStepHeight = 3f;
-                TTGL_SurvivorPlugin.instance.Logger.LogMessage("MaxStepHeight = 3f");
+                kinematicCharacterMotor.MaxStepHeight = 10f;
             }
         }
 
@@ -307,6 +308,7 @@ namespace TTGL_Survivor.Modules.Survivors
         private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
+            Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -447,6 +449,32 @@ namespace TTGL_Survivor.Modules.Survivors
             TTGL_SurvivorPlugin.skillDefs.Add(gigaDrillBreakerSkillDef);
 
             #endregion
+
+            #region FirstExtra
+            SkillDef gurrenLagannSplitSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            gurrenLagannSplitSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_SPLIT_NAME";
+            gurrenLagannSplitSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPLIT_NAME";
+            gurrenLagannSplitSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION";
+            gurrenLagannSplitSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            gurrenLagannSplitSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSplit));
+            gurrenLagannSplitSkillDef.activationStateMachineName = "Body";
+            gurrenLagannSplitSkillDef.baseMaxStock = 1;
+            gurrenLagannSplitSkillDef.baseRechargeInterval = 15f;
+            gurrenLagannSplitSkillDef.beginSkillCooldownOnSkillEnd = true;
+            gurrenLagannSplitSkillDef.canceledFromSprinting = false;
+            gurrenLagannSplitSkillDef.forceSprintDuringState = false;
+            gurrenLagannSplitSkillDef.fullRestockOnAssign = false;
+            gurrenLagannSplitSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            gurrenLagannSplitSkillDef.isCombatSkill = true;
+            gurrenLagannSplitSkillDef.mustKeyPress = false;
+            gurrenLagannSplitSkillDef.cancelSprintingOnActivation = true;
+            gurrenLagannSplitSkillDef.rechargeStock = 1;
+            gurrenLagannSplitSkillDef.requiredStock = 1;
+            gurrenLagannSplitSkillDef.stockToConsume = 1;
+            TTGL_SurvivorPlugin.skillDefs.Add(gurrenLagannSplitSkillDef);
+            Modules.Skills.AddFirstExtraSkill(characterPrefab, gurrenLagannSplitSkillDef);
+
+            #endregion
         }
 
         private void CreateSkins()
@@ -469,26 +497,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 defaultRenderers,
                 mainRenderer,
                 model);
-            /*
-            defaultSkin.meshReplacements = new SkinDef.MeshReplacement[]
-            {
-                new SkinDef.MeshReplacement
-                {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenrySword"),
-                    renderer = defaultRenderers[0].renderer
-                },
-                new SkinDef.MeshReplacement
-                {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenryGun"),
-                    renderer = defaultRenderers[1].renderer
-                },
-                new SkinDef.MeshReplacement
-                {
-                    mesh = Modules.Assets.mainAssetBundle.LoadAsset<Mesh>("meshHenry"),
-                    renderer = defaultRenderers[bodyRendererIndex].renderer
-                }
-            };
-            */
+            
             skins.Add(defaultSkin);
             #endregion
             

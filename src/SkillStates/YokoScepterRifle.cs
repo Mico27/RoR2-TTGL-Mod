@@ -128,7 +128,7 @@ namespace TTGL_Survivor.SkillStates
 
         private void Explode(Vector3 spawnPosition, bool isCrit, GameObject SoundGameObject)
         {
-            Util.PlaySound("HenryBombExplosion", SoundGameObject ?? base.gameObject);
+            Util.PlaySound("Play_item_use_fireballDash_explode", SoundGameObject ?? base.gameObject);
             EffectManager.SpawnEffect(Modules.Assets.yokoRifleExplosiveRoundExplosion, new EffectData
             {
                 origin = spawnPosition,

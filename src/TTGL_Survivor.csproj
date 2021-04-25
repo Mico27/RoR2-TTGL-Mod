@@ -5,14 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="examplesurvivorbundle_copy" />
-    <None Remove="HenryBank.bnk" />
     <None Remove="TTGLSoundbank.bnk" />
     <None Remove="ttglsurvivorbundle" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="HenryBank.bnk" />
     <EmbeddedResource Include="TTGLSoundbank.bnk" />
     <EmbeddedResource Include="ttglsurvivorbundle" />
   </ItemGroup>
@@ -49,6 +46,9 @@
     <Reference Include="BepInEx.Preloader">
       <HintPath>libs\BepInEx.Preloader.dll</HintPath>
       <Private>false</Private>
+    </Reference>
+    <Reference Include="ExtraSkillSlots">
+      <HintPath>libs\ExtraSkillSlots.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Steamworks">
       <HintPath>libs\Facepunch.Steamworks.dll</HintPath>

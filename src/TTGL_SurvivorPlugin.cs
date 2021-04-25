@@ -23,6 +23,7 @@ namespace TTGL_Survivor
 {
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]    
     [R2APISubmoduleDependency(nameof(PrefabAPI), nameof(LanguageAPI), nameof(SoundAPI))]
@@ -32,7 +33,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.1.9";
+            MODVERSION = "0.1.10";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -49,7 +50,7 @@ namespace TTGL_Survivor
 
         public void Awake()
         {
-            On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
+            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {

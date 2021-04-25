@@ -271,7 +271,7 @@ namespace TTGL_Survivor.Modules
 
         protected virtual void CreateGenericDoppelganger(GameObject bodyPrefab, string masterName, string masterToCopy)
         {
-            GameObject gameObject = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName, true, "C:\\Users\\rseid\\Documents\\GitHub\\HenryMod\\HenryMod\\Modules\\Prefabs.cs", "CreateGenericDoppelganger", 143);
+            GameObject gameObject = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName);
             gameObject.GetComponent<CharacterMaster>().bodyPrefab = bodyPrefab;
             TTGL_SurvivorPlugin.masterPrefabs.Add(gameObject);
         }

@@ -14,47 +14,30 @@ namespace TTGL_Survivor.Modules
         public const float C_SPIRALENERGYCAP = 300.0f;
         public const float C_MaxTrottleUpdateTime = 1.0f;
         public const float C_MaxEnergyUptime = 6.0f;
+        public float energyModifier = 1.0f;
         private CharacterBody body = null;
         private EntityStateMachine outer = null;
+        private TTGLMusicRemote musicRemote = null;
         private float monsterCountCoefficient = 0.0f;
         private float healthCoefficient = 0.0f;
-        private bool wasPaused;
         private bool hadFullBuff;
         private float trottleUpdateTime = 0.0f;
         private float energyUptimeStopwatch = 0.0f;
-        private bool ttglMusicEnabled;
+        private bool musicPlayed = false;
 
         public void Awake()
         {
             this.body = base.GetComponent<CharacterBody>();
-            this.outer = base.GetComponent<EntityStateMachine>();            
-            On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;            
-            MusicController.pickTrackHook += MusicController_pickTrackHook;
-            this.ttglMusicEnabled = Modules.Config.ttglMusicEnabled.Value;
+            this.outer = base.GetComponent<EntityStateMachine>();
+            this.musicRemote = base.GetComponent<TTGLMusicRemote>();
+            On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;  
         }
 
         public void OnDestroy()
         {
             On.RoR2.CharacterBody.RecalculateStats -= CharacterBody_RecalculateStats;
-            MusicController.pickTrackHook -= MusicController_pickTrackHook;
-            if (this.playedMusic)
-            {
-                AkSoundEngine.PostEvent("TTGLFullBuffStop", this.body.gameObject);
-            }
         }
-        private void LateUpdate()
-        {
-            if (this.playedMusic)
-            {
-                bool flag = Time.timeScale == 0f;
-                if (this.wasPaused != flag)
-                {
-                    AkSoundEngine.PostEvent(flag ? "TTGLFullBuffPause" : "TTGLFullBuffResume", base.gameObject);
-                    this.wasPaused = flag;
-                }
-            }            
-        }
-
+        
         private void FixedUpdate()
         {            
             if (NetworkServer.active)
@@ -66,15 +49,7 @@ namespace TTGL_Survivor.Modules
                 this.AuthorityFixedUpdate();
             }            
         }
-
-        private void MusicController_pickTrackHook(MusicController musicController, ref MusicTrackDef newTrack)
-        {
-            if (this.playedMusic)
-            {
-                newTrack = null;
-            }
-        }
-
+        
         public void OnDamageDealtServer(DamageReport damageReport)
         {
             this.energyUptimeStopwatch = 0.0f;
@@ -134,7 +109,7 @@ namespace TTGL_Survivor.Modules
                 }
                 else if (energyUptimeStopwatch < C_MaxEnergyUptime)
                 {
-                    newChargeRate = (Mathf.Pow((this.healthCoefficient + this.monsterCountCoefficient), 2f) / ((hasFullEnergyDeBuff) ? 60f : 30f));
+                    newChargeRate = (Mathf.Pow((this.healthCoefficient + this.monsterCountCoefficient), 2f) / ((hasFullEnergyDeBuff) ? 60f : 30f)) * this.energyModifier;
                 }
                 else
                 {
@@ -162,17 +137,20 @@ namespace TTGL_Survivor.Modules
 
         private void AuthorityFixedUpdate()
         {
-            if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
+            if (this.musicRemote)
             {
-                if (!playedMusic && ttglMusicEnabled)
+                if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
                 {
-                    AkSoundEngine.PostEvent("TTGLFullBuffPlay", this.body.gameObject);
-                    playedMusic = true;
+                    if (!musicPlayed)
+                    {
+                        this.musicRemote.PlayMusic(TTGLMusicController.MusicType.FullBuff);
+                        musicPlayed = true;
+                    }
                 }
-            }
-            else if (playedMusic)
-            {
-                playedMusic = false;
+                else
+                {
+                    musicPlayed = false;
+                }
             }
         }
 
@@ -270,8 +248,6 @@ namespace TTGL_Survivor.Modules
         [Tooltip("How much charge rate this object has.")]
         [HideInInspector]
         [SyncVar]
-        public float charge_rate = 0f;
-        
-        private bool playedMusic;
+        public float charge_rate = 0f;        
     }
 }

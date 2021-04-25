@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using EntityStates.Commando;
 using RoR2;
 using RoR2.Audio;
 using System;
@@ -19,7 +20,6 @@ namespace TTGL_Survivor.SkillStates
         public static string horizontalBurstHitboxName = "SpiralBurst1Hitbox";
         public static string verticalBurstHitboxName = "SpiralBurst2Hitbox";
 
-        public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
         private float burstSpeed;
@@ -124,7 +124,7 @@ namespace TTGL_Survivor.SkillStates
             this.previousPosition = base.transform.position - b;
 
             base.PlayAnimation("FullBody, Override", (isVertical) ? "SpiralBurst2": "SpiralBurst1", this.playbackRateString, this.duration);
-            Util.PlaySound(LagannSpiralBurst.dodgeSoundString, base.gameObject);
+            Util.PlaySound(SlideState.soundString, base.gameObject);
             if (NetworkServer.active)
             {
                 base.characterBody.AddBuff(Buffs.HiddenInvincibility);

@@ -38,7 +38,6 @@ namespace TTGL_Survivor.SkillStates
             this.animator = base.GetModelAnimator();
             this.animator.SetInteger("LagannImpact.stage", 2);
             Util.PlaySound(EvisDash.beginSoundString, base.gameObject);
-            //Util.PlaySound("TTGLLagannImpactFire", base.gameObject);
             if (NetworkServer.active)
             {
                 base.characterBody.AddBuff(Buffs.HiddenInvincibility);
@@ -140,10 +139,7 @@ namespace TTGL_Survivor.SkillStates
                 }
                 if (base.isAuthority)
                 {
-                    if (this.overlapAttack.Fire())
-                    {
-                        //Util.PlaySound(this.hitSoundString, base.gameObject);
-                    }
+                    this.overlapAttack.Fire();
                 }
             }
         }

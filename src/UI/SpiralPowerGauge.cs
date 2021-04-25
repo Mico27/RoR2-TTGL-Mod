@@ -39,7 +39,7 @@ namespace TTGL_Survivor.UI
                 if (m_amount != newAmount)
                 {
                     m_amount = newAmount;
-                    m_animator.SetFloat("amount", Mathf.Clamp01(newAmount / (SpiralEnergyComponent.C_SPIRALENERGYCAP + 1)));
+                    m_animator.SetFloat("amount", Mathf.Clamp(newAmount / SpiralEnergyComponent.C_SPIRALENERGYCAP, 0f, 0.99f));
                 }                
             }
         }

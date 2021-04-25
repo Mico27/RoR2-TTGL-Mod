@@ -1,6 +1,6 @@
 ﻿using EntityStates;
+using EntityStates.Commando;
 using RoR2;
-using RoR2.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -18,7 +18,6 @@ namespace TTGL_Survivor.SkillStates
 
         public static string hitboxName = "DammageHitbox";
 
-        public static string dodgeSoundString = "HenryRoll";
         public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
         private float burstSpeed;
@@ -126,7 +125,7 @@ namespace TTGL_Survivor.SkillStates
             this.previousPosition = base.transform.position - b;
 
             base.PlayAnimation("FullBody, Override", "GurrenLagannHurricaneKick", this.playbackRateString, this.duration);
-            Util.PlaySound(GurrenLagannTornadoKick.dodgeSoundString, base.gameObject);
+            Util.PlaySound(SlideState.soundString, base.gameObject);
             if (NetworkServer.active)
             {
                 base.characterBody.AddBuff(Buffs.HiddenInvincibility);

@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using ExtraSkillSlots;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -10,37 +11,117 @@ namespace TTGL_Survivor.Modules
     {
         internal static void CreateSkillFamilies(GameObject targetPrefab)
         {
+            ClearSkillFamilies(targetPrefab);
+            CreatePrimarySkillFamily(targetPrefab);
+            CreateSecondarySkillFamily(targetPrefab);
+            CreateUtilitySkillFamily(targetPrefab);
+            CreateSpecialSkillFamily(targetPrefab);
+        }
+
+        internal static void ClearSkillFamilies(GameObject targetPrefab)
+        {
             foreach (GenericSkill obj in targetPrefab.GetComponentsInChildren<GenericSkill>())
             {
                 TTGL_SurvivorPlugin.DestroyImmediate(obj);
             }
+        }
 
+        internal static void CreatePrimarySkillFamily(GameObject targetPrefab)
+        {
             SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
-
             skillLocator.primary = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily primaryFamily = ScriptableObject.CreateInstance<SkillFamily>();
             primaryFamily.variants = new SkillFamily.Variant[0];
             skillLocator.primary._skillFamily = primaryFamily;
             TTGL_SurvivorPlugin.skillFamilies.Add(primaryFamily);
+        }
 
+        internal static void CreateSecondarySkillFamily(GameObject targetPrefab)
+        {
+            SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
             skillLocator.secondary = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily secondaryFamily = ScriptableObject.CreateInstance<SkillFamily>();
             secondaryFamily.variants = new SkillFamily.Variant[0];
             skillLocator.secondary._skillFamily = secondaryFamily;
             TTGL_SurvivorPlugin.skillFamilies.Add(secondaryFamily);
+        }
 
+        internal static void CreateUtilitySkillFamily(GameObject targetPrefab)
+        {
+            SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
             skillLocator.utility = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily utilityFamily = ScriptableObject.CreateInstance<SkillFamily>();
             utilityFamily.variants = new SkillFamily.Variant[0];
             skillLocator.utility._skillFamily = utilityFamily;
             TTGL_SurvivorPlugin.skillFamilies.Add(utilityFamily);
+        }
 
+        internal static void CreateSpecialSkillFamily(GameObject targetPrefab)
+        {
+            SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
             skillLocator.special = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily specialFamily = ScriptableObject.CreateInstance<SkillFamily>();
             specialFamily.variants = new SkillFamily.Variant[0];
             skillLocator.special._skillFamily = specialFamily;
             TTGL_SurvivorPlugin.skillFamilies.Add(specialFamily);
         }
+
+
+        internal static void CreateFirstExtraSkillFamily(GameObject targetPrefab)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (!skillLocator)
+            {
+                skillLocator = targetPrefab.AddComponent<ExtraSkillLocator>();
+            }
+            skillLocator.extraFirst = targetPrefab.AddComponent<GenericSkill>();
+            SkillFamily firstExtraFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            firstExtraFamily.variants = new SkillFamily.Variant[0];
+            skillLocator.extraFirst._skillFamily = firstExtraFamily;
+            TTGL_SurvivorPlugin.skillFamilies.Add(firstExtraFamily);
+        }
+
+        internal static void CreateSecondExtraSkillFamily(GameObject targetPrefab)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (!skillLocator)
+            {
+                skillLocator = targetPrefab.AddComponent<ExtraSkillLocator>();
+            }
+            skillLocator.extraSecond = targetPrefab.AddComponent<GenericSkill>();
+            SkillFamily secondExtraFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            secondExtraFamily.variants = new SkillFamily.Variant[0];
+            skillLocator.extraSecond._skillFamily = secondExtraFamily;
+            TTGL_SurvivorPlugin.skillFamilies.Add(secondExtraFamily);
+        }
+        internal static void CreateThirdExtraSkillFamily(GameObject targetPrefab)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (!skillLocator)
+            {
+                skillLocator = targetPrefab.AddComponent<ExtraSkillLocator>();
+            }
+            skillLocator.extraThird = targetPrefab.AddComponent<GenericSkill>();
+            SkillFamily thirdExtraFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            thirdExtraFamily.variants = new SkillFamily.Variant[0];
+            skillLocator.extraThird._skillFamily = thirdExtraFamily;
+            TTGL_SurvivorPlugin.skillFamilies.Add(thirdExtraFamily);
+        }
+
+        internal static void CreateFourthExtraSkillFamily(GameObject targetPrefab)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (!skillLocator)
+            {
+                skillLocator = targetPrefab.AddComponent<ExtraSkillLocator>();
+            }
+            skillLocator.extraFourth = targetPrefab.AddComponent<GenericSkill>();
+            SkillFamily fourthExtraFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            fourthExtraFamily.variants = new SkillFamily.Variant[0];
+            skillLocator.extraFourth._skillFamily = fourthExtraFamily;
+            TTGL_SurvivorPlugin.skillFamilies.Add(fourthExtraFamily);
+        }
+
         // this could all be a lot cleaner but at least it's simple and easy to work with
         internal static void AddPrimarySkill(GameObject targetPrefab, SkillDef skillDef)
         {
@@ -100,6 +181,74 @@ namespace TTGL_Survivor.Modules
                 unlockableName = "",
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
+        }
+
+        internal static void AddFirstExtraSkill(GameObject targetPrefab, SkillDef skillDef)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (skillLocator)
+            {
+                SkillFamily skillFamily = skillLocator.extraFirst.skillFamily;
+
+                Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+                skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+                {
+                    skillDef = skillDef,
+                    unlockableName = "",
+                    viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
+                };
+            }
+        }
+
+        internal static void AddSecondExtraSkill(GameObject targetPrefab, SkillDef skillDef)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (skillLocator)
+            {
+                SkillFamily skillFamily = skillLocator.extraSecond.skillFamily;
+
+                Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+                skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+                {
+                    skillDef = skillDef,
+                    unlockableName = "",
+                    viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
+                };
+            }
+        }
+
+        internal static void AddThirdExtraSkill(GameObject targetPrefab, SkillDef skillDef)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (skillLocator)
+            {
+                SkillFamily skillFamily = skillLocator.extraThird.skillFamily;
+
+                Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+                skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+                {
+                    skillDef = skillDef,
+                    unlockableName = "",
+                    viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
+                };
+            }
+        }
+
+        internal static void AddFourthExtraSkill(GameObject targetPrefab, SkillDef skillDef)
+        {
+            ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
+            if (skillLocator)
+            {
+                SkillFamily skillFamily = skillLocator.extraFourth.skillFamily;
+
+                Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+                skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+                {
+                    skillDef = skillDef,
+                    unlockableName = "",
+                    viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
+                };
+            }
         }
     }
 }

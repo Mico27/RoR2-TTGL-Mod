@@ -32,6 +32,7 @@ namespace TTGL_Survivor.Modules
         internal static NetworkSoundEventDef fullBuffStopSoundEvent;
         internal static NetworkSoundEventDef tokoRifleFireSoundEvent;
         internal static NetworkSoundEventDef tokoRifleCritSoundEvent;
+        internal static NetworkSoundEventDef gigaDrillBreakSoundEvent;
 
         // cache these and use to create our own materials
         public static Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/HGStandard");
@@ -46,14 +47,7 @@ namespace TTGL_Survivor.Modules
                     mainAssetBundle = AssetBundle.LoadFromStream(assetStream);                    
                 }
             }
-            
-            using (Stream manifestResourceStream2 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.HenryBank.bnk"))
-            {
-                byte[] array = new byte[manifestResourceStream2.Length];
-                manifestResourceStream2.Read(array, 0, array.Length);
-                SoundAPI.SoundBanks.Add(array);
-            }
-            
+                        
             using (Stream manifestResourceStream3 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.TTGLSoundbank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream3.Length];
@@ -70,30 +64,9 @@ namespace TTGL_Survivor.Modules
             fullBuffStopSoundEvent = CreateNetworkSoundEventDef("TTGLFullBuffStop");
             tokoRifleFireSoundEvent = CreateNetworkSoundEventDef("TTGLTokoRifleFire");
             tokoRifleCritSoundEvent = CreateNetworkSoundEventDef("TTGLTokoRifleCrit");
+            gigaDrillBreakSoundEvent = CreateNetworkSoundEventDef("TTGLGigaDrillBreak");
 
-            /*
-            bombExplosionEffect = LoadEffect("BombExplosionEffect", "");
-
-            ShakeEmitter shakeEmitter = bombExplosionEffect.AddComponent<ShakeEmitter>();
-            shakeEmitter.amplitudeTimeDecay = true;
-            shakeEmitter.duration = 0.5f;
-            shakeEmitter.radius = 200f;
-            shakeEmitter.scaleShakeRadiusWithLocalScale = false;
-
-            shakeEmitter.wave = new Wave
-            {
-                amplitude = 1f,
-                frequency = 40f,
-                cycleOffset = 0f
-            };
-            */
-
-            //swordSwingEffect = Assets.LoadEffect("HenrySwordSwingEffect");
-            //swordHitImpactEffect = Assets.LoadEffect("ImpactHenrySlash");
-
-            //punchImpactEffect = Assets.LoadEffect("ImpactHenryPunch");
-            // on second thought my effect sucks so imma just clone loader's
-            punchImpactEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniImpactVFXLoader"), "ImpactHenryPunch");
+            punchImpactEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniImpactVFXLoader"), "TTGLImpactPunch");
             punchImpactEffect.AddComponent<NetworkIdentity>();
 
             TTGL_SurvivorPlugin.effectDefs.Add(new EffectDef()
@@ -116,7 +89,8 @@ namespace TTGL_Survivor.Modules
         {
             NetworkSoundEventDef networkSoundEventDef = ScriptableObject.CreateInstance<NetworkSoundEventDef>();
             networkSoundEventDef.akId = AkSoundEngine.GetIDFromString(eventName);
-            networkSoundEventDef.eventName = eventName;                        
+            networkSoundEventDef.eventName = eventName;
+            TTGL_SurvivorPlugin.networkSoundEventDefs.Add(networkSoundEventDef);
             return networkSoundEventDef;
         }
 

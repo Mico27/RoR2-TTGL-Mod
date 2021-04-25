@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using ExtraSkillSlots;
 using R2API;
 using RoR2;
 using RoR2.Skills;
@@ -35,13 +36,15 @@ namespace TTGL_Survivor.Modules.Survivors
                 #region Body
                 characterPrefab = CreatePrefab("LagannBody", "LagannPrefab");
                 //Setup spiritEnergy components
+                characterPrefab.AddComponent<TTGLMusicRemote>();
                 characterPrefab.AddComponent<SpiralEnergyComponent>();
                 characterPrefab.AddComponent<Modules.Components.LagannController>();
                 characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannMain));
+                
                 #endregion
 
                 #region Model
-                
+
                 SetupCharacterModel(characterPrefab, new CustomRendererInfo[] {
                 new CustomRendererInfo
                 {
@@ -71,14 +74,14 @@ namespace TTGL_Survivor.Modules.Survivors
 
                 displayPrefab = CreateDisplayPrefab("LagannMenuPrefab", characterPrefab);
 
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", "");// TTGL_SurvivorPlugin.developerPrefix + "_HENRY_BODY_UNLOCKABLE_REWARD_ID");
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", "");
 
                 CreateHurtBoxes();
                 CreateHitboxes();
                 CreateSkills();
                 CreateSkins();
                 CreateItemDisplays();
-                CreateGenericDoppelganger(characterPrefab, "HenryMonsterMaster", "Merc");
+                CreateGenericDoppelganger(characterPrefab, "LagannMonsterMaster", "Merc");
 
                 if (TTGL_SurvivorPlugin.scepterInstalled) CreateScepterSkills();
             }
@@ -114,6 +117,19 @@ namespace TTGL_Survivor.Modules.Survivors
             SetupFootstepController(model);
             SetupRagdoll(model);
             SetupAimAnimator(newPrefab, model);
+            ChildLocator childLocator = model.GetComponent<ChildLocator>();
+            if (childLocator)
+            {
+                var specialMoveCameraSource = childLocator.FindChild("SpecialMoveCameraSource");
+                if (specialMoveCameraSource)
+                {
+                    var forcedCamera = specialMoveCameraSource.gameObject.AddComponent<ForcedCamera>();
+                    forcedCamera.allowUserHud = false;
+                    forcedCamera.allowUserLook = false;
+                    forcedCamera.entryLerpDuration = 0f;
+                    forcedCamera.exitLerpDuration = 0f;
+                }
+            }
 
             TTGL_SurvivorPlugin.bodyPrefabs.Add(newPrefab);
             return newPrefab;
@@ -190,6 +206,7 @@ namespace TTGL_Survivor.Modules.Survivors
         private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
+            Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -359,6 +376,31 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannImpactSkillDef.stockToConsume = 1;
             TTGL_SurvivorPlugin.skillDefs.Add(lagannImpactSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, lagannImpactSkillDef);
+
+            #endregion
+            #region FirstExtra
+            SkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            lagannCombineSkillDef.skillName = prefix + "_LAGANN_BODY_COMBINE_NAME";
+            lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
+            lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";
+            lagannCombineSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            lagannCombineSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannCombine));
+            lagannCombineSkillDef.activationStateMachineName = "Body";
+            lagannCombineSkillDef.baseMaxStock = 1;
+            lagannCombineSkillDef.baseRechargeInterval = 15f;
+            lagannCombineSkillDef.beginSkillCooldownOnSkillEnd = true;
+            lagannCombineSkillDef.canceledFromSprinting = false;
+            lagannCombineSkillDef.forceSprintDuringState = false;
+            lagannCombineSkillDef.fullRestockOnAssign = false;
+            lagannCombineSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            lagannCombineSkillDef.isCombatSkill = true;
+            lagannCombineSkillDef.mustKeyPress = false;
+            lagannCombineSkillDef.cancelSprintingOnActivation = true;
+            lagannCombineSkillDef.rechargeStock = 1;
+            lagannCombineSkillDef.requiredStock = 1;
+            lagannCombineSkillDef.stockToConsume = 1;
+            TTGL_SurvivorPlugin.skillDefs.Add(lagannCombineSkillDef);
+            Modules.Skills.AddFirstExtraSkill(characterPrefab, lagannCombineSkillDef);
 
             #endregion
         }

@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using EntityStates.Huntress;
+using EntityStates.Huntress.HuntressWeapon;
 using RoR2;
 using RoR2.Audio;
 using RoR2.Projectile;
@@ -20,7 +21,6 @@ namespace TTGL_Survivor.SkillStates
         protected float baseEarlyExitTime;
         protected float hitStopDuration;
 
-        protected string swingSoundString = "HenryPunchSwing";
         protected string playbackRateString = "skill4.playbackRate";
         protected GameObject hitEffectPrefab;
         protected NetworkSoundEventIndex impactSound;
@@ -112,7 +112,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                Util.PlayAttackSpeedSound(this.swingSoundString, base.gameObject, this.attackSpeedStat);
+                Util.PlayAttackSpeedSound(ChargeArrow.chargeLoopStartSoundString, base.gameObject, this.attackSpeedStat);
             }
 
             if (base.isAuthority)
