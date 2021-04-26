@@ -13,6 +13,7 @@ namespace TTGL_Survivor.SkillStates
         public static string soundString = "TTGLCombine";
         public static float baseDuration = 18f;
         private Vector3 previousPosition;
+        private float energy;
 
         public override void OnEnter()
         {
@@ -23,6 +24,8 @@ namespace TTGL_Survivor.SkillStates
             this.SetAntiGravity(base.characterBody, true);
             this.previousPosition = base.characterMotor.Motor.transform.position;
             this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));
+            var spiralEnergyComponent = base.characterBody.GetComponent<SpiralEnergyComponent>();
+            this.energy = spiralEnergyComponent.NetworkEnergy;
             var ttglMusicRemote = base.characterBody.GetComponent<TTGLMusicRemote>();
             ttglMusicRemote.PlayMusic(TTGLMusicController.MusicType.Combine);
             Util.PlaySound(LagannCombine.soundString, base.gameObject);
@@ -190,15 +193,12 @@ namespace TTGL_Survivor.SkillStates
         {
             if (NetworkServer.active && base.characterBody && base.characterBody.master)
             {
-                var spiralEnergyComponent = base.characterBody.GetComponent<SpiralEnergyComponent>();
-                var energy = spiralEnergyComponent.energy;
-                var charge_rate = spiralEnergyComponent.charge_rate;
+                
                 var master = base.characterBody.master;
                 master.TransformBody("GurrenLagannBody");
                 var newBody = master.GetBody();
-                spiralEnergyComponent = newBody.GetComponent<SpiralEnergyComponent>();
-                spiralEnergyComponent.energy = energy;
-                spiralEnergyComponent.charge_rate = charge_rate;
+                var spiralEnergyComponent = newBody.GetComponent<SpiralEnergyComponent>();
+                spiralEnergyComponent.NetworkEnergy = this.energy;
             }
         }
     }

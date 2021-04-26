@@ -41,15 +41,8 @@ namespace TTGL_Survivor.SkillStates
         {
             if (NetworkServer.active && base.characterBody && base.characterBody.master)
             {
-                var spiralEnergyComponent = base.characterBody.GetComponent<SpiralEnergyComponent>();
-                var energy = spiralEnergyComponent.energy;
-                var charge_rate = spiralEnergyComponent.charge_rate;
                 var master = base.characterBody.master;
                 master.TransformBody("LagannBody");
-                var newBody = master.GetBody();
-                spiralEnergyComponent = newBody.GetComponent<SpiralEnergyComponent>();
-                spiralEnergyComponent.energy = energy;
-                spiralEnergyComponent.charge_rate = charge_rate;
             }
         }
     }

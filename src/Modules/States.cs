@@ -48,14 +48,17 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannStabbingRight));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannThrustSlash));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannUppercut));
-            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannUpwardThrust));            
-
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannUpwardThrust)); 
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannThrowingShades));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannTornadoKick));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannGigaDrillMaximum));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannGigaDrillBreak));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannShadesConstrictState));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannSplit));
+
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenMain));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenTripleSlash));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenRoll));
         }
 
         private static void SetStateTypeHook(ref this SerializableEntityStateType self, Type value)

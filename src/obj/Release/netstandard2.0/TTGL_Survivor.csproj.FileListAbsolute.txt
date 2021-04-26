@@ -39,3 +39,4 @@ C:\Users\Mico27\Documents\ror2-mODS\RoR2-TTGL-Mod\src\obj\Release\netstandard2.0
 C:\Users\Mico27\Documents\ror2-mODS\RoR2-TTGL-Mod\src\obj\Release\netstandard2.0\TTGL_Survivor.dll
 C:\Users\Mico27\Documents\ror2-mODS\RoR2-TTGL-Mod\src\obj\Release\netstandard2.0\TTGL_Survivor.pdb
 C:\Users\Mico27\Documents\ror2-mODS\RoR2-TTGL-Mod\src\bin\Release\netstandard2.0\ExtraSkillSlots.dll
+C:\Users\Mico27\Documents\ror2-mODS\RoR2-TTGL-Mod\src\obj\Release\netstandard2.0\TTGL_Survivor.csprojAssemblyReference.cache

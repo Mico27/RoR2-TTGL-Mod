@@ -29,23 +29,11 @@ namespace TTGL_Survivor.UI
         {
             if (this.source && m_animator)
             {
-                var newRate = this.source.charge_rate;
-                if (m_rate != newRate)
-                {
-                    m_rate = newRate;
-                    m_animator.SetFloat("rate", newRate * 3);
-                }
-                var newAmount = this.source.energy;
-                if (m_amount != newAmount)
-                {
-                    m_amount = newAmount;
-                    m_animator.SetFloat("amount", Mathf.Clamp(newAmount / SpiralEnergyComponent.C_SPIRALENERGYCAP, 0f, 0.99f));
-                }                
+                m_animator.SetFloat("rate", this.source.charge_rate * 3);
+                m_animator.SetFloat("amount", Mathf.Clamp(this.source.energy / SpiralEnergyComponent.C_SPIRALENERGYCAP, 0f, 0.99f));
             }
         }
         
         private Animator m_animator;
-        private float m_rate;
-        private float m_amount;
     }
 }

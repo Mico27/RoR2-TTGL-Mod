@@ -430,7 +430,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillBreakerSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
             gigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
             gigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
-            gigaDrillBreakerSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            gigaDrillBreakerSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GigaDrillBreakIcon");
             gigaDrillBreakerSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillBreak));
             gigaDrillBreakerSkillDef.activationStateMachineName = "Body";
             gigaDrillBreakerSkillDef.baseMaxStock = 1;
@@ -455,7 +455,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gurrenLagannSplitSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_SPLIT_NAME";
             gurrenLagannSplitSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPLIT_NAME";
             gurrenLagannSplitSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION";
-            gurrenLagannSplitSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            gurrenLagannSplitSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenLagannSplitIcon");
             gurrenLagannSplitSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSplit));
             gurrenLagannSplitSkillDef.activationStateMachineName = "Body";
             gurrenLagannSplitSkillDef.baseMaxStock = 1;

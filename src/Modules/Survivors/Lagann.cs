@@ -379,11 +379,13 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #endregion
             #region FirstExtra
-            SkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            LagannCombineSkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<LagannCombineSkillDef>();
+            lagannCombineSkillDef.energyCost = 200f;
+            lagannCombineSkillDef.requiredTeammateBodyName = "GurrenBody";
             lagannCombineSkillDef.skillName = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";
-            lagannCombineSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            lagannCombineSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannCombineIcon");
             lagannCombineSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannCombine));
             lagannCombineSkillDef.activationStateMachineName = "Body";
             lagannCombineSkillDef.baseMaxStock = 1;

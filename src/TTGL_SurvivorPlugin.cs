@@ -65,6 +65,7 @@ namespace TTGL_Survivor
                 Modules.Unlockables.RegisterUnlockables();
                 Modules.Tokens.AddTokens();
                 new Lagann().CreateCharacter();
+                new Gurren().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
                 Hooks();                
             }
