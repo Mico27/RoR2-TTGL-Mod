@@ -8,21 +8,14 @@ using UnityEngine.UI;
 namespace TTGL_Survivor.UI
 {
     // just a class to run some custom code for things like weapon models
-    public class LagannCombineSkillDef : SkillDef
+    public class LagannCombineSkillDef : SpiralEnergySkillDef
     {
-        private SpiralEnergyComponent source { get; set; }
         private bool hasRequiredTeammate { get; set; }
-
-        public float energyCost { get; set; }
-
+        
         public string requiredTeammateBodyName { get; set; }
 
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
-            if (skillSlot.characterBody)
-            {
-                this.source = skillSlot.characterBody.GetComponent<SpiralEnergyComponent>();
-            }
             TeamComponent.onJoinTeamGlobal += TeamComponent_onJoinTeamGlobal;
             this.hasRequiredTeammate = CheckRequiredTeammate();
             return base.OnAssigned(skillSlot);
@@ -72,7 +65,7 @@ namespace TTGL_Survivor.UI
 
         private bool CanCombine([NotNull] GenericSkill skillSlot)
         {
-            return (hasRequiredTeammate && source && source.energy >= energyCost);
+            return hasRequiredTeammate;
         }
     }
 }

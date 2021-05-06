@@ -79,7 +79,7 @@ namespace TTGL_Survivor.SkillStates
             {
                 if (base.fixedAge >= this.duration)
                 {
-                    this.outer.SetNextStateToMain();
+                    this.outer.SetNextState(new GurrenLagannSplit());
                 }
             }
         }
@@ -304,5 +304,6 @@ namespace TTGL_Survivor.SkillStates
             }
             gameObject.transform.position = newPosition;
         }
+
     }
 }

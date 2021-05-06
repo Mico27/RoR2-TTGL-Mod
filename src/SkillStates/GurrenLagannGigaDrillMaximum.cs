@@ -5,12 +5,15 @@ using RoR2;
 using RoR2.Audio;
 using RoR2.Projectile;
 using System;
+using TTGL_Survivor.Modules;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannGigaDrillMaximum : BaseSkillState
     {
+        public const float energyCost = 50f;
         public const float c_DamageCoefficient = 7.5f;
         public int comboCounter;
         protected string hitboxName = "DammageHitbox";
@@ -62,6 +65,14 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (NetworkServer.active)
+            {
+                var spiralEnergyComponent = base.characterBody.GetComponent<SpiralEnergyComponent>();
+                if (spiralEnergyComponent)
+                {
+                    spiralEnergyComponent.NetworkEnergy -= energyCost;
+                }
+            }
             this.baseDuration = 3.0f;
             this.attackStartTime = 0.33f;
             this.attackEndTime = 0.75f;

@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using EntityStates;
 using ExtraSkillSlots;
 using R2API;
 using RoR2;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TTGL_Survivor.SkillStates;
 using TTGL_Survivor.UI;
 using UnityEngine;
 
@@ -39,8 +41,9 @@ namespace TTGL_Survivor.Modules.Survivors
                 characterPrefab.AddComponent<TTGLMusicRemote>();
                 characterPrefab.AddComponent<SpiralEnergyComponent>();
                 characterPrefab.AddComponent<Modules.Components.LagannController>();
-                characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannMain));
-                
+                var entityStateMachine = characterPrefab.GetComponent<EntityStateMachine>();
+                entityStateMachine.mainStateType = new SerializableEntityStateType(typeof(SkillStates.LagannMain));
+                entityStateMachine.initialStateType = new SerializableEntityStateType(typeof(SkillStates.LagannMain));
                 #endregion
 
                 #region Model
@@ -69,12 +72,16 @@ namespace TTGL_Survivor.Modules.Survivors
                 new CustomRendererInfo
                 {
                     childName = "KaminaCape",
+                },
+                new CustomRendererInfo
+                {
+                    childName = "MeshWoopsYokoSkin",
                 }}, 0);
                 #endregion
 
                 displayPrefab = CreateDisplayPrefab("LagannMenuPrefab", characterPrefab);
 
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", "");
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", null);
 
                 CreateHurtBoxes();
                 CreateHitboxes();
@@ -156,6 +163,7 @@ namespace TTGL_Survivor.Modules.Survivors
             cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
             cameraTargetParams.cameraParams = cameraParams;
         }
+
         private void CreateHurtBoxes()
         {
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;
@@ -380,13 +388,13 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
             #region FirstExtra
             LagannCombineSkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<LagannCombineSkillDef>();
-            lagannCombineSkillDef.energyCost = 200f;
+            lagannCombineSkillDef.energyCost = LagannCombine.energyCost;
             lagannCombineSkillDef.requiredTeammateBodyName = "GurrenBody";
             lagannCombineSkillDef.skillName = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";
             lagannCombineSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannCombineIcon");
-            lagannCombineSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannCombine));
+            lagannCombineSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(LagannCombine));
             lagannCombineSkillDef.activationStateMachineName = "Body";
             lagannCombineSkillDef.baseMaxStock = 1;
             lagannCombineSkillDef.baseRechargeInterval = 15f;
@@ -396,7 +404,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannCombineSkillDef.fullRestockOnAssign = false;
             lagannCombineSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
             lagannCombineSkillDef.isCombatSkill = true;
-            lagannCombineSkillDef.mustKeyPress = false;
+            lagannCombineSkillDef.mustKeyPress = true;
             lagannCombineSkillDef.cancelSprintingOnActivation = true;
             lagannCombineSkillDef.rechargeStock = 1;
             lagannCombineSkillDef.requiredStock = 1;

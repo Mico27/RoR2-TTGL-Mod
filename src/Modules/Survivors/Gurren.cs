@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using EntityStates;
 using KinematicCharacterController;
 using R2API;
 using RoR2;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TTGL_Survivor.Modules.Achievements;
 using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.UI;
 using UnityEngine;
@@ -17,6 +19,7 @@ namespace TTGL_Survivor.Modules.Survivors
     {
         internal static GameObject characterPrefab;
         internal static GameObject displayPrefab;
+        internal static GameObject allyPrefab;
 
         internal static ConfigEntry<bool> characterEnabled;
         
@@ -37,8 +40,9 @@ namespace TTGL_Survivor.Modules.Survivors
                 //Setup spiritEnergy components
                 characterPrefab.AddComponent<TTGLMusicRemote>();
                 characterPrefab.AddComponent<GurrenController>();
-                characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenMain));
-
+                var entityStateMachine = characterPrefab.GetComponent<EntityStateMachine>();
+                entityStateMachine.mainStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenMain));
+                entityStateMachine.initialStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenMain));
                 //Fix interaction distance because Gurren is too big
                 var interactor = characterPrefab.GetComponent<Interactor>();
                 interactor.maxInteractionDistance = 20f;
@@ -55,7 +59,8 @@ namespace TTGL_Survivor.Modules.Survivors
 
                 displayPrefab = CreateDisplayPrefab("GurrenMenuPrefab", characterPrefab);
 
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURREN", "");
+                var gurrenFoundUnlockable = Unlockables.AddUnlockable<GurrenFoundAchievement>(true);
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURREN", gurrenFoundUnlockable);
 
                 CreateHurtBoxes();
                 CreateHitboxes();
@@ -63,6 +68,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 CreateSkins();
                 CreateItemDisplays();
                 CreateGenericDoppelganger(characterPrefab, "GurrenMonsterMaster", "Merc");
+                CreateAlly(characterPrefab, "GurrenAllyMaster", "Merc");
             }
         }
 
@@ -178,13 +184,13 @@ namespace TTGL_Survivor.Modules.Survivors
 
             GameObject cameraPivot = new GameObject("CameraPivot");
             cameraPivot.transform.parent = modelBase.transform;
-            cameraPivot.transform.localPosition = (isDisplay) ? new Vector3(0f, 2.6f, 0f): new Vector3(0f, 16.0f, 0f);
+            cameraPivot.transform.localPosition = (isDisplay) ? new Vector3(0f, 2.6f, 0f): new Vector3(0f, 10.0f, 0f);
             cameraPivot.transform.localRotation = Quaternion.identity;
             cameraPivot.transform.localScale = Vector3.one;
 
             GameObject aimOrigin = new GameObject("AimOrigin");
             aimOrigin.transform.parent = modelBase.transform;
-            aimOrigin.transform.localPosition = (isDisplay) ? new Vector3(0f, 2.6f, 0f) : new Vector3(0f, 16.0f, 0f);
+            aimOrigin.transform.localPosition = (isDisplay) ? new Vector3(0f, 2.6f, 0f) : new Vector3(0f, 10.0f, 0f);
             aimOrigin.transform.localRotation = Quaternion.identity;
             aimOrigin.transform.localScale = Vector3.one;
             prefab.GetComponent<CharacterBody>().aimOriginTransform = aimOrigin.transform;
@@ -192,7 +198,7 @@ namespace TTGL_Survivor.Modules.Survivors
             modelTransform.parent = modelBase.transform;
             modelTransform.localPosition = Vector3.zero;
             modelTransform.localRotation = Quaternion.identity;
-            modelTransform.localScale = (isDisplay) ? new Vector3(0.1f, 0.1f, 0.1f) : new Vector3(0.8f, 0.8f, 0.8f);
+            modelTransform.localScale = (isDisplay) ? new Vector3(0.13f, 0.13f, 0.13f) : new Vector3(0.8f, 0.8f, 0.8f);
 
             return modelBase.transform;
         }
@@ -209,7 +215,7 @@ namespace TTGL_Survivor.Modules.Survivors
             cameraParams.maxPitch = cameraTargetParams.cameraParams.maxPitch;
             cameraParams.minPitch = cameraTargetParams.cameraParams.minPitch;
             cameraParams.pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset;
-            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 2.8f;
+            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 2.2f;
             cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
             cameraTargetParams.cameraParams = cameraParams;
         }
@@ -226,7 +232,17 @@ namespace TTGL_Survivor.Modules.Survivors
             footstepHandler.baseFootstepString = "Play_player_footstep";
             footstepHandler.footstepDustPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("DustDirtyPoofSoft");
         }
-
+        
+        private void CreateAlly(GameObject bodyPrefab, string masterName, string masterToCopy)
+        {
+            allyPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName);
+            var characterMaster = allyPrefab.GetComponent<CharacterMaster>();
+            characterMaster.bodyPrefab = bodyPrefab;
+            characterMaster.name = masterName;
+            allyPrefab.AddComponent<SetDontDestroyOnLoad>();
+            TTGL_SurvivorPlugin.masterPrefabs.Add(allyPrefab);
+        }
+        
         private void CreateHurtBoxes()
         {
             GameObject model = characterPrefab.GetComponentInChildren<ModelLocator>().modelTransform.gameObject;

@@ -18,6 +18,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_NAME", "Lagann");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_DESCRIPTION", lagannDesc);
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SUBTITLE", "Gunman");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_OUTRO_FLAVOR", "Later, Buddy");
 
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_DEFAULT_SKIN_NAME", "Default");
@@ -51,7 +52,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.c_DamageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.c_MaxRebound} times.");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_NAME", "Brotherly Combining! Gurren Lagann!");
-            LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION", $"Combine into Gurren Lagann! Requires <style=cIsUtility>at least 2 full spiral gauges</style> and <style=cIsUtility>Gurren must be in the party</style>.");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION", $"Combine into Gurren Lagann! Requires <style=cIsUtility>at least 1 spiral gauge</style> and <style=cIsUtility>Gurren must be in the party</style>.");
             
             string gurrenLagannDesc = "Lagann<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
             gurrenLagannDesc = gurrenLagannDesc + "< ! > Tip 1." + Environment.NewLine + Environment.NewLine;
@@ -62,6 +63,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_NAME", "Gurren Lagann");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_DESCRIPTION", gurrenLagannDesc);
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SUBTITLE", "Gunman");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_OUTRO_FLAVOR", "Later, Buddy");
 
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_DEFAULT_SKIN_NAME", "Default");
 
@@ -78,7 +80,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION", $"Gurren Lagann does a tornado kick, dealing <style=cIsDamage>3 x {100f * SkillStates.GurrenLagannTornadoKick.damageCoefficient}% damage</style> on its path. <style=cIsUtility>Cannot be hit during this.</style>");
             
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME", "Giga Drill Maximum");
-            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION", $"Gurren Lagann expands numerous drills from its body, dealing <style=cIsDamage>{100f * SkillStates.GurrenLagannGigaDrillMaximum.c_DamageCoefficient}% damage</style> in a large radius,<style=cIsUtility> stunning enemies </style>");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION", $"Gurren Lagann expands numerous drills from its body, dealing <style=cIsDamage>{100f * SkillStates.GurrenLagannGigaDrillMaximum.c_DamageCoefficient}% damage</style> in a large radius,<style=cIsUtility> stunning enemies.</style> Costs <style=cIsUtility>half a spiral gauge.</style>");
 
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPLIT_NAME", "Emergency Extraction");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION", $"Splits back into Gurren and Lagann, taking back control of Lagann. Doing so depletes all your spiral energy.");

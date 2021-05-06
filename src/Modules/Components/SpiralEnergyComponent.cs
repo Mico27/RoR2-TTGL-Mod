@@ -109,7 +109,7 @@ namespace TTGL_Survivor.Modules
                 }
                 else if (energyUptimeStopwatch < C_MaxEnergyUptime)
                 {
-                    newChargeRate = (Mathf.Pow((this.healthCoefficient + this.monsterCountCoefficient), 2f) / ((hasFullEnergyDeBuff) ? 60f : 30f)) * this.energyModifier;
+                    newChargeRate = ((this.healthCoefficient + this.monsterCountCoefficient) / ((hasFullEnergyDeBuff) ? 60f : 30f)) * this.energyModifier;
                 }
                 else
                 {

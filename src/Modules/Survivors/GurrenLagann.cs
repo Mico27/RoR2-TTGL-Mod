@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using EntityStates;
 using KinematicCharacterController;
 using R2API;
 using RoR2;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TTGL_Survivor.Modules.Components;
+using TTGL_Survivor.SkillStates;
 using TTGL_Survivor.UI;
 using UnityEngine;
 
@@ -40,8 +42,9 @@ namespace TTGL_Survivor.Modules.Survivors
                 var spiralEnergyComponent = characterPrefab.AddComponent<SpiralEnergyComponent>();
                 spiralEnergyComponent.energyModifier = 2.0f;
                 characterPrefab.AddComponent<GurrenLagannController>();
-                characterPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannMain));
-
+                var entityStateMachine = characterPrefab.GetComponent<EntityStateMachine>();
+                entityStateMachine.mainStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenLagannMain));
+                entityStateMachine.initialStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenLagannMain));
                 //Fix interaction distance because GurrenLagann is too big
                 var interactor = characterPrefab.GetComponent<Interactor>();
                 interactor.maxInteractionDistance = 20f;
@@ -64,9 +67,9 @@ namespace TTGL_Survivor.Modules.Survivors
                 }}, 0);
                 #endregion
 
-                displayPrefab = CreateDisplayPrefab("GurrenLagannMenuPrefab", characterPrefab);
+                //displayPrefab = CreateDisplayPrefab("GurrenLagannMenuPrefab", characterPrefab);
 
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", "");
+                //RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", "");
 
                 CreateHurtBoxes();
                 CreateHitboxes();
@@ -403,12 +406,13 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Special
 
-            SkillDef gigaDrillMaximumSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            SpiralEnergySkillDef gigaDrillMaximumSkillDef = ScriptableObject.CreateInstance<SpiralEnergySkillDef>();
+            gigaDrillMaximumSkillDef.energyCost = GurrenLagannGigaDrillMaximum.energyCost;
             gigaDrillMaximumSkillDef.skillName = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
             gigaDrillMaximumSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
             gigaDrillMaximumSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION";
             gigaDrillMaximumSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GigaDrillMaximumIcon");
-            gigaDrillMaximumSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillMaximum));
+            gigaDrillMaximumSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(GurrenLagannGigaDrillMaximum));
             gigaDrillMaximumSkillDef.activationStateMachineName = "Body";
             gigaDrillMaximumSkillDef.baseMaxStock = 1;
             gigaDrillMaximumSkillDef.baseRechargeInterval = 8f;
@@ -466,7 +470,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gurrenLagannSplitSkillDef.fullRestockOnAssign = false;
             gurrenLagannSplitSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
             gurrenLagannSplitSkillDef.isCombatSkill = true;
-            gurrenLagannSplitSkillDef.mustKeyPress = false;
+            gurrenLagannSplitSkillDef.mustKeyPress = true;
             gurrenLagannSplitSkillDef.cancelSprintingOnActivation = true;
             gurrenLagannSplitSkillDef.rechargeStock = 1;
             gurrenLagannSplitSkillDef.requiredStock = 1;

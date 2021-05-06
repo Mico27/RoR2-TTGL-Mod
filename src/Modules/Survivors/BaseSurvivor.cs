@@ -12,7 +12,7 @@ namespace TTGL_Survivor.Modules
         // cache this just to give our ragdolls the same physic material as vanilla stuff
         private static PhysicMaterial ragdollMaterial;
 
-        protected void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string namePrefix, string unlockString)
+        protected void RegisterNewSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string namePrefix, UnlockableDef unlockableDef)
         {
             SurvivorDef survivorDef = ScriptableObject.CreateInstance<SurvivorDef>();
             survivorDef.cachedName = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME";
@@ -22,6 +22,7 @@ namespace TTGL_Survivor.Modules
             survivorDef.displayPrefab = displayPrefab;
             survivorDef.outroFlavorToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_OUTRO_FLAVOR";
             survivorDef.desiredSortPosition = 12f;
+            survivorDef.unlockableDef = unlockableDef;
             TTGL_SurvivorPlugin.survivorDefinitions.Add(survivorDef);
         }
 

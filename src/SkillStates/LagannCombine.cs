@@ -1,7 +1,10 @@
 ﻿using EntityStates;
 using EntityStates.Huntress;
+using RewiredConsts;
 using RoR2;
 using RoR2.Projectile;
+using RoR2.UI;
+using System.Linq;
 using TTGL_Survivor.Modules;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,41 +13,63 @@ namespace TTGL_Survivor.SkillStates
 {
     public class LagannCombine : BaseSkillState
     {
+        public const float energyCost = 100f;
         public static string soundString = "TTGLCombine";
         public static float baseDuration = 18f;
         private Vector3 previousPosition;
         private float energy;
+        private uint combineSoundRef;
+        public static bool playedCutSceneOnce = true;
+        private FrequencyConfig cinematicFrequence;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            base.PlayAnimation("FullBody, Override", "TTGLSurvivorCombine", "Combine.playbackRate", LagannCombine.baseDuration);
-            FreezeTime(true);
-            AllowOutOfBound(true);
-            this.SetAntiGravity(base.characterBody, true);
-            this.previousPosition = base.characterMotor.Motor.transform.position;
-            this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));
+            this.cinematicFrequence = Modules.Config.ttglShowCombiningAnimation.Value;
+            if (DisplayCinematic())
+            {
+                base.PlayAnimation("FullBody, Override", "TTGLSurvivorCombine", "Combine.playbackRate", LagannCombine.baseDuration);
+                FreezeTime(true);
+                AllowOutOfBound(true);
+                this.SetAntiGravity(base.characterBody, true);
+                this.previousPosition = base.characterMotor.Motor.transform.position;
+                this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));                
+                combineSoundRef = Util.PlaySound(LagannCombine.soundString, base.gameObject);
+            }
+            else
+            {
+                Util.PlaySound(BaseBeginArrowBarrage.blinkSoundString, base.gameObject);
+            }
             var spiralEnergyComponent = base.characterBody.GetComponent<SpiralEnergyComponent>();
             this.energy = spiralEnergyComponent.NetworkEnergy;
             var ttglMusicRemote = base.characterBody.GetComponent<TTGLMusicRemote>();
             ttglMusicRemote.PlayMusic(TTGLMusicController.MusicType.Combine);
-            Util.PlaySound(LagannCombine.soundString, base.gameObject);
         }
 
         public override void OnExit()
         {
-            this.SetPosition(base.gameObject, this.previousPosition);
-            this.SetAntiGravity(base.characterBody, false);
-            FreezeTime(false);
-            AllowOutOfBound(false);
-            TransformToGurrenLagann();
+            if (DisplayCinematic())
+            {
+                this.SetPosition(base.gameObject, this.previousPosition);
+                this.SetAntiGravity(base.characterBody, false);
+                FreezeTime(false);
+                AllowOutOfBound(false);
+                AkSoundEngine.StopPlayingID(this.combineSoundRef);
+                playedCutSceneOnce = true;
+            }
+            TransformToGurrenLagann();            
             base.OnExit();
         }
 
         public override void FixedUpdate()
         {
-            base.FixedUpdate();        
-            if (base.fixedAge >= LagannCombine.baseDuration && base.isAuthority)
+            base.FixedUpdate();   
+            if (!DisplayCinematic())
+            {
+                this.outer.SetNextStateToMain();
+                return;
+            }
+            if (base.isAuthority && (base.fixedAge >= LagannCombine.baseDuration))
             {
                 this.outer.SetNextStateToMain();
             }
@@ -193,13 +218,41 @@ namespace TTGL_Survivor.SkillStates
         {
             if (NetworkServer.active && base.characterBody && base.characterBody.master)
             {
-                
+                RemoveGurren();
                 var master = base.characterBody.master;
                 master.TransformBody("GurrenLagannBody");
                 var newBody = master.GetBody();
                 var spiralEnergyComponent = newBody.GetComponent<SpiralEnergyComponent>();
                 spiralEnergyComponent.NetworkEnergy = this.energy;
+                var extraSkillLocator = newBody.GetComponent<ExtraSkillSlots.ExtraSkillLocator>();
+                extraSkillLocator.extraFirst.RemoveAllStocks();
             }
+        }
+
+        private void RemoveGurren()
+        {
+            var bodyIndex = BodyCatalog.FindBodyIndex("GurrenBody");
+            var masterIndex = MasterCatalog.FindMasterIndex("GurrenAllyMaster");
+            var players = TeamComponent.GetTeamMembers(TeamIndex.Player);
+            if (players != null)
+            {
+                foreach (var player in players.ToList())
+                {                    
+                    if (player.body && player.body.bodyIndex == bodyIndex &&
+                        player.body.master && player.body.master.masterIndex == masterIndex)
+                    {
+                        var master = player.body.master;
+                        master.DestroyBody();
+                        NetworkServer.Destroy(master.gameObject);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private bool DisplayCinematic()
+        {
+            return (cinematicFrequence == FrequencyConfig.Always || (!playedCutSceneOnce && cinematicFrequence == FrequencyConfig.Once));
         }
     }
 }

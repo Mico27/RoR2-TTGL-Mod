@@ -15,6 +15,7 @@ using RoR2.ContentManagement;
 using System.Collections.Generic;
 using RoR2.Skills;
 using System.Collections;
+using System.Linq;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -33,7 +34,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.1.10";
+            MODVERSION = "0.1.11";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -62,11 +63,12 @@ namespace TTGL_Survivor
                 Modules.Buffs.RegisterBuffs();
                 Modules.Projectiles.RegisterProjectiles();
                 Modules.TemporaryVisualEffects.RegisterTemporaryVisualEffects();
-                Modules.Unlockables.RegisterUnlockables();
                 Modules.Tokens.AddTokens();
                 new Lagann().CreateCharacter();
                 new Gurren().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
+                Modules.CostTypeDefs.RegisterCostTypeDefs();
+                Modules.Interactables.RegisterInteractables();
                 Hooks();                
             }
             catch (Exception e)
@@ -93,8 +95,18 @@ namespace TTGL_Survivor
             On.RoR2.UI.HUD.Awake += HUD_Awake;
             RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
             On.RoR2.PickupPickerController.FixedUpdateServer += PickupPickerController_FixedUpdateServer;
+            On.RoR2.GenericSkill.Start += GenericSkill_Start;
+            Run.onRunStartGlobal += Run_onRunStartGlobal;
         }
-        
+
+        private void GenericSkill_Start(On.RoR2.GenericSkill.orig_Start orig, GenericSkill self)
+        {
+            if (self.skillDef && self.skillDef.fullRestockOnAssign)
+            {
+                orig(self);
+            }            
+        }
+
         private void UnHooks()
         {
             ContentManager.collectContentPackProviders -= ContentManager_collectContentPackProviders;
@@ -169,8 +181,30 @@ namespace TTGL_Survivor
             }
         }
 
+        private static void Run_onRunStartGlobal(Run obj)
+        {
+            LagannCombine.playedCutSceneOnce = false;
+            Interactables.gurrenFound = obj.userMasters.Values.Any((x) =>
+            {
+                if (x != null && x.bodyPrefab != null)
+                {
+                    var body = x.bodyPrefab.GetComponent<CharacterBody>();
+                    if (body)
+                    {
+                        var found = body.bodyIndex == BodyCatalog.FindBodyIndex("GurrenLagannBody");
+                        if (found)
+                        {
+                            TTGL_SurvivorPlugin.instance.Logger.LogMessage("GurrenLagannBody found");
+                            return true;
+                        }
+                    }
+                }
+                TTGL_SurvivorPlugin.instance.Logger.LogMessage("GurrenLagannBody not found");
+                return false;
+            });
+        }
         #endregion
-        
+
         private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider)
         {
             addContentPackProvider(this);
@@ -184,12 +218,13 @@ namespace TTGL_Survivor
             contentPack.effectDefs.Add(effectDefs.ToArray());
             contentPack.entityStateTypes.Add(entityStates.ToArray());
             contentPack.masterPrefabs.Add(masterPrefabs.ToArray());
+            contentPack.networkedObjectPrefabs.Add(networkPrefabs.ToArray());
             contentPack.networkSoundEventDefs.Add(networkSoundEventDefs.ToArray());
             contentPack.projectilePrefabs.Add(projectilePrefabs.ToArray());
             contentPack.skillDefs.Add(skillDefs.ToArray());
             contentPack.skillFamilies.Add(skillFamilies.ToArray());
             contentPack.survivorDefs.Add(survivorDefinitions.ToArray());
-
+            contentPack.unlockableDefs.Add(unlockableDefs.ToArray());
             args.ReportProgress(1f);
             yield break;
         }
@@ -214,13 +249,14 @@ namespace TTGL_Survivor
         internal static List<SurvivorDef> survivorDefinitions = new List<SurvivorDef>();
         internal static List<GameObject> bodyPrefabs = new List<GameObject>();
         internal static List<GameObject> masterPrefabs = new List<GameObject>();
+        internal static List<GameObject> networkPrefabs = new List<GameObject>();
         internal static List<GameObject> projectilePrefabs = new List<GameObject>();
         internal static List<EffectDef> effectDefs = new List<EffectDef>();
         internal static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
         internal static List<SkillFamily> skillFamilies = new List<SkillFamily>();
         internal static List<SkillDef> skillDefs = new List<SkillDef>();
         internal static List<Type> entityStates = new List<Type>();
-
+        internal static List<UnlockableDef> unlockableDefs = new List<UnlockableDef>();
 
         public new ManualLogSource Logger
         {

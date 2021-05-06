@@ -67,6 +67,7 @@ namespace TTGL_Survivor.Modules.Components
 
                 UpdateMaxSpiralPowerBuffEffects();
                 UpdateCanopyBuffEffects();
+                UpdateDisplayKamina();
             }
         }
 
@@ -134,7 +135,17 @@ namespace TTGL_Survivor.Modules.Components
             }
         }
 
-
+        private void UpdateDisplayKamina()
+        {
+            if (Interactables.gurrenFound)
+            {
+                this.animator.SetBool("hideKamina", true);
+            }
+            else
+            {
+                this.animator.SetBool("hideKamina", false);
+            }
+        }
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
