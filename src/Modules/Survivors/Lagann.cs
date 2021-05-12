@@ -81,7 +81,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
                 displayPrefab = CreateDisplayPrefab("LagannMenuPrefab", characterPrefab);
 
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", null);
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "LAGANN", null, 12.1f);
 
                 CreateHurtBoxes();
                 CreateHitboxes();
@@ -147,6 +147,36 @@ namespace TTGL_Survivor.Modules.Survivors
             CharacterMotor motorComponent = newPrefab.GetComponent<CharacterMotor>();
             motorComponent.mass = 100f;
         }
+
+        protected override Transform SetupModel(GameObject prefab, Transform modelTransform, bool isDisplay)
+        {
+            GameObject modelBase = new GameObject("ModelBase");
+            modelBase.transform.parent = prefab.transform;
+            modelBase.transform.localPosition = new Vector3(0f, 0f, 0f);
+            modelBase.transform.localRotation = Quaternion.identity;
+            modelBase.transform.localScale = new Vector3(1f, 1f, 1f);
+
+            GameObject cameraPivot = new GameObject("CameraPivot");
+            cameraPivot.transform.parent = modelBase.transform;
+            cameraPivot.transform.localPosition = new Vector3(0f, 2.6f, 0f);
+            cameraPivot.transform.localRotation = Quaternion.identity;
+            cameraPivot.transform.localScale = Vector3.one;
+
+            GameObject aimOrigin = new GameObject("AimOrigin");
+            aimOrigin.transform.parent = modelBase.transform;
+            aimOrigin.transform.localPosition = new Vector3(0f, 2.6f, 0f);
+            aimOrigin.transform.localRotation = Quaternion.identity;
+            aimOrigin.transform.localScale = Vector3.one;
+            prefab.GetComponent<CharacterBody>().aimOriginTransform = aimOrigin.transform;
+
+            modelTransform.parent = modelBase.transform;
+            modelTransform.localPosition = Vector3.zero;
+            modelTransform.localRotation = Quaternion.identity;
+            modelTransform.localScale = (isDisplay) ? new Vector3(0.8f, 0.8f, 0.8f) : new Vector3(1.0f, 1.0f, 1.0f);
+
+            return modelBase.transform;
+        }
+
         protected override void SetupCameraTargetParams(GameObject prefab)
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();

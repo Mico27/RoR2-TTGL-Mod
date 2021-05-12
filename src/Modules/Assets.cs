@@ -21,6 +21,7 @@ namespace TTGL_Survivor.Modules
         internal static GameObject yokoRifleMuzzleBigEffect;
         internal static GameObject yokoRifleMuzzleSmallEffect;
         internal static GameObject yokoRifleExplosiveRoundExplosion;
+        internal static GameObject gurrenBrokenBoulderEffect;
         internal static GameObject specialExplosion;
 
         internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
@@ -82,6 +83,7 @@ namespace TTGL_Survivor.Modules
             yokoRifleMuzzleBigEffect = Assets.LoadEffect("YokoRifleMuzzleBigEffect", 1.0f);
             yokoRifleMuzzleSmallEffect = Assets.LoadEffect("YokoRifleMuzzleSmallEffect", 1.0f);
             yokoRifleExplosiveRoundExplosion = Assets.LoadEffect("YokoRifleExplosiveRoundExplosion", 1.0f);
+            gurrenBrokenBoulderEffect = Assets.LoadEffect("BigBoulderBrokenPrefab", 5.0f);
             specialExplosion = Assets.LoadEffect("SpecialExplosion", 5.0f);
         }
 

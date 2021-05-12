@@ -24,6 +24,8 @@ namespace TTGL_Survivor.Modules
         private float trottleUpdateTime = 0.0f;
         private float energyUptimeStopwatch = 0.0f;
         private bool musicPlayed = false;
+        private float checkGurrenPassiveInterval = 0.5f;
+        private float checkGurrenPassiveStopWatch = 0f;
 
         public void Awake()
         {
@@ -79,8 +81,10 @@ namespace TTGL_Survivor.Modules
         
         private void ServerFixedUpdate()
         {
+            UpdateGurrenPassive();
             var hasFullEnergyBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff);
             var hasFullEnergyDeBuff = this.body.HasBuff(Modules.Buffs.maxSpiralPowerDeBuff);
+            var hasKaminaBuff = this.body.HasBuff(Modules.Buffs.kaminaBuff);
             if (energyUptimeStopwatch < C_MaxEnergyUptime)
             {
                 energyUptimeStopwatch += Time.fixedDeltaTime;
@@ -101,15 +105,19 @@ namespace TTGL_Survivor.Modules
                 var newChargeRate = 0.0f;
                 if (this.body.HasBuff(Modules.Buffs.maxSpiralPowerBuff))
                 {
-                    newChargeRate = 0.5f;
+                    newChargeRate = 0.2f;
                 }
                 else if (healthCoefficient >= 1.0f)
                 {
-                    newChargeRate = -0.5f;
+                    newChargeRate = -0.2f;
                 }
                 else if (energyUptimeStopwatch < C_MaxEnergyUptime)
                 {
-                    newChargeRate = ((this.healthCoefficient + this.monsterCountCoefficient) / ((hasFullEnergyDeBuff) ? 60f : 30f)) * this.energyModifier;
+                    newChargeRate = ((this.healthCoefficient + this.monsterCountCoefficient) / ((hasFullEnergyDeBuff) ? 120f : 60f)) * this.energyModifier;
+                    if (hasKaminaBuff)
+                    {
+                        newChargeRate *= 2;
+                    }
                 }
                 else
                 {
@@ -150,6 +158,31 @@ namespace TTGL_Survivor.Modules
                 else
                 {
                     musicPlayed = false;
+                }
+            }
+        }
+        private void UpdateGurrenPassive()
+        {
+            checkGurrenPassiveStopWatch += Time.fixedDeltaTime;
+            if (checkGurrenPassiveStopWatch > checkGurrenPassiveInterval)
+            {
+                checkGurrenPassiveStopWatch = 0f;
+                if (this.body)
+                {
+                    int buffCounts = 0;
+                    var gurrenBodyIndex = BodyCatalog.FindBodyIndex("GurrenBody");
+                    var allies = TeamComponent.GetTeamMembers(TeamIndex.Player);
+                    foreach (var ally in allies)
+                    {
+                        var allyBody = ally.body;
+                        if (allyBody && allyBody != this.body && 
+                            allyBody.bodyIndex == gurrenBodyIndex &&
+                            (Vector3.Distance(allyBody.transform.position, this.body.transform.position) <= Components.GurrenController.passiveDistance))
+                        {
+                            buffCounts++;
+                        }
+                    }
+                    this.body.SetBuffCount(Buffs.kaminaBuff.buffIndex, buffCounts);
                 }
             }
         }

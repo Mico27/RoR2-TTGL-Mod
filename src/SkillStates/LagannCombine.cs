@@ -1,9 +1,9 @@
 ﻿using EntityStates;
 using EntityStates.Huntress;
-using RewiredConsts;
 using RoR2;
 using RoR2.Projectile;
 using RoR2.UI;
+using System;
 using System.Linq;
 using TTGL_Survivor.Modules;
 using UnityEngine;
@@ -13,6 +13,8 @@ namespace TTGL_Survivor.SkillStates
 {
     public class LagannCombine : BaseSkillState
     {
+        public static event Action onLagannCombineGlobal;
+
         public const float energyCost = 100f;
         public static string soundString = "TTGLCombine";
         public static float baseDuration = 18f;
@@ -21,6 +23,7 @@ namespace TTGL_Survivor.SkillStates
         private uint combineSoundRef;
         public static bool playedCutSceneOnce = true;
         private FrequencyConfig cinematicFrequence;
+        private bool onLagannCombinedCalled = false;
 
         public override void OnEnter()
         {
@@ -68,6 +71,11 @@ namespace TTGL_Survivor.SkillStates
             {
                 this.outer.SetNextStateToMain();
                 return;
+            }
+            if (!onLagannCombinedCalled && base.fixedAge >= (LagannCombine.baseDuration - 2f))
+            {
+                onLagannCombinedCalled = true;
+                OnLagannCombined();
             }
             if (base.isAuthority && (base.fixedAge >= LagannCombine.baseDuration))
             {
@@ -252,7 +260,18 @@ namespace TTGL_Survivor.SkillStates
 
         private bool DisplayCinematic()
         {
-            return (cinematicFrequence == FrequencyConfig.Always || (!playedCutSceneOnce && cinematicFrequence == FrequencyConfig.Once));
+            return (cinematicFrequence == FrequencyConfig.Always || (!playedCutSceneOnce && cinematicFrequence == FrequencyConfig.OncePerRun));
         }
+
+        private void OnLagannCombined()
+        {
+            Action action = onLagannCombineGlobal;
+            if (action == null)
+            {
+                return;
+            }
+            action();
+        }
+
     }
 }

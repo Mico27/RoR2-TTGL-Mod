@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using RoR2.Skills;
 using System.Collections;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -23,6 +24,7 @@ using System.Linq;
 namespace TTGL_Survivor
 {
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.xoxfaby.BetterUI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
@@ -34,11 +36,12 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.1.11";
+            MODVERSION = "0.2.0";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
         public static bool scepterInstalled = false;
+        public static bool betterUIInstalled = false;
 
         public static TTGL_SurvivorPlugin instance;
 
@@ -51,11 +54,12 @@ namespace TTGL_Survivor
 
         public void Awake()
         {
-            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
+            On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
+                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.xoxfaby.BetterUI")) betterUIInstalled = true;
                 Modules.Assets.PopulateAssets();
                 Modules.Config.ReadConfig();
                 Modules.ItemDisplays.PopulateDisplays();
@@ -69,7 +73,8 @@ namespace TTGL_Survivor
                 new GurrenLagann().CreateCharacter();
                 Modules.CostTypeDefs.RegisterCostTypeDefs();
                 Modules.Interactables.RegisterInteractables();
-                Hooks();                
+                Hooks();
+                AddBetterUI();
             }
             catch (Exception e)
             {
@@ -141,7 +146,7 @@ namespace TTGL_Survivor
         }
         private void CreateSpiralPowerGauge(RoR2.UI.HUD hud)
         {
-            if (!m_SpiralPowerGauge)
+            if (!m_SpiralPowerGauge && TTGL_Survivor.Modules.Config.spiralGaugeEnabled.Value)
             {
                 if (hud != null && hud.mainUIPanel != null)
                 {
@@ -152,12 +157,12 @@ namespace TTGL_Survivor
                         m_SpiralPowerGauge = spiralPowerPanel.AddComponent<SpiralPowerGauge>();
                         spiralPowerPanel.transform.SetParent(hud.mainUIPanel.transform);
                         var rectTransform = spiralPowerPanel.GetComponent<RectTransform>();
-                        rectTransform.anchorMin = new Vector2(1, 0);
-                        rectTransform.anchorMax = new Vector2(1, 0);
-                        rectTransform.pivot = new Vector2(1, 0);
-                        rectTransform.sizeDelta = new Vector2(120, 120);
-                        rectTransform.anchoredPosition = new Vector2(-20, 200);
-                        rectTransform.localScale = new Vector3(2, 2, 2);
+                        rectTransform.anchorMin = TTGL_Survivor.Modules.Config.spiralGaugeAnchorMin.Value;
+                        rectTransform.anchorMax = TTGL_Survivor.Modules.Config.spiralGaugeAnchorMax.Value;
+                        rectTransform.pivot = TTGL_Survivor.Modules.Config.spiralGaugePivot.Value;
+                        rectTransform.sizeDelta = TTGL_Survivor.Modules.Config.spiralGaugeSizeDelta.Value;
+                        rectTransform.anchoredPosition = TTGL_Survivor.Modules.Config.spiralGaugeAnchoredPosition.Value;
+                        rectTransform.localScale = TTGL_Survivor.Modules.Config.spiralGaugeLocalScale.Value;
                         spiralPowerPanel.SetActive(false);
                     }
                 }
@@ -203,7 +208,45 @@ namespace TTGL_Survivor
                 return false;
             });
         }
+
+
         #endregion
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void AddBetterUI()
+        {
+            if (betterUIInstalled)
+            {
+                BetterUI.StatsDisplay.AddStatsDisplay("$spiralrate", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerRate);
+                BetterUI.StatsDisplay.AddStatsDisplay("$spiralamount", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerAmount);
+                BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerBuff, developerPrefix + "_MAXSPIRALPOWER_BUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_BUFF_DESCRIPTION");
+                BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerDeBuff, developerPrefix + "_MAXSPIRALPOWER_DEBUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_DEBUFF_DESCRIPTION");
+                BetterUI.Buffs.RegisterBuffInfo(Buffs.canopyBuff, developerPrefix + "_CANOPY_BUFF_NAME", developerPrefix + "_CANOPY_BUFF_DESCRIPTION");
+                BetterUI.Buffs.RegisterBuffInfo(Buffs.kaminaBuff, developerPrefix + "_GURREN_BODY_PASSIVE_NAME", developerPrefix + "_GURREN_BODY_PASSIVE_DESCRIPTION");
+            }
+        }
+
+        private static string GetSpiralPowerRate(CharacterBody body)
+        {
+            string value = null;
+            var spiralEnergy = body.GetComponent<SpiralEnergyComponent>();
+            if (spiralEnergy)
+            {
+                return (spiralEnergy.charge_rate * SpiralEnergyComponent.C_SPIRALENERGYCAP).ToString("0.##");
+            }
+            return value;
+        }
+
+        private static string GetSpiralPowerAmount(CharacterBody body)
+        {
+            string value = null;
+            var spiralEnergy = body.GetComponent<SpiralEnergyComponent>();
+            if (spiralEnergy)
+            {
+                return spiralEnergy.energy.ToString("0.##");
+            }
+            return value;
+        }
 
         private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider)
         {

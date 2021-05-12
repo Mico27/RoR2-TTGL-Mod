@@ -79,10 +79,6 @@ namespace TTGL_Survivor.Modules
             entityLocator.entity = gurrenInteractPrefab;
             var hightlight = gurrenInteractPrefab.AddComponent<Highlight>();
             hightlight.targetRenderer = gurrenInteractPrefab.GetComponentInChildren<Renderer>();
-            if (hightlight.targetRenderer)
-            {
-                TTGL_SurvivorPlugin.instance.Logger.LogMessage("hightLight.targetRenderer found:" + hightlight.targetRenderer.name);
-            }
             hightlight.highlightColor = Highlight.HighlightColor.interactive;
             var hologramProjector = gurrenInteractPrefab.AddComponent<HologramProjector>();
             hologramProjector.hologramPivot = hologramPivot;
@@ -105,7 +101,8 @@ namespace TTGL_Survivor.Modules
             gurrenInteractSpawnCard.eliteRules = SpawnCard.EliteRules.Default;
             gurrenInteractSpawnCard.orientToFloor = true;
             gurrenInteractSpawnCard.slightlyRandomizeOrientation = false;
-            gurrenInteractSpawnCard.skipSpawnWhenSacrificeArtifactEnabled = false;            
+            gurrenInteractSpawnCard.skipSpawnWhenSacrificeArtifactEnabled = false;  
+            
             TTGL_SurvivorPlugin.networkPrefabs.Add(gurrenInteractPrefab);
         }
 

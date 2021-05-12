@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using EntityStates.Merc;
 using EntityStates.Huntress;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -16,16 +17,12 @@ namespace TTGL_Survivor.SkillStates
         protected string hitboxName = "DammageHitbox";
 
         protected float baseDuration;
-        protected float attackStartTime;
-        protected float attackEndTime;
-        protected float baseEarlyExitTime;
         protected float hitStopDuration;
 
         protected string playbackRateString = "skill1.playbackRate";
         protected GameObject hitEffectPrefab;
         protected NetworkSoundEventIndex impactSound;
 
-        private float earlyExitTime;
         public float duration;
         private bool hasFired;
         private float hitPauseTimer;
@@ -47,21 +44,22 @@ namespace TTGL_Survivor.SkillStates
 
         public const float c_DamageCoefficient = 3.0f;
 
+        private List<Tuple<float, float>> damageWindows;
 
         public override void OnEnter()
         {
             base.OnEnter();
+            damageWindows = new List<Tuple<float, float>>();
+            damageWindows.Add(new Tuple<float, float>(0.25f, 0.30f));
+            damageWindows.Add(new Tuple<float, float>(0.37f, 0.42f));
+            damageWindows.Add(new Tuple<float, float>(0.49f, 0.80f));
             this.baseDuration = 4.0f;
-            this.attackStartTime = 0.2f;
-            this.attackEndTime = 0.8f;
-            this.baseEarlyExitTime = 1.5f;
             this.hitStopDuration = 0.115f;
             base.characterBody.SetAimTimer(2f);
             this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
             this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
 
             this.duration = this.baseDuration / this.attackSpeedStat;
-            this.earlyExitTime = this.baseEarlyExitTime / this.attackSpeedStat;
             this.hasFired = false;
             this.animator = base.GetModelAnimator();
 
@@ -95,7 +93,7 @@ namespace TTGL_Survivor.SkillStates
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-
+            var currentDamageWindow = damageWindows.FirstOrDefault();
             this.hitPauseTimer -= Time.fixedDeltaTime;
 
             if (this.hitPauseTimer <= 0f && this.inHitPause)
@@ -116,28 +114,21 @@ namespace TTGL_Survivor.SkillStates
                 if (this.animator) this.animator.SetFloat(this.playbackRateString, 0f);
             }
 
-            if (this.stopwatch >= (this.duration * this.attackStartTime) && this.stopwatch <= (this.duration * this.attackEndTime))
+            if (currentDamageWindow != null && 
+                this.stopwatch >= (this.duration * currentDamageWindow.Item1) && 
+                this.stopwatch <= (this.duration * currentDamageWindow.Item2))
             {
                 this.PullEnemies(Time.fixedDeltaTime);
                 this.FireAttack();
             }
 
-            if (this.resetAttackStopwatch >= this.earlyExitTime)
+            if (currentDamageWindow != null && this.resetAttackStopwatch >= (this.duration * currentDamageWindow.Item2))
             {
+                damageWindows.Remove(currentDamageWindow);
                 this.resetAttackStopwatch = 0f;
                 this.attack.ResetIgnoredHealthComponents();
             }
-
-            if (base.fixedAge >= (this.duration - this.earlyExitTime) && base.isAuthority)
-            {
-                if (base.inputBank && !base.inputBank.skill1.down)
-                {
-                    if (!this.hasFired) this.FireAttack();
-                    this.outer.SetNextStateToMain();
-                    return;
-                }
-            }
-
+            
             if (base.fixedAge >= this.duration && base.isAuthority)
             {
                 this.outer.SetNextStateToMain();

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TTGL_Survivor.Modules.Achievements;
 using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.SkillStates;
 using TTGL_Survivor.UI;
@@ -67,9 +68,9 @@ namespace TTGL_Survivor.Modules.Survivors
                 }}, 0);
                 #endregion
 
-                //displayPrefab = CreateDisplayPrefab("GurrenLagannMenuPrefab", characterPrefab);
-
-                //RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", "");
+                displayPrefab = CreateDisplayPrefab("GurrenLagannMenuPrefab", characterPrefab);
+                var lagannCombineUnlockable = Unlockables.AddUnlockable<LagannCombineAchievement>(true);
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", lagannCombineUnlockable, 12.3f);
 
                 CreateHurtBoxes();
                 CreateHitboxes();
@@ -220,7 +221,7 @@ namespace TTGL_Survivor.Modules.Survivors
             modelTransform.parent = modelBase.transform;
             modelTransform.localPosition = Vector3.zero;
             modelTransform.localRotation = Quaternion.identity;
-            modelTransform.localScale = (isDisplay) ? new Vector3(0.1f, 0.1f, 0.1f) : new Vector3(0.8f, 0.8f, 0.8f);
+            modelTransform.localScale = (isDisplay) ? new Vector3(0.12f, 0.12f, 0.12f) : new Vector3(0.8f, 0.8f, 0.8f);
 
             return modelBase.transform;
         }

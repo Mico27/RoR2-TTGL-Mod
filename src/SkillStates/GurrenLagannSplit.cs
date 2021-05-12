@@ -78,14 +78,6 @@ namespace TTGL_Survivor.SkillStates
                     characterMotor.Motor.SetPosition(newPosition, true);
                     characterMotor.Motor.BaseVelocity = velocity;
                     characterMotor.velocity = velocity;
-                    characterMotor.rootMotion = velocity;
-                    return;
-                }
-                RigidbodyMotor rigidbodyMotor = character.GetComponent<RigidbodyMotor>();
-                if (rigidbodyMotor && rigidbodyMotor.rigid)
-                {
-                    rigidbodyMotor.rigid.MovePosition(newPosition);
-                    rigidbodyMotor.rootMotion = velocity;
                     return;
                 }
                 gameObject.transform.position = newPosition;

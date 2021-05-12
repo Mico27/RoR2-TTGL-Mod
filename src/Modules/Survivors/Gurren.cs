@@ -60,7 +60,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 displayPrefab = CreateDisplayPrefab("GurrenMenuPrefab", characterPrefab);
 
                 var gurrenFoundUnlockable = Unlockables.AddUnlockable<GurrenFoundAchievement>(true);
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURREN", gurrenFoundUnlockable);
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURREN", gurrenFoundUnlockable, 12.2f);
 
                 CreateHurtBoxes();
                 CreateHitboxes();
@@ -115,7 +115,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.bodyColor = new Color(0.25f, 0.65f, 0.25f);
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_BODY_SUBTITLE";
-            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenLagannIcon");
+            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenIcon");
             bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
@@ -198,7 +198,7 @@ namespace TTGL_Survivor.Modules.Survivors
             modelTransform.parent = modelBase.transform;
             modelTransform.localPosition = Vector3.zero;
             modelTransform.localRotation = Quaternion.identity;
-            modelTransform.localScale = (isDisplay) ? new Vector3(0.13f, 0.13f, 0.13f) : new Vector3(0.8f, 0.8f, 0.8f);
+            modelTransform.localScale = (isDisplay) ? new Vector3(0.2f, 0.2f, 0.2f) : new Vector3(0.8f, 0.8f, 0.8f);
 
             return modelBase.transform;
         }
@@ -305,7 +305,7 @@ namespace TTGL_Survivor.Modules.Survivors
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = prefix + "_GURREN_BODY_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = prefix + "_GURREN_BODY_PASSIVE_DESCRIPTION";
-            skillLocator.passiveSkill.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralPowerIcon");
+            skillLocator.passiveSkill.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("KaminaSpiritIcon");
 
             #endregion
 
@@ -314,7 +314,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tripleSlashSkillDef.skillName = prefix + "_GURREN_BODY_TRIPLESLASH_NAME";
             tripleSlashSkillDef.skillNameToken = prefix + "_GURREN_BODY_TRIPLESLASH_NAME";
             tripleSlashSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_TRIPLESLASH_DESCRIPTION";
-            tripleSlashSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralComboIcon");
+            tripleSlashSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("TripleSlashIcon");
             tripleSlashSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenTripleSlash));
             tripleSlashSkillDef.activationStateMachineName = "Body";
             tripleSlashSkillDef.baseMaxStock = 1;
@@ -336,28 +336,28 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
 
             #region Secondary
-            SkillDef diveBombSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            diveBombSkillDef.skillName = prefix + "_GURREN_BODY_DIVEBOMB_NAME";
-            diveBombSkillDef.skillNameToken = prefix + "_GURREN_BODY_DIVEBOMB_NAME";
-            diveBombSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_DIVEBOMB_DESCRIPTION";
-            diveBombSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenLagannShadeThrowIcon");
-            diveBombSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
-            diveBombSkillDef.activationStateMachineName = "Weapon";
-            diveBombSkillDef.baseMaxStock = 1;
-            diveBombSkillDef.baseRechargeInterval = 3f;
-            diveBombSkillDef.beginSkillCooldownOnSkillEnd = false;
-            diveBombSkillDef.canceledFromSprinting = false;
-            diveBombSkillDef.forceSprintDuringState = false;
-            diveBombSkillDef.fullRestockOnAssign = true;
-            diveBombSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
-            diveBombSkillDef.isCombatSkill = true;
-            diveBombSkillDef.mustKeyPress = false;
-            diveBombSkillDef.cancelSprintingOnActivation = false;
-            diveBombSkillDef.rechargeStock = 1;
-            diveBombSkillDef.requiredStock = 1;
-            diveBombSkillDef.stockToConsume = 1;
-            TTGL_SurvivorPlugin.skillDefs.Add(diveBombSkillDef);
-            Modules.Skills.AddSecondarySkill(characterPrefab, diveBombSkillDef);
+            SkillDef throwinShadesSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            throwinShadesSkillDef.skillName = prefix + "_GURREN_BODY_THROWINGSHADES_NAME";
+            throwinShadesSkillDef.skillNameToken = prefix + "_GURREN_BODY_THROWINGSHADES_NAME";
+            throwinShadesSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_THROWINGSHADES_DESCRIPTION";
+            throwinShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenLagannShadeThrowIcon");
+            throwinShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
+            throwinShadesSkillDef.activationStateMachineName = "Weapon";
+            throwinShadesSkillDef.baseMaxStock = 1;
+            throwinShadesSkillDef.baseRechargeInterval = 3f;
+            throwinShadesSkillDef.beginSkillCooldownOnSkillEnd = false;
+            throwinShadesSkillDef.canceledFromSprinting = false;
+            throwinShadesSkillDef.forceSprintDuringState = false;
+            throwinShadesSkillDef.fullRestockOnAssign = true;
+            throwinShadesSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            throwinShadesSkillDef.isCombatSkill = true;
+            throwinShadesSkillDef.mustKeyPress = false;
+            throwinShadesSkillDef.cancelSprintingOnActivation = false;
+            throwinShadesSkillDef.rechargeStock = 1;
+            throwinShadesSkillDef.requiredStock = 1;
+            throwinShadesSkillDef.stockToConsume = 1;
+            TTGL_SurvivorPlugin.skillDefs.Add(throwinShadesSkillDef);
+            Modules.Skills.AddSecondarySkill(characterPrefab, throwinShadesSkillDef);
 
             #endregion
 
@@ -366,7 +366,7 @@ namespace TTGL_Survivor.Modules.Survivors
             rollSkillDef.skillName = prefix + "_GURREN_BODY_ROLL_NAME";
             rollSkillDef.skillNameToken = prefix + "_GURREN_BODY_ROLL_NAME";
             rollSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_ROLL_DESCRIPTION";
-            rollSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("HuricaneKickIcon");
+            rollSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("RollIcon");
             rollSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenRoll));
             rollSkillDef.activationStateMachineName = "Body";
             rollSkillDef.baseMaxStock = 1;
@@ -389,15 +389,15 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Special
 
-            SkillDef rockThrowSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            rockThrowSkillDef.skillName = prefix + "_GURREN_BODY_ROCKTHROW_NAME";
-            rockThrowSkillDef.skillNameToken = prefix + "_GURREN_BODY_ROCKTHROW_NAME";
-            rockThrowSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_ROCKTHROW_DESCRIPTION";
-            rockThrowSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GigaDrillMaximumIcon");
-            rockThrowSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillMaximum));
+            GroundSkillDef rockThrowSkillDef = ScriptableObject.CreateInstance<GroundSkillDef>();
+            rockThrowSkillDef.skillName = prefix + "_GURREN_BODY_BOULDERTHROW_NAME";
+            rockThrowSkillDef.skillNameToken = prefix + "_GURREN_BODY_BOULDERTHROW_NAME";
+            rockThrowSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_BOULDERTHROW_DESCRIPTION";
+            rockThrowSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("BoulderThrowIcon");
+            rockThrowSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLiftBoulder));
             rockThrowSkillDef.activationStateMachineName = "Body";
             rockThrowSkillDef.baseMaxStock = 1;
-            rockThrowSkillDef.baseRechargeInterval = 8f;
+            rockThrowSkillDef.baseRechargeInterval = 12f;
             rockThrowSkillDef.beginSkillCooldownOnSkillEnd = true;
             rockThrowSkillDef.canceledFromSprinting = false;
             rockThrowSkillDef.forceSprintDuringState = false;

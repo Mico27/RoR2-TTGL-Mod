@@ -1,23 +1,40 @@
 ﻿using BepInEx.Configuration;
+using UnityEngine;
 
 namespace TTGL_Survivor.Modules
 {
     public enum FrequencyConfig
     {
         Always,
-        Once,
+        OncePerRun,
         Never
     }
     public static class Config
     {
+        public static ConfigEntry<bool> spiralGaugeEnabled;
+        public static ConfigEntry<Vector2> spiralGaugeAnchorMin;
+        public static ConfigEntry<Vector2> spiralGaugeAnchorMax;
+        public static ConfigEntry<Vector2> spiralGaugePivot;
+        public static ConfigEntry<Vector2> spiralGaugeSizeDelta;
+        public static ConfigEntry<Vector2> spiralGaugeAnchoredPosition;
+        public static ConfigEntry<Vector3> spiralGaugeLocalScale;
+
         public static ConfigEntry<bool> ttglMusicEnabled;
         public static ConfigEntry<FrequencyConfig> ttglShowCombiningAnimation;
         public static ConfigEntry<bool> woopsEnabled;
         public static void ReadConfig()
         {
             // there actually isn't any config right now but if you wanted to add some it would go here.
+            spiralGaugeEnabled = Modules.Config.GetSetConfig("Spiral Gauge", "Enabled", true, "Display Spiral Gauge");
+            spiralGaugeAnchorMin = Modules.Config.GetSetConfig("Spiral Gauge", "AnchorMin", new Vector2(1, 0), "Spiral Gauge AnchorMin");
+            spiralGaugeAnchorMax = Modules.Config.GetSetConfig("Spiral Gauge", "AnchorMax", new Vector2(1, 0), "Spiral Gauge AnchorMax");
+            spiralGaugePivot = Modules.Config.GetSetConfig("Spiral Gauge", "Pivot", new Vector2(1, 0), "Spiral Gauge Pivot");
+            spiralGaugeSizeDelta = Modules.Config.GetSetConfig("Spiral Gauge", "SizeDelta", new Vector2(120, 120), "Spiral Gauge SizeDelta");
+            spiralGaugeAnchoredPosition = Modules.Config.GetSetConfig("Spiral Gauge", "AnchoredPosition", new Vector2(-20, 200), "Spiral Gauge AnchoredPosition");
+            spiralGaugeLocalScale = Modules.Config.GetSetConfig("Spiral Gauge", "LocalScale", new Vector3(2, 2, 2), "Spiral Gauge LocalScale");
+
             ttglMusicEnabled = Modules.Config.GetSetConfig("TTGLMusic", "Enabled", true, "Set to false to disable TTGL music");
-            ttglShowCombiningAnimation = Modules.Config.GetSetConfig("Gurren Lagann Combine Cinematic", "Frequency", FrequencyConfig.Once, "Set the frequency at which the cinematic plays");
+            ttglShowCombiningAnimation = Modules.Config.GetSetConfig("Gurren Lagann Combine Cinematic", "Frequency", FrequencyConfig.Always, "Set the frequency at which the cinematic plays");
             woopsEnabled = Modules.Config.GetSetConfig("WoopsSkin", "Enabled", false, "Set to true to enable woops skin");            
         }
 

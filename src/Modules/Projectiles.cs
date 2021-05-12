@@ -13,69 +13,47 @@ namespace TTGL_Survivor.Modules
     {
         internal static GameObject explosiveRifleRoundPrefab;
         internal static GameObject shadesWhirlPrefab;
+        internal static GameObject bigBoulderPrefab;
 
         internal static void RegisterProjectiles()
         {
             // only separating into separate methods for my sanity
             CreateBomb();
             CreateGurrenLagannShadesProjectile();
+            CreateBigBoulder();
 
             TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleRoundPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(shadesWhirlPrefab);
+            TTGL_SurvivorPlugin.projectilePrefabs.Add(bigBoulderPrefab);
         }
 
         private static void CreateBomb()
         {
             explosiveRifleRoundPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "YokoExplosiveRifleProjectile");
-
             ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
-            InitializeImpactExplosion(impactExplosion);
-
-            impactExplosion.blastRadius = 20f;
+            impactExplosion.blastDamageCoefficient = 1f;
+            impactExplosion.blastProcCoefficient = 1f;
+            impactExplosion.bonusBlastForce = Vector3.zero;
+            impactExplosion.childrenCount = 0;
+            impactExplosion.childrenDamageCoefficient = 0f;
+            impactExplosion.childrenProjectilePrefab = null;
+            impactExplosion.destroyOnWorld = true;
             impactExplosion.destroyOnEnemy = true;
+            impactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.Linear;
+            impactExplosion.fireChildren = false;
+            impactExplosion.lifetimeRandomOffset = 0f;
+            impactExplosion.offsetForLifetimeExpiredSound = 0f;
+            impactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
+            impactExplosion.blastRadius = 20f;           
             impactExplosion.lifetime = 12f;
             impactExplosion.impactEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
-            //impactExplosion.lifetimeExpiredSound
             impactExplosion.timerAfterImpact = true;
             impactExplosion.lifetimeAfterImpact = 0.1f;
-
             ProjectileController projectileController = explosiveRifleRoundPrefab.GetComponent<ProjectileController>();
             projectileController.ghostPrefab = CreateGhostPrefab("YokoRifleExplosiveRound");
             projectileController.startSound = "";
         }
 
-        private static void InitializeImpactExplosion(ProjectileImpactExplosion projectileImpactExplosion)
-        {
-            projectileImpactExplosion.blastDamageCoefficient = 1f;
-            projectileImpactExplosion.blastProcCoefficient = 1f;
-            projectileImpactExplosion.bonusBlastForce = Vector3.zero;
-            projectileImpactExplosion.childrenCount = 0;
-            projectileImpactExplosion.childrenDamageCoefficient = 0f;
-            projectileImpactExplosion.childrenProjectilePrefab = null;
-            projectileImpactExplosion.destroyOnWorld = false;
-            projectileImpactExplosion.explosionSoundString = "";
-            projectileImpactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.Linear;
-            projectileImpactExplosion.fireChildren = false;
-            projectileImpactExplosion.impactEffect = null;
-            projectileImpactExplosion.lifetimeAfterImpact = 0f;
-            projectileImpactExplosion.lifetimeExpiredSoundString = "";
-            projectileImpactExplosion.lifetimeRandomOffset = 0f;
-            projectileImpactExplosion.offsetForLifetimeExpiredSound = 0f;
-            projectileImpactExplosion.timerAfterImpact = false;
-
-            projectileImpactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
-        }
-
-        private static GameObject CreateGhostPrefab(string ghostName)
-        {
-            GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
-            ghostPrefab.AddComponent<NetworkIdentity>();
-            ghostPrefab.AddComponent<ProjectileGhostController>();
-
-            //Modules.Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
-
-            return ghostPrefab;
-        }
 
         private static void CreateGurrenLagannShadesProjectile()
         {
@@ -98,6 +76,46 @@ namespace TTGL_Survivor.Modules
 
             TTGL_SurvivorPlugin.DestroyImmediate(boomerangProjectile);
 
+        }
+        private static void CreateBigBoulder()
+        {
+            bigBoulderPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "GurrenBigBoulderProjectile");
+            var collider = bigBoulderPrefab.GetComponent<SphereCollider>();
+            collider.radius = 4f;
+            ProjectileImpactExplosion impactExplosion = bigBoulderPrefab.GetComponent<ProjectileImpactExplosion>();
+            impactExplosion.blastDamageCoefficient = 1f;
+            impactExplosion.blastProcCoefficient = 1f;
+            impactExplosion.bonusBlastForce = Vector3.up * 10f;
+            impactExplosion.childrenCount = 0;
+            impactExplosion.childrenDamageCoefficient = 0f;
+            impactExplosion.childrenProjectilePrefab = null;
+            impactExplosion.destroyOnWorld = true;
+            impactExplosion.destroyOnEnemy = true;
+            impactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.None;
+            impactExplosion.fireChildren = false;
+            impactExplosion.lifetimeRandomOffset = 0f;
+            impactExplosion.offsetForLifetimeExpiredSound = 0f;
+            impactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Stun1s;
+            impactExplosion.blastRadius = 40f;            
+            impactExplosion.lifetime = 12f;
+            impactExplosion.timerAfterImpact = false;
+            impactExplosion.impactEffect = Modules.Assets.gurrenBrokenBoulderEffect;
+            impactExplosion.explosionSoundString = "Play_golem_impact";
+            ProjectileController projectileController = bigBoulderPrefab.GetComponent<ProjectileController>();
+            projectileController.ghostPrefab = CreateGhostPrefab("BigBoulderPrefab");
+            projectileController.startSound = "";
+            //anim params = isHoldingObject
+            //states = GURREN_LiftingObject, GURREN_HoldingObject, GURREN_ThrowingObject
+        }
+        private static GameObject CreateGhostPrefab(string ghostName)
+        {
+            GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
+            ghostPrefab.AddComponent<NetworkIdentity>();
+            ghostPrefab.AddComponent<ProjectileGhostController>();
+
+            //Modules.Assets.ConvertAllRenderersToHopooShader(ghostPrefab);
+
+            return ghostPrefab;
         }
 
         private static GameObject CloneProjectilePrefab(string prefabName, string newPrefabName)

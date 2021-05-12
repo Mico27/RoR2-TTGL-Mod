@@ -11,6 +11,7 @@
         "dependencies": {
           "Mono.Cecil": "0.11.1",
           "NETStandard.Library": "2.0.3",
+          "BetterUI": "1.0.0.0",
           "ExtraSkillSlots": "1.0.0.0",
           "HGCSharpUtils": "0.0.0.0",
           "MMHOOK_Assembly-CSharp": "0.0.0.0",
@@ -45,6 +46,14 @@
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "BetterUI/1.0.0.0": {
+        "runtime": {
+          "BetterUI.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "ExtraSkillSlots/1.0.0.0": {
@@ -115,6 +124,11 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "BetterUI/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     },
     "ExtraSkillSlots/1.0.0.0": {
       "type": "reference",

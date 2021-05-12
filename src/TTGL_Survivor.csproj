@@ -47,6 +47,9 @@
       <HintPath>libs\BepInEx.Preloader.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="BetterUI">
+      <HintPath>libs\BetterUI.dll</HintPath>
+    </Reference>
     <Reference Include="ExtraSkillSlots">
       <HintPath>libs\ExtraSkillSlots.dll</HintPath>
     </Reference>

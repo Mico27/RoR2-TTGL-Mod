@@ -22,8 +22,8 @@ namespace TTGL_Survivor.Modules.Components
             {
                 //this.purchaseInteraction.costType = CostTypeIndex.Money;
                 this.purchaseInteraction.costType = (CostTypeIndex)CostTypeDefs.getCostTypeIndex(CostTypeDefs.costTypeDefGurrenSummon);
-                this.purchaseInteraction.cost = 0;
-                this.purchaseInteraction.Networkcost = 0;
+                this.purchaseInteraction.cost = 5;
+                this.purchaseInteraction.Networkcost = 5;
                 this.purchaseInteraction.onPurchase.AddListener(delegate (Interactor interactor)
                 {
                     this.SpawnGurrenMinion(interactor);
@@ -57,7 +57,7 @@ namespace TTGL_Survivor.Modules.Components
                     Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
                     {
                         subjectAsCharacterBody = characterBody,
-                        baseToken = "GURREN_SPAWNER_USE_MESSAGE"
+                        baseToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_SPAWNER_USE_MESSAGE"
                     });
                 }
                 Interactables.gurrenFound = true;
