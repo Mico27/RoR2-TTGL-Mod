@@ -2,13 +2,39 @@
 - TTGL themed mod that currently adds Lagann as a playable survivor in Risk of rain 2
 - Currently wip.
 
-[![](https://cdn.discordapp.com/attachments/194257452374425600/813609655145201665/Lagann1.png)]()
+[![](https://cdn.discordapp.com/attachments/194257452374425600/840096334576746496/unknown.png)]()
 
-[![](https://cdn.discordapp.com/attachments/194257452374425600/827050534107217950/unknown.png)]()
+[![](https://cdn.discordapp.com/attachments/194257452374425600/840096684788678656/unknown.png)]()
 
-feel free to ping/dm me with any questions or complaints on the modding discord- @Mico27#0642
+[![](https://cdn.discordapp.com/attachments/194257452374425600/840096968524169216/unknown.png)]()
+
+feel free to ping/dm me with any questions / suggestion / complaints on the modding discord- @Mico27#0642
 
 ## Changelog
+
+`0.2.1`
+- Fixed a bug where the Gurren placed on the map was only showing for the host in multiplayer
+- Gurren will now reappear on a following map if it was killed (You'll have to repurchase it)
+- Added the move boulder throw to Gurren
+- Implemented Gurren's passive
+- You can now edit the placement of the spiral gauge in the config
+- Added support for BetterUI (Adds descriptions to buffs on hover. you can also add $spiralrate and $spiralamount in StatString in BetterUI-StatsDisplay.cfg)
+
+`0.2.0`
+- Added Unlockables
+- Added some new icons for Gurren (still WIP but "playable")
+- You can now randomly find Gurren in a run if you play as Lagann (cost 5 Lunar coins to activate).
+- Combine requires now 1 spiral gauge and require Gurren to be in the party.
+- GigaDrill Maximum consumes half a spiral gauge
+- GigaDrill Breaker now forces you to revert to Lagann
+- You can now specify the frequency of the combine cinematic animation in the config (Always, Once per run, Never)
+
+`0.1.11`
+- Added Combine move WIP
+
+`0.1.10`
+- Fixed giga drill break camera not working all the time in multiplayer
+- Forgot to remove some debugging stuff
 
 `0.1.9`
 - Fixed mod because an update broke it

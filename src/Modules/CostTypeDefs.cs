@@ -4,6 +4,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using RoR2.Hologram;
+using TTGL_Survivor.Modules.Components;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -59,19 +60,19 @@ namespace TTGL_Survivor.Modules
             costTypeDefGurrenSummon.isAffordable = delegate (CostTypeDef costTypeDef, CostTypeDef.IsAffordableContext context)
             {
                 CharacterBody characterBody = context.activator.GetComponent<CharacterBody>();
-                bool result;
-                if (!Interactables.gurrenFound && characterBody)
+                bool result = false;
+                if (characterBody && characterBody.bodyIndex == BodyCatalog.FindBodyIndex("LagannBody"))
                 {
-                    NetworkUser networkUser = Util.LookUpBodyNetworkUser(context.activator.gameObject);
-                    result = (networkUser &&
-                    (ulong)networkUser.lunarCoins >= (ulong)((long)context.cost) &&
-                    characterBody.bodyIndex == BodyCatalog.FindBodyIndex("LagannBody"));
-                }
-                else
-                {
-                    result = false;
-                }
-                
+                    var master = characterBody.master;
+                    if (master)
+                    {
+                        var gurrenMinionCache = GurrenMinionCache.GetOrSetGurrenStatusCache(master);
+                        NetworkUser networkUser = Util.LookUpBodyNetworkUser(context.activator.gameObject);
+                        result = (networkUser &&
+                        (ulong)networkUser.lunarCoins >= (ulong)((long)context.cost) &&
+                        !gurrenMinionCache.gurrenMinion);
+                    }
+                }                
                 return result;
             };
             costTypeDefGurrenSummon.payCost = delegate (CostTypeDef costTypeDef, CostTypeDef.PayCostContext context)

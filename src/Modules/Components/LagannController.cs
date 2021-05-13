@@ -18,6 +18,7 @@ namespace TTGL_Survivor.Modules.Components
         private bool defaultCanBeHitStunned;
         private bool hadCanopyBuff;
         private bool hadFullSpiralPowerBuff;
+        private GurrenMinionCache gurrenMinionCache;
 
         public void Awake()
         {
@@ -35,8 +36,7 @@ namespace TTGL_Survivor.Modules.Components
             if (this.skillLocator)
             {
                 this.yokoSkill = this.skillLocator.secondary;
-            }
-
+            }            
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             On.RoR2.CharacterBody.AddBuff_BuffDef += CharacterBody_AddBuff_BuffDef;
             On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float += CharacterBody_AddTimedBuff_BuffDef_float;
@@ -137,7 +137,11 @@ namespace TTGL_Survivor.Modules.Components
 
         private void UpdateDisplayKamina()
         {
-            if (Interactables.gurrenFound)
+            if (!this.gurrenMinionCache && this.body && this.body.master)
+            {
+                this.gurrenMinionCache = GurrenMinionCache.GetOrSetGurrenStatusCache(this.body.master);
+            }
+            if (this.gurrenMinionCache && this.gurrenMinionCache.gurrenMinion)
             {
                 this.animator.SetBool("hideKamina", true);
             }

@@ -34,9 +34,6 @@ namespace TTGL_Survivor.Modules.Components
         [ClientRpc]
         public void RpcSpawnGurrenMinionClient()
         {
-            TTGL_SurvivorPlugin.instance.Logger.LogMessage("RpcSpawnGurrenMinionClient called");
-            Interactables.gurrenFound = true;
-            this.AnimateMounting();
             OnGurrenSpawned();
         }
 
@@ -60,26 +57,16 @@ namespace TTGL_Survivor.Modules.Components
                         baseToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_SPAWNER_USE_MESSAGE"
                     });
                 }
-                Interactables.gurrenFound = true;
-                this.AnimateMounting();
                 OnGurrenSpawned();
-                StartCoroutine(DelaySummon(interactor));                
-            }
-        }
-
-        IEnumerator DelaySummon(Interactor interactor)
-        {
-            yield return new WaitForSeconds(6f);
-            if (NetworkServer.active && interactor && this.summonMasterBehavior)
-            {
                 if (this.summonMasterBehavior)
                 {
-                    NetworkServer.Destroy(base.gameObject);
-                    this.summonMasterBehavior.OpenSummon(interactor);                   
+                    this.summonMasterBehavior.OpenSummon(interactor);
                 }
+                NetworkServer.Destroy(base.gameObject);
+                //TODO set a starting animation for when the summon is done.
             }
         }
-
+        
         private void AnimateMounting()
         {
             if (this.animator)

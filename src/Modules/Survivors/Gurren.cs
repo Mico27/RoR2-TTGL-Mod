@@ -42,7 +42,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 characterPrefab.AddComponent<GurrenController>();
                 var entityStateMachine = characterPrefab.GetComponent<EntityStateMachine>();
                 entityStateMachine.mainStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenMain));
-                entityStateMachine.initialStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenMain));
+                entityStateMachine.initialStateType = new SerializableEntityStateType(typeof(SkillStates.GurrenEntering));
                 //Fix interaction distance because Gurren is too big
                 var interactor = characterPrefab.GetComponent<Interactor>();
                 interactor.maxInteractionDistance = 20f;

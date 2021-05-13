@@ -17,13 +17,12 @@ namespace TTGL_Survivor.Modules
     {
         public static PurchaseInteraction gurrenInteractPurchaseInteraction;
         public static InteractableSpawnCard gurrenInteractSpawnCard;
-        public static bool gurrenFound = false;
 
         internal static void RegisterInteractables()
         {
             CreateGurrenSummonInteractableSpawnCard();
             On.RoR2.SceneDirector.PopulateScene += SceneDirector_PopulateScene;
-            On.RoR2.PurchaseInteraction.GetInteractability += PurchaseInteraction_GetInteractability;            
+            On.RoR2.PurchaseInteraction.GetInteractability += PurchaseInteraction_GetInteractability;  
         }
 
         private static Interactability PurchaseInteraction_GetInteractability(On.RoR2.PurchaseInteraction.orig_GetInteractability orig, PurchaseInteraction self, Interactor activator)
@@ -38,7 +37,7 @@ namespace TTGL_Survivor.Modules
 
         private static void SceneDirector_PopulateScene(On.RoR2.SceneDirector.orig_PopulateScene orig, SceneDirector self)
         {
-            if (!gurrenFound && gurrenInteractSpawnCard && Run.instance.userMasters.Values.Any((x) =>
+            if (gurrenInteractSpawnCard && self.rng.nextBool && Run.instance.userMasters.Values.Any((x) =>
             {
                 if (x != null && x.bodyPrefab != null)
                 {
@@ -47,16 +46,19 @@ namespace TTGL_Survivor.Modules
                     {
                         var found = body.bodyIndex == BodyCatalog.FindBodyIndex("LagannBody");
                         if (found)
-                        {
-                            TTGL_SurvivorPlugin.instance.Logger.LogMessage("LagannBody found");
-                            return true;
+                        {                            
+                            var gurrenMinionCache = GurrenMinionCache.GetOrSetGurrenStatusCache(x);
+                            if (!gurrenMinionCache.gurrenMinion)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
-                TTGL_SurvivorPlugin.instance.Logger.LogMessage("LagannBody not found");
                 return false;
             }))
             {
+                TTGL_SurvivorPlugin.instance.Logger.LogMessage("Added Gurren On Level");
                 self.directorCore.TrySpawnObject(new DirectorSpawnRequest(gurrenInteractSpawnCard, new DirectorPlacementRule
                 {
                     placementMode = DirectorPlacementRule.PlacementMode.Random
@@ -75,6 +77,7 @@ namespace TTGL_Survivor.Modules
             var model = childLocator.FindChild("Model");
             var hologramPivot = childLocator.FindChild("HologramPivot");           
             var modelLocator = model.gameObject.AddComponent<ModelLocator>();
+            modelLocator.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             var entityLocator = model.gameObject.AddComponent<EntityLocator>();
             entityLocator.entity = gurrenInteractPrefab;
             var hightlight = gurrenInteractPrefab.AddComponent<Highlight>();
@@ -101,9 +104,10 @@ namespace TTGL_Survivor.Modules
             gurrenInteractSpawnCard.eliteRules = SpawnCard.EliteRules.Default;
             gurrenInteractSpawnCard.orientToFloor = true;
             gurrenInteractSpawnCard.slightlyRandomizeOrientation = false;
-            gurrenInteractSpawnCard.skipSpawnWhenSacrificeArtifactEnabled = false;  
-            
-            TTGL_SurvivorPlugin.networkPrefabs.Add(gurrenInteractPrefab);
+            gurrenInteractSpawnCard.skipSpawnWhenSacrificeArtifactEnabled = false;
+
+            PrefabAPI.RegisterNetworkPrefab(gurrenInteractPrefab);
+            //TTGL_SurvivorPlugin.networkPrefabs.Add(gurrenInteractPrefab);
         }
 
         private static GameObject CreateGurrenAIMaster()

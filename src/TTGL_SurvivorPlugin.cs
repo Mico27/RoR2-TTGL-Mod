@@ -17,6 +17,7 @@ using RoR2.Skills;
 using System.Collections;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEngine.Networking;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -36,7 +37,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.2.0";
+            MODVERSION = "0.2.1";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -188,25 +189,7 @@ namespace TTGL_Survivor
 
         private static void Run_onRunStartGlobal(Run obj)
         {
-            LagannCombine.playedCutSceneOnce = false;
-            Interactables.gurrenFound = obj.userMasters.Values.Any((x) =>
-            {
-                if (x != null && x.bodyPrefab != null)
-                {
-                    var body = x.bodyPrefab.GetComponent<CharacterBody>();
-                    if (body)
-                    {
-                        var found = body.bodyIndex == BodyCatalog.FindBodyIndex("GurrenLagannBody");
-                        if (found)
-                        {
-                            TTGL_SurvivorPlugin.instance.Logger.LogMessage("GurrenLagannBody found");
-                            return true;
-                        }
-                    }
-                }
-                TTGL_SurvivorPlugin.instance.Logger.LogMessage("GurrenLagannBody not found");
-                return false;
-            });
+            LagannCombine.playedCutSceneOnce = false;            
         }
 
 
