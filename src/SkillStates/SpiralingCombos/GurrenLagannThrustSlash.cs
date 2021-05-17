@@ -9,7 +9,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannThrustSlash : GurrenLagannBaseCombo
     {
-        public const float c_DamageCoefficient = 3.4f;
+        public const float c_DamageCoefficient = 5.4f;
 
         protected override void PlayAttackAnimation()
         {

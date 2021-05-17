@@ -42,7 +42,7 @@ namespace TTGL_Survivor.SkillStates
         private List<CharacterBody> pullList = new List<CharacterBody>();
         private bool pulling;
 
-        public const float c_DamageCoefficient = 3.0f;
+        public const float c_DamageCoefficient = 4.0f;
 
         private List<Tuple<float, float>> damageWindows;
 

@@ -9,7 +9,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannStabbingLeft : GurrenLagannBaseCombo
     {
-        public const float c_DamageCoefficient = 3.2f;
+        public const float c_DamageCoefficient = 4.2f;
 
         protected override void PlayAttackAnimation()
         {

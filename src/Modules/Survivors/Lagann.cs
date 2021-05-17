@@ -200,13 +200,13 @@ namespace TTGL_Survivor.Modules.Survivors
             HurtBoxGroup hurtBoxGroup = model.AddComponent<HurtBoxGroup>();
             ChildLocator childLocator = model.GetComponent<ChildLocator>();
 
-            if (!childLocator.FindChild("Head"))
+            if (!childLocator.FindChild("MainHurtbox"))
             {
                 TTGL_SurvivorPlugin.instance.Logger.LogError("Could not set up main hurtbox: make sure you have a transform pair in your prefab's ChildLocator component called 'Head'");
                 return;
             }
 
-            HurtBox mainHurtbox = childLocator.FindChild("Head").gameObject.AddComponent<HurtBox>();
+            HurtBox mainHurtbox = childLocator.FindChild("MainHurtbox").gameObject.AddComponent<HurtBox>();
             mainHurtbox.gameObject.layer = LayerIndex.entityPrecise.intVal;
             mainHurtbox.healthComponent = characterPrefab.GetComponent<HealthComponent>();
             mainHurtbox.isBullseye = true;

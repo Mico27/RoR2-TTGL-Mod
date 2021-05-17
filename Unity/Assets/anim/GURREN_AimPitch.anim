@@ -19,7 +19,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 28.022001, y: 0.001, z: 0.001}
+        value: {x: -23.29, y: 37.171, z: -56.352}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -28,16 +28,25 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.5
-        value: {x: -1.978, y: 0, z: 0.001}
-        inSlope: {x: -45.000004, y: 0, z: 0}
-        outSlope: {x: -45.000004, y: 0, z: 0}
+        value: {x: -23.29, y: 37.171, z: -56.352}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 0.75
+        value: {x: -40.499, y: 67.339005, z: -42.716003}
+        inSlope: {x: -84.45401, y: 138.85602, z: 13.080018}
+        outSlope: {x: -84.45401, y: 138.85602, z: 13.080018}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -16.978, y: 0, z: 0.001}
+        value: {x: -65.517006, y: 106.59901, z: -41.081}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -47,13 +56,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 14.597001, y: 0, z: 0}
+        value: {x: -17.084002, y: -42.652, z: 61.483}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -62,16 +71,25 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.5
-        value: {x: -0.40300003, y: 0, z: 0}
-        inSlope: {x: -45.000004, y: 0, z: 0}
-        outSlope: {x: -45.000004, y: 0, z: 0}
+        value: {x: -17.084002, y: -42.652, z: 61.483}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+      - serializedVersion: 3
+        time: 0.75
+        value: {x: -40.227, y: -68.73801, z: 43.140003}
+        inSlope: {x: -96.26001, y: -126.496, z: -24.904024}
+        outSlope: {x: -96.26001, y: -126.496, z: -24.904024}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: -30.403002, y: 0, z: 0}
+        value: {x: -65.214005, y: -105.9, z: 40.027}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -81,7 +99,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
@@ -94,14 +112,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2011551170
+      path: 726958391
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 381025703
+      path: 2809089856
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -134,7 +152,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 28.022001
+        value: -23.29
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -143,16 +161,25 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
-        value: -1.978
-        inSlope: -45.000004
-        outSlope: -45.000004
+        value: -23.29
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.75
+        value: -40.499
+        inSlope: -84.45401
+        outSlope: -84.45401
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: -16.978
+        value: -65.517006
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -163,7 +190,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -171,7 +198,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.001
+        value: 37.171
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -180,7 +207,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
-        value: 0
+        value: 37.171
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -188,8 +215,17 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.75
+        value: 67.339005
+        inSlope: 138.85602
+        outSlope: 138.85602
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
-        value: 0
+        value: 106.59901
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -200,7 +236,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -208,7 +244,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.001
+        value: -56.352
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -217,7 +253,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
-        value: 0.001
+        value: -56.352
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -225,8 +261,17 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.75
+        value: -42.716003
+        inSlope: 13.080018
+        outSlope: 13.080018
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
-        value: 0.001
+        value: -41.081
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -237,7 +282,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -245,7 +290,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 14.597001
+        value: -17.084002
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -254,16 +299,25 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
-        value: -0.40300003
-        inSlope: -45.000004
-        outSlope: -45.000004
+        value: -17.084002
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.75
+        value: -40.227
+        inSlope: -96.26001
+        outSlope: -96.26001
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: -30.403002
+        value: -65.214005
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -274,7 +328,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -282,7 +336,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: -42.652
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -291,7 +345,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
-        value: 0
+        value: -42.652
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -299,8 +353,17 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.75
+        value: -68.73801
+        inSlope: -126.496
+        outSlope: -126.496
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
-        value: 0
+        value: -105.9
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -311,7 +374,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -319,7 +382,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: 61.483
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -328,7 +391,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
-        value: 0
+        value: 61.483
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -336,8 +399,17 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.75
+        value: 43.140003
+        inSlope: -24.904024
+        outSlope: -24.904024
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
-        value: 0
+        value: 40.027
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -348,7 +420,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -359,7 +431,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -369,7 +441,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -379,7 +451,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: GurrenArmature/Hips/Spine/Chest
+    path: GurrenArmature/Hips/Spine/Chest/LeftShoulder/LeftUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -389,7 +461,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -399,7 +471,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -409,7 +481,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: GurrenArmature/Hips/Spine
+    path: GurrenArmature/Hips/Spine/Chest/RightShoulder/RightUpperArm
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

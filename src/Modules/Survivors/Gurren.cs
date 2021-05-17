@@ -337,22 +337,22 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Secondary
             SkillDef throwinShadesSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            throwinShadesSkillDef.skillName = prefix + "_GURREN_BODY_THROWINGSHADES_NAME";
-            throwinShadesSkillDef.skillNameToken = prefix + "_GURREN_BODY_THROWINGSHADES_NAME";
-            throwinShadesSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_THROWINGSHADES_DESCRIPTION";
-            throwinShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenLagannShadeThrowIcon");
-            throwinShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
+            throwinShadesSkillDef.skillName = prefix + "_GURREN_BODY_DRILLBLASTER_NAME";
+            throwinShadesSkillDef.skillNameToken = prefix + "_GURREN_BODY_DRILLBLASTER_NAME";
+            throwinShadesSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_DRILLBLASTER_DESCRIPTION";
+            throwinShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenDrillBlasterIcon");
+            throwinShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenDrillBlaster));
             throwinShadesSkillDef.activationStateMachineName = "Weapon";
             throwinShadesSkillDef.baseMaxStock = 1;
-            throwinShadesSkillDef.baseRechargeInterval = 3f;
-            throwinShadesSkillDef.beginSkillCooldownOnSkillEnd = false;
-            throwinShadesSkillDef.canceledFromSprinting = false;
+            throwinShadesSkillDef.baseRechargeInterval = 1f;
+            throwinShadesSkillDef.beginSkillCooldownOnSkillEnd = true;
+            throwinShadesSkillDef.canceledFromSprinting = true;
             throwinShadesSkillDef.forceSprintDuringState = false;
             throwinShadesSkillDef.fullRestockOnAssign = true;
             throwinShadesSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
             throwinShadesSkillDef.isCombatSkill = true;
             throwinShadesSkillDef.mustKeyPress = false;
-            throwinShadesSkillDef.cancelSprintingOnActivation = false;
+            throwinShadesSkillDef.cancelSprintingOnActivation = true;
             throwinShadesSkillDef.rechargeStock = 1;
             throwinShadesSkillDef.requiredStock = 1;
             throwinShadesSkillDef.stockToConsume = 1;

@@ -37,7 +37,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.2.1";
+            MODVERSION = "0.2.3";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -55,7 +55,7 @@ namespace TTGL_Survivor
 
         public void Awake()
         {
-            On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
+            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {
@@ -200,8 +200,8 @@ namespace TTGL_Survivor
         {
             if (betterUIInstalled)
             {
-                BetterUI.StatsDisplay.AddStatsDisplay("$spiralrate", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerRate);
-                BetterUI.StatsDisplay.AddStatsDisplay("$spiralamount", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerAmount);
+                //BetterUI.StatsDisplay.AddStatsDisplay("$spiralrate", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerRate);
+                //BetterUI.StatsDisplay.AddStatsDisplay("$spiralamount", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerAmount);
                 BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerBuff, developerPrefix + "_MAXSPIRALPOWER_BUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_BUFF_DESCRIPTION");
                 BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerDeBuff, developerPrefix + "_MAXSPIRALPOWER_DEBUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_DEBUFF_DESCRIPTION");
                 BetterUI.Buffs.RegisterBuffInfo(Buffs.canopyBuff, developerPrefix + "_CANOPY_BUFF_NAME", developerPrefix + "_CANOPY_BUFF_DESCRIPTION");
