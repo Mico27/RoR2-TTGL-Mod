@@ -9,25 +9,14 @@ namespace TTGL_Survivor.UI
 {
     // just a class to run some custom code for things like weapon models
     public class SpiralEnergySkillDef : SkillDef
-    {
-        private SpiralEnergyComponent source { get; set; }
-
+    {       
         public float energyCost { get; set; }
-                
+
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
-            if (skillSlot.characterBody)
-            {
-                this.source = skillSlot.characterBody.GetComponent<SpiralEnergyComponent>();
-            }
-            return base.OnAssigned(skillSlot);
+            return new SpiralEnergySkillDef.SpiralEnergyInstanceData { source = skillSlot.characterBody.GetComponent<SpiralEnergyComponent>() };            
         }
 
-        public override void OnUnassigned([NotNull] GenericSkill skillSlot)
-        {
-            base.OnUnassigned(skillSlot);
-        }
-        
         public override bool CanExecute([NotNull] GenericSkill skillSlot)
         {
             return HasEnergy(skillSlot) && base.CanExecute(skillSlot);
@@ -40,8 +29,12 @@ namespace TTGL_Survivor.UI
 
         private bool HasEnergy([NotNull] GenericSkill skillSlot)
         {
+            var source = ((SpiralEnergySkillDef.SpiralEnergyInstanceData)skillSlot.skillInstanceData).source;
             return (source && source.energy >= energyCost);
         }
-
+        protected class SpiralEnergyInstanceData : SkillDef.BaseSkillInstanceData
+        {
+            public SpiralEnergyComponent source { get; set; }
+        }
     }
 }

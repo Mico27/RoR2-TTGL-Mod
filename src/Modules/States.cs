@@ -62,6 +62,7 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenHoldBoulder));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLiftBoulder));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenThrowBoulder));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenEntering));
         }
 
         private static void SetStateTypeHook(ref this SerializableEntityStateType self, Type value)

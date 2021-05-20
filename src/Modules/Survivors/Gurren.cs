@@ -56,12 +56,9 @@ namespace TTGL_Survivor.Modules.Survivors
                     childName = "Gurren",
                 }}, 0);
                 #endregion
-
-                displayPrefab = CreateDisplayPrefab("GurrenMenuPrefab", characterPrefab);
-
-                var gurrenFoundUnlockable = Unlockables.AddUnlockable<GurrenFoundAchievement>(true);
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURREN", gurrenFoundUnlockable, 12.2f);
-
+                //displayPrefab = CreateDisplayPrefab("GurrenMenuPrefab", characterPrefab);
+                //var gurrenFoundUnlockable = Unlockables.AddUnlockable<GurrenFoundAchievement>(true);
+                //RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURREN", gurrenFoundUnlockable, 12.2f);
                 CreateHurtBoxes();
                 CreateHitboxes();
                 CreateSkills();
@@ -159,7 +156,6 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.hullClassification = HullClassification.Human;
 
             bodyComponent.preferredPodPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
-
             bodyComponent.isChampion = false;
         }
 

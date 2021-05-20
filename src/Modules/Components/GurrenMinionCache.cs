@@ -18,8 +18,9 @@ namespace TTGL_Survivor.Modules.Components
             if (!existingCache)
             {
                 existingCache = owner.gameObject.AddComponent<GurrenMinionCache>();
-            }
-            existingCache.owner = owner;
+                existingCache.owner = owner;
+                existingCache.SearchListForMinion();
+            }            
             return existingCache;
         }
 
@@ -46,6 +47,26 @@ namespace TTGL_Survivor.Modules.Components
         }
 
         private void CharacterMaster_onStartGlobal(CharacterMaster obj)
+        {
+            AssignMinion(obj);
+        }
+
+        private void SearchListForMinion()
+        {
+            if (this.owner)
+            {
+                var players = TeamComponent.GetTeamMembers(TeamIndex.Player);
+                foreach (var player in players)
+                {
+                    if (player.body && player.body.master)
+                    {
+                        AssignMinion(player.body.master);
+                    }
+                }
+            }
+        }
+
+        private void AssignMinion(CharacterMaster obj)
         {
             if (obj.masterIndex == MasterCatalog.FindMasterIndex("GurrenAllyMaster") &&
                 obj.minionOwnership &&

@@ -44,7 +44,7 @@ namespace TTGL_Survivor.SkillStates
             if (NetworkServer.active && base.characterBody && base.characterBody.master)
             {
                 var master = base.characterBody.master;
-                master.TransformBody("LagannBody");                
+                master.TransformBody("LagannBody");
                 SpawnGurren();
                 var body = master.GetBodyObject();
                 Popup(body, body.transform.position + Vector3.up * 5f);
@@ -63,8 +63,10 @@ namespace TTGL_Survivor.SkillStates
                 rotation = base.characterBody.transform.rotation,
                 summonerBodyObject = ((base.characterBody != null) ? base.characterBody.gameObject : null),
                 ignoreTeamMemberLimit = true,
-                useAmbientLevel = new bool?(true)
+                useAmbientLevel = new bool?(true),
+                inventoryToCopy = base.characterBody.inventory,
             }.Perform();
+            
         }
 
         private void Popup(GameObject character, Vector3 newPosition)

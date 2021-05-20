@@ -22,22 +22,12 @@ namespace TTGL_Survivor.Modules
         {
             CreateGurrenSummonInteractableSpawnCard();
             On.RoR2.SceneDirector.PopulateScene += SceneDirector_PopulateScene;
-            On.RoR2.PurchaseInteraction.GetInteractability += PurchaseInteraction_GetInteractability;  
         }
 
-        private static Interactability PurchaseInteraction_GetInteractability(On.RoR2.PurchaseInteraction.orig_GetInteractability orig, PurchaseInteraction self, Interactor activator)
-        {
-            Interactability result = orig(self, activator);
-            if (self == gurrenInteractPurchaseInteraction)
-            {
-                TTGL_SurvivorPlugin.instance.Logger.LogMessage("PurchaseInteraction_GetInteractability result: " + result);
-            }
-            return result;
-        }
 
         private static void SceneDirector_PopulateScene(On.RoR2.SceneDirector.orig_PopulateScene orig, SceneDirector self)
         {
-            if (gurrenInteractSpawnCard && self.rng.nextBool && Run.instance.userMasters.Values.Any((x) =>
+            if (gurrenInteractSpawnCard  && Run.instance.userMasters.Values.Any((x) =>
             {
                 if (x != null && x.bodyPrefab != null)
                 {
@@ -89,9 +79,8 @@ namespace TTGL_Survivor.Modules
             gurrenInteractPurchaseInteraction.available = true;
             gurrenInteractPurchaseInteraction.displayNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_INTERACTABLE_NAME";
             gurrenInteractPurchaseInteraction.contextToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_INTERACTABLE_CONTEXT";
-            var summonMasterBehavior = gurrenInteractPrefab.AddComponent<SummonMasterBehavior>();
-            summonMasterBehavior.masterPrefab = CreateGurrenAIMaster();
-            summonMasterBehavior.destroyAfterSummoning = false;
+            //var summonMasterBehavior = gurrenInteractPrefab.AddComponent<SummonMasterBehavior>();
+            //summonMasterBehavior.masterPrefab = CreateGurrenAIMaster();
             gurrenInteractPrefab.AddComponent<GurrenSpawnerBehavior>();
             gurrenInteractSpawnCard.prefab = gurrenInteractPrefab;
             gurrenInteractSpawnCard.sendOverNetwork = true;

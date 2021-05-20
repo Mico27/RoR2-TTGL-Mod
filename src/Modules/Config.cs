@@ -35,7 +35,7 @@ namespace TTGL_Survivor.Modules
 
             ttglMusicEnabled = Modules.Config.GetSetConfig("TTGLMusic", "Enabled", true, "Set to false to disable TTGL music");
             ttglShowCombiningAnimation = Modules.Config.GetSetConfig("Gurren Lagann Combine Cinematic", "Frequency", FrequencyConfig.Always, "Set the frequency at which the cinematic plays");
-            woopsEnabled = Modules.Config.GetSetConfig("WoopsSkin", "Enabled", false, "Set to true to enable woops skin");            
+            woopsEnabled = Modules.Config.GetSetConfig("WoopsSkin", "Enabled", false, "Set to true to enable woops skin");
         }
 
         // this helper automatically makes config entries for disabling survivors

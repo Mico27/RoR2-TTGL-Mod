@@ -419,7 +419,6 @@ namespace TTGL_Survivor.Modules.Survivors
             #region FirstExtra
             LagannCombineSkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<LagannCombineSkillDef>();
             lagannCombineSkillDef.energyCost = LagannCombine.energyCost;
-            lagannCombineSkillDef.requiredTeammateBodyName = "GurrenBody";
             lagannCombineSkillDef.skillName = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";

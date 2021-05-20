@@ -16,7 +16,7 @@ namespace TTGL_Survivor.Modules.Components
         public void Awake()
         {
             this.animator = base.GetComponentInChildren<Animator>();
-            this.summonMasterBehavior = base.GetComponent<SummonMasterBehavior>();
+            //this.summonMasterBehavior = base.GetComponent<SummonMasterBehavior>();
             this.purchaseInteraction = base.GetComponent<PurchaseInteraction>();
             if (this.purchaseInteraction)
             {
@@ -31,19 +31,11 @@ namespace TTGL_Survivor.Modules.Components
             }
         }
 
-        [ClientRpc]
-        public void RpcSpawnGurrenMinionClient()
-        {
-            OnGurrenSpawned();
-        }
-
         public void SpawnGurrenMinion(Interactor interactor)
         {
-            this.CallRpcSpawnGurrenMinionClient();
-            bool flag = !NetworkServer.active;
-            if (flag)
+            if (!NetworkServer.active)
             {
-                Debug.LogWarning("[Server] function 'System.Void TTGL_Survivor.Modules.Components.GurrenSpawnerBehavior::SpawnGurrenMinion()' called on client");
+                return;
             }
             else
             {                
@@ -58,52 +50,31 @@ namespace TTGL_Survivor.Modules.Components
                     });
                 }
                 OnGurrenSpawned();
-                if (this.summonMasterBehavior)
-                {
-                    this.summonMasterBehavior.OpenSummon(interactor);
-                }
+                SpawnGurren(interactor);
                 NetworkServer.Destroy(base.gameObject);
                 //TODO set a starting animation for when the summon is done.
             }
         }
-        
-        private void AnimateMounting()
+        private void SpawnGurren(Interactor interactor)
         {
-            if (this.animator)
+            var characterBody = interactor.GetComponent<CharacterBody>();
+            float d = 0f;
+            CharacterMaster characterMaster = new MasterSummon
             {
-                int layerIndex = this.animator.GetLayerIndex("Base Layer");
-                this.animator.speed = 1f;
-                this.animator.Update(0f);
-                this.animator.PlayInFixedTime("GURREN_Interact_Activate", layerIndex, 0f);
-            }
+                masterPrefab = Gurren.allyPrefab,
+                position = base.transform.position + Vector3.up * d,
+                rotation = base.transform.rotation,
+                summonerBodyObject = characterBody.gameObject,
+                ignoreTeamMemberLimit = true,
+                useAmbientLevel = new bool?(true),
+                inventoryToCopy = characterBody.inventory,
+            }.Perform();
         }
 
         private void UNetVersion()
         {
         }
         
-        public void CallRpcSpawnGurrenMinionClient()
-        {
-            if (!NetworkServer.active)
-            {
-                Debug.LogError("RPC Function RpcSpawnGurrenMinionClient called on client.");
-                return;
-            }
-            NetworkWriter networkWriter = new NetworkWriter();
-            networkWriter.Write(0);
-            networkWriter.Write((short)((ushort)2));
-            networkWriter.WritePackedUInt32((uint)GurrenSpawnerBehavior.kRpcRpcSpawnGurrenMinionClient);
-            networkWriter.Write(base.GetComponent<NetworkIdentity>().netId);
-            this.SendRPCInternal(networkWriter, 0, "RpcSpawnGurrenMinionClient");
-        }
-
-        static GurrenSpawnerBehavior()
-        {
-            NetworkBehaviour.RegisterRpcDelegate(typeof(GurrenSpawnerBehavior), GurrenSpawnerBehavior.kRpcRpcSpawnGurrenMinionClient, new NetworkBehaviour.CmdDelegate(GurrenSpawnerBehavior.InvokeRpcRpcSpawnGurrenMinionClient));
-            NetworkCRC.RegisterBehaviour("GurrenSpawnerBehavior", 0);
-            GurrenSpawnerBehavior.kRpcRpcSpawnGurrenMinionClient = 2035029027;
-        }
-
         public override bool OnSerialize(NetworkWriter writer, bool forceAll)
         {
             return false;
@@ -112,17 +83,7 @@ namespace TTGL_Survivor.Modules.Components
         public override void OnDeserialize(NetworkReader reader, bool initialState)
         {
         }
-
-        protected static void InvokeRpcRpcSpawnGurrenMinionClient(NetworkBehaviour obj, NetworkReader reader)
-        {
-            if (!NetworkClient.active)
-            {
-                Debug.LogError("RPC RpcSpawnGurrenMinionClient called on server.");
-                return;
-            }
-            ((GurrenSpawnerBehavior)obj).RpcSpawnGurrenMinionClient();
-        }
-
+        
         private void OnGurrenSpawned()
         {
             Action action = onGurrenSpawnedGlobal;
@@ -134,9 +95,7 @@ namespace TTGL_Survivor.Modules.Components
         }
 
         public PurchaseInteraction purchaseInteraction;
-
-        public SummonMasterBehavior summonMasterBehavior;
-
+        
         public Animator animator;
 
         private static int kRpcRpcSpawnGurrenMinionClient = 2035029027;

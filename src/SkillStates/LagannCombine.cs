@@ -6,6 +6,7 @@ using RoR2.UI;
 using System;
 using System.Linq;
 using TTGL_Survivor.Modules;
+using TTGL_Survivor.Modules.Components;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -239,15 +240,15 @@ namespace TTGL_Survivor.SkillStates
 
         private void RemoveGurren()
         {
-            var bodyIndex = BodyCatalog.FindBodyIndex("GurrenBody");
-            var masterIndex = MasterCatalog.FindMasterIndex("GurrenAllyMaster");
             var players = TeamComponent.GetTeamMembers(TeamIndex.Player);
+            var gurrenMinionCache = GurrenMinionCache.GetOrSetGurrenStatusCache(base.characterBody.master);
             if (players != null)
             {
                 foreach (var player in players.ToList())
                 {                    
-                    if (player.body && player.body.bodyIndex == bodyIndex &&
-                        player.body.master && player.body.master.masterIndex == masterIndex)
+                    if (player.body &&
+                        player.body.master && 
+                        gurrenMinionCache.gurrenMinion == player.body.master)
                     {
                         var master = player.body.master;
                         master.DestroyBody();
