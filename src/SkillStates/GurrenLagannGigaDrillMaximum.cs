@@ -13,8 +13,9 @@ namespace TTGL_Survivor.SkillStates
 {
     public class GurrenLagannGigaDrillMaximum : BaseSkillState
     {
-        public const float energyCost = 50f;
-        public const float c_DamageCoefficient = 7.5f;
+        public static float energyCost = 50f;
+        public static float c_DamageCoefficient = 7.5f;
+        public static bool canBypassArmor = false;
         public int comboCounter;
         protected string hitboxName = "DammageHitbox";
 
@@ -47,7 +48,7 @@ namespace TTGL_Survivor.SkillStates
         protected OverlapAttack CreateAttack(HitBoxGroup hitBoxGroup)
         {
             var attack = new OverlapAttack();
-            attack.damageType = DamageType.Stun1s;
+            attack.damageType = (canBypassArmor)? (DamageType.Stun1s | DamageType.BypassArmor): DamageType.Stun1s;
             attack.attacker = base.gameObject;
             attack.inflictor = base.gameObject;
             attack.teamIndex = base.GetTeam();

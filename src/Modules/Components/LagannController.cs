@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using System;
 using TTGL_Survivor.Modules.Survivors;
 using TTGL_Survivor.SkillStates;
 using UnityEngine;
@@ -8,11 +9,14 @@ namespace TTGL_Survivor.Modules.Components
     // just a class to run some custom code for things like weapon models
     public class LagannController : MonoBehaviour
     {
+        public static float drillSizeMultiplier = 1.0f;
+
         private CharacterBody body;
         private Animator animator;
         private GenericSkill yokoSkill;
         private SetStateOnHurt setStateOnHurt;
         private SkillLocator skillLocator;
+        private ChildLocator childLocator;
         private bool defaultCanBeFrozen;
         private bool defaultCanBeStunned;
         private bool defaultCanBeHitStunned;
@@ -20,13 +24,23 @@ namespace TTGL_Survivor.Modules.Components
         private bool hadFullSpiralPowerBuff;
         private GurrenMinionCache gurrenMinionCache;
 
+        private Transform rightDrillBone;
+        private Transform leftDrillBone;
+        private Transform drillRushHitboxPivot;
+
         public void Awake()
         {
             this.body = base.GetComponent<CharacterBody>();
             var model = base.GetComponent<ModelLocator>();
-            this.animator = model.modelTransform.GetComponent<Animator>();
+            var modelTransform = model.modelTransform;
+            this.childLocator = modelTransform.GetComponent<ChildLocator>();
+            this.rightDrillBone = childLocator.FindChild("RightHandDrill");
+            this.leftDrillBone = childLocator.FindChild("LeftHandDrill");
+            this.drillRushHitboxPivot = childLocator.FindChild("DrillRushHitboxPivot");
+            this.animator = modelTransform.GetComponent<Animator>();            
             this.setStateOnHurt = base.GetComponent<SetStateOnHurt>();
             this.skillLocator = base.GetComponent<SkillLocator>();
+            
             if (this.setStateOnHurt)
             {
                 this.defaultCanBeFrozen = setStateOnHurt.canBeFrozen;
@@ -55,6 +69,25 @@ namespace TTGL_Survivor.Modules.Components
             On.RoR2.CharacterBody.AddBuff_BuffDef -= CharacterBody_AddBuff_BuffDef;
             On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float -= CharacterBody_AddTimedBuff_BuffDef_float;
             On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int -= CharacterBody_AddTimedBuff_BuffDef_float_int;
+        }
+
+        private void LateUpdate()
+        {
+            if (drillSizeMultiplier != 1f)
+            {
+                if (this.drillRushHitboxPivot)
+                {
+                    this.drillRushHitboxPivot.localScale = (Vector3.one * drillSizeMultiplier);
+                }
+                if (this.rightDrillBone)
+                {
+                    this.rightDrillBone.localScale *= drillSizeMultiplier;
+                }
+                if (this.leftDrillBone)
+                {
+                    this.leftDrillBone.localScale *= drillSizeMultiplier;
+                }
+            }
         }
 
         private void FixedUpdate()
@@ -156,7 +189,7 @@ namespace TTGL_Survivor.Modules.Components
 
             if (self == this.body && self.HasBuff(Modules.Buffs.canopyBuff))
             {
-                self.armor += LagannToggleCanopy.c_ArmorBuffAmount;
+                self.armor += LagannToggleCanopy.armorBuffAmount;
             }
         }
 

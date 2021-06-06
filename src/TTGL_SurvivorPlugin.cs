@@ -26,6 +26,7 @@ namespace TTGL_Survivor
 {
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.xoxfaby.BetterUI", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
@@ -37,12 +38,13 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.2.5";
+            MODVERSION = "0.2.8";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
         public static bool scepterInstalled = false;
         public static bool betterUIInstalled = false;
+        public static bool skillPlusInstalled = false;
 
         public static TTGL_SurvivorPlugin instance;
 
@@ -61,21 +63,23 @@ namespace TTGL_Survivor
             {
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.xoxfaby.BetterUI")) betterUIInstalled = true;
+                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) skillPlusInstalled = true;
                 Modules.Assets.PopulateAssets();
                 Modules.Config.ReadConfig();
                 Modules.ItemDisplays.PopulateDisplays();
                 Modules.States.RegisterStates();
                 Modules.Buffs.RegisterBuffs();
                 Modules.Projectiles.RegisterProjectiles();
-                Modules.TemporaryVisualEffects.RegisterTemporaryVisualEffects();
-                Modules.Tokens.AddTokens();
+                Modules.TemporaryVisualEffects.RegisterTemporaryVisualEffects();                
                 new Lagann().CreateCharacter();
                 new Gurren().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
                 Modules.CostTypeDefs.RegisterCostTypeDefs();
                 Modules.Interactables.RegisterInteractables();
+                Modules.Tokens.AddTokens();
                 Hooks();
                 AddBetterUI();
+                AddSkillPlus();
             }
             catch (Exception e)
             {
@@ -107,9 +111,10 @@ namespace TTGL_Survivor
 
         private void GenericSkill_Start(On.RoR2.GenericSkill.orig_Start orig, GenericSkill self)
         {
-            if (self.skillDef && self.skillDef.fullRestockOnAssign)
+            orig(self);
+            if (self.skillDef && !self.skillDef.fullRestockOnAssign)
             {
-                orig(self);
+                self.RemoveAllStocks();
             }            
         }
 
@@ -206,6 +211,15 @@ namespace TTGL_Survivor
                 BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerDeBuff, developerPrefix + "_MAXSPIRALPOWER_DEBUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_DEBUFF_DESCRIPTION");
                 BetterUI.Buffs.RegisterBuffInfo(Buffs.canopyBuff, developerPrefix + "_CANOPY_BUFF_NAME", developerPrefix + "_CANOPY_BUFF_DESCRIPTION");
                 BetterUI.Buffs.RegisterBuffInfo(Buffs.kaminaBuff, developerPrefix + "_GURREN_BODY_PASSIVE_NAME", developerPrefix + "_GURREN_BODY_PASSIVE_DESCRIPTION");
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void AddSkillPlus()
+        {
+            if (skillPlusInstalled)
+            {
+                SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();
             }
         }
 

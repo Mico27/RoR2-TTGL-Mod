@@ -11,8 +11,8 @@ namespace TTGL_Survivor.SkillStates
     public class AimLagannImpact : BaseState
     {
         public const float c_MaxDuration = 3.0f;
-        public const float c_MaxStepDistance = 100.0f;
-        public const int c_MaxRebound = 3;
+        public static float maxStepDistance = 100.0f;
+        public static int maxRebound = 4;
         private Quaternion m_OriginalRotation;
         private LineRenderer m_LineRenderer;
         private Tuple<Vector3, Vector3>[] m_TrajectoryNodes;
@@ -67,10 +67,10 @@ namespace TTGL_Survivor.SkillStates
                     base.characterMotor.velocity = Vector3.zero;
                     base.characterDirection.targetTransform.rotation = Util.QuaternionSafeLookRotation(base.inputBank.aimDirection);
                 }
+                this.UpdateTrajectoryNodes(this.transform.position, base.inputBank.aimDirection, maxRebound);
+                this.DrawTrajectoryLine();
                 if (base.isAuthority)
-                {
-                    this.UpdateTrajectoryNodes(this.transform.position, base.inputBank.aimDirection, c_MaxRebound);
-                    this.DrawTrajectoryLine();
+                {                    
                     if ((base.skillLocator && base.skillLocator.utility.IsReady() && base.inputBank.skill3.justPressed) || base.inputBank.interact.justPressed || base.inputBank.jump.justPressed)
                     {
                         this.outer.SetNextStateToMain();
@@ -107,7 +107,7 @@ namespace TTGL_Survivor.SkillStates
             }
             Ray ray = new Ray(position, direction);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, c_MaxStepDistance, LayerIndex.world.mask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hit, maxStepDistance, LayerIndex.world.mask, QueryTriggerInteraction.Ignore))
             {
                 direction = Vector3.Reflect(direction, hit.normal);
                 position = hit.point;
@@ -115,7 +115,7 @@ namespace TTGL_Survivor.SkillStates
             }
             else
             {
-                position += direction * c_MaxStepDistance;
+                position += direction * maxStepDistance;
                 reflectionsRemaining = 0;
                 nodes.Add(new Tuple<Vector3, Vector3>(position, Vector3.zero));
             }

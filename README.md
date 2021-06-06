@@ -4,13 +4,47 @@
 
 [![](https://cdn.discordapp.com/attachments/194257452374425600/840096334576746496/unknown.png)]()
 
-[![](https://cdn.discordapp.com/attachments/194257452374425600/840096684788678656/unknown.png)]()
-
 [![](https://cdn.discordapp.com/attachments/194257452374425600/840096968524169216/unknown.png)]()
 
 feel free to ping/dm me with any questions / suggestion / complaints on the modding discord- @Mico27#0642
 
 ## Changelog
+
+`0.2.8`
+- Lowered the volume and attenuated the sound effects
+- Combine and gigadrill break sound effect are now local to the user/spectator
+- Implemented skill leveling support for the mod Skill++ (There's currently a bug that duplicates the skill point when you transform back and forth but it should be eventualy fixed by the skill++ devs)
+- Yoko's rifle nerfed to ricochet only up to 6 times (Except when using Skill++ it will start at 2 times)
+- Lagann impact will now be able to hit the same enemy multiple times on rebound
+- Gurren Lagann will now be less "floaty"
+
+`0.2.7`
+- Fixed a bug where sometimes after using giga drill break, you would fall into the void forever in multiplayer.
+- Fixed Gurren Lagann's throwing shades that was doing x4 the amount of damage intended. Also the shades will also now hit an enemy for a second time on the way back.
+- Nerfed the price of activating Gurren on the map from 5 lunar coins to 2 lunar coins.
+
+`0.2.6`
+- Combine and GigaDrill Animation cinematic is now displayed only for the user or for anyone spectating the user in Multiplayer (Will no longer "freeze" everything else during it).
+- Combine and GigaDrill Animation cinematic can be skipped by pressing the interact button ("e" or whatever you have it bind to).
+- TTGL music will now also be played for any spectator spectating Lagann or GurrenLagann.
+
+`0.2.5`
+- Fixed bug where some skills depending on spiral power amount like Combine and GigaDrill Maximum wouldnt activate correctly after combining/spliting multiple times or if there were multiple of the same character in multiplayer.
+
+`0.2.4`
+- Added death ragdoll on Lagann, Gurren and GurrenLagann (Finaly!)
+- Fixed getting Gurren in multiplayer which was still bugged when you werent host
+- Removed Gurren from selection screen, loadout isnt very good so I'll keep it as just an AI you can find on the map during a run.
+- If you play as Lagann (Or started playing as GurrenLagann and Gurren dies), you will always be able to find Gurren on the first stage (or the next stage after Gurren dies)
+
+`0.2.3`
+- Added Drill Blaster move for Gurren
+- Added a bunch of actual tips/description in the summary of Lagann, Gurren and Gurren Lagann.
+- Buffed a bit Gurren and Gurren Lagann's melee attacks.
+
+`0.2.2`
+- Temporarily removed part of the implementation of BetterUI (Forgot I wasnt using a released version for testing)
+- Forgot to remove some multiplayer degging stuff
 
 `0.2.1`
 - Fixed a bug where the Gurren placed on the map was only showing for the host in multiplayer

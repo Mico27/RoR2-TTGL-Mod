@@ -41,7 +41,7 @@ namespace TTGL_Survivor.Modules.Components
 
         private void DoPassive()
         {
-            if (!NetworkClient.active)
+            if (!NetworkServer.active)
             {
                 return;
             }

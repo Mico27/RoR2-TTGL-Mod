@@ -15,6 +15,8 @@ namespace TTGL_Survivor.SkillStates
         public static float initialSpeedCoefficient = 2.5f;
         public static float finalSpeedCoefficient = 2.0f;
         public static float damageCoefficient = 1.5f;
+        public static float jumpVelocity = 7f;
+        public static bool canControlDirection = false;
 
         public static string hitboxName = "DammageHitbox";
 
@@ -66,7 +68,7 @@ namespace TTGL_Survivor.SkillStates
             this.animator = base.GetModelAnimator();
             this.playbackRateString = "skill3.playbackRate";
 
-            if (base.isAuthority && base.inputBank)
+            if (base.inputBank)
             {
                 this.burstDirection = ((base.inputBank.moveVector == Vector3.zero) ? Vector3.up : base.inputBank.moveVector).normalized;
             }
@@ -134,12 +136,16 @@ namespace TTGL_Survivor.SkillStates
 
         private void RecalculateBurstSpeed(bool isVertical)
         {
-            this.burstSpeed = ((!isVertical)?this.moveSpeedStat: 7f) * Mathf.Lerp(GurrenLagannTornadoKick.initialSpeedCoefficient, GurrenLagannTornadoKick.finalSpeedCoefficient, base.fixedAge / this.duration);
+            this.burstSpeed = ((!isVertical)?this.moveSpeedStat: jumpVelocity) * Mathf.Lerp(GurrenLagannTornadoKick.initialSpeedCoefficient, GurrenLagannTornadoKick.finalSpeedCoefficient, base.fixedAge / this.duration);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            if (canControlDirection && base.inputBank)
+            {
+                this.burstDirection = ((base.inputBank.moveVector == Vector3.zero) ? Vector3.up : base.inputBank.moveVector).normalized;
+            }
             bool isVertical = (this.burstDirection == Vector3.up);
             this.RecalculateBurstSpeed(isVertical);
             this.hitPauseTimer -= Time.fixedDeltaTime;

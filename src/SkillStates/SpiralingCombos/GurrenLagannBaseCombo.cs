@@ -12,6 +12,10 @@ namespace TTGL_Survivor.SkillStates
 {
     public abstract class GurrenLagannBaseCombo : BaseSkillState
     {
+        static public float baseDamageCoeficient = 1.0f;
+        static public float pullRadius = 20f;
+        static public float pullForce = 80f;
+        static public bool allBypassArmor = false;
         public int comboCounter;
         protected string hitboxName = "DammageHitbox";
 
@@ -36,9 +40,7 @@ namespace TTGL_Survivor.SkillStates
         private BaseState.HitStopCachedState hitStopCachedState;
         private Vector3 storedVelocity;
 
-        public Transform pullOrigin;
-        public float pullRadius;
-        public float pullForce;
+        public Transform pullOrigin;   
         public AnimationCurve pullStrengthCurve;
         public int maximumPullCount = int.MaxValue;
         private List<CharacterBody> pullList = new List<CharacterBody>();
@@ -78,9 +80,7 @@ namespace TTGL_Survivor.SkillStates
             }
             var childLocator = this.GetModelChildLocator();
             this.pullOrigin = childLocator.FindChild(this.hitboxName);
-            this.pullRadius = 20f;
             this.pullStrengthCurve = AnimationCurve.EaseInOut(0.1f, 0f, 1f, 1f);
-            this.pullForce = 80f;
 
             this.PlayAttackAnimation();
 
@@ -181,8 +181,8 @@ namespace TTGL_Survivor.SkillStates
                 if (characterBody && characterBody.transform)
                 {
                     Vector3 vector = ((this.pullOrigin) ? this.pullOrigin.position : base.transform.position) - characterBody.corePosition;
-                    float d = this.pullStrengthCurve.Evaluate(vector.magnitude / this.pullRadius);
-                    Vector3 b = vector.normalized * d * deltaTime * this.pullForce;
+                    float d = this.pullStrengthCurve.Evaluate(vector.magnitude / pullRadius);
+                    Vector3 b = vector.normalized * d * deltaTime * pullForce;
                     CharacterMotor component = characterBody.GetComponent<CharacterMotor>();
                     if (component)
                     {
@@ -211,7 +211,7 @@ namespace TTGL_Survivor.SkillStates
                 return;
             }
             this.pulling = true;
-            Collider[] array = Physics.OverlapSphere(((this.pullOrigin) ? this.pullOrigin.position : base.transform.position), this.pullRadius, LayerIndex.defaultLayer.mask);
+            Collider[] array = Physics.OverlapSphere(((this.pullOrigin) ? this.pullOrigin.position : base.transform.position), pullRadius, LayerIndex.defaultLayer.mask);
             int num = 0;
             int num2 = 0;
             while (num < array.Length && num2 < this.maximumPullCount)

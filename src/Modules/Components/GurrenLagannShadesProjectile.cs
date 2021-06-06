@@ -42,8 +42,18 @@ namespace RoR2.Projectile
             {
                 this.stopwatch = 0f;
                 this.NetworkboomerangState = 2;
-            }
+                this.OnFlyBack();
+            }            
             EffectManager.SimpleImpactEffect(this.impactSpark, impactInfo.estimatedPointOfImpact, -base.transform.forward, true);
+        }
+
+        private void OnFlyBack()
+        {
+            ProjectileOverlapAttack projectileOverlapAttack = gameObject.GetComponent<ProjectileOverlapAttack>();
+            if (projectileOverlapAttack)
+            {
+                projectileOverlapAttack.ResetOverlapAttack();
+            }
         }
 
         private bool Reel()
@@ -92,6 +102,7 @@ namespace RoR2.Projectile
                     {
                         this.stopwatch = 0f;
                         this.NetworkboomerangState = 2;
+                        this.OnFlyBack();
                         return;
                     }
                     break;

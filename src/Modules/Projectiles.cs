@@ -11,6 +11,7 @@ namespace TTGL_Survivor.Modules
 {
     internal static class Projectiles
     {
+        internal static GameObject explosiveRifleClustersPrefab;
         internal static GameObject explosiveRifleRoundPrefab;
         internal static GameObject shadesWhirlPrefab;
         internal static GameObject bigBoulderPrefab;
@@ -18,25 +19,54 @@ namespace TTGL_Survivor.Modules
         internal static void RegisterProjectiles()
         {
             // only separating into separate methods for my sanity
-            CreateBomb();
+            CreateYokoExplosiveClusters();
+            CreateYokoExplosiveRound();
             CreateGurrenLagannShadesProjectile();
             CreateBigBoulder();
 
+            TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleClustersPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleRoundPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(shadesWhirlPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(bigBoulderPrefab);
         }
 
-        private static void CreateBomb()
+        private static void CreateYokoExplosiveClusters()
         {
-            explosiveRifleRoundPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "YokoExplosiveRifleProjectile");
-            ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
+            explosiveRifleClustersPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "YokoExplosiveRifleClusters");
+            ProjectileImpactExplosion impactExplosion = explosiveRifleClustersPrefab.GetComponent<ProjectileImpactExplosion>();
             impactExplosion.blastDamageCoefficient = 1f;
             impactExplosion.blastProcCoefficient = 1f;
             impactExplosion.bonusBlastForce = Vector3.zero;
             impactExplosion.childrenCount = 0;
             impactExplosion.childrenDamageCoefficient = 0f;
             impactExplosion.childrenProjectilePrefab = null;
+            impactExplosion.destroyOnWorld = true;
+            impactExplosion.destroyOnEnemy = true;
+            impactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.Linear;
+            impactExplosion.fireChildren = false;
+            impactExplosion.lifetimeRandomOffset = 0f;
+            impactExplosion.offsetForLifetimeExpiredSound = 0f;
+            impactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
+            impactExplosion.blastRadius = 5f;
+            impactExplosion.lifetime = 0.5f;
+            impactExplosion.impactEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
+            impactExplosion.timerAfterImpact = true;
+            impactExplosion.lifetimeAfterImpact = 0.1f;
+            ProjectileController projectileController = explosiveRifleClustersPrefab.GetComponent<ProjectileController>();
+            //projectileController.ghostPrefab = CreateGhostPrefab("YokoRifleExplosiveRound");
+            projectileController.startSound = "";
+        }
+
+        private static void CreateYokoExplosiveRound()
+        {
+            explosiveRifleRoundPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "YokoExplosiveRifleProjectile");
+            ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
+            impactExplosion.blastDamageCoefficient = 1f;
+            impactExplosion.blastProcCoefficient = 1f;
+            impactExplosion.bonusBlastForce = Vector3.zero;
+            impactExplosion.childrenCount = 3;
+            impactExplosion.childrenDamageCoefficient = 0.3f;
+            impactExplosion.childrenProjectilePrefab = explosiveRifleClustersPrefab;
             impactExplosion.destroyOnWorld = true;
             impactExplosion.destroyOnEnemy = true;
             impactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.Linear;
@@ -54,6 +84,19 @@ namespace TTGL_Survivor.Modules
             projectileController.startSound = "";
         }
 
+        public static void UpdateYokoExposionScale(float scale)
+        {
+            var explosionEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
+            explosionEffect.transform.localScale = Vector3.one * (5f * scale);
+            ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
+            impactExplosion.blastRadius = (20f * scale);
+        }
+
+        public static void UpdateYokoExplosionCluster(bool isCluster)
+        {
+            ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
+            impactExplosion.fireChildren = isCluster;
+        }
 
         private static void CreateGurrenLagannShadesProjectile()
         {
@@ -62,11 +105,15 @@ namespace TTGL_Survivor.Modules
             projectileController.ghostPrefab = CreateGhostPrefab("ShadesWhirlind");
             projectileController.startSound = "";
 
+            ProjectileOverlapAttack overlapAttack = shadesWhirlPrefab.GetComponent<ProjectileOverlapAttack>();
+            overlapAttack.damageCoefficient = 1.0f;
+
             BoomerangProjectile boomerangProjectile = shadesWhirlPrefab.GetComponent<BoomerangProjectile>();
             GurrenLagannShadesProjectile gurrenLagannShadesProjectile = shadesWhirlPrefab.AddComponent<GurrenLagannShadesProjectile>();
             gurrenLagannShadesProjectile.canHitWorld = true;
             gurrenLagannShadesProjectile.crosshairPrefab = boomerangProjectile.crosshairPrefab;
             gurrenLagannShadesProjectile.impactSpark = boomerangProjectile.impactSpark;
+            
 
             var collider = shadesWhirlPrefab.GetComponent<BoxCollider>();
             collider.size = new Vector3(6.0f, 1.0f, 6.0f);

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.SkillStates;
 using TTGL_Survivor.UI;
 using UnityEngine;
@@ -27,6 +28,9 @@ namespace TTGL_Survivor.Modules.Survivors
         internal static List<ItemDisplayRuleSet.NamedRuleGroup> equipmentRules;
 
         public static SkillDef canopyOverrideSkillDef;
+        public static SkillDef scepterSkillDef;
+        public static SkillDef shootRifleSkillDef;
+        public static SkillDef explosiveRifleSkillDef;
 
         public void CreateCharacter()
         {
@@ -130,11 +134,12 @@ namespace TTGL_Survivor.Modules.Survivors
                 var specialMoveCameraSource = childLocator.FindChild("SpecialMoveCameraSource");
                 if (specialMoveCameraSource)
                 {
-                    var forcedCamera = specialMoveCameraSource.gameObject.AddComponent<ForcedCamera>();
+                    var forcedCamera = specialMoveCameraSource.gameObject.AddComponent<SkippableCamera>();
                     forcedCamera.allowUserHud = false;
                     forcedCamera.allowUserLook = false;
+                    forcedCamera.allowUserControl = false;
                     forcedCamera.entryLerpDuration = 0f;
-                    forcedCamera.exitLerpDuration = 0f;
+                    forcedCamera.exitLerpDuration = 1f;
                 }
             }
 
@@ -261,7 +266,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #region Primary
 
             SkillDef drillRushSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            drillRushSkillDef.skillName = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME";
+            drillRushSkillDef.skillName = "LagannDrillRush";
             drillRushSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME";
             drillRushSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION";
             drillRushSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon");
@@ -287,8 +292,10 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
 
             #region Secondary
-            SkillDef shootRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            shootRifleSkillDef.skillName = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME";
+            SkillStates.YokoShootRifle.maxRicochetCount = (TTGL_SurvivorPlugin.skillPlusInstalled) ? 2 : 6;
+            SkillStates.YokoShootRifle.resetBouncedObjects = (TTGL_SurvivorPlugin.skillPlusInstalled) ? false : true;
+            shootRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            shootRifleSkillDef.skillName = "YokoShootRifle";
             shootRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME";
             shootRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION";
             shootRifleSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleIcon");
@@ -311,8 +318,8 @@ namespace TTGL_Survivor.Modules.Survivors
             TTGL_SurvivorPlugin.skillDefs.Add(shootRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, shootRifleSkillDef);
 
-            SkillDef explosiveRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            explosiveRifleSkillDef.skillName = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME";
+            explosiveRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            explosiveRifleSkillDef.skillName = "YokoExplosiveRifle";
             explosiveRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME";
             explosiveRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION";
             explosiveRifleSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleExplosionIcon");
@@ -338,7 +345,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Utility
             SkillDef spiralBurstSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            spiralBurstSkillDef.skillName = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME";
+            spiralBurstSkillDef.skillName = "LagannSpiralBurst";
             spiralBurstSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME";
             spiralBurstSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION";
             spiralBurstSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralBurstIcon");
@@ -346,7 +353,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralBurstSkillDef.activationStateMachineName = "Body";
             spiralBurstSkillDef.baseMaxStock = 1;
             spiralBurstSkillDef.baseRechargeInterval = 4f;
-            spiralBurstSkillDef.beginSkillCooldownOnSkillEnd = false;
+            spiralBurstSkillDef.beginSkillCooldownOnSkillEnd = true;
             spiralBurstSkillDef.canceledFromSprinting = false;
             spiralBurstSkillDef.forceSprintDuringState = true;
             spiralBurstSkillDef.fullRestockOnAssign = true;
@@ -361,7 +368,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddUtilitySkill(characterPrefab, spiralBurstSkillDef);
 
             SkillDef toggleCanopySkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            toggleCanopySkillDef.skillName = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME";
+            toggleCanopySkillDef.skillName = "LagannToggleCanopy";
             toggleCanopySkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME";
             toggleCanopySkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION";
             toggleCanopySkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("ToggleCanopyIcon");
@@ -384,7 +391,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
 
             canopyOverrideSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            canopyOverrideSkillDef.skillName = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
+            canopyOverrideSkillDef.skillName = prefix + "LagannDisableRifle";
             canopyOverrideSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
             canopyOverrideSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION";
             canopyOverrideSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DisableYokoRifleIcon");
@@ -392,8 +399,9 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
 
             #region Special
+            AimLagannImpact.maxRebound = (TTGL_SurvivorPlugin.skillPlusInstalled) ? 2 : 4;
             SkillDef lagannImpactSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-            lagannImpactSkillDef.skillName = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME";
+            lagannImpactSkillDef.skillName = "LagannImpact";
             lagannImpactSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME";
             lagannImpactSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION";
             lagannImpactSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
@@ -419,7 +427,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #region FirstExtra
             LagannCombineSkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<LagannCombineSkillDef>();
             lagannCombineSkillDef.energyCost = LagannCombine.energyCost;
-            lagannCombineSkillDef.skillName = prefix + "_LAGANN_BODY_COMBINE_NAME";
+            lagannCombineSkillDef.skillName = "LagannCombine";
             lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";
             lagannCombineSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannCombineIcon");
@@ -3157,9 +3165,9 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
         {
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
-            SkillDef scepterSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            scepterSkillDef = ScriptableObject.CreateInstance<SkillDef>();
 
-            scepterSkillDef.skillName = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME";
+            scepterSkillDef.skillName = "YokoScepterRifle";
             scepterSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME";
             scepterSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION";
             scepterSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleAncientScepterIcon");
@@ -3182,6 +3190,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
             TTGL_SurvivorPlugin.skillDefs.Add(scepterSkillDef);
 
             AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 1);
         }
     }
 }

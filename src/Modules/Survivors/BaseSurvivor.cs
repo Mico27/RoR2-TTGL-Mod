@@ -64,7 +64,7 @@ namespace TTGL_Survivor.Modules
 
             bodyComponent.baseDamage = 12f;
             bodyComponent.levelDamage = 2.4f;
-
+            
             bodyComponent.baseAttackSpeed = 1f;
             bodyComponent.levelAttackSpeed = 0f;
 

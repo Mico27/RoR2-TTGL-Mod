@@ -12,10 +12,14 @@ namespace TTGL_Survivor.SkillStates
     public class GurrenLagannSplit : BaseSkillState
     {
         public static float baseDuration = 18f;
+        public static float carryOverEnergyPercent = 1f;
+        private float energy;
 
         public override void OnEnter()
         {
             base.OnEnter();
+            var spiralEnergyComponent = base.characterBody.GetComponent<SpiralEnergyComponent>();
+            this.energy = spiralEnergyComponent.NetworkEnergy;
         }
 
         public override void OnExit()
@@ -46,10 +50,11 @@ namespace TTGL_Survivor.SkillStates
                 var master = base.characterBody.master;
                 master.TransformBody("LagannBody");
                 SpawnGurren();
+                var newBody = master.GetBody();
+                var spiralEnergyComponent = newBody.GetComponent<SpiralEnergyComponent>();
+                spiralEnergyComponent.NetworkEnergy = (this.energy - (this.energy * carryOverEnergyPercent));
                 var body = master.GetBodyObject();
                 Popup(body, body.transform.position + Vector3.up * 5f);
-                var extraSkillLocator = body.GetComponent<ExtraSkillSlots.ExtraSkillLocator>();
-                extraSkillLocator.extraFirst.RemoveAllStocks();
             }            
         }
 

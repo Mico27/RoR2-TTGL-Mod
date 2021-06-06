@@ -6,13 +6,11 @@ namespace TTGL_Survivor.Modules
 {
     public class TTGLMusicRemote : MonoBehaviour
     {        
-        private EntityStateMachine outer = null;
         private TTGLMusicController controller = null;
         
         public void Awake()
         {
-            this.controller = null;
-            this.outer = base.GetComponent<EntityStateMachine>();                       
+            this.controller = null;                    
             MusicController.pickTrackHook += MusicController_pickTrackHook;
         }
 
@@ -37,7 +35,7 @@ namespace TTGL_Survivor.Modules
 
         public void PlayMusic(MusicType musicType)
         {
-            if (isAuthority && this.controller)
+            if (CanPlayMusic() && this.controller)
             {
                 this.controller.PlayMusic(musicType);
             }
@@ -45,18 +43,15 @@ namespace TTGL_Survivor.Modules
 
         public void StopMusic(MusicType musicType)
         {
-            if (isAuthority && this.controller)
+            if (CanPlayMusic() && this.controller)
             {
                 this.controller.StopMusic(musicType);
             }
         }
         
-        protected bool isAuthority
+        protected bool CanPlayMusic()
         {
-            get
-            {
-                return Util.HasEffectiveAuthority(this.outer.networkIdentity);
-            }
+            return CameraRigController.IsObjectSpectatedByAnyCamera(base.gameObject);
         }
 
     }

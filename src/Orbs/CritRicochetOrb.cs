@@ -56,9 +56,9 @@ namespace TTGL_Survivor.Orbs
                     }
                 }
                 this.hitCallback?.Invoke(this);
-                if (this.isCrit)
+                if (this.bouncesRemaining > 0 && this.isCrit)
                 {
-                    if (this.bouncedObjects != null)
+                    if (resetBouncedObjects)
                     {
                         this.bouncedObjects.Clear();
                         this.bouncedObjects.Add(this.target.healthComponent);
@@ -76,7 +76,9 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.teamIndex = this.teamIndex;
                         CritRicochetOrb.damageValue = this.damageValue;
                         CritRicochetOrb.isCrit = this.attackerBody.RollCrit();
+                        CritRicochetOrb.bouncesRemaining = this.bouncesRemaining - 1;
                         CritRicochetOrb.bouncedObjects = this.bouncedObjects;
+                        CritRicochetOrb.resetBouncedObjects = this.resetBouncedObjects;
                         CritRicochetOrb.procChainMask = this.procChainMask;
                         CritRicochetOrb.procCoefficient = this.procCoefficient;
                         CritRicochetOrb.damageColorIndex = this.damageColorIndex;
@@ -88,9 +90,11 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.hitSoundString = this.hitSoundString;
                         CritRicochetOrb.hitCallback = this.hitCallback;
                         CritRicochetOrb.FireDelayed();
+                        return;
                     }
                 }
             }
+            this.bouncedObjects.Clear();
         }
 
         public HurtBox PickNextTarget(Vector3 position)
@@ -121,7 +125,11 @@ namespace TTGL_Survivor.Orbs
         {            
             OrbManager.instance.AddOrb(this);
         }
-        
+
+        public int bouncesRemaining;
+
+        public bool resetBouncedObjects;
+
         public float damageValue;
 
         public GameObject attacker;

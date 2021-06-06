@@ -10,6 +10,8 @@ namespace TTGL_Survivor.SkillStates
 {
     public class YokoShootRifle : BaseSkillState
     {
+        public static int maxRicochetCount = 6;
+        public static bool resetBouncedObjects = true;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
@@ -86,14 +88,16 @@ namespace TTGL_Survivor.SkillStates
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect,                        
                     };
-                    bulletAttack.hitCallback = (ref BulletAttack.BulletHit hitInfo) =>
+                    if (maxRicochetCount > 0 && bulletAttack.isCrit)
                     {
-                        var result = bulletAttack.DefaultHitCallback(ref hitInfo);
-                        if (hitInfo.hitHurtBox)
+                        bulletAttack.hitCallback = new BulletAttack.HitCallback((ref BulletAttack.BulletHit hitInfo) =>
                         {
-                            if (bulletAttack.isCrit)
+                            var result = bulletAttack.DefaultHitCallback(ref hitInfo);
+                            if (hitInfo.hitHurtBox)
                             {
                                 CritRicochetOrb critRicochetOrb = new CritRicochetOrb();
+                                critRicochetOrb.bouncesRemaining = maxRicochetCount - 1;
+                                critRicochetOrb.resetBouncedObjects = resetBouncedObjects;
                                 critRicochetOrb.damageValue = bulletAttack.damage;
                                 critRicochetOrb.isCrit = base.RollCrit();
                                 critRicochetOrb.teamIndex = TeamComponent.GetObjectTeam(base.gameObject);
@@ -115,9 +119,9 @@ namespace TTGL_Survivor.SkillStates
                                     critRicochetOrb.FireDelayed();
                                 }
                             }
-                        }                        
-                        return result;
-                    };
+                            return result;
+                        });
+                    }
                     bulletAttack.Fire();
                 }
             }

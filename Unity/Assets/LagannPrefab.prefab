@@ -54176,6 +54176,37 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &5039253275125469774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1856167605262508573}
+  m_Layer: 0
+  m_Name: DrillRushHitboxPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1856167605262508573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5039253275125469774}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.39, z: 0.07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4226335051446996000}
+  m_Father: {fileID: 7573581906514586604}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5058199415737072128
 GameObject:
   m_ObjectHideFlags: 0
@@ -107419,7 +107450,7 @@ Transform:
   - {fileID: 7573581906514586418}
   - {fileID: 7573581906514586870}
   - {fileID: 7573581906514586866}
-  - {fileID: 4226335051446996000}
+  - {fileID: 1856167605262508573}
   - {fileID: 5607620961575967560}
   - {fileID: 5849119025766089247}
   - {fileID: 8149441262920051284}
@@ -107514,6 +107545,12 @@ MonoBehaviour:
     transform: {fileID: 436273527597702082}
   - name: MainHurtbox
     transform: {fileID: 4086864735707728133}
+  - name: RightHandDrill
+    transform: {fileID: 7573581906514586482}
+  - name: LeftHandDrill
+    transform: {fileID: 7573581906514586580}
+  - name: DrillRushHitboxPivot
+    transform: {fileID: 1856167605262508573}
 --- !u!114 &2715106113099949298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110204,12 +110241,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7854639413550011499}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6259999, z: 1.67}
-  m_LocalScale: {x: 3.8, y: 3.3999999, z: 5.50485}
+  m_LocalPosition: {x: 0, y: 0.2359999, z: 2.27}
+  m_LocalScale: {x: 3.8, y: 3.4, z: 4.534835}
   m_Children:
   - {fileID: 1768565378671238442}
-  m_Father: {fileID: 7573581906514586604}
-  m_RootOrder: 13
+  m_Father: {fileID: 1856167605262508573}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7962334818394570497
 GameObject:

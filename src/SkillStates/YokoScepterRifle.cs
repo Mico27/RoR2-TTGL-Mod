@@ -10,6 +10,9 @@ namespace TTGL_Survivor.SkillStates
 {
     public class YokoScepterRifle : BaseSkillState
     {
+        public static int maxRicochetCount = 6;
+        public static bool resetBouncedObjects = true;
+        public static float explosionSizeMultiplier = 1f;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
@@ -84,15 +87,16 @@ namespace TTGL_Survivor.SkillStates
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect,                        
                     };
-                    bulletAttack.hitCallback = (ref BulletAttack.BulletHit hitInfo) =>
+                    bulletAttack.hitCallback = new BulletAttack.HitCallback((ref BulletAttack.BulletHit hitInfo) =>
                     {
                         var result = bulletAttack.DefaultHitCallback(ref hitInfo);
                         this.Explode(hitInfo.point, bulletAttack.isCrit, (hitInfo.hitHurtBox)? hitInfo.hitHurtBox.gameObject: hitInfo.entityObject);
                         if (hitInfo.hitHurtBox)
                         {
-                            if (bulletAttack.isCrit)
+                            if (maxRicochetCount > 0 && bulletAttack.isCrit)
                             {
                                 CritRicochetOrb critRicochetOrb = new CritRicochetOrb();
+                                critRicochetOrb.bouncesRemaining = maxRicochetCount - 1;
                                 critRicochetOrb.damageValue = bulletAttack.damage;
                                 critRicochetOrb.isCrit = base.RollCrit();
                                 critRicochetOrb.teamIndex = TeamComponent.GetObjectTeam(base.gameObject);
@@ -101,6 +105,7 @@ namespace TTGL_Survivor.SkillStates
                                 critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
                                 critRicochetOrb.duration = 0.5f;
                                 critRicochetOrb.bouncedObjects = new List<HealthComponent>();
+                                critRicochetOrb.resetBouncedObjects = resetBouncedObjects;
                                 critRicochetOrb.range = Mathf.Max(30f, hitInfo.distance);
                                 critRicochetOrb.tracerEffectPrefab = FireLaserbolt.tracerEffectPrefab;
                                 critRicochetOrb.hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect;
@@ -120,7 +125,7 @@ namespace TTGL_Survivor.SkillStates
                             }
                         }                        
                         return result;
-                    };
+                    });
                     bulletAttack.Fire();
                 }
             }
@@ -132,14 +137,14 @@ namespace TTGL_Survivor.SkillStates
             EffectManager.SpawnEffect(Modules.Assets.yokoRifleExplosiveRoundExplosion, new EffectData
             {
                 origin = spawnPosition,
-                scale = 20f
+                scale = (20f * explosionSizeMultiplier)
             }, true);
             new BlastAttack
             {
                 position = spawnPosition,
                 baseDamage = YokoScepterRifle.damageCoefficient * this.damageStat,
                 baseForce = 100f,
-                radius = 20f,
+                radius = (20f * explosionSizeMultiplier),
                 attacker = base.gameObject,
                 inflictor = base.gameObject,
                 teamIndex = TeamComponent.GetObjectTeam(base.gameObject),

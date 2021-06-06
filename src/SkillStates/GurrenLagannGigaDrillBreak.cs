@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using EntityStates;
 using EntityStates.Huntress;
 using EntityStates.VagrantMonster;
 using RoR2;
 using RoR2.Projectile;
+using RoR2.UI;
 using TTGL_Survivor.Modules;
 using TTGL_Survivor.Modules.Components;
+using TTGL_Survivor.Modules.Survivors;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -26,9 +29,15 @@ namespace TTGL_Survivor.SkillStates
         private Vector3 previousPosition;
         private Vector3 previousTargetPosition;
         private Transform specialMoveTargetPosition;
+        private Transform specialMoveCameraSource;
+        private SkippableCamera forcedCamera;
+        private bool fired;
+        private uint currentSound;
+
         public override void OnEnter()
         {
             base.OnEnter();
+            this.fired = false;
             this.animator = base.GetModelAnimator();
             this.explosionIndex = 0;
             duration = 22.5f;
@@ -40,8 +49,10 @@ namespace TTGL_Survivor.SkillStates
                 ConstrictBoss(gigaDrillBreakTarget);
             }            
             base.PlayAnimation("FullBody, Override", "GurrenLagannGigaDrillBreak", "skill4.playbackRate", this.duration);
-            Util.PlaySound(GurrenLagannGigaDrillBreak.soundString, base.gameObject);
-            FreezeTime(true);
+            if (CameraRigController.IsObjectSpectatedByAnyCamera(base.gameObject))
+            {
+                this.currentSound = Util.PlaySound(GurrenLagannGigaDrillBreak.soundString, base.gameObject);
+            }
             AllowOutOfBound(true);
             this.SetAntiGravity(base.characterBody, true);
             this.previousPosition = base.characterMotor.Motor.transform.position;
@@ -58,16 +69,24 @@ namespace TTGL_Survivor.SkillStates
             if (childSelector)
             {
                 this.specialMoveTargetPosition = childSelector.FindChild("SpecialMoveTargetPosition");
+                this.specialMoveCameraSource = childSelector.FindChild("SpecialMoveCameraSource");
+                this.forcedCamera = specialMoveCameraSource.GetComponent<SkippableCamera>();
+            }
+            UpdateCameraOverride();
+            if (NetworkServer.active)
+            {
+                base.characterBody.AddBuff(RoR2.RoR2Content.Buffs.HiddenInvincibility);
             }
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            UpdateCameraOverride();
             if (this.explosionIndex < GurrenLagannGigaDrillBreak.explosionCount &&
                 base.fixedAge >= this.durationBeforeExplosion)
             {
-                this.Explode();
+                this.Explode((this.gigaDrillBreakTarget) ? this.gigaDrillBreakTarget.transform.position : base.transform.position);
                 this.durationBeforeExplosion += GurrenLagannGigaDrillBreak.explosionInterval;
                 this.explosionIndex++;
             }
@@ -77,16 +96,17 @@ namespace TTGL_Survivor.SkillStates
             }
             if (base.isAuthority)
             {
-                if (base.fixedAge >= this.duration)
+                if (base.fixedAge >= this.duration || (base.inputBank && base.inputBank.interact.down))
                 {
-                    this.outer.SetNextState(new GurrenLagannSplit());
+                    this.outer.SetNextStateToMain();
                 }
             }
         }
 
         public override void OnExit()
         {
-
+            AllowOutOfBound(false);
+            DisableCameraOverride();
             this.SetPosition(base.gameObject, this.previousPosition);
             this.SetAntiGravity(base.characterBody, false);
             if (gigaDrillBreakTarget)
@@ -94,42 +114,52 @@ namespace TTGL_Survivor.SkillStates
                 this.SetPosition(gigaDrillBreakTarget.gameObject, this.previousTargetPosition);
                 this.SetAntiGravity(gigaDrillBreakTarget, false);
             }
-            UnConstrictBoss(gigaDrillBreakTarget);
-            FreezeTime(false);
-            AllowOutOfBound(false);
+            //UnConstrictBoss(gigaDrillBreakTarget);            
+            base.PlayAnimation("FullBody, Override", "BufferEmpty");
+            if (!this.fired)
+            {
+                explosionIndex = 0;
+                Explode((this.previousTargetPosition != null) ? this.previousTargetPosition : this.previousPosition);
+                explosionIndex = 1;
+                Explode((this.previousTargetPosition != null) ? this.previousTargetPosition : this.previousPosition);
+            }
+            if (NetworkServer.active) base.characterBody.RemoveBuff(RoR2.RoR2Content.Buffs.HiddenInvincibility);
+            if (this.currentSound != 0)
+            {
+                AkSoundEngine.StopPlayingID(this.currentSound);
+            }
+            this.TransformToLagann(this.previousPosition);
             base.OnExit();
         }
 
-        private void Explode()
-        {
-            if (this.gigaDrillBreakTarget)
+        private void Explode(Vector3 target)
+        {            
+            if (explosionIndex == 0)
             {
-                if (explosionIndex == 0)
+                EffectManager.SpawnEffect(Assets.specialExplosion, new EffectData
                 {
-                    EffectManager.SpawnEffect(Assets.specialExplosion, new EffectData
-                    {
-                        origin = this.gigaDrillBreakTarget.transform.position,
-                        scale = 1f
-                    }, false);
-                }
-                else
+                    origin = target,
+                    scale = 1f
+                }, false);
+            }
+            else
+            {
+                this.fired = true;
+                if (NetworkServer.active)
                 {
-                    if (NetworkServer.active)
+                    new BlastAttack
                     {
-                        new BlastAttack
-                        {
-                            damageType = (DamageType.BypassArmor | DamageType.BypassOneShotProtection | DamageType.WeakPointHit),
-                            attacker = base.gameObject,
-                            inflictor = base.gameObject,
-                            teamIndex = TeamComponent.GetObjectTeam(base.gameObject),
-                            baseDamage = this.damageStat * GurrenLagannGigaDrillBreak.damageCoefficient,
-                            baseForce = ExplosionAttack.force,
-                            position = this.gigaDrillBreakTarget.transform.position,
-                            radius = GurrenLagannGigaDrillBreak.radius,
-                            falloffModel = BlastAttack.FalloffModel.None,
-                            attackerFiltering = AttackerFiltering.NeverHit
-                        }.Fire();
-                    }
+                        damageType = (DamageType.BypassArmor | DamageType.BypassOneShotProtection | DamageType.WeakPointHit),
+                        attacker = base.gameObject,
+                        inflictor = base.gameObject,
+                        teamIndex = TeamComponent.GetObjectTeam(base.gameObject),
+                        baseDamage = this.damageStat * GurrenLagannGigaDrillBreak.damageCoefficient,
+                        baseForce = ExplosionAttack.force,
+                        position = target,
+                        radius = GurrenLagannGigaDrillBreak.radius,
+                        falloffModel = BlastAttack.FalloffModel.None,
+                        attackerFiltering = AttackerFiltering.NeverHit
+                    }.Fire();
                 }
             }
         }
@@ -167,91 +197,7 @@ namespace TTGL_Survivor.SkillStates
                 }
             }
         }
-
-        private void FreezeTime(bool enableFunc)
-        {
-            this.FreezeTeamComponents(TeamIndex.Monster, enableFunc);
-            this.FreezeTeamComponents(TeamIndex.Player, enableFunc);
-        }
-
-        private void FreezeTeamComponents(TeamIndex teamIndex, bool isEnabled)
-        {
-            var teamMembers = TeamComponent.GetTeamMembers(teamIndex);
-            if (teamMembers != null && teamMembers.Count > 0)
-            {
-                foreach (TeamComponent teamComponent in teamMembers)
-                {
-                    FreezeTeamComponent(teamComponent, isEnabled);
-                }
-            }
-        }
-        private void FreezeTeamComponent(TeamComponent teamComponent, bool isEnabled)
-        {
-            if (teamComponent.body == this.gigaDrillBreakTarget)
-            {
-                return;
-            }
-            if (teamComponent.body != base.characterBody)
-            {
-                var characterDirection = teamComponent.gameObject.GetComponent<CharacterDirection>();
-                if (characterDirection)
-                {
-                    characterDirection.enabled = !isEnabled;
-                }
-                var characterMotor = teamComponent.gameObject.GetComponent<CharacterMotor>();
-                if (characterMotor)
-                {
-                    characterMotor.enabled = !isEnabled;
-                }
-                var characterBody = teamComponent.gameObject.GetComponent<CharacterBody>();
-                if (characterBody)
-                {
-                    characterBody.enabled = !isEnabled;
-                }
-                var entityStateMachines = teamComponent.gameObject.GetComponents<EntityStateMachine>();
-                if (entityStateMachines != null && entityStateMachines.Length > 0)
-                {
-                    foreach (var entityStateMachine in entityStateMachines)
-                    {
-                        entityStateMachine.enabled = !isEnabled;
-                    }
-                }
-                var modelLocator = teamComponent.gameObject.GetComponent<ModelLocator>();
-                if (modelLocator && modelLocator.modelTransform)
-                {
-                    var animator = modelLocator.modelTransform.GetComponent<Animator>();
-                    if (animator)
-                    {
-                        animator.enabled = !isEnabled;
-                    }
-                }
-                var rigidBody = teamComponent.gameObject.GetComponent<Rigidbody>();
-                if (rigidBody && !rigidBody.isKinematic)
-                {
-                    rigidBody.velocity = Vector3.zero;                    
-                }
-                var rigidBodyMotor = teamComponent.gameObject.GetComponent<RigidbodyMotor>();
-                if (rigidBodyMotor)
-                {
-                    rigidBodyMotor.moveVector = Vector3.zero;
-                    rigidBodyMotor.enabled = !isEnabled;
-                }
-            }
-            if (teamComponent.teamIndex == TeamIndex.Player &&
-                teamComponent.body && teamComponent.body.healthComponent &&
-                teamComponent.body.healthComponent.alive)
-            {
-                if (isEnabled)
-                {
-                    teamComponent.body.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-                }
-                else
-                {
-                    teamComponent.body.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
-                }
-            }
-        }
-
+        
         private void SetAntiGravity(CharacterBody character, bool enabled)
         {
             if (character && character.characterMotor)
@@ -305,5 +251,75 @@ namespace TTGL_Survivor.SkillStates
             gameObject.transform.position = newPosition;
         }
 
+        private void UpdateCameraOverride()
+        {
+            if (this.specialMoveCameraSource && this.forcedCamera)
+            {
+                if (CameraRigController.IsObjectSpectatedByAnyCamera(base.gameObject))
+                {
+                    this.specialMoveCameraSource.gameObject.SetActive(true);
+                    this.forcedCamera.allowUserControl = base.isAuthority;
+                }
+                else
+                {
+                    this.specialMoveCameraSource.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        private void DisableCameraOverride()
+        {
+            if (this.specialMoveCameraSource)
+            {
+                this.specialMoveCameraSource.gameObject.SetActive(false);
+            }
+        }
+
+
+        private void TransformToLagann(Vector3 newPosition)
+        {
+            Util.PlaySound(BaseBeginArrowBarrage.blinkSoundString, base.gameObject);
+            if (NetworkServer.active && base.characterBody && base.characterBody.master)
+            {
+                var master = base.characterBody.master;
+                master.TransformBody("LagannBody");
+                SpawnGurren(newPosition);
+                var body = master.GetBodyObject();
+                Popup(body, newPosition + Vector3.up * 5f);
+            }
+        }
+
+        private void SpawnGurren(Vector3 newPosition)
+        {
+            float d = 0f;
+            CharacterMaster characterMaster = new MasterSummon
+            {
+                masterPrefab = Gurren.allyPrefab,
+                position = newPosition + Vector3.up * d,
+                rotation = base.characterBody.transform.rotation,
+                summonerBodyObject = ((base.characterBody != null) ? base.characterBody.gameObject : null),
+                ignoreTeamMemberLimit = true,
+                useAmbientLevel = new bool?(true),
+                inventoryToCopy = base.characterBody.inventory,
+            }.Perform();
+
+        }
+
+        private void Popup(GameObject character, Vector3 newPosition)
+        {
+            if (character)
+            {
+                var velocity = Vector3.up * 20f;
+                CharacterMotor characterMotor = character.GetComponent<CharacterMotor>();
+                if (characterMotor && characterMotor.Motor)
+                {
+                    characterMotor.Motor.SetPosition(newPosition, true);
+                    characterMotor.Motor.BaseVelocity = velocity;
+                    characterMotor.velocity = velocity;
+                    return;
+                }
+                gameObject.transform.position = newPosition;
+            }
+        }
     }
 }

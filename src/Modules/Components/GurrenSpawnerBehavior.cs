@@ -22,8 +22,8 @@ namespace TTGL_Survivor.Modules.Components
             {
                 //this.purchaseInteraction.costType = CostTypeIndex.Money;
                 this.purchaseInteraction.costType = (CostTypeIndex)CostTypeDefs.getCostTypeIndex(CostTypeDefs.costTypeDefGurrenSummon);
-                this.purchaseInteraction.cost = 5;
-                this.purchaseInteraction.Networkcost = 5;
+                this.purchaseInteraction.cost = 2;
+                this.purchaseInteraction.Networkcost = 2;
                 this.purchaseInteraction.onPurchase.AddListener(delegate (Interactor interactor)
                 {
                     this.SpawnGurrenMinion(interactor);

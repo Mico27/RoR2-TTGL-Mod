@@ -25,6 +25,8 @@ namespace TTGL_Survivor.SkillStates
         public static bool playedCutSceneOnce = true;
         private FrequencyConfig cinematicFrequence;
         private bool onLagannCombinedCalled = false;
+        private Transform specialMoveCameraSource;
+        private SkippableCamera forcedCamera;
 
         public override void OnEnter()
         {
@@ -33,12 +35,25 @@ namespace TTGL_Survivor.SkillStates
             if (DisplayCinematic())
             {
                 base.PlayAnimation("FullBody, Override", "TTGLSurvivorCombine", "Combine.playbackRate", LagannCombine.baseDuration);
-                FreezeTime(true);
                 AllowOutOfBound(true);
                 this.SetAntiGravity(base.characterBody, true);
                 this.previousPosition = base.characterMotor.Motor.transform.position;
-                this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));                
-                combineSoundRef = Util.PlaySound(LagannCombine.soundString, base.gameObject);
+                this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));
+                if (CameraRigController.IsObjectSpectatedByAnyCamera(base.gameObject))
+                {
+                    combineSoundRef = Util.PlaySound(LagannCombine.soundString, base.gameObject);
+                }
+                var childSelector = base.GetModelChildLocator();
+                if (childSelector)
+                {
+                    this.specialMoveCameraSource = childSelector.FindChild("SpecialMoveCameraSource");
+                    this.forcedCamera = specialMoveCameraSource.GetComponent<SkippableCamera>();
+                }
+                UpdateCameraOverride();
+                if (NetworkServer.active)
+                {
+                    base.characterBody.AddBuff(RoR2.RoR2Content.Buffs.HiddenInvincibility);
+                }
             }
             else
             {
@@ -54,12 +69,14 @@ namespace TTGL_Survivor.SkillStates
         {
             if (DisplayCinematic())
             {
+                DisableCameraOverride();
                 this.SetPosition(base.gameObject, this.previousPosition);
                 this.SetAntiGravity(base.characterBody, false);
-                FreezeTime(false);
                 AllowOutOfBound(false);
+                base.PlayAnimation("FullBody, Override", "BufferEmpty");
                 AkSoundEngine.StopPlayingID(this.combineSoundRef);
-                playedCutSceneOnce = true;
+                playedCutSceneOnce = true;                
+                if (NetworkServer.active) base.characterBody.RemoveBuff(RoR2.RoR2Content.Buffs.HiddenInvincibility);
             }
             TransformToGurrenLagann();            
             base.OnExit();
@@ -70,17 +87,24 @@ namespace TTGL_Survivor.SkillStates
             base.FixedUpdate();   
             if (!DisplayCinematic())
             {
-                this.outer.SetNextStateToMain();
+                if (base.isAuthority)
+                {
+                    this.outer.SetNextStateToMain();
+                }
                 return;
             }
+            UpdateCameraOverride();
             if (!onLagannCombinedCalled && base.fixedAge >= (LagannCombine.baseDuration - 2f))
             {
                 onLagannCombinedCalled = true;
                 OnLagannCombined();
             }
-            if (base.isAuthority && (base.fixedAge >= LagannCombine.baseDuration))
+            if (base.isAuthority)
             {
-                this.outer.SetNextStateToMain();
+                if ((base.fixedAge >= LagannCombine.baseDuration) || (base.inputBank && base.inputBank.interact.down))
+                {
+                    this.outer.SetNextStateToMain();
+                }                
             }
         }
 
@@ -89,86 +113,6 @@ namespace TTGL_Survivor.SkillStates
             return InterruptPriority.PrioritySkill;
         }
 
-
-        private void FreezeTime(bool enableFunc)
-        {
-            this.FreezeTeamComponents(TeamIndex.Monster, enableFunc);
-            this.FreezeTeamComponents(TeamIndex.Player, enableFunc);
-        }
-
-        private void FreezeTeamComponents(TeamIndex teamIndex, bool isEnabled)
-        {
-            var teamMembers = TeamComponent.GetTeamMembers(teamIndex);
-            if (teamMembers != null && teamMembers.Count > 0)
-            {
-                foreach (TeamComponent teamComponent in teamMembers)
-                {
-                    FreezeTeamComponent(teamComponent, isEnabled);
-                }
-            }
-        }
-        private void FreezeTeamComponent(TeamComponent teamComponent, bool isEnabled)
-        {
-            if (teamComponent.body != base.characterBody)
-            {
-                var characterDirection = teamComponent.gameObject.GetComponent<CharacterDirection>();
-                if (characterDirection)
-                {
-                    characterDirection.enabled = !isEnabled;
-                }
-                var characterMotor = teamComponent.gameObject.GetComponent<CharacterMotor>();
-                if (characterMotor)
-                {
-                    characterMotor.enabled = !isEnabled;
-                }
-                var characterBody = teamComponent.gameObject.GetComponent<CharacterBody>();
-                if (characterBody)
-                {
-                    characterBody.enabled = !isEnabled;
-                }
-                var entityStateMachines = teamComponent.gameObject.GetComponents<EntityStateMachine>();
-                if (entityStateMachines != null && entityStateMachines.Length > 0)
-                {
-                    foreach (var entityStateMachine in entityStateMachines)
-                    {
-                        entityStateMachine.enabled = !isEnabled;
-                    }
-                }
-                var modelLocator = teamComponent.gameObject.GetComponent<ModelLocator>();
-                if (modelLocator && modelLocator.modelTransform)
-                {
-                    var animator = modelLocator.modelTransform.GetComponent<Animator>();
-                    if (animator)
-                    {
-                        animator.enabled = !isEnabled;
-                    }
-                }
-                var rigidBody = teamComponent.gameObject.GetComponent<Rigidbody>();
-                if (rigidBody && !rigidBody.isKinematic)
-                {
-                    rigidBody.velocity = Vector3.zero;
-                }
-                var rigidBodyMotor = teamComponent.gameObject.GetComponent<RigidbodyMotor>();
-                if (rigidBodyMotor)
-                {
-                    rigidBodyMotor.moveVector = Vector3.zero;
-                    rigidBodyMotor.enabled = !isEnabled;
-                }
-            }
-            if (teamComponent.teamIndex == TeamIndex.Player &&
-                teamComponent.body && teamComponent.body.healthComponent &&
-                teamComponent.body.healthComponent.alive)
-            {
-                if (isEnabled)
-                {
-                    teamComponent.body.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-                }
-                else
-                {
-                    teamComponent.body.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
-                }
-            }
-        }
 
         private void SetAntiGravity(CharacterBody character, bool enabled)
         {
@@ -233,8 +177,6 @@ namespace TTGL_Survivor.SkillStates
                 var newBody = master.GetBody();
                 var spiralEnergyComponent = newBody.GetComponent<SpiralEnergyComponent>();
                 spiralEnergyComponent.NetworkEnergy = this.energy;
-                var extraSkillLocator = newBody.GetComponent<ExtraSkillSlots.ExtraSkillLocator>();
-                extraSkillLocator.extraFirst.RemoveAllStocks();
             }
         }
 
@@ -274,5 +216,28 @@ namespace TTGL_Survivor.SkillStates
             action();
         }
 
+        private void UpdateCameraOverride()
+        {
+            if (this.specialMoveCameraSource && this.forcedCamera)
+            {
+                if (CameraRigController.IsObjectSpectatedByAnyCamera(base.gameObject))
+                {
+                    this.specialMoveCameraSource.gameObject.SetActive(true);
+                    this.forcedCamera.allowUserControl = base.isAuthority;
+                }
+                else
+                {
+                    this.specialMoveCameraSource.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        private void DisableCameraOverride()
+        {
+            if (this.specialMoveCameraSource)
+            {
+                this.specialMoveCameraSource.gameObject.SetActive(false);
+            }
+        }
     }
 }

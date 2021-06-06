@@ -6,12 +6,14 @@ using System;
 using UnityEngine.Networking;
 using EntityStates.Merc;
 using EntityStates.Huntress;
+using TTGL_Survivor.Modules;
 
 namespace TTGL_Survivor.SkillStates
 {
     public class LagannDrillRush : BaseSkillState
     {
-        public const float c_DamageCoefficient = 3.0f;
+        public static float damageCoefficient = 3.0f;        
+        public static float spiralEnergyPercentagePerHit = 0f;
 
         public int swingIndex;
 
@@ -46,7 +48,8 @@ namespace TTGL_Survivor.SkillStates
         private Animator animator;
         private BaseState.HitStopCachedState hitStopCachedState;
         private Vector3 storedVelocity;
-        
+        private SpiralEnergyComponent spiralEnergy;
+
         protected virtual void PlayAttackAnimation()
         {
             base.PlayCrossfade("Gesture, Override", "DrillRush" + (1 + swingIndex), this.playbackRateString, this.duration, 0.05f);
@@ -67,6 +70,7 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            this.spiralEnergy = base.GetComponent<SpiralEnergyComponent>();
             this.muzzleString = swingIndex % 2 == 0 ? "LeftDrillMuzzle" : "RightDrillMuzzle";
             this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
             this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
@@ -93,7 +97,7 @@ namespace TTGL_Survivor.SkillStates
             this.attack.attacker = base.gameObject;
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();
-            this.attack.damage = c_DamageCoefficient * this.damageStat;
+            this.attack.damage = damageCoefficient * this.damageStat;
             this.attack.procCoefficient = this.procCoefficient;
             this.attack.hitEffectPrefab = this.hitEffectPrefab;
             this.attack.forceVector = this.bonusForce;
@@ -129,6 +133,11 @@ namespace TTGL_Survivor.SkillStates
                 this.hitPauseTimer = this.hitStopDuration / this.attackSpeedStat;
                 this.inHitPause = true;
             }
+
+            if (LagannDrillRush.spiralEnergyPercentagePerHit != 0f && this.spiralEnergy)
+            {
+                this.spiralEnergy.AddSpiralEnergyAuthority(LagannDrillRush.spiralEnergyPercentagePerHit * SpiralEnergyComponent.C_SPIRALENERGYCAP);
+            }
         }
 
         private void FireAttack()
@@ -152,7 +161,7 @@ namespace TTGL_Survivor.SkillStates
                 }
             }
         }
-
+        
         public override void FixedUpdate()
         {
             base.FixedUpdate();

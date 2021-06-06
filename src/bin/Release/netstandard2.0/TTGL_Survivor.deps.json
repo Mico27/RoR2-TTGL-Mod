@@ -16,7 +16,8 @@
           "HGCSharpUtils": "0.0.0.0",
           "MMHOOK_Assembly-CSharp": "0.0.0.0",
           "R2API": "2.0.0.0",
-          "Rewired_Core": "1.0.0.0"
+          "Rewired_Core": "1.0.0.0",
+          "Skills": "1.0.0.0"
         },
         "runtime": {
           "TTGL_Survivor.dll": {}
@@ -95,6 +96,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "Skills/1.0.0.0": {
+        "runtime": {
+          "Skills.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -151,6 +160,11 @@
       "sha512": ""
     },
     "Rewired_Core/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Skills/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

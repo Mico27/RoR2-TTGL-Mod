@@ -40,10 +40,11 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_PASSIVE_DESCRIPTION", "When in a pinch, spiral power increases, also increasing Lagann's <style=cIsDamage>damage</style>, <style=cIsUtility>movement speed</style> and <style=cIsHealing>health regen</style>");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME", "Drill Rush");
-            LanguageAPI.Add(prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION", $"Lagann punches with his drills rapidly for <style=cIsDamage>{100f * SkillStates.LagannDrillRush.c_DamageCoefficient}% damage</style>. <style=cIsUtility>Ignores armor.</style>");
-
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION", $"Lagann punches with his drills rapidly for <style=cIsDamage>{100f * SkillStates.LagannDrillRush.damageCoefficient}% damage</style>. <style=cIsUtility>Ignores armor.</style>");
+            
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME", "Yoko's Rifle");
-            LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION", $"Yoko fires her rifle for <style=cIsDamage>{100f * SkillStates.YokoShootRifle.damageCoefficient}% damage</style>. Critical hits ricochet to other enemies.");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION", $"Lagann punches with his drills rapidly for <style=cIsDamage>{100f * SkillStates.LagannDrillRush.damageCoefficient}% damage</style>. <style=cIsUtility>Ignores armor.</style>");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION", $"Yoko fires her rifle for <style=cIsDamage>{100f * SkillStates.YokoShootRifle.damageCoefficient}% damage</style>. Critical hits ricochet to other enemies up to { SkillStates.YokoShootRifle.maxRicochetCount } times.");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME", "Yoko's Rifle - Explosive rounds");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION", $"Yoko fires an explosive round dealing <style=cIsDamage>{100f * SkillStates.YokoExplosiveRifle.damageCoefficient}% damage</style> in a 20 unit radius.");
@@ -61,7 +62,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION", $"Yoko cannot use her rifle due to the canopy.");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME", "Lagann Impact");
-            LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.c_DamageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.c_MaxRebound} times.");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.damageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.maxRebound - 1} times.");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_NAME", "Brotherly Combining! Gurren Lagann!");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION", $"Combine into Gurren Lagann! Requires <style=cIsUtility>at least 1 spiral gauge</style> and <style=cIsUtility>Gurren must be in the party</style>.");
@@ -161,6 +162,69 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_MAXSPIRALPOWER_DEBUFF_DESCRIPTION", "Spiral energy rate is decreased");
             LanguageAPI.Add(prefix + "_CANOPY_BUFF_NAME", "Canopy activated");
             LanguageAPI.Add(prefix + "_CANOPY_BUFF_DESCRIPTION", "+150 armor and is immune to movement impairing effects");
+
+            LanguageAPI.Add("LAGANNDRILLRUSH_UPGRADE_DESCRIPTION",
+                "Increase damage by 10% every level" + Environment.NewLine +
+                "Increase drill size by 20% every level (Max 8x original size)" + Environment.NewLine +
+                "Can gain extra spiral power on hit at level 4");
+
+            LanguageAPI.Add("YOKOSHOOTRIFLE_UPGRADE_DESCRIPTION",
+                "Increase ammo by 1 every level" + Environment.NewLine +
+                "Increase max ricochet count by 3 every level" + Environment.NewLine +
+                "Ricochet can hit back previously hit enemies at level 4");
+
+            LanguageAPI.Add("YOKOEXPLOSIVERIFLE_UPGRADE_DESCRIPTION",
+                "Increase ammo by 1 every level" + Environment.NewLine +
+                "Increase explosion size by 10% every level (Max 3x original size)" + Environment.NewLine +
+                "Explosion spawns a cluster of smaller explosions at level 4");
+
+            LanguageAPI.Add("YOKOSCEPTERRIFLE_UPGRADE_DESCRIPTION",
+               "Increase ammo by 2 every level" + Environment.NewLine +
+               "Increase max ricochet count by 2 every level" + Environment.NewLine +
+               "Increase explosion size by 15% every level (Max 3x original size)" + Environment.NewLine +
+               "Ricochet can hit back previously hit enemies at level 4");
+
+            LanguageAPI.Add("LAGANNSPIRALBURST_UPGRADE_DESCRIPTION",
+                "Increase damage by 30% every level" + Environment.NewLine +
+                "Increase jump velocity by 10% every level" + Environment.NewLine +
+                "Get a 5 second armor buff on use at level 4");
+
+            LanguageAPI.Add("LAGANNTOGGLECANOPY_UPGRADE_DESCRIPTION",
+                "Increase armor from buff by 20% every level" + Environment.NewLine +
+                "Restock yoko's rifle on use at level 4");
+
+            LanguageAPI.Add("LAGANNIMPACT_UPGRADE_DESCRIPTION",
+                "Increase maximum number of rebound by 1 every level" + Environment.NewLine +
+                "Increase shooting distance by 25% every level" + Environment.NewLine +
+                "Increase damage by 10% every level");
+
+            LanguageAPI.Add("LAGANNCOMBINE_UPGRADE_DESCRIPTION",
+                "Decrease energy requirement by 10% every level");
+
+
+            LanguageAPI.Add("GURRENLAGANNSPIRALINGCOMBO_UPGRADE_DESCRIPTION",
+                "Increase damage by 15% every level" + Environment.NewLine +
+                "Increase pull radius by 10% every level" + Environment.NewLine +
+                "Increase pull force by 10% every level" + Environment.NewLine +
+                "All spiraling combo moves bypass armor at level 4");
+
+            LanguageAPI.Add("GURRENLAGANNTHROWINGSHADES_UPGRADE_DESCRIPTION",
+                "Increase Dot damage by 20% every level" + Environment.NewLine +
+                "Increase shades size by 15% every level (Max 4x original size)");
+
+            LanguageAPI.Add("GURRENLAGANNTORNADOKICK_UPGRADE_DESCRIPTION",
+                "Increase damage by 15% every level" + Environment.NewLine +
+                "Increase jump velocity by 25% every level" + Environment.NewLine +
+                "Can control the direction mid move at level 4");
+
+            LanguageAPI.Add("GURRENLAGANNGIGADRILLMAXIMUM_UPGRADE_DESCRIPTION",
+                "Decrease spiral energy cost by 10% every level" + Environment.NewLine +
+                "Increase damage by 10% every level" + Environment.NewLine +
+                "Can bypass armor at level 4");
+
+            LanguageAPI.Add("GURRENLAGANNSPLIT_UPGRADE_DESCRIPTION",
+                "Increase spiral energy that can be carried over by 10% every level");
+
         }
     }
 }

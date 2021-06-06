@@ -13,11 +13,12 @@ namespace TTGL_Survivor.SkillStates
     public class LagannImpact : BaseState
     {
         
-        public const float c_DamageCoefficient = 15.0f;
+        public static float damageCoefficient = 15.0f;
         public const float c_SpeedCoefficient = 8.0f;
         public const float c_BouncingMaxTime = 0.5f;
         public const string c_HitboxGroupName = "LagannImpactHitbox";
-        public Tuple<Vector3, Vector3>[] TrajectoryNodes;
+
+        public Tuple<Vector3, Vector3>[] TrajectoryNodes { get; set; }
         private int m_TrajectoryNodeCount;
         private int m_CurrentNodeIndex;
         private Vector3 m_CurrentDirection;
@@ -57,7 +58,7 @@ namespace TTGL_Survivor.SkillStates
             this.overlapAttack = new OverlapAttack
             {
                 attacker = base.gameObject,
-                damage = c_DamageCoefficient * base.characterBody.damage,
+                damage = damageCoefficient * base.characterBody.damage,
                 pushAwayForce = this.pushForce,
                 isCrit = base.RollCrit(),
                 damageColorIndex = DamageColorIndex.Default,
@@ -99,6 +100,7 @@ namespace TTGL_Survivor.SkillStates
                    // Util.PlaySound("TTGLLagannImpactFire", base.gameObject);
                     this.CreateBlinkEffect(base.characterBody.corePosition);
                     m_IsBouncing = false;
+                    this.overlapAttack.ResetIgnoredHealthComponents();
                     return;
                 }
                 m_BouncingTime += Time.fixedDeltaTime;
@@ -133,7 +135,7 @@ namespace TTGL_Survivor.SkillStates
                         }
                         else
                         {
-                            base.characterMotor.rootMotion += m_CurrentDirection * (this.moveSpeedStat * c_SpeedCoefficient * Time.fixedDeltaTime);
+                            base.characterMotor.rootMotion += m_CurrentDirection * (base.moveSpeedStat * c_SpeedCoefficient * Time.fixedDeltaTime);
                         }
                     }                    
                 }

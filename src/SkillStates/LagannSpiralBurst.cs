@@ -16,6 +16,7 @@ namespace TTGL_Survivor.SkillStates
         public static float initialSpeedCoefficient = 5f;
         public static float finalSpeedCoefficient = 2.5f;
         public static float damageCoefficient = 2.5f;
+        public static float jumpVelocity = 7f;
 
         public static string horizontalBurstHitboxName = "SpiralBurst1Hitbox";
         public static string verticalBurstHitboxName = "SpiralBurst2Hitbox";
@@ -41,7 +42,6 @@ namespace TTGL_Survivor.SkillStates
         protected float baseEarlyExitTime = 0.4f;
         protected float hitStopDuration = 0.012f;
         protected float attackRecoil = 0.75f;
-        protected float hitHopVelocity = 4f;
 
         protected string swingSoundString = "";
         protected string hitSoundString = "";
@@ -82,7 +82,6 @@ namespace TTGL_Survivor.SkillStates
             this.baseEarlyExitTime = 0.3f;
             this.hitStopDuration = 0.115f;
             this.attackRecoil = 0.75f;
-            this.hitHopVelocity = 6f;
 
             HitBoxGroup hitBoxGroup = null;
             Transform modelTransform = base.GetModelTransform();
@@ -133,7 +132,7 @@ namespace TTGL_Survivor.SkillStates
 
         private void RecalculateBurstSpeed(bool isVertical)
         {
-            this.burstSpeed = ((!isVertical)?this.moveSpeedStat: 7f) * Mathf.Lerp(LagannSpiralBurst.initialSpeedCoefficient, LagannSpiralBurst.finalSpeedCoefficient, base.fixedAge / this.duration);
+            this.burstSpeed = ((!isVertical)?this.moveSpeedStat: LagannSpiralBurst.jumpVelocity) * Mathf.Lerp(LagannSpiralBurst.initialSpeedCoefficient, LagannSpiralBurst.finalSpeedCoefficient, base.fixedAge / this.duration);
         }
 
         public override void FixedUpdate()

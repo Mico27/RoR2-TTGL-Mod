@@ -6,7 +6,8 @@ using UnityEngine;
 namespace TTGL_Survivor.SkillStates
 {
     public class YokoExplosiveRifle : BaseSkillState
-    {
+    {        
+        public static bool spawnClusters = false;
         public static float damageCoefficient = 2.5f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.65f;

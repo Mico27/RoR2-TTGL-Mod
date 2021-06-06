@@ -9,7 +9,7 @@ namespace TTGL_Survivor.SkillStates
 {
     public class LagannToggleCanopy : BaseSkillState
     {
-        public const float c_ArmorBuffAmount = 150f;
+        public static float armorBuffAmount = 150f;
         public override void OnEnter()
         {
             base.OnEnter();
