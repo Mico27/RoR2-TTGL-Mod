@@ -5,6 +5,7 @@ using RoR2.Orbs;
 using System.Collections.Generic;
 using TTGL_Survivor.Orbs;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -52,11 +53,14 @@ namespace TTGL_Survivor.SkillStates
                 base.characterBody.AddSpreadBloom(1.5f);
                 EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
                 Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
-
+                base.AddRecoil(-1f * YokoShootRifle.recoil, -2f * YokoShootRifle.recoil, -0.5f * YokoShootRifle.recoil, 0.5f * YokoShootRifle.recoil);
                 if (base.isAuthority)
                 {
                     Ray aimRay = base.GetAimRay();
-                    base.AddRecoil(-1f * YokoShootRifle.recoil, -2f * YokoShootRifle.recoil, -0.5f * YokoShootRifle.recoil, 0.5f * YokoShootRifle.recoil);
+                    bool hasHit = false;
+                    Vector3 hitPoint = Vector3.zero;
+                    float hitDistance = 0f;
+                    HealthComponent hitHealthComponent = null;
                     var bulletAttack = new BulletAttack
                     {
                         bulletCount = 1,
@@ -87,48 +91,60 @@ namespace TTGL_Survivor.SkillStates
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect,                        
                     };
-                    bulletAttack.hitCallback = new BulletAttack.HitCallback((ref BulletAttack.BulletHit hitInfo) =>
+                    if (maxRicochetCount > 0 && bulletAttack.isCrit)
                     {
-                        var result = bulletAttack.DefaultHitCallback(ref hitInfo);
-                        this.Explode(hitInfo.point, bulletAttack.isCrit, (hitInfo.hitHurtBox)? hitInfo.hitHurtBox.gameObject: hitInfo.entityObject);
-                        if (hitInfo.hitHurtBox)
+                        bulletAttack.hitCallback = delegate (ref BulletAttack.BulletHit hitInfo)
                         {
-                            if (maxRicochetCount > 0 && bulletAttack.isCrit)
-                            {
-                                CritRicochetOrb critRicochetOrb = new CritRicochetOrb();
-                                critRicochetOrb.bouncesRemaining = maxRicochetCount - 1;
-                                critRicochetOrb.damageValue = bulletAttack.damage;
-                                critRicochetOrb.isCrit = base.RollCrit();
-                                critRicochetOrb.teamIndex = TeamComponent.GetObjectTeam(base.gameObject);
-                                critRicochetOrb.attacker = base.gameObject;
-                                critRicochetOrb.attackerBody = base.characterBody;
-                                critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
-                                critRicochetOrb.duration = 0.5f;
-                                critRicochetOrb.bouncedObjects = new List<HealthComponent>();
-                                critRicochetOrb.resetBouncedObjects = resetBouncedObjects;
-                                critRicochetOrb.range = Mathf.Max(30f, hitInfo.distance);
-                                critRicochetOrb.tracerEffectPrefab = FireLaserbolt.tracerEffectPrefab;
-                                critRicochetOrb.hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect;
-                                critRicochetOrb.hitSoundString = "TTGLTokoRifleCrit";
-                                critRicochetOrb.origin = hitInfo.point;
-                                critRicochetOrb.bouncedObjects.Add(hitInfo.hitHurtBox.healthComponent);
-                                critRicochetOrb.hitCallback = (CritRicochetOrb orb) =>
-                                {
-                                    this.Explode(orb.target.transform.position, orb.isCrit, orb.target.gameObject);
-                                };
-                                var nextTarget = critRicochetOrb.PickNextTarget(hitInfo.point);
-                                if (nextTarget)
-                                {
-                                    critRicochetOrb.target = nextTarget;
-                                    critRicochetOrb.FireDelayed();
-                                }
+                            var result = bulletAttack.DefaultHitCallback(ref hitInfo);
+                            hasHit = true;
+                            hitPoint = hitInfo.point;
+                            hitDistance = hitInfo.distance;
+                            if (hitInfo.hitHurtBox)
+                            {                                
+                                hitHealthComponent = hitInfo.hitHurtBox.healthComponent;
                             }
-                        }                        
-                        return result;
-                    });
+                            return result;
+                        };
+                    }
                     bulletAttack.Fire();
+                    if (hasHit)
+                    {
+                        this.Explode(hitPoint, bulletAttack.isCrit, (hitHealthComponent) ? hitHealthComponent.gameObject : null);
+                        if (hitHealthComponent != null)
+                        {
+                            CritRicochetOrb critRicochetOrb = new CritRicochetOrb();
+                            critRicochetOrb.bouncesRemaining = maxRicochetCount - 1;
+                            critRicochetOrb.damageValue = bulletAttack.damage;
+                            critRicochetOrb.isCrit = base.RollCrit();
+                            critRicochetOrb.teamIndex = TeamComponent.GetObjectTeam(base.gameObject);
+                            critRicochetOrb.attacker = base.gameObject;
+                            critRicochetOrb.attackerBody = base.characterBody;
+                            critRicochetOrb.procCoefficient = bulletAttack.procCoefficient;
+                            critRicochetOrb.duration = 0.1f;
+                            critRicochetOrb.bouncedObjects = new List<HealthComponent>();
+                            critRicochetOrb.resetBouncedObjects = resetBouncedObjects;
+                            critRicochetOrb.range = Mathf.Max(30f, hitDistance);
+                            critRicochetOrb.tracerEffectPrefab = FireLaserbolt.tracerEffectPrefab;
+                            critRicochetOrb.hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect;
+                            critRicochetOrb.hitSoundString = "TTGLTokoRifleCrit";
+                            critRicochetOrb.origin = hitPoint;
+                            critRicochetOrb.bouncedObjects.Add(hitHealthComponent);
+                            critRicochetOrb.hitCallback = this.Explode;
+                            var nextTarget = critRicochetOrb.PickNextTarget(hitPoint);
+                            if (nextTarget)
+                            {
+                                critRicochetOrb.target = nextTarget;
+                                OrbManager.instance.AddOrb(critRicochetOrb);
+                            }
+                        }
+                    }
                 }
             }
+        }
+
+        private void Explode(CritRicochetOrb orb)
+        {
+            this.Explode(orb.target.transform.position, orb.isCrit, orb.target.gameObject);
         }
 
         private void Explode(Vector3 spawnPosition, bool isCrit, GameObject SoundGameObject)
@@ -137,7 +153,7 @@ namespace TTGL_Survivor.SkillStates
             EffectManager.SpawnEffect(Modules.Assets.yokoRifleExplosiveRoundExplosion, new EffectData
             {
                 origin = spawnPosition,
-                scale = (20f * explosionSizeMultiplier)
+                scale = (20f * explosionSizeMultiplier)                 
             }, true);
             new BlastAttack
             {

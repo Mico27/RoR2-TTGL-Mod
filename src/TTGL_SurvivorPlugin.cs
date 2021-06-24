@@ -18,6 +18,7 @@ using System.Collections;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine.Networking;
+using HG;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -38,7 +39,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.2.8";
+            MODVERSION = "0.2.9";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -80,6 +81,7 @@ namespace TTGL_Survivor
                 Hooks();
                 AddBetterUI();
                 AddSkillPlus();
+                
             }
             catch (Exception e)
             {
@@ -87,6 +89,14 @@ namespace TTGL_Survivor
             }
 
         }
+
+        private void LateSetup(ReadOnlyArray<ReadOnlyContentPack> obj)
+        {
+            Lagann.SetItemDisplays();
+            Gurren.SetItemDisplays();
+            GurrenLagann.SetItemDisplays();
+        }
+
         public void OnDestroy()
         {
             try
@@ -102,6 +112,7 @@ namespace TTGL_Survivor
         private void Hooks()
         {
             ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
+            RoR2.ContentManagement.ContentManager.onContentPacksAssigned += LateSetup;
             On.RoR2.UI.HUD.Awake += HUD_Awake;
             RoR2.UI.HUD.onHudTargetChangedGlobal += HUD_onHudTargetChangedGlobal;
             On.RoR2.PickupPickerController.FixedUpdateServer += PickupPickerController_FixedUpdateServer;

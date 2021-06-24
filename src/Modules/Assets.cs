@@ -23,6 +23,7 @@ namespace TTGL_Survivor.Modules
         internal static GameObject yokoRifleExplosiveRoundExplosion;
         internal static GameObject gurrenBrokenBoulderEffect;
         internal static GameObject specialExplosion;
+        internal static GameObject drillPopEffect;
 
         internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
         internal static NetworkSoundEventDef genericHitSoundEvent;
@@ -85,6 +86,7 @@ namespace TTGL_Survivor.Modules
             yokoRifleExplosiveRoundExplosion = Assets.LoadEffect("YokoRifleExplosiveRoundExplosion", 1.0f);
             gurrenBrokenBoulderEffect = Assets.LoadEffect("BigBoulderBrokenPrefab", 5.0f);
             specialExplosion = Assets.LoadEffect("SpecialExplosion", 5.0f);
+            drillPopEffect = Assets.LoadEffect("DrillPopEffect", 2.0f, true);
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
@@ -110,7 +112,7 @@ namespace TTGL_Survivor.Modules
             }
         }
 
-        private static GameObject LoadEffect(string resourceName, float duration)
+        private static GameObject LoadEffect(string resourceName, float duration, bool applyScale = false)
         {
             GameObject newEffect = mainAssetBundle.LoadAsset<GameObject>(resourceName);
 
@@ -119,7 +121,7 @@ namespace TTGL_Survivor.Modules
             var vfx = newEffect.AddComponent<VFXAttributes>();
             vfx.vfxPriority = VFXAttributes.VFXPriority.Always;
             var effect = newEffect.AddComponent<EffectComponent>();
-            effect.applyScale = false;
+            effect.applyScale = applyScale;
             effect.effectIndex = EffectIndex.Invalid;
             effect.parentToReferencedTransform = true;
             effect.positionAtReferencedTransform = true;

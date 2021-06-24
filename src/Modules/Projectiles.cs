@@ -154,6 +154,7 @@ namespace TTGL_Survivor.Modules
             //anim params = isHoldingObject
             //states = GURREN_LiftingObject, GURREN_HoldingObject, GURREN_ThrowingObject
         }
+        
         private static GameObject CreateGhostPrefab(string ghostName)
         {
             GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);

@@ -11,6 +11,10 @@ namespace TTGL_Survivor.Modules
     }
     public static class Config
     {
+        public static ConfigEntry<bool> lagannItemDisplayEnabled;
+        public static ConfigEntry<bool> gurrenItemDisplayEnabled;
+        public static ConfigEntry<bool> gurrenLaganItemDisplayEnabled;
+
         public static ConfigEntry<bool> spiralGaugeEnabled;
         public static ConfigEntry<Vector2> spiralGaugeAnchorMin;
         public static ConfigEntry<Vector2> spiralGaugeAnchorMax;
@@ -22,9 +26,14 @@ namespace TTGL_Survivor.Modules
         public static ConfigEntry<bool> ttglMusicEnabled;
         public static ConfigEntry<FrequencyConfig> ttglShowCombiningAnimation;
         public static ConfigEntry<bool> woopsEnabled;
+
+
         public static void ReadConfig()
         {
-            // there actually isn't any config right now but if you wanted to add some it would go here.
+            lagannItemDisplayEnabled = Modules.Config.GetSetConfig("Item display", "Lagann", true, "Display Items on Lagann");
+            gurrenItemDisplayEnabled = Modules.Config.GetSetConfig("Item display", "Gurren", true, "Display Items on Gurren");
+            gurrenLaganItemDisplayEnabled = Modules.Config.GetSetConfig("Item display", "Gurren Lagann", true, "Display Items on Gurren Lagann");
+
             spiralGaugeEnabled = Modules.Config.GetSetConfig("Spiral Gauge", "Enabled", true, "Display Spiral Gauge");
             spiralGaugeAnchorMin = Modules.Config.GetSetConfig("Spiral Gauge", "AnchorMin", new Vector2(1, 0), "Spiral Gauge AnchorMin");
             spiralGaugeAnchorMax = Modules.Config.GetSetConfig("Spiral Gauge", "AnchorMax", new Vector2(1, 0), "Spiral Gauge AnchorMax");

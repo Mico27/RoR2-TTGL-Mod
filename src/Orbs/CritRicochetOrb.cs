@@ -89,7 +89,7 @@ namespace TTGL_Survivor.Orbs
                         CritRicochetOrb.hitEffectPrefab = this.hitEffectPrefab;
                         CritRicochetOrb.hitSoundString = this.hitSoundString;
                         CritRicochetOrb.hitCallback = this.hitCallback;
-                        CritRicochetOrb.FireDelayed();
+                        OrbManager.instance.AddOrb(CritRicochetOrb);
                         return;
                     }
                 }
@@ -121,11 +121,6 @@ namespace TTGL_Survivor.Orbs
             return hurtBox;
         }
         
-        public void FireDelayed()
-        {            
-            OrbManager.instance.AddOrb(this);
-        }
-
         public int bouncesRemaining;
 
         public bool resetBouncedObjects;

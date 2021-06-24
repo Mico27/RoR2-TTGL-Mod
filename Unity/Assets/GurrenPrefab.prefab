@@ -5498,6 +5498,26 @@ MonoBehaviour:
     transform: {fileID: 8472457215560422346}
   - name: DrillMuzzle4
     transform: {fileID: 8472457215560422340}
+  - name: Hips
+    transform: {fileID: 8472457215560422276}
+  - name: LeftUpperLeg
+    transform: {fileID: 8472457215560422314}
+  - name: LeftLowerLeg
+    transform: {fileID: 8472457215560422316}
+  - name: RightUpperLeg
+    transform: {fileID: 8472457215560422364}
+  - name: RightLowerLeg
+    transform: {fileID: 8472457215560422342}
+  - name: Chest
+    transform: {fileID: 8472457215560422284}
+  - name: LeftUpperArm
+    transform: {fileID: 8472457215560422312}
+  - name: LeftLowerArm
+    transform: {fileID: 8472457215560422294}
+  - name: RightUpperArm
+    transform: {fileID: 8472457215560422338}
+  - name: RightLowerArm
+    transform: {fileID: 8472457215560422344}
 --- !u!114 &3828159743836487104
 MonoBehaviour:
   m_ObjectHideFlags: 0

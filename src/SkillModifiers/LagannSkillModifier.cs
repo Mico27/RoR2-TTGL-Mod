@@ -15,13 +15,14 @@ namespace TTGL_Survivor.SkillModifiers
 {
     [SkillLevelModifier("LagannDrillRush", typeof(LagannDrillRush))]
     class LagannDrillRushSkillModifier : SimpleSkillModifier<LagannDrillRush>
-    {
+    {       
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            LagannDrillRush.damageCoefficient = MultScaling(3.0f, 0.10f, level);// increase damage by 10% every level
-            LagannController.drillSizeMultiplier = Math.Min(8f, MultScaling(1.0f, 0.20f, level)); // increase drill size by 20% every level (Max 8x original size)
-            LagannDrillRush.spiralEnergyPercentagePerHit = (level >= 4)? 0.01f: 0f; // can gain extra spiral power on hit at level 4
+            var capedLevel = Math.Min(25, level);
+            LagannDrillRush.damageCoefficient = AdditiveScaling(3.0f, 0.30f, capedLevel);// increase damage by 10% every level (linear)
+            LagannController.drillSizeMultiplier = AdditiveScaling(1.0f, 0.5f, capedLevel); // increase drill size by 50% every level (linear)
+            LagannDrillRush.spiralEnergyPercentagePerHit = (capedLevel >= 4)? 0.01f: 0f; // can gain extra spiral power on hit at level 4
         }
 
     }
@@ -32,9 +33,10 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            skillDef.baseMaxStock = AdditiveScaling(1, 1, level);// increase ammo by 1 every level
-            YokoShootRifle.maxRicochetCount = AdditiveScaling(2, 3, level); // increase max ricochet count by 3 every level
-            YokoShootRifle.resetBouncedObjects = (level >= 4); // ricochet can hit back previously hit enemies at level 4
+            var capedLevel = Math.Min(25, level);
+            skillDef.baseMaxStock = AdditiveScaling(1, 1, capedLevel);// increase ammo by 1 every level
+            YokoShootRifle.maxRicochetCount = AdditiveScaling(2, 3, capedLevel); // increase max ricochet count by 3 every level
+            YokoShootRifle.resetBouncedObjects = (capedLevel >= 4); // ricochet can hit back previously hit enemies at level 4
         }
     }
 
@@ -44,9 +46,10 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            skillDef.baseMaxStock = AdditiveScaling(1, 1, level);// increase ammo by 1 every level
-            Projectiles.UpdateYokoExposionScale(Math.Min(3f, MultScaling(1.0f, 0.10f, level))); // increase explosion size by 10% every level (Max 3x original size)
-            Projectiles.UpdateYokoExplosionCluster(level >= 4); // explosion spawns a cluster of smaller explosions at level 4
+            var capedLevel = Math.Min(25, level);
+            skillDef.baseMaxStock = AdditiveScaling(1, 1, capedLevel);// increase ammo by 1 every level
+            Projectiles.UpdateYokoExposionScale(AdditiveScaling(1.0f, 0.10f, capedLevel)); // increase explosion size by 10% every level (Linear)
+            Projectiles.UpdateYokoExplosionCluster(capedLevel >= 4); // explosion spawns a cluster of smaller explosions at level 4
         }
     }
 
@@ -56,10 +59,11 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            skillDef.baseMaxStock = AdditiveScaling(1, 2, level);// increase ammo by 2 every level
-            YokoScepterRifle.maxRicochetCount = AdditiveScaling(2, 2, level); // increase max ricochet count by 2 every level
-            YokoScepterRifle.explosionSizeMultiplier = Math.Min(3f, MultScaling(1.0f, 0.15f, level)); // increase explosion size by 15% every level (Max 3x original size)
-            YokoScepterRifle.resetBouncedObjects = (level >= 4); // ricochet can hit back previously hit enemies at level 4
+            var capedLevel = Math.Min(25, level);
+            skillDef.baseMaxStock = AdditiveScaling(1, 2, capedLevel);// increase ammo by 2 every level
+            YokoScepterRifle.maxRicochetCount = AdditiveScaling(2, 2, capedLevel); // increase max ricochet count by 2 every level
+            YokoScepterRifle.explosionSizeMultiplier = AdditiveScaling(1.0f, 0.15f, capedLevel); // increase explosion size by 15% every level (Linear)
+            YokoScepterRifle.resetBouncedObjects = (capedLevel >= 4); // ricochet can hit back previously hit enemies at level 4
             
         }
     }
@@ -70,8 +74,9 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            LagannSpiralBurst.damageCoefficient = MultScaling(2.5f, 0.30f, level);// increase damage by 30% every level
-            LagannSpiralBurst.jumpVelocity = MultScaling(7.0f, 0.10f, level); // increase jump velocity by 10% every level
+            var capedLevel = Math.Min(25, level);
+            LagannSpiralBurst.damageCoefficient = AdditiveScaling(2.5f, 0.75f, capedLevel);// increase damage by 30% every level (linear)
+            LagannSpiralBurst.jumpVelocity = AdditiveScaling(7.0f, 0.70f, capedLevel); // increase jump velocity by 10% every level (linear)
         }
         
         public override void OnSkillExit(LagannSpiralBurst skillState, int level)
@@ -90,18 +95,19 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            LagannToggleCanopy.armorBuffAmount = MultScaling(150f, 0.20f, level);// increase armor from buff by 20% every level
+            var capedLevel = Math.Min(25, level);
+            LagannToggleCanopy.armorBuffAmount = AdditiveScaling(150f, 15f, capedLevel);// increase armor from buff by 10% every level (linear)
             if (Lagann.explosiveRifleSkillDef)
             {
-                Lagann.explosiveRifleSkillDef.fullRestockOnAssign = (level >= 4); // restock yoko's rifle on use
+                Lagann.explosiveRifleSkillDef.fullRestockOnAssign = (capedLevel >= 4); // restock yoko's rifle on use
             }
             if (Lagann.shootRifleSkillDef)
             {
-                Lagann.shootRifleSkillDef.fullRestockOnAssign = (level >= 4);
+                Lagann.shootRifleSkillDef.fullRestockOnAssign = (capedLevel >= 4);
             }
             if (Lagann.scepterSkillDef)
             {
-                Lagann.scepterSkillDef.fullRestockOnAssign = (level >= 4);
+                Lagann.scepterSkillDef.fullRestockOnAssign = (capedLevel >= 4);
             }
         }
     }
@@ -112,9 +118,10 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
-            AimLagannImpact.maxRebound = AdditiveScaling(2, 1, level);// increase maximum number of rebound by 1 every level
-            AimLagannImpact.maxStepDistance = MultScaling(100f, 0.25f, level);// increase shooting distance by 25% every level
-            LagannImpact.damageCoefficient = MultScaling(15f, 0.10f, level);// increase damage by 10% every level
+            var capedLevel = Math.Min(25, level);
+            AimLagannImpact.maxRebound = AdditiveScaling(2, 1, capedLevel);// increase maximum number of rebound by 1 every level
+            AimLagannImpact.maxStepDistance = AdditiveScaling(100f, 25f, capedLevel);// increase shooting distance by 25% every level (linear)
+            LagannImpact.damageCoefficient = AdditiveScaling(15f, 1.50f, capedLevel);// increase damage by 10% every level (linear)
         }
     }
 
@@ -124,10 +131,11 @@ namespace TTGL_Survivor.SkillModifiers
         public override void OnSkillLeveledUp(int level, CharacterBody characterBody, SkillDef skillDef)
         {
             base.OnSkillLeveledUp(level, characterBody, skillDef);
+            var capedLevel = Math.Min(25, level);
             LagannCombineSkillDef lagannCombineSkillDef = skillDef as LagannCombineSkillDef;
             if (lagannCombineSkillDef)
             {
-                lagannCombineSkillDef.energyCost = MultScaling(100f, -0.10f, level); //decrease energy cost by 10% every level
+                lagannCombineSkillDef.energyCost = MultScaling(100f, -0.10f, capedLevel); //decrease energy cost by 10% every level (exponential)
             }
         }
     }

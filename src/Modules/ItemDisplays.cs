@@ -12,10 +12,16 @@ namespace TTGL_Survivor.Modules
 
         internal static void PopulateDisplays()
         {
-            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+            PopulateFromBody("Commando");
+            PopulateFromBody("Croco");
+            PopulateFromBody("Mage");
+        }
 
-            ItemDisplayRuleSet.NamedRuleGroup[] item = itemDisplayRuleSet.namedItemRuleGroups;
-            ItemDisplayRuleSet.NamedRuleGroup[] equip = itemDisplayRuleSet.namedEquipmentRuleGroups;
+        private static void PopulateFromBody(string bodyName)
+        {
+            ItemDisplayRuleSet itemDisplayRuleSet = Resources.Load<GameObject>("Prefabs/CharacterBodies/" + bodyName + "Body").GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
+
+            ItemDisplayRuleSet.KeyAssetRuleGroup[] item = itemDisplayRuleSet.keyAssetRuleGroups;
 
             for (int i = 0; i < item.Length; i++)
             {
@@ -27,29 +33,10 @@ namespace TTGL_Survivor.Modules
                     if (followerPrefab)
                     {
                         string name = followerPrefab.name;
-                        string key = (name != null) ? name.ToLower() : null;
+                        string key = name?.ToLower();
                         if (!itemDisplayPrefabs.ContainsKey(key))
                         {
                             itemDisplayPrefabs[key] = followerPrefab;
-                        }
-                    }
-                }
-            }
-
-            for (int i = 0; i < equip.Length; i++)
-            {
-                ItemDisplayRule[] rules = equip[i].displayRuleGroup.rules;
-                for (int j = 0; j < rules.Length; j++)
-                {
-                    GameObject followerPrefab = rules[j].followerPrefab;
-
-                    if (followerPrefab)
-                    {
-                        string name2 = followerPrefab.name;
-                        string key2 = (name2 != null) ? name2.ToLower() : null;
-                        if (!itemDisplayPrefabs.ContainsKey(key2))
-                        {
-                            itemDisplayPrefabs[key2] = followerPrefab;
                         }
                     }
                 }
@@ -62,6 +49,7 @@ namespace TTGL_Survivor.Modules
             {
                 if (itemDisplayPrefabs[name.ToLower()]) return itemDisplayPrefabs[name.ToLower()];
             }
+
             return null;
         }
     }

@@ -25,6 +25,7 @@ namespace TTGL_Survivor.Modules
 
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannMain));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannDrillRush));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannDrillSpike));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoShootRifle));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoExplosiveRifle));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoScepterRifle));

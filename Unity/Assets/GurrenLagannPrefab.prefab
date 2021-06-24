@@ -16600,6 +16600,26 @@ MonoBehaviour:
     transform: {fileID: 3425008330771234471}
   - name: SpecialMoveTargetPosition
     transform: {fileID: 4602343048455771454}
+  - name: Hips
+    transform: {fileID: 1069355294006912933}
+  - name: LeftUpperLeg
+    transform: {fileID: 1069355294006913011}
+  - name: LeftLowerLeg
+    transform: {fileID: 1069355294006912903}
+  - name: RightUpperLeg
+    transform: {fileID: 1069355294006912565}
+  - name: RightLowerLeg
+    transform: {fileID: 1069355294006912569}
+  - name: Chest
+    transform: {fileID: 1069355294006912953}
+  - name: LeftUpperArm
+    transform: {fileID: 1069355294006913009}
+  - name: LeftLowerArm
+    transform: {fileID: 1069355294006912909}
+  - name: RightUpperArm
+    transform: {fileID: 1069355294006912563}
+  - name: RightLowerArm
+    transform: {fileID: 1069355294006912975}
 --- !u!114 &3161243902224274567
 MonoBehaviour:
   m_ObjectHideFlags: 0
