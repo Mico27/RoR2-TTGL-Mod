@@ -10,6 +10,14 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 
 ## Changelog
 
+`0.2.9`
+- Nerfed Skill++ skill upgrades, limited to 25 upgrades for each skill until the duplication skill point bug is fixed.
+- Added new primary skill for Lagann: Drill spike (still working for a new icon for it)
+- Optimized Yoko rifle skill's code, Also it now ricochet faster (From 0.5 sec to 0.1 sec), nerfed damage from 250% to 200%.
+- Yoko's rifle nerfed to ricochet only up to 6 times (Except when using Skill++ it will start at 2 times)
+- Finally got around and added item displays on Lagann, Gurren and Gurren Lagann. (You can disable item display for each of them in config)
+- Nerfed Gurren Lagann starting base damage, base health, base health regen and base armor stats by 25%
+
 `0.2.8`
 - Lowered the volume and attenuated the sound effects
 - Combine and gigadrill break sound effect are now local to the user/spectator
