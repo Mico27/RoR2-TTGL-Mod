@@ -10,6 +10,9 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 
 ## Changelog
 
+`0.2.10`
+- Fixed a bug where Skill++ mod integration wouldnt work if BetterUI mod wasnt installed
+
 `0.2.9`
 - Nerfed Skill++ skill upgrades, limited to 25 upgrades for each skill until the duplication skill point bug is fixed.
 - Added new primary skill for Lagann: Drill spike (still working for a new icon for it)
