@@ -107,7 +107,7 @@ namespace TTGL_Survivor.SkillStates
         {
             AllowOutOfBound(false);
             DisableCameraOverride();
-            this.SetPosition(base.gameObject, this.previousPosition);
+            //this.SetPosition(base.gameObject, this.previousPosition);
             this.SetAntiGravity(base.characterBody, false);
             if (gigaDrillBreakTarget)
             {
@@ -217,6 +217,19 @@ namespace TTGL_Survivor.SkillStates
             else
             {
                 On.RoR2.MapZone.TryZoneStart -= MapZone_TryZoneStart;
+                var characterCollider = base.characterBody.GetComponent<Collider>();
+                if (characterCollider)
+                {
+                    MapZone.collidersToCheckInFixedUpdate.Enqueue(characterCollider);
+                }
+                if (gigaDrillBreakTarget)
+                {
+                    var gigaDrillBreakTargetCollider = gigaDrillBreakTarget.GetComponent<Collider>();
+                    if (gigaDrillBreakTargetCollider)
+                    {
+                        MapZone.collidersToCheckInFixedUpdate.Enqueue(gigaDrillBreakTargetCollider);
+                    }
+                }
             }
         }
 
@@ -225,6 +238,7 @@ namespace TTGL_Survivor.SkillStates
             CharacterBody component = other.GetComponent<CharacterBody>();
             if (component && (component == gigaDrillBreakTarget || component == base.characterBody))
             {
+                self.queuedCollisions.Add(new MapZone.CollisionInfo(self, other));
                 return;
             }
             orig(self, other);

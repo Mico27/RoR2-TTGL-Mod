@@ -141,6 +141,7 @@ namespace TTGL_Survivor.SkillStates
             CharacterBody component = other.GetComponent<CharacterBody>();
             if (component && (component == base.characterBody))
             {
+                self.queuedCollisions.Add(new MapZone.CollisionInfo(self, other));
                 return;
             }
             orig(self, other);
