@@ -97,6 +97,9 @@
     <Reference Include="Rewired_Core">
       <HintPath>libs\Rewired_Core.dll</HintPath>
     </Reference>
+    <Reference Include="RideMeExtended">
+      <HintPath>libs\RideMeExtended.dll</HintPath>
+    </Reference>
     <Reference Include="Skills">
       <HintPath>libs\Skills.dll</HintPath>
     </Reference>
@@ -165,5 +168,9 @@
   <ItemGroup>
     <Folder Include="Projectiles\" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="REM First we copy the from the output folder to the NetworkWeaver folder.&#xD;&#xA;REM We store the output from robocopy in a file called robocopy which we'll delete at the end of the file.&#xD;&#xA;robocopy $(TargetDir) $(ProjectDir)\NetworkWeaver $(TargetFileName) &gt; $(TargetDir)Robocopy&#xD;&#xA;REM Then we navigate our script to the NetworkWeaver folder to make the follow up line less verbose.&#xD;&#xA;cd $(ProjectDir)\NetworkWeaver&#xD;&#xA;REM Unity.UNetWeaver.exe {path to Coremodule} {Path to Networking} {Path to output folder} {Path to the dll you want patched} {Path to all needed references for the to-be-patched dll}&#xD;&#xA;Unity.UNetWeaver.exe &quot;..\libs\UnityEngine.CoreModule.dll&quot; &quot;..\libs\UnityEngine.Networking.dll&quot; &quot;Patched/&quot;  $(TargetFileName) &quot;$(ProjectDir)\libs&quot;&#xD;&#xA;REM We store the prepatched dll disabled as a .prepatch so that you can check it if you want, but first we need to make sure that file doesn't exist already.&#xD;&#xA;IF EXIST $(TargetFileName).prepatch (&#xD;&#xA;DEL /F $(TargetFileName).prepatch&#xD;&#xA;)&#xD;&#xA;REM Then we rename the prepatched file to bla.dll.prepatch&#xD;&#xA;ren $(TargetFileName) $(TargetFileName).prepatch&#xD;&#xA;REM move our script to the Patched Folder&#xD;&#xA;cd Patched&#xD;&#xA;REM move from the current directory (.) to the projectDirectory and store the output once more to the Robocopy file.&#xD;&#xA;robocopy . $(ProjectDir)  $(TargetFileName) &gt; $(TargetDir)Robocopy&#xD;&#xA;REM Remove the patched file from the Patched folder, because the Weaver won't run if the file already exists.&#xD;&#xA;del  $(TargetFileName)&#xD;&#xA;REM Delete the holder for all robocopy output.&#xD;&#xA;del $(TargetDir)Robocopy" />
+  </Target>
 
 </Project>

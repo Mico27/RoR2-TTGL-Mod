@@ -28,6 +28,7 @@ namespace TTGL_Survivor
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.xoxfaby.BetterUI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Mico27.RideMeExtended", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
@@ -39,13 +40,14 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.2.11";
+            MODVERSION = "0.2.12";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
         public static bool scepterInstalled = false;
         public static bool betterUIInstalled = false;
         public static bool skillPlusInstalled = false;
+        public static bool rideMeExtendedInstalled = false;
 
         public static TTGL_SurvivorPlugin instance;
 
@@ -65,6 +67,7 @@ namespace TTGL_Survivor
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.xoxfaby.BetterUI")) betterUIInstalled = true;
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) skillPlusInstalled = true;
+                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Mico27.RideMeExtended")) rideMeExtendedInstalled = true;
                 Modules.Assets.PopulateAssets();
                 Modules.Config.ReadConfig();
                 Modules.ItemDisplays.PopulateDisplays();
@@ -86,6 +89,10 @@ namespace TTGL_Survivor
                 if (skillPlusInstalled)
                 {
                     AddSkillPlus();
+                }
+                if (rideMeExtendedInstalled)
+                {
+                    AddRideMeExtended();
                 }                
             }
             catch (Exception e)
@@ -231,6 +238,12 @@ namespace TTGL_Survivor
         private void AddSkillPlus()
         {
             SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();            
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void AddRideMeExtended()
+        {
+            RideMeExtendedAddin.RideMeExtendedAddin.AddRideMeExtended();
         }
 
         private static string GetSpiralPowerRate(CharacterBody body)

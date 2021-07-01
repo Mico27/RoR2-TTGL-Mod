@@ -107,7 +107,7 @@ namespace TTGL_Survivor.SkillStates
         {
             AllowOutOfBound(false);
             DisableCameraOverride();
-            //this.SetPosition(base.gameObject, this.previousPosition);
+            this.SetPosition(base.gameObject, this.previousPosition);
             this.SetAntiGravity(base.characterBody, false);
             if (gigaDrillBreakTarget)
             {
@@ -293,14 +293,14 @@ namespace TTGL_Survivor.SkillStates
         private void TransformToLagann(Vector3 newPosition)
         {
             Util.PlaySound(BaseBeginArrowBarrage.blinkSoundString, base.gameObject);
-            if (NetworkServer.active && base.characterBody && base.characterBody.master)
-            {
-                var master = base.characterBody.master;
+            var master = base.characterBody.master;
+            if (NetworkServer.active)
+            {                
                 master.TransformBody("LagannBody");
-                SpawnGurren(newPosition);
-                var body = master.GetBodyObject();
-                Popup(body, newPosition + Vector3.up * 5f);
+                SpawnGurren(newPosition);                
             }
+            var body = master.GetBodyObject();
+            Popup(body, newPosition + Vector3.up * 5f);
         }
 
         private void SpawnGurren(Vector3 newPosition)

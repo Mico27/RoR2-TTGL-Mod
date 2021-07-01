@@ -17,6 +17,7 @@
           "MMHOOK_Assembly-CSharp": "0.0.0.0",
           "R2API": "2.0.0.0",
           "Rewired_Core": "1.0.0.0",
+          "RideMeExtended": "1.0.0.0",
           "Skills": "1.0.0.0"
         },
         "runtime": {
@@ -97,6 +98,14 @@
           }
         }
       },
+      "RideMeExtended/1.0.0.0": {
+        "runtime": {
+          "RideMeExtended.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Skills/1.0.0.0": {
         "runtime": {
           "Skills.dll": {
@@ -160,6 +169,11 @@
       "sha512": ""
     },
     "Rewired_Core/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RideMeExtended/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

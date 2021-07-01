@@ -27,12 +27,6 @@ namespace TTGL_Survivor.Modules
         private float checkGurrenPassiveInterval = 0.5f;
         private float checkGurrenPassiveStopWatch = 0f;
 
-        static SpiralEnergyComponent()
-        {
-            NetworkBehaviour.RegisterCommandDelegate(typeof(SpiralEnergyComponent), SpiralEnergyComponent.kCmdCmdAddSpiralEnergy, new NetworkBehaviour.CmdDelegate(SpiralEnergyComponent.InvokeCmdCmdAddSpiralEnergy));
-            NetworkCRC.RegisterBehaviour("SpiralEnergyComponent", 0);
-        }
-
         public void Awake()
         {
             this.body = base.GetComponent<CharacterBody>();
@@ -57,16 +51,7 @@ namespace TTGL_Survivor.Modules
                 this.AuthorityFixedUpdate();
             }            
         }
-
-
-        // Token: 0x060010C9 RID: 4297 RVA: 0x000453D2 File Offset: 0x000435D2
-        [Command]
-        private void CmdAddSpiralEnergy(float value)
-        {
-            this.AddSpiralEnergy(value);
-        }
-
-        // Token: 0x060010CA RID: 4298 RVA: 0x000453DB File Offset: 0x000435DB
+        
         public void AddSpiralEnergyAuthority(float value)
         {
             if (NetworkServer.active)
@@ -74,52 +59,22 @@ namespace TTGL_Survivor.Modules
                 this.AddSpiralEnergy(value);
                 return;
             }
-            this.CallCmdAddSpiralEnergy(value);
+            this.CmdAddSpiralEnergy(value);
+        }
+
+        [Command]
+        public void CmdAddSpiralEnergy(float value)
+        {
+            this.AddSpiralEnergy(value);
         }
 
         [Server]
         public void AddSpiralEnergy(float value)
         {
-            if (!NetworkServer.active)
-            {
-                Debug.LogWarning("[Server] function 'System.Void SpiralEnergyComponent::AddSpiralEnergy(System.Single)' called on client");
-                return;
-            }
             if (this.energy < C_SPIRALENERGYCAP)
             {
                 this.NetworkEnergy = Mathf.Min(this.energy + value, C_SPIRALENERGYCAP);
             }
-        }
-
-        protected static void InvokeCmdCmdAddSpiralEnergy(NetworkBehaviour obj, NetworkReader reader)
-        {
-            if (!NetworkServer.active)
-            {
-                Debug.LogError("Command CmdAddSpiralEnergy called on client.");
-                return;
-            }
-            ((SpiralEnergyComponent)obj).CmdAddSpiralEnergy(reader.ReadSingle());
-        }
-
-        public void CallCmdAddSpiralEnergy(float value)
-        {
-            if (!NetworkClient.active)
-            {
-                Debug.LogError("Command function CmdAddSpiralEnergy called on server.");
-                return;
-            }
-            if (base.isServer)
-            {
-                this.CmdAddSpiralEnergy(value);
-                return;
-            }
-            NetworkWriter networkWriter = new NetworkWriter();
-            networkWriter.Write(0);
-            networkWriter.Write((short)((ushort)5));
-            networkWriter.WritePackedUInt32((uint)SpiralEnergyComponent.kCmdCmdAddSpiralEnergy);
-            networkWriter.Write(base.GetComponent<NetworkIdentity>().netId);
-            networkWriter.Write(value);
-            base.SendCommandInternal(networkWriter, 0, "CmdAddSpiralEnergy");
         }
 
         public void OnDamageDealtServer(DamageReport damageReport)
@@ -353,6 +308,5 @@ namespace TTGL_Survivor.Modules
         [SyncVar]
         public float charge_rate = 0f;
 
-        private static int kCmdCmdAddSpiralEnergy = -1976809258;
     }
 }

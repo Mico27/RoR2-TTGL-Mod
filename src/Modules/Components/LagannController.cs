@@ -1,5 +1,6 @@
 ﻿using RoR2;
 using System;
+using System.Runtime.CompilerServices;
 using TTGL_Survivor.Modules.Survivors;
 using TTGL_Survivor.SkillStates;
 using UnityEngine;
@@ -177,12 +178,38 @@ namespace TTGL_Survivor.Modules.Components
             if (this.gurrenMinionCache && this.gurrenMinionCache.gurrenMinion)
             {
                 this.animator.SetBool("hideKamina", true);
+                this.SetCanRide(true);
             }
             else
             {
                 this.animator.SetBool("hideKamina", false);
+                this.SetCanRide(false);
             }
         }
+
+        private void SetCanRide(bool canRide)
+        {
+            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+            {
+                this.DoSetCanRide(canRide);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void DoSetCanRide(bool canRide)
+        {
+            var rideableController = genericRideableController as RideMeExtended.RideableController;
+            if (!rideableController)
+            {
+                rideableController = base.GetComponent<RideMeExtended.RideableController>();
+            }
+            if (rideableController && rideableController.CanRide != canRide)
+            {
+                rideableController.SetCanRide(canRide);
+            }
+        }
+        MonoBehaviour genericRideableController;
+
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
