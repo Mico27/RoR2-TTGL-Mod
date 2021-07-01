@@ -18,7 +18,7 @@ namespace TTGL_Survivor.RideMeExtendedAddin
                 var head = childLocator.FindChild("Head");
                 return new List<RideMeExtended.RideSeat>()
                 {
-                    new RideMeExtended.RideSeat() { SeatTransform = head, PositionOffsetGetter = (x) => new Vector3(-0.5f, 0.5f, 0f) }
+                    new RideMeExtended.RideSeat() { SeatTransform = head, PositionOffsetGetter = (x) => new Vector3(-0.5f, 0.5f, 0.2f) }
                 };
             });
             RideMeExtended.RideMeExtended.RegisterRideSeats("GurrenBody", (CharacterBody characterBody) =>
@@ -28,9 +28,9 @@ namespace TTGL_Survivor.RideMeExtendedAddin
                 var chest = childLocator.FindChild("Chest");
                 return new List<RideMeExtended.RideSeat>()
                 {
-                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(-2f, 3f, 0f) },
-                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(0f, 3f, 0f) },
-                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(2f, 3f, 0f) }
+                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(-2f, 2f, 0f) },
+                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(0f, 2.7f, 0f) },
+                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(2f, 2f, 0f) }
                 };
             });
             RideMeExtended.RideMeExtended.RegisterRideSeats("GurrenLagannBody", (CharacterBody characterBody) =>
@@ -41,9 +41,9 @@ namespace TTGL_Survivor.RideMeExtendedAddin
                 var head = childLocator.FindChild("Head");
                 return new List<RideMeExtended.RideSeat>()
                 {
-                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(0f, 3f, -2f) },
-                    new RideMeExtended.RideSeat() { SeatTransform = head, PositionOffsetGetter = (x) => new Vector3(0f, 1f, 0f) },
-                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(0f, 3f, 2f) }
+                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(0f, 2f, -1f) },
+                    new RideMeExtended.RideSeat() { SeatTransform = head, PositionOffsetGetter = (x) => new Vector3(0f, 1.2f, 0f) },
+                    new RideMeExtended.RideSeat() { SeatTransform = chest, PositionOffsetGetter = (x) => new Vector3(0f, 2f, 1f) }
                 };
             });
         }

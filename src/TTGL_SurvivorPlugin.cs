@@ -60,7 +60,7 @@ namespace TTGL_Survivor
 
         public void Awake()
         {
-            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
+            On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {
