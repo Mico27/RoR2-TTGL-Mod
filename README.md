@@ -10,6 +10,18 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 
 ## Changelog
 
+`0.3.0`
+- Added custom implementation of RideMeExtended mod ( https://thunderstore.io/package/Mico27/RideMeExtended/ ), allowing anyone to ride on Lagann (1 seat if kamina isnt in), Gurren (3 seats) and GurrenLagann (3 seats) (Must have RideMeExtended installed to have the functionality)
+- New icon for the Drill spike skill
+- Added new utility skill: Spiral conversion (available on Lagann and Gurren Lagann) allowing you to convert shield/barrier into spiral energy.
+- Nerfed GurrenLagann's stats a bit more
+- Fixed bug where using the skill Toggle Canopy would make laggan move on its own
+- That bug when you fall endlessly in the void when you use GigaDrillBreak? well here's attempt number 3 to fix it.
+- Buffed Drill spike from 250% to 400% damage.
+
+`0.2.11`
+- There was a rare bug that would still occur sometimes when using GigaDrillBreak where you would fall endlessly in the void. I've put a failsafe where it will respawn you to the nearest "spawnable node" instead of falling forever into the void.
+
 `0.2.10`
 - Fixed a bug where Skill++ mod integration wouldnt work if BetterUI mod wasnt installed
 
@@ -17,7 +29,6 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 - Nerfed Skill++ skill upgrades, limited to 25 upgrades for each skill until the duplication skill point bug is fixed.
 - Added new primary skill for Lagann: Drill spike (still working for a new icon for it)
 - Optimized Yoko rifle skill's code, Also it now ricochet faster (From 0.5 sec to 0.1 sec), nerfed damage from 250% to 200%.
-- Yoko's rifle nerfed to ricochet only up to 6 times (Except when using Skill++ it will start at 2 times)
 - Finally got around and added item displays on Lagann, Gurren and Gurren Lagann. (You can disable item display for each of them in config)
 - Nerfed Gurren Lagann starting base damage, base health, base health regen and base armor stats by 25%
 
