@@ -23,6 +23,10 @@ namespace TTGL_Survivor.SkillStates
                 }
                 else
                 {
+                    if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+                    {
+                        TTGL_SurvivorPlugin.ExpulseAnyRider(base.gameObject);
+                    }
                     base.characterBody.AddBuff(Modules.Buffs.canopyBuff);
                 }                
             }

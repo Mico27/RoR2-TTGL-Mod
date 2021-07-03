@@ -40,7 +40,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.2.12";
+            MODVERSION = "0.3.0";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -60,7 +60,7 @@ namespace TTGL_Survivor
 
         public void Awake()
         {
-            On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
+            //On.RoR2.Networking.GameNetworkManager.OnClientConnect += (self, user, t) => { };
             instance = this;
             try
             {
@@ -246,6 +246,17 @@ namespace TTGL_Survivor
             RideMeExtendedAddin.RideMeExtendedAddin.AddRideMeExtended();
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void ExpulseAnyRider(GameObject gameObject)
+        {
+            RideMeExtendedAddin.RideMeExtendedAddin.ExpulseAnyRider(gameObject);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void ExitSeat(GameObject gameObject)
+        {
+            RideMeExtendedAddin.RideMeExtendedAddin.ExitSeat(gameObject);
+        }
         private static string GetSpiralPowerRate(CharacterBody body)
         {
             string value = null;

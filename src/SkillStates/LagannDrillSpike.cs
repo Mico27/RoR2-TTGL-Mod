@@ -18,7 +18,7 @@ namespace TTGL_Survivor.SkillStates
     {
         public static float baseDuration = 1.5f;
         public static float maxDistance = 256f;
-        public static float damageCoefficient = 2.5f;
+        public static float damageCoefficient = 4.0f;
         public static float attackStartTime = 0.2f;
         public static float baseEarlyExitTime = 0.3f;
 
@@ -41,6 +41,10 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+            {
+                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
+            }
             this.duration = LagannDrillSpike.baseDuration / this.attackSpeedStat;
             this.earlyExitTime = LagannDrillSpike.baseEarlyExitTime / this.attackSpeedStat;
             this.hasFired = false;

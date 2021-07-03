@@ -20,6 +20,7 @@ namespace TTGL_Survivor.SkillStates
         public static string soundString = "TTGLCombine";
         public static float baseDuration = 18f;
         private Vector3 previousPosition;
+        private Vector3 animationPosition;
         private float energy;
         private uint combineSoundRef;
         public static bool playedCutSceneOnce = true;
@@ -31,6 +32,11 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+            {
+                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
+                TTGL_SurvivorPlugin.ExpulseAnyRider(base.gameObject);
+            }
             this.cinematicFrequence = Modules.Config.ttglShowCombiningAnimation.Value;
             if (DisplayCinematic())
             {
@@ -38,7 +44,8 @@ namespace TTGL_Survivor.SkillStates
                 AllowOutOfBound(true);
                 this.SetAntiGravity(base.characterBody, true);
                 this.previousPosition = base.characterMotor.Motor.transform.position;
-                this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));
+                this.animationPosition = this.previousPosition + new Vector3(50000f, 0, 0f);
+                this.SetPosition(base.gameObject, this.animationPosition);
                 if (CameraRigController.IsObjectSpectatedByAnyCamera(base.gameObject))
                 {
                     combineSoundRef = Util.PlaySound(LagannCombine.soundString, base.gameObject);
@@ -93,6 +100,7 @@ namespace TTGL_Survivor.SkillStates
                 }
                 return;
             }
+            this.SetPosition(base.gameObject, this.animationPosition);
             UpdateCameraOverride();
             if (!onLagannCombinedCalled && base.fixedAge >= (LagannCombine.baseDuration - 2f))
             {

@@ -65,6 +65,9 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME", "Blocked Rifle");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION", $"Yoko cannot use her rifle due to the canopy.");
 
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME", "Spiral conversion");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION", $"Lagann can converts shield/barrier energy into spiral energy. <style=cIsUtility>During converting process, Lagann is invulnerable.</style>.");
+
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME", "Lagann Impact");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.damageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.maxRebound - 1} times.");
 
@@ -145,6 +148,9 @@ namespace TTGL_Survivor.Modules
 
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME", "Tornado Kick");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION", $"Gurren Lagann does a tornado kick, dealing <style=cIsDamage>3 x {100f * SkillStates.GurrenLagannTornadoKick.damageCoefficient}% damage</style> on its path. <style=cIsUtility>Cannot be hit during this.</style>");
+            
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME", "Spiral conversion");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION", $"Gurren Lagann can converts shield/barrier energy into spiral energy. <style=cIsUtility>During converting process, Gurren Lagann is invulnerable.</style>.");
             
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME", "Giga Drill Maximum");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION", $"Gurren Lagann expands numerous drills from its body, dealing <style=cIsDamage>{100f * SkillStates.GurrenLagannGigaDrillMaximum.c_DamageCoefficient}% damage</style> in a large radius,<style=cIsUtility> stunning enemies.</style> Costs <style=cIsUtility>half a spiral gauge.</style>");

@@ -292,7 +292,7 @@ namespace TTGL_Survivor.Modules.Survivors
             drillSpikeSkillDef.skillName = "LagannDrillSpike";
             drillSpikeSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILLSPIKE_NAME";
             drillSpikeSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILLSPIKE_DESCRIPTION";
-            drillSpikeSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillRushIcon");
+            drillSpikeSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DrillSpikeIcon");
             drillSpikeSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannDrillSpike));
             drillSpikeSkillDef.activationStateMachineName = "Weapon";
             drillSpikeSkillDef.baseMaxStock = 1;
@@ -381,7 +381,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralBurstSkillDef.fullRestockOnAssign = true;
             spiralBurstSkillDef.interruptPriority = EntityStates.InterruptPriority.PrioritySkill;
             spiralBurstSkillDef.isCombatSkill = true;
-            spiralBurstSkillDef.mustKeyPress = false;
+            spiralBurstSkillDef.mustKeyPress = true;
             spiralBurstSkillDef.cancelSprintingOnActivation = false;
             spiralBurstSkillDef.rechargeStock = 1;
             spiralBurstSkillDef.requiredStock = 1;
@@ -418,6 +418,29 @@ namespace TTGL_Survivor.Modules.Survivors
             canopyOverrideSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION";
             canopyOverrideSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("DisableYokoRifleIcon");
             TTGL_SurvivorPlugin.skillDefs.Add(canopyOverrideSkillDef);
+
+            ShieldBarrirerSkillDef spiralConversionSkillDef = ScriptableObject.CreateInstance<ShieldBarrirerSkillDef>();
+            spiralConversionSkillDef.skillName = "LagannSpiralConversion";
+            spiralConversionSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME";
+            spiralConversionSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION";
+            spiralConversionSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralConversionIcon");
+            spiralConversionSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannSpiralConversion));
+            spiralConversionSkillDef.activationStateMachineName = "Body";
+            spiralConversionSkillDef.baseMaxStock = 1;
+            spiralConversionSkillDef.baseRechargeInterval = 8f;
+            spiralConversionSkillDef.beginSkillCooldownOnSkillEnd = true;
+            spiralConversionSkillDef.canceledFromSprinting = false;
+            spiralConversionSkillDef.forceSprintDuringState = false;
+            spiralConversionSkillDef.fullRestockOnAssign = true;
+            spiralConversionSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            spiralConversionSkillDef.isCombatSkill = false;
+            spiralConversionSkillDef.mustKeyPress = true;
+            spiralConversionSkillDef.cancelSprintingOnActivation = false;
+            spiralConversionSkillDef.rechargeStock = 1;
+            spiralConversionSkillDef.requiredStock = 1;
+            spiralConversionSkillDef.stockToConsume = 1;
+            TTGL_SurvivorPlugin.skillDefs.Add(spiralConversionSkillDef);
+            Modules.Skills.AddUtilitySkill(characterPrefab, spiralConversionSkillDef);
             #endregion
 
             #region Special
@@ -461,7 +484,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannCombineSkillDef.canceledFromSprinting = false;
             lagannCombineSkillDef.forceSprintDuringState = false;
             lagannCombineSkillDef.fullRestockOnAssign = false;
-            lagannCombineSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            lagannCombineSkillDef.interruptPriority = EntityStates.InterruptPriority.PrioritySkill;
             lagannCombineSkillDef.isCombatSkill = true;
             lagannCombineSkillDef.mustKeyPress = true;
             lagannCombineSkillDef.cancelSprintingOnActivation = true;

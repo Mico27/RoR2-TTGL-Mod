@@ -62,6 +62,10 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+            {
+                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
+            }
             this.animator = base.GetModelAnimator();
             this.playbackRateString = "SpiralBurst.playbackRate";
 

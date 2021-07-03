@@ -22,6 +22,8 @@ namespace TTGL_Survivor.Modules
             cfg.Priority = Int32.MinValue;
             set_stateTypeHook = new Hook(type.GetMethod("set_stateType", allFlags), new set_stateTypeDelegate(SetStateTypeHook), cfg);
             set_typeNameHook = new Hook(type.GetMethod("set_typeName", allFlags), new set_typeNameDelegate(SetTypeName), cfg);
+            
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(BaseSpiralConversion));
 
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannMain));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannDrillRush));
@@ -31,6 +33,7 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoScepterRifle));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannSpiralBurst));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannToggleCanopy));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannSpiralConversion));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(PrepareLagannImpact));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannImpact));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(AimLagannImpact));
@@ -52,6 +55,7 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannUpwardThrust)); 
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannThrowingShades));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannTornadoKick));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannSpiralConversion));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannGigaDrillMaximum));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannGigaDrillBreak));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannShadesConstrictState));

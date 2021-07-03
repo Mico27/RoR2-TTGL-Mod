@@ -15,14 +15,14 @@ namespace TTGL_Survivor.Modules
         public const float C_MaxTrottleUpdateTime = 1.0f;
         public const float C_MaxEnergyUptime = 6.0f;
         public float energyModifier = 1.0f;
+        public float energyUptimeStopwatch = 0.0f;
         private CharacterBody body = null;
         private EntityStateMachine outer = null;
         private TTGLMusicRemote musicRemote = null;
         private float monsterCountCoefficient = 0.0f;
         private float healthCoefficient = 0.0f;
         private bool hadFullBuff;
-        private float trottleUpdateTime = 0.0f;
-        private float energyUptimeStopwatch = 0.0f;
+        private float trottleUpdateTime = 0.0f;        
         private bool musicPlayed = false;
         private float checkGurrenPassiveInterval = 0.5f;
         private float checkGurrenPassiveStopWatch = 0f;

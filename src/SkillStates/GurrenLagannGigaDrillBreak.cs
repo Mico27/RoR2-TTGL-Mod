@@ -28,6 +28,7 @@ namespace TTGL_Survivor.SkillStates
         private int explosionIndex;
         private Vector3 previousPosition;
         private Vector3 previousTargetPosition;
+        private Vector3 specialMovePosition;
         private Transform specialMoveTargetPosition;
         private Transform specialMoveCameraSource;
         private SkippableCamera forcedCamera;
@@ -37,6 +38,10 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+            {
+                TTGL_SurvivorPlugin.ExpulseAnyRider(base.gameObject);
+            }
             this.fired = false;
             this.animator = base.GetModelAnimator();
             this.explosionIndex = 0;
@@ -56,7 +61,8 @@ namespace TTGL_Survivor.SkillStates
             AllowOutOfBound(true);
             this.SetAntiGravity(base.characterBody, true);
             this.previousPosition = base.characterMotor.Motor.transform.position;
-            this.SetPosition(base.gameObject, base.characterMotor.Motor.transform.position + new Vector3(50000f, 0, 0f));
+            this.specialMovePosition = this.previousPosition + new Vector3(50000f, 0, 0f);
+            this.SetPosition(base.gameObject, this.specialMovePosition);
             if (gigaDrillBreakTarget)
             {
                 var targetDirection = (gigaDrillBreakTarget.transform.position - base.characterDirection.targetTransform.position).normalized;
@@ -82,6 +88,7 @@ namespace TTGL_Survivor.SkillStates
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+            this.SetPosition(base.gameObject, this.specialMovePosition);
             UpdateCameraOverride();
             if (this.explosionIndex < GurrenLagannGigaDrillBreak.explosionCount &&
                 base.fixedAge >= this.durationBeforeExplosion)

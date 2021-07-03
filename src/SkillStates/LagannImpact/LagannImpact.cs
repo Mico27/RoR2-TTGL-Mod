@@ -3,6 +3,7 @@ using EntityStates.Merc;
 using RoR2;
 using RoR2.Projectile;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 using static RoR2.RoR2Content;
@@ -32,6 +33,10 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
+            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
+            {
+                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
+            }
             m_BouncingTime = 0.0f;
             m_IsBouncing = false;
             m_CurrentNodeIndex = 1;
@@ -101,6 +106,7 @@ namespace TTGL_Survivor.SkillStates
                     this.CreateBlinkEffect(base.characterBody.corePosition);
                     m_IsBouncing = false;
                     this.overlapAttack.ResetIgnoredHealthComponents();
+                    base.characterMotor.Motor.ForceUnground();
                     return;
                 }
                 m_BouncingTime += Time.fixedDeltaTime;
@@ -120,6 +126,7 @@ namespace TTGL_Survivor.SkillStates
                             {
                                 base.characterDirection.targetTransform.rotation = Util.QuaternionSafeLookRotation(-nextNode.Item2);
                                 base.characterMotor.velocity = Vector3.zero;
+                                base.characterMotor.Motor.ForceUnground();
                                 Util.PlaySound(EvisDash.endSoundString, base.gameObject);
                                 this.CreateBlinkEffect(base.characterBody.corePosition);
                                 this.animator.SetInteger("LagannImpact.stage", 3);
@@ -158,7 +165,6 @@ namespace TTGL_Survivor.SkillStates
                 base.characterBody.RemoveBuff(Buffs.HiddenInvincibility);
             }
             base.OnExit();
-        }
-                
+        }        
     }
 }

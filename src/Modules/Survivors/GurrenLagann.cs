@@ -144,11 +144,11 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
 
-            bodyComponent.baseMaxHealth = 330f;
-            bodyComponent.levelMaxHealth = 132f;
+            bodyComponent.baseMaxHealth = 220f;
+            bodyComponent.levelMaxHealth = 66f;
 
-            bodyComponent.baseRegen = 4.0f;
-            bodyComponent.levelRegen = 1.2f;
+            bodyComponent.baseRegen = 3.0f;
+            bodyComponent.levelRegen = 0.6f;
 
             bodyComponent.baseMaxShield = 0f;
             bodyComponent.levelMaxShield = 0f;
@@ -162,7 +162,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.levelJumpPower = 0f;
 
             bodyComponent.baseDamage = 18f;
-            bodyComponent.levelDamage = 4.8f;
+            bodyComponent.levelDamage = 3.6f;
 
             bodyComponent.baseAttackSpeed = 1f;
             bodyComponent.levelAttackSpeed = 0f;
@@ -403,6 +403,28 @@ namespace TTGL_Survivor.Modules.Survivors
             TTGL_SurvivorPlugin.skillDefs.Add(tornadoKickSkillDef);
             Modules.Skills.AddUtilitySkill(characterPrefab, tornadoKickSkillDef);
 
+            ShieldBarrirerSkillDef spiralConversionSkillDef = ScriptableObject.CreateInstance<ShieldBarrirerSkillDef>();
+            spiralConversionSkillDef.skillName = "GurrenLagannSpiralConversion";
+            spiralConversionSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME";
+            spiralConversionSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION";
+            spiralConversionSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("SpiralConversionIcon");
+            spiralConversionSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSpiralConversion));
+            spiralConversionSkillDef.activationStateMachineName = "Body";
+            spiralConversionSkillDef.baseMaxStock = 1;
+            spiralConversionSkillDef.baseRechargeInterval = 8f;
+            spiralConversionSkillDef.beginSkillCooldownOnSkillEnd = true;
+            spiralConversionSkillDef.canceledFromSprinting = false;
+            spiralConversionSkillDef.forceSprintDuringState = false;
+            spiralConversionSkillDef.fullRestockOnAssign = true;
+            spiralConversionSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            spiralConversionSkillDef.isCombatSkill = false;
+            spiralConversionSkillDef.mustKeyPress = true;
+            spiralConversionSkillDef.cancelSprintingOnActivation = false;
+            spiralConversionSkillDef.rechargeStock = 1;
+            spiralConversionSkillDef.requiredStock = 1;
+            spiralConversionSkillDef.stockToConsume = 1;
+            TTGL_SurvivorPlugin.skillDefs.Add(spiralConversionSkillDef);
+            Modules.Skills.AddUtilitySkill(characterPrefab, spiralConversionSkillDef);
             #endregion
 
             #region Special
@@ -416,7 +438,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillMaximumSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(GurrenLagannGigaDrillMaximum));
             gigaDrillMaximumSkillDef.activationStateMachineName = "Body";
             gigaDrillMaximumSkillDef.baseMaxStock = 1;
-            gigaDrillMaximumSkillDef.baseRechargeInterval = 8f;
+            gigaDrillMaximumSkillDef.baseRechargeInterval = 16f;
             gigaDrillMaximumSkillDef.beginSkillCooldownOnSkillEnd = true;
             gigaDrillMaximumSkillDef.canceledFromSprinting = false;
             gigaDrillMaximumSkillDef.forceSprintDuringState = false;
@@ -469,7 +491,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gurrenLagannSplitSkillDef.canceledFromSprinting = false;
             gurrenLagannSplitSkillDef.forceSprintDuringState = false;
             gurrenLagannSplitSkillDef.fullRestockOnAssign = false;
-            gurrenLagannSplitSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            gurrenLagannSplitSkillDef.interruptPriority = EntityStates.InterruptPriority.PrioritySkill;
             gurrenLagannSplitSkillDef.isCombatSkill = true;
             gurrenLagannSplitSkillDef.mustKeyPress = true;
             gurrenLagannSplitSkillDef.cancelSprintingOnActivation = true;
