@@ -120,7 +120,7 @@ namespace TTGL_Survivor.SkillModifiers
             base.OnSkillLeveledUp(level, characterBody, skillDef);
             var capedLevel = Math.Min(25, level);
             AimLagannImpact.maxRebound = AdditiveScaling(2, 1, capedLevel);// increase maximum number of rebound by 1 every level
-            AimLagannImpact.maxStepDistance = AdditiveScaling(100f, 25f, capedLevel);// increase shooting distance by 25% every level (linear)
+            AimLagannImpact.maxStepDistanceMultiplier = AdditiveScaling(10f, 2.5f, capedLevel);// increase shooting distance by 25% every level (linear)
             LagannImpact.damageCoefficient = AdditiveScaling(15f, 1.50f, capedLevel);// increase damage by 10% every level (linear)
         }
     }

@@ -23,8 +23,7 @@ namespace TTGL_Survivor.SkillStates
             {
                 this.hurtboxGroup = this.modelTransform.GetComponent<HurtBoxGroup>();
             }
-            this.prepDuration = this.basePrepDuration / this.attackSpeedStat;
-            this.animator.SetInteger("LagannImpact.stage", 1);
+            this.prepDuration = this.basePrepDuration;
             base.PlayAnimation("FullBody, Override", "LagannImpact1");
             if (base.characterMotor)
             {
@@ -55,7 +54,7 @@ namespace TTGL_Survivor.SkillStates
             }
             if (this.cancelled)
             {
-                this.animator.SetInteger("LagannImpact.stage", 0);
+                base.PlayCrossfade("FullBody, Override", "LagannImpactExit", 0.2f);
             }
             base.OnExit();
         }

@@ -10,6 +10,10 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 
 ## Changelog
 
+`0.3.1`
+- Fixed memory leak from Yoko's rifle tracer + some networking optimisation
+- Fixed networking on the Lagann Impact skill. (Shows correctly for other users now)
+
 `0.3.0`
 - Added custom implementation of RideMeExtended mod ( https://thunderstore.io/package/Mico27/RideMeExtended/ ), allowing anyone to ride on Lagann (1 seat if kamina isnt in), Gurren (3 seats) and GurrenLagann (3 seats) (Must have RideMeExtended installed to have the functionality)
 - New icon for the Drill spike skill

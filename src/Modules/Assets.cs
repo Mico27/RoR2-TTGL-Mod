@@ -17,6 +17,7 @@ namespace TTGL_Survivor.Modules
 
         // particle effects
         internal static GameObject punchImpactEffect;
+        internal static GameObject yokoRifleBeamEffect;
         internal static GameObject yokoRifleHitSmallEffect;
         internal static GameObject yokoRifleMuzzleBigEffect;
         internal static GameObject yokoRifleMuzzleSmallEffect;
@@ -78,6 +79,18 @@ namespace TTGL_Survivor.Modules
                 prefabVfxAttributes = punchImpactEffect.GetComponent<VFXAttributes>(),
                 prefabName = punchImpactEffect.name,
                 spawnSoundEventName = punchImpactEffect.GetComponent<EffectComponent>().soundName
+            });
+
+            yokoRifleBeamEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerHuntressSnipe"), "TTGLYokoRifleBeamEffect");
+            yokoRifleBeamEffect.AddComponent<NetworkIdentity>();
+            yokoRifleBeamEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
+            TTGL_SurvivorPlugin.effectDefs.Add(new EffectDef()
+            {
+                prefab = yokoRifleBeamEffect,
+                prefabEffectComponent = yokoRifleBeamEffect.GetComponent<EffectComponent>(),
+                prefabVfxAttributes = yokoRifleBeamEffect.GetComponent<VFXAttributes>(),
+                prefabName = yokoRifleBeamEffect.name,
+                spawnSoundEventName = yokoRifleBeamEffect.GetComponent<EffectComponent>().soundName
             });
 
             yokoRifleHitSmallEffect = Assets.LoadEffect("YokoRifleHitSmallEffect", 1.0f);

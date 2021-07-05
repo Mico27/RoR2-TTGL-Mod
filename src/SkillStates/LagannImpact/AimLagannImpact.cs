@@ -5,23 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TTGL_Survivor.SkillStates
 {
     public class AimLagannImpact : BaseState
     {
         public const float c_MaxDuration = 3.0f;
-        public static float maxStepDistance = 100.0f;
+        public static float maxStepDistanceMultiplier = 10.0f;
         public static int maxRebound = 4;
-        private Quaternion m_OriginalRotation;
         private LineRenderer m_LineRenderer;
         private Tuple<Vector3, Vector3>[] m_TrajectoryNodes;
         private Animator animator;
         private bool cancelled;
+        private float currentMaxStepDistance;
+        private Transform rootTransform;
 
         public override void OnEnter()
         {
             base.OnEnter();
+            currentMaxStepDistance = maxStepDistanceMultiplier * base.moveSpeedStat;
             this.animator = base.GetModelAnimator();
             cancelled = true;
             base.characterBody.SetAimTimer(c_MaxDuration);
@@ -37,21 +40,24 @@ namespace TTGL_Survivor.SkillStates
             {
                 base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             }
-            this.m_OriginalRotation = base.characterDirection.targetTransform.rotation;
-            base.characterDirection.enabled = false;
+            base.characterMotor.useGravity = false;
+            var childLocator = base.GetModelChildLocator();
+            this.rootTransform = childLocator.FindChild("LagganArmature");
+            
+            base.PlayCrossfade("FullBody, Override", "LagannImpact2", 0.2f);
         }
 
         public override void OnExit()
         {
-            base.characterDirection.targetTransform.rotation = this.m_OriginalRotation;
-            base.characterDirection.enabled = true;
             if (base.cameraTargetParams)
             {
                 base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             }
             if (this.cancelled)
             {
-                this.animator.SetInteger("LagannImpact.stage", 0);
+                base.characterMotor.useGravity = true;
+                this.rootTransform.localRotation = Quaternion.Euler(new Vector3(-90, 0, 0));
+                base.PlayCrossfade("FullBody, Override", "LagannImpactExit", 0.5f);
             }
             Destroy(this.m_LineRenderer);
             base.OnExit();
@@ -62,11 +68,12 @@ namespace TTGL_Survivor.SkillStates
             base.FixedUpdate();
             if (base.inputBank)
             {                
-                if (base.characterMotor && base.characterDirection)
+                if (base.characterMotor)
                 {
-                    base.characterMotor.velocity = Vector3.zero;
-                    base.characterDirection.targetTransform.rotation = Util.QuaternionSafeLookRotation(base.inputBank.aimDirection);
+                    base.characterMotor.velocity = Vector3.zero;                    
                 }
+                var newRotation = Util.QuaternionSafeLookRotation(base.inputBank.aimDirection) * Quaternion.Euler(new Vector3(-90, 0, 0));
+                this.rootTransform.rotation = newRotation;
                 this.UpdateTrajectoryNodes(this.transform.position, base.inputBank.aimDirection, maxRebound);
                 this.DrawTrajectoryLine();
                 if (base.isAuthority)
@@ -79,7 +86,7 @@ namespace TTGL_Survivor.SkillStates
                     if (base.fixedAge >= c_MaxDuration || base.inputBank.skill1.justPressed || base.inputBank.skill2.justPressed || base.inputBank.skill4.justPressed)
                     {
                         this.cancelled = false;
-                        this.outer.SetNextState(new LagannImpact() { TrajectoryNodes = this.m_TrajectoryNodes });
+                        this.outer.SetNextState(new LagannImpact() { TrajectoryNodes = this.m_TrajectoryNodes, CurrentNodeIndex = 1 });
                     }                    
                 }
             }
@@ -107,7 +114,7 @@ namespace TTGL_Survivor.SkillStates
             }
             Ray ray = new Ray(position, direction);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, maxStepDistance, LayerIndex.world.mask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(ray, out hit, currentMaxStepDistance, LayerIndex.world.mask, QueryTriggerInteraction.Ignore))
             {
                 direction = Vector3.Reflect(direction, hit.normal);
                 position = hit.point;
@@ -115,11 +122,23 @@ namespace TTGL_Survivor.SkillStates
             }
             else
             {
-                position += direction * maxStepDistance;
+                position += direction * currentMaxStepDistance;
                 reflectionsRemaining = 0;
                 nodes.Add(new Tuple<Vector3, Vector3>(position, Vector3.zero));
             }
             GetTrajectoryNodes(nodes, position, direction, reflectionsRemaining - 1);
+        }
+
+        public override void OnSerialize(NetworkWriter writer)
+        {
+            base.OnSerialize(writer);
+            writer.Write(cancelled);
+        }
+
+        public override void OnDeserialize(NetworkReader reader)
+        {
+            base.OnDeserialize(reader);
+            cancelled = reader.ReadBoolean();
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

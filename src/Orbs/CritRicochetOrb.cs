@@ -10,17 +10,15 @@ namespace TTGL_Survivor.Orbs
 {
     public class CritRicochetOrb : Orb
     {
-        public override void Begin()
-        {
-            
-
-        }
-
         public override void OnArrival()
         {
+            base.OnArrival();
             if (this.target)
             {
-                Util.PlaySound(this.hitSoundString, this.target.gameObject);
+                if (!string.IsNullOrEmpty(this.hitSoundString))
+                {
+                    Util.PlaySound(this.hitSoundString, this.target.gameObject);
+                }
                 if (this.tracerEffectPrefab)
                 {
                     EffectData effectData = new EffectData

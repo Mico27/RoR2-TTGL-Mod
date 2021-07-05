@@ -35,8 +35,9 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannToggleCanopy));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannSpiralConversion));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(PrepareLagannImpact));
-            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannImpact));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(AimLagannImpact));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannImpact));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(ReboundLagannImpact));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannCombine));
 
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannMain));
