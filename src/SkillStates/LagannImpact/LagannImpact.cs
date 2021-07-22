@@ -48,10 +48,6 @@ namespace TTGL_Survivor.SkillStates
                     m_CurrentTarget = nextNode.Item1;
                 }
             }
-            if (m_CurrentTarget != null)
-            {
-                TTGL_SurvivorPlugin.instance.Logger.LogMessage("LagannImpact.m_CurrentTarget is not null");
-            }
             this.cancelled = true;
             Util.PlaySound(EvisDash.beginSoundString, base.gameObject);
 

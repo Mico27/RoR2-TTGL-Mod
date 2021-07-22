@@ -12,6 +12,7 @@ using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.SkillStates;
 using TTGL_Survivor.UI;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace TTGL_Survivor.Modules.Survivors
 {
@@ -30,6 +31,7 @@ namespace TTGL_Survivor.Modules.Survivors
         public static SkillDef scepterSkillDef;
         public static SkillDef shootRifleSkillDef;
         public static SkillDef explosiveRifleSkillDef;
+        public static SkillDef piercingRifleSkillDef;
 
         public void CreateCharacter()
         {
@@ -139,6 +141,15 @@ namespace TTGL_Survivor.Modules.Survivors
                     forcedCamera.allowUserControl = false;
                     forcedCamera.entryLerpDuration = 0f;
                     forcedCamera.exitLerpDuration = 1f;
+                }
+                var VRCamera = childLocator.FindChild("VRCamera");
+                if (VRCamera)
+                {
+                    if (!Config.trackVRCameraToHeadPosition)
+                    {
+                        var positionContraint = VRCamera.GetComponent<PositionConstraint>();
+                        positionContraint.constraintActive = false;
+                    }
                 }
             }
 
@@ -362,7 +373,30 @@ namespace TTGL_Survivor.Modules.Survivors
             explosiveRifleSkillDef.stockToConsume = 1;
             TTGL_SurvivorPlugin.skillDefs.Add(explosiveRifleSkillDef);
             Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
-
+            
+            piercingRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            piercingRifleSkillDef.skillName = "YokoPiercingRifle";
+            piercingRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_PIERCING_NAME";
+            piercingRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_PIERCING_DESCRIPTION";
+            piercingRifleSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("YokoRifleChargeIcon");
+            piercingRifleSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoPiercingRifleCharging));
+            piercingRifleSkillDef.activationStateMachineName = "Weapon";
+            piercingRifleSkillDef.baseMaxStock = 3;
+            piercingRifleSkillDef.baseRechargeInterval = 2f;
+            piercingRifleSkillDef.beginSkillCooldownOnSkillEnd = true;
+            piercingRifleSkillDef.canceledFromSprinting = false;
+            piercingRifleSkillDef.forceSprintDuringState = false;
+            piercingRifleSkillDef.fullRestockOnAssign = true;
+            piercingRifleSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            piercingRifleSkillDef.isCombatSkill = true;
+            piercingRifleSkillDef.mustKeyPress = true;
+            piercingRifleSkillDef.cancelSprintingOnActivation = false;
+            piercingRifleSkillDef.rechargeStock = 1;
+            piercingRifleSkillDef.requiredStock = 1;
+            piercingRifleSkillDef.stockToConsume = 1;
+            piercingRifleSkillDef.keywordTokens = new string[] { "KEYWORD_AGILE" };
+            TTGL_SurvivorPlugin.skillDefs.Add(piercingRifleSkillDef);
+            Modules.Skills.AddSecondarySkill(characterPrefab, piercingRifleSkillDef);
             #endregion
 
             #region Utility
@@ -468,6 +502,29 @@ namespace TTGL_Survivor.Modules.Survivors
             TTGL_SurvivorPlugin.skillDefs.Add(lagannImpactSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, lagannImpactSkillDef);
 
+            SkillDef lagannBurrowerStrikeSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            lagannBurrowerStrikeSkillDef.skillName = "LagannBurrowerStrike";
+            lagannBurrowerStrikeSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_BURROWER_NAME";
+            lagannBurrowerStrikeSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_BURROWER_DESCRIPTION";
+            lagannBurrowerStrikeSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("LagannImpactIcon");
+            lagannBurrowerStrikeSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannBurrowerStrike));
+            lagannBurrowerStrikeSkillDef.activationStateMachineName = "Body";
+            lagannBurrowerStrikeSkillDef.baseMaxStock = 1;
+            lagannBurrowerStrikeSkillDef.baseRechargeInterval = 12f;
+            lagannBurrowerStrikeSkillDef.beginSkillCooldownOnSkillEnd = true;
+            lagannBurrowerStrikeSkillDef.canceledFromSprinting = false;
+            lagannBurrowerStrikeSkillDef.forceSprintDuringState = false;
+            lagannBurrowerStrikeSkillDef.fullRestockOnAssign = true;
+            lagannBurrowerStrikeSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+            lagannBurrowerStrikeSkillDef.isCombatSkill = true;
+            lagannBurrowerStrikeSkillDef.mustKeyPress = false;
+            lagannBurrowerStrikeSkillDef.cancelSprintingOnActivation = true;
+            lagannBurrowerStrikeSkillDef.rechargeStock = 1;
+            lagannBurrowerStrikeSkillDef.requiredStock = 1;
+            lagannBurrowerStrikeSkillDef.stockToConsume = 1;
+            TTGL_SurvivorPlugin.skillDefs.Add(lagannBurrowerStrikeSkillDef);
+            Modules.Skills.AddSpecialSkill(characterPrefab, lagannBurrowerStrikeSkillDef);
+
             #endregion
             #region FirstExtra
             LagannCombineSkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<LagannCombineSkillDef>();
@@ -539,7 +596,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region WoopsSkin
             var woopsEnabled = Modules.Config.woopsEnabled;
-            if (woopsEnabled.Value)
+            if (woopsEnabled)
             {
                 SkinDef woopsSkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_WOOPS_SKIN_NAME",
                 Assets.mainAssetBundle.LoadAsset<Sprite>("WoopsSkinIcon"),
@@ -587,7 +644,7 @@ namespace TTGL_Survivor.Modules.Survivors
             //  HIGHLY recommend using KingEnderBrine's ItemDisplayPlacementHelper mod for this
             #region Item Displays
 
-            if (Config.lagannItemDisplayEnabled.Value)
+            if (Config.lagannItemDisplayEnabled)
             {
                 itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {

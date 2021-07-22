@@ -549,7 +549,7 @@ namespace TTGL_Survivor.Modules.Survivors
             //  HIGHLY recommend using KingEnderBrine's ItemDisplayPlacementHelper mod for this
             #region Item Displays
 
-            if (Config.gurrenLaganItemDisplayEnabled.Value)
+            if (Config.gurrenLaganItemDisplayEnabled)
             {
                 itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {

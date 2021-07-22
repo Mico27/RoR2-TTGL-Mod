@@ -25,6 +25,7 @@ namespace TTGL_Survivor.Modules
         internal static GameObject gurrenBrokenBoulderEffect;
         internal static GameObject specialExplosion;
         internal static GameObject drillPopEffect;
+        internal static GameObject earthMoundEffect;
 
         internal static NetworkSoundEventDef fullBuffPlaySoundEvent;
         internal static NetworkSoundEventDef genericHitSoundEvent;
@@ -100,6 +101,7 @@ namespace TTGL_Survivor.Modules
             gurrenBrokenBoulderEffect = Assets.LoadEffect("BigBoulderBrokenPrefab", 5.0f);
             specialExplosion = Assets.LoadEffect("SpecialExplosion", 5.0f);
             drillPopEffect = Assets.LoadEffect("DrillPopEffect", 2.0f, true);
+            earthMoundEffect = Assets.LoadEffect("EarthMoundEffect", 2.0f);
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)

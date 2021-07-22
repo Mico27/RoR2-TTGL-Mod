@@ -37,7 +37,7 @@ namespace TTGL_Survivor.SkillStates
                 TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
                 TTGL_SurvivorPlugin.ExpulseAnyRider(base.gameObject);
             }
-            this.cinematicFrequence = Modules.Config.ttglShowCombiningAnimation.Value;
+            this.cinematicFrequence = Modules.Config.ttglShowCombiningAnimation;
             if (DisplayCinematic())
             {
                 base.PlayAnimation("FullBody, Override", "TTGLSurvivorCombine", "Combine.playbackRate", LagannCombine.baseDuration);

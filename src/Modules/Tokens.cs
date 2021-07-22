@@ -56,6 +56,9 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME", "Yoko's Rifle - Ancient Scepter Version");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION", $"Yoko fires an explosive round dealing <style=cIsDamage>{100f * SkillStates.YokoScepterRifle.damageCoefficient}% damage</style> in a 20 unit radius. Critical hits ricochet to other enemies.");
 
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_PIERCING_NAME", "Yoko's Rifle - Charging pierce rounds");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SECONDARY_PIERCING_DESCRIPTION", $"Yoko can charge up and fire a piercing round dealing <style=cIsDamage>{100f * SkillStates.YokoPiercingRifle.damageCoefficient}% damage</style>. Charging will consume more ammo but will deal more damage and make the shot larger.");
+
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME", "Spiral Burst");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION", $"Lagann launches itself upward or in any inputed direction, dealing <style=cIsDamage>{100f * SkillStates.LagannSpiralBurst.damageCoefficient}% damage</style> on its path. <style=cIsUtility>Lagann cannot be hit during this.</style>");
 
@@ -68,8 +71,11 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME", "Spiral conversion");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION", $"Lagann can converts shield/barrier energy into spiral energy. <style=cIsUtility>During converting process, Lagann is invulnerable.</style>.");
 
-            LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME", "Lagann Impact");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME", "Lagann Impact (Bounce mode)");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION", $"Lagann goes into drill mode and shoots itself in a line dealing <style=cIsDamage>{100f * SkillStates.LagannImpact.damageCoefficient}% damage</style> in its path. Lagann can bounce off walls up to {SkillStates.AimLagannImpact.maxRebound - 1} times.");
+
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_BURROWER_NAME", "Lagann Impact (Burrow mode)");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_BURROWER_DESCRIPTION", $"Lagann goes into drill mode and burrows into the ground to then pop out at an aimed location dealing <style=cIsDamage>3 x {100f * SkillStates.LagannBurrowerStrike.damageCoefficient}% damage</style> in its path.<style=cIsUtility>Lagann cannot be hit while burrowed.</style>");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_NAME", "Brotherly Combining! Gurren Lagann!");
             LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION", $"Combine into Gurren Lagann! Requires <style=cIsUtility>at least 1 spiral gauge</style> and <style=cIsUtility>Gurren must be in the party</style>.");

@@ -31,6 +31,7 @@ namespace TTGL_Survivor
     [BepInDependency("com.Mico27.RideMeExtended", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.DrBibop.VRAPI", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]    
     [R2APISubmoduleDependency(nameof(PrefabAPI), nameof(LanguageAPI), nameof(SoundAPI))]
@@ -40,7 +41,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.3.1";
+            MODVERSION = "0.3.3";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -93,7 +94,8 @@ namespace TTGL_Survivor
                 if (rideMeExtendedInstalled)
                 {
                     AddRideMeExtended();
-                }                
+                }
+                AddVRAPI();
             }
             catch (Exception e)
             {
@@ -175,7 +177,7 @@ namespace TTGL_Survivor
         }
         private void CreateSpiralPowerGauge(RoR2.UI.HUD hud)
         {
-            if (!m_SpiralPowerGauge && TTGL_Survivor.Modules.Config.spiralGaugeEnabled.Value)
+            if (!m_SpiralPowerGauge && TTGL_Survivor.Modules.Config.spiralGaugeEnabled)
             {
                 if (hud != null && hud.mainUIPanel != null)
                 {
@@ -186,12 +188,12 @@ namespace TTGL_Survivor
                         m_SpiralPowerGauge = spiralPowerPanel.AddComponent<SpiralPowerGauge>();
                         spiralPowerPanel.transform.SetParent(hud.mainUIPanel.transform);
                         var rectTransform = spiralPowerPanel.GetComponent<RectTransform>();
-                        rectTransform.anchorMin = TTGL_Survivor.Modules.Config.spiralGaugeAnchorMin.Value;
-                        rectTransform.anchorMax = TTGL_Survivor.Modules.Config.spiralGaugeAnchorMax.Value;
-                        rectTransform.pivot = TTGL_Survivor.Modules.Config.spiralGaugePivot.Value;
-                        rectTransform.sizeDelta = TTGL_Survivor.Modules.Config.spiralGaugeSizeDelta.Value;
-                        rectTransform.anchoredPosition = TTGL_Survivor.Modules.Config.spiralGaugeAnchoredPosition.Value;
-                        rectTransform.localScale = TTGL_Survivor.Modules.Config.spiralGaugeLocalScale.Value;
+                        rectTransform.anchorMin = TTGL_Survivor.Modules.Config.spiralGaugeAnchorMin;
+                        rectTransform.anchorMax = TTGL_Survivor.Modules.Config.spiralGaugeAnchorMax;
+                        rectTransform.pivot = TTGL_Survivor.Modules.Config.spiralGaugePivot;
+                        rectTransform.sizeDelta = TTGL_Survivor.Modules.Config.spiralGaugeSizeDelta;
+                        rectTransform.anchoredPosition = TTGL_Survivor.Modules.Config.spiralGaugeAnchoredPosition;
+                        rectTransform.localScale = TTGL_Survivor.Modules.Config.spiralGaugeLocalScale;
                         spiralPowerPanel.SetActive(false);
                     }
                 }
@@ -257,6 +259,23 @@ namespace TTGL_Survivor
         {
             RideMeExtendedAddin.RideMeExtendedAddin.ExitSeat(gameObject);
         }
+        
+        private void AddVRAPI()
+        {
+            if (VRAPI.VR.enabled)
+            {
+                if (!TTGL_Survivor.Modules.Config.disableLagannRenderers)
+                {
+                    VRAPI.VR.PreventRendererDisable("LagannBody", "Yoko");
+                    VRAPI.VR.PreventRendererDisable("LagannBody", "YokoGun");
+                    VRAPI.VR.PreventRendererDisable("LagannBody", "Kamina");
+                    VRAPI.VR.PreventRendererDisable("LagannBody", "KaminaCape");
+                    VRAPI.VR.PreventRendererDisable("LagannBody", "Lagann");
+                }
+                VRAPI.VR.PreventRendererDisable("GurrenLagannBody", "GurrenLagannBodyDrills");
+            }
+        }
+        
         private static string GetSpiralPowerRate(CharacterBody body)
         {
             string value = null;

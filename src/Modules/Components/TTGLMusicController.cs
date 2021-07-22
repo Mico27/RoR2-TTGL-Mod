@@ -21,7 +21,7 @@ namespace TTGL_Survivor.Modules
         {                      
             MusicController.pickTrackHook += MusicController_pickTrackHook;
             SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
-            this.ttglMusicEnabled = Modules.Config.ttglMusicEnabled.Value;
+            this.ttglMusicEnabled = Modules.Config.ttglMusicEnabled;
         }
 
         public void OnDestroy()

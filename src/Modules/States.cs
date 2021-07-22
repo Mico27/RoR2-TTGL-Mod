@@ -31,6 +31,8 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoShootRifle));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoExplosiveRifle));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoScepterRifle));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoPiercingRifle));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(YokoPiercingRifleCharging));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannSpiralBurst));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannToggleCanopy));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannSpiralConversion));
@@ -38,6 +40,9 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.entityStates.Add(typeof(AimLagannImpact));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannImpact));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(ReboundLagannImpact));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(PrepareLagannBurrowerStrike));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(AimLagannBurrowerStrike));
+            TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannBurrowerStrike));
             TTGL_SurvivorPlugin.entityStates.Add(typeof(LagannCombine));
 
             TTGL_SurvivorPlugin.entityStates.Add(typeof(GurrenLagannMain));

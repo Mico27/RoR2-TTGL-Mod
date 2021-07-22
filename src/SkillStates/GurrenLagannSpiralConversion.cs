@@ -21,13 +21,5 @@ namespace TTGL_Survivor.SkillStates
             base.PlayAnimation("FullBody, Override", "GurrenLagannSpiralConversionExit");
         }
 
-        protected override void CreateChargeEffect()
-        {
-            this.chargeEffect = UnityEngine.Object.Instantiate<GameObject>(
-               Assets.mainAssetBundle.LoadAsset<GameObject>("SpiralSlowCharge"),
-               base.characterBody.coreTransform
-               );
-            this.chargeEffect.transform.localScale *= 2f;
-        }
     }
 }

@@ -4,6 +4,7 @@ using RoR2.Projectile;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TTGL_Survivor.Modules.Components;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,6 +16,7 @@ namespace TTGL_Survivor.Modules
         internal static GameObject explosiveRifleRoundPrefab;
         internal static GameObject shadesWhirlPrefab;
         internal static GameObject bigBoulderPrefab;
+        internal static GameObject yokoPiercingRoundPrefab;
 
         internal static void RegisterProjectiles()
         {
@@ -23,11 +25,13 @@ namespace TTGL_Survivor.Modules
             CreateYokoExplosiveRound();
             CreateGurrenLagannShadesProjectile();
             CreateBigBoulder();
+            CreateYokoRiflePiercingProjectile();
 
             TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleClustersPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleRoundPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(shadesWhirlPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(bigBoulderPrefab);
+            TTGL_SurvivorPlugin.projectilePrefabs.Add(yokoPiercingRoundPrefab);
         }
 
         private static void CreateYokoExplosiveClusters()
@@ -154,7 +158,27 @@ namespace TTGL_Survivor.Modules
             //anim params = isHoldingObject
             //states = GURREN_LiftingObject, GURREN_HoldingObject, GURREN_ThrowingObject
         }
-        
+
+
+        private static void CreateYokoRiflePiercingProjectile()
+        {
+            yokoPiercingRoundPrefab = CloneProjectilePrefab("MageLightningboltExpanded", "YokoRiflePiercingProjectile");
+            ProjectileController projectileController = yokoPiercingRoundPrefab.GetComponent<ProjectileController>();
+            projectileController.ghostPrefab = CreateGhostPrefab("YokoRiflePierceEffect");
+            projectileController.startSound = "";
+
+            yokoPiercingRoundPrefab.AddComponent<ScaleProjectileController>();
+
+            ProjectileOverlapAttack overlapAttack = yokoPiercingRoundPrefab.GetComponent<ProjectileOverlapAttack>();
+            overlapAttack.damageCoefficient = 1.0f;
+
+            SphereCollider sphereCollider = yokoPiercingRoundPrefab.GetComponent<SphereCollider>();
+            sphereCollider.radius = 0.5f;
+
+            HitBox hitBox = yokoPiercingRoundPrefab.GetComponentInChildren<HitBox>();
+            hitBox.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+
         private static GameObject CreateGhostPrefab(string ghostName)
         {
             GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
