@@ -10,6 +10,15 @@ feel free to ping/dm me with any questions / suggestion / complaints on the modd
 
 ## Changelog
 
+`0.3.3`
+- Implemented DrBibop's VRAPI to make the mod VR-compatible (WIP, I dont have VR so gimme feedback if you can!) Still planning to add more to it.
+- Fixed Yoko's rifle - Charging pierce rounds's projectile visual not scaling correctly in multiplayer
+- Yoko's rifle - Charging pierce rounds's now charges 2x faster. Projectile travels 2x faster.
+- Added new skill for Lagann: Lagann Impact (Burrow mode). A variation of the original Lagann Impact.
+
+`0.3.2`
+- Added new secondary skill for Lagann: Yoko's rifle - Charging pierce rounds
+
 `0.3.1`
 - Fixed memory leak from Yoko's rifle tracer + some networking optimisation
 - Fixed networking on the Lagann Impact skill. (Shows correctly for other users now)
