@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj": {}
+    "D:\\OldDocuments\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj": {
+    "D:\\OldDocuments\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj",
+        "projectUniqueName": "D:\\OldDocuments\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj",
         "projectName": "TTGL_Survivor",
-        "projectPath": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj",
-        "packagesPath": "C:\\Users\\Mico27\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mico27\\Documents\\ror2-mODS\\RoR2-TTGL-Mod\\src\\obj\\",
+        "projectPath": "D:\\OldDocuments\\ror2-mODS\\RoR2-TTGL-Mod\\src\\TTGL_Survivor.csproj",
+        "packagesPath": "C:\\Users\\mfortier\\.nuget\\packages\\",
+        "outputPath": "D:\\OldDocuments\\ror2-mODS\\RoR2-TTGL-Mod\\src\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Mico27\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mfortier\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -31,6 +30,7 @@
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
         },
@@ -42,6 +42,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "Mono.Cecil": {
               "target": "Package",
@@ -55,10 +56,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

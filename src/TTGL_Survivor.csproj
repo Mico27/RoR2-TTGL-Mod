@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Projectiles\**" />
+    <EmbeddedResource Remove="Projectiles\**" />
+    <None Remove="Projectiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="TTGLSoundbank.bnk" />
     <None Remove="ttglsurvivorbundle" />
   </ItemGroup>
@@ -166,10 +172,6 @@
       <HintPath>libs\Zio.dll</HintPath>
       <Private>false</Private>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Projectiles\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

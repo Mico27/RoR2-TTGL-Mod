@@ -27,7 +27,6 @@ namespace TTGL_Survivor.Modules
         public static FrequencyConfig ttglShowCombiningAnimation;
         public static bool woopsEnabled;
 
-        public static bool disableLagannRenderers;
         public static bool trackVRCameraToHeadPosition;
 
         public static void ReadConfig()
@@ -48,7 +47,6 @@ namespace TTGL_Survivor.Modules
             ttglShowCombiningAnimation = Modules.Config.GetSetConfig("Gurren Lagann Combine Cinematic", "Frequency", FrequencyConfig.Always, "Set the frequency at which the cinematic plays").Value;
             woopsEnabled = Modules.Config.GetSetConfig("WoopsSkin", "Enabled", false, "Set to true to enable woops skin").Value;
 
-            disableLagannRenderers = Modules.Config.GetSetConfig("VR API", "Lagann - Disable renderers", false, "Disables all of laganns renderers, making it completely invisible in VR.").Value;
             trackVRCameraToHeadPosition = Modules.Config.GetSetConfig("VR API", "Lagann - Track VR Camera to Simons head", true, "The VR camera will track to Simons head position").Value;
 
         }

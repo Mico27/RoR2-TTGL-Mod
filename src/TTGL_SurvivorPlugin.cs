@@ -41,7 +41,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.3.3";
+            MODVERSION = "0.3.4";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -264,15 +264,10 @@ namespace TTGL_Survivor
         {
             if (VRAPI.VR.enabled)
             {
-                if (!TTGL_Survivor.Modules.Config.disableLagannRenderers)
-                {
-                    VRAPI.VR.PreventRendererDisable("LagannBody", "Yoko");
-                    VRAPI.VR.PreventRendererDisable("LagannBody", "YokoGun");
-                    VRAPI.VR.PreventRendererDisable("LagannBody", "Kamina");
-                    VRAPI.VR.PreventRendererDisable("LagannBody", "KaminaCape");
-                    VRAPI.VR.PreventRendererDisable("LagannBody", "Lagann");
-                }
-                VRAPI.VR.PreventRendererDisable("GurrenLagannBody", "GurrenLagannBodyDrills");
+                VRAPI.VR.AddVignetteState(typeof(LagannSpiralBurst));
+                VRAPI.VR.AddVignetteState(typeof(LagannImpact));
+                VRAPI.VR.AddVignetteState(typeof(LagannBurrowerStrike));
+                VRAPI.VR.AddVignetteState(typeof(GurrenLagannTornadoKick));
             }
         }
         
