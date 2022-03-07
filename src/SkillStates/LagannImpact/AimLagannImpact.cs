@@ -38,7 +38,7 @@ namespace TTGL_Survivor.SkillStates
             
             if (base.cameraTargetParams)
             {
-                base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+                base.cameraTargetParams.RequestAimType(CameraTargetParams.AimType.Standard);
             }
             base.characterMotor.useGravity = false;
             var childLocator = base.GetModelChildLocator();
@@ -51,7 +51,7 @@ namespace TTGL_Survivor.SkillStates
         {
             if (base.cameraTargetParams)
             {
-                base.cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+                base.cameraTargetParams.RequestAimType(CameraTargetParams.AimType.Standard);
             }
             if (this.cancelled)
             {

@@ -70,7 +70,12 @@ namespace TTGL_Survivor.Modules.Survivors
 
         protected override GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
+            var commandoBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+            if (commandoBody == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterBodies/CommandoBody");
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(commandoBody, modelName);
 
             GameObject model = CreateModel(newPrefab, modelName);
 
@@ -83,7 +88,12 @@ namespace TTGL_Survivor.Modules.Survivors
 
         protected override GameObject CreatePrefab(string bodyName, string modelName)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
+            var commandoBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+            if (commandoBody == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterBodies/CommandoBody");
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(commandoBody, bodyName);
 
             GameObject model = CreateModel(newPrefab, modelName);
             Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
@@ -112,7 +122,6 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_BODY_SUBTITLE";
             bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenIcon");
-            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
@@ -154,7 +163,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
             bodyComponent.hullClassification = HullClassification.Human;
 
-            bodyComponent.preferredPodPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
+            bodyComponent.preferredPodPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
             bodyComponent.isChampion = false;
         }
 
@@ -202,16 +211,14 @@ namespace TTGL_Survivor.Modules.Survivors
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
             cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
-            cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;
-            cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
             var cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
-            cameraParams.maxPitch = cameraTargetParams.cameraParams.maxPitch;
-            cameraParams.minPitch = cameraTargetParams.cameraParams.minPitch;
-            cameraParams.pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset;
-            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 2.2f;
-            cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
+            cameraParams.data.maxPitch = cameraTargetParams.cameraParams.data.maxPitch;
+            cameraParams.data.minPitch = cameraTargetParams.cameraParams.data.minPitch;
+            cameraParams.data.pivotVerticalOffset = cameraTargetParams.cameraParams.data.pivotVerticalOffset;
+            cameraParams.data.idealLocalCameraPos = cameraTargetParams.cameraParams.data.idealLocalCameraPos.value * 2.2f;
+            cameraParams.data.wallCushion = cameraTargetParams.cameraParams.data.wallCushion;
             cameraTargetParams.cameraParams = cameraParams;
         }
         protected override void SetupRigidbody(GameObject prefab)
@@ -230,7 +237,12 @@ namespace TTGL_Survivor.Modules.Survivors
         
         private void CreateAlly(GameObject bodyPrefab, string masterName, string masterToCopy)
         {
-            allyPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName);
+            var prefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster");
+            if (prefab == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster");
+            }
+            allyPrefab = PrefabAPI.InstantiateClone(prefab, masterName);
             var characterMaster = allyPrefab.GetComponent<CharacterMaster>();
             characterMaster.bodyPrefab = bodyPrefab;
             characterMaster.name = masterName;
@@ -2011,27 +2023,6 @@ localScale = new Vector3(2F, 2F, 2F),
 
                 itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    keyAsset = RoR2Content.Items.CooldownOnCrit,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplaySkull"),
-childName = "Chest",
-localPos = new Vector3(-0.65639F, 4.1095F, 1.26463F),
-localAngles = new Vector3(289.873F, 176.5471F, 151.3524F),
-localScale = new Vector3(0.5F, 0.5F, 0.5F),
-                            limbMask = LimbFlags.None
-                        }
-                        }
-                    }
-                });
-
-                itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
                     keyAsset = RoR2Content.Items.Phasing,
                     displayRuleGroup = new DisplayRuleGroup
                     {
@@ -2391,27 +2382,6 @@ childName = "Chest",
 localPos = new Vector3(0.00003F, 5.51843F, 0.00002F),
 localAngles = new Vector3(0F, 0F, 0F),
 localScale = new Vector3(0.1F, 0.1F, 0.1F),
-                            limbMask = LimbFlags.None
-                        }
-                        }
-                    }
-                });
-
-                itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
-                    keyAsset = RoR2Content.Items.Incubator,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayAncestralIncubator"),
-childName = "LeftUpperArm",
-localPos = new Vector3(0.00014F, -0.77839F, 0.00009F),
-localAngles = new Vector3(0F, 309.4523F, 0F),
-localScale = new Vector3(0.55F, 0.5F, 0.55F),
                             limbMask = LimbFlags.None
                         }
                         }

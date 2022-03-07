@@ -251,14 +251,7 @@ namespace TTGL_Survivor.Modules.Components
         private bool CanCancelBuff(CharacterBody self, BuffDef buffDef)
         {
             return (self == this.body && self.HasBuff(Modules.Buffs.canopyBuff) &&
-                (buffDef.buffIndex == RoR2Content.Buffs.Entangle.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.Nullified.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.Slow50.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.Slow60.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.Slow80.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.ClayGoo.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.Slow30.buffIndex ||
-                    buffDef.buffIndex == RoR2Content.Buffs.Cripple.buffIndex));
+                (buffDef.isDebuff && !buffDef.isHidden));
         }
 
     }

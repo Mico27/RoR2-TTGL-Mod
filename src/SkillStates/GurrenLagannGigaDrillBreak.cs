@@ -165,7 +165,7 @@ namespace TTGL_Survivor.SkillStates
                         position = target,
                         radius = GurrenLagannGigaDrillBreak.radius,
                         falloffModel = BlastAttack.FalloffModel.None,
-                        attackerFiltering = AttackerFiltering.NeverHit
+                        attackerFiltering = AttackerFiltering.NeverHitSelf
                     }.Fire();
                 }
             }

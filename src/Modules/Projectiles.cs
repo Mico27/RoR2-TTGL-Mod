@@ -15,21 +15,26 @@ namespace TTGL_Survivor.Modules
         internal static GameObject explosiveRifleClustersPrefab;
         internal static GameObject explosiveRifleRoundPrefab;
         internal static GameObject shadesWhirlPrefab;
+        internal static GameObject gigaDrillProjectilePrefab;
         internal static GameObject bigBoulderPrefab;
         internal static GameObject yokoPiercingRoundPrefab;
+        internal static GameObject shadesGhostPrefab;
 
         internal static void RegisterProjectiles()
         {
+            shadesGhostPrefab = CreateGhostPrefab("ShadesWhirlind");
             // only separating into separate methods for my sanity
             CreateYokoExplosiveClusters();
             CreateYokoExplosiveRound();
             CreateGurrenLagannShadesProjectile();
+            CreateGurrenLagannSpecialProjectile();
             CreateBigBoulder();
             CreateYokoRiflePiercingProjectile();
 
             TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleClustersPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(explosiveRifleRoundPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(shadesWhirlPrefab);
+            TTGL_SurvivorPlugin.projectilePrefabs.Add(gigaDrillProjectilePrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(bigBoulderPrefab);
             TTGL_SurvivorPlugin.projectilePrefabs.Add(yokoPiercingRoundPrefab);
         }
@@ -106,7 +111,7 @@ namespace TTGL_Survivor.Modules
         {
             shadesWhirlPrefab = CloneProjectilePrefab("Sawmerang", "GurrenLagannShadesProjectile");
             ProjectileController projectileController = shadesWhirlPrefab.GetComponent<ProjectileController>();
-            projectileController.ghostPrefab = CreateGhostPrefab("ShadesWhirlind");
+            projectileController.ghostPrefab = shadesGhostPrefab;
             projectileController.startSound = "";
 
             ProjectileOverlapAttack overlapAttack = shadesWhirlPrefab.GetComponent<ProjectileOverlapAttack>();
@@ -126,8 +131,34 @@ namespace TTGL_Survivor.Modules
             hitbox.transform.localScale = new Vector3(8.0f, 3.0f, 8.0f);
 
             TTGL_SurvivorPlugin.DestroyImmediate(boomerangProjectile);
-
         }
+
+        private static void CreateGurrenLagannSpecialProjectile()
+        {
+            gigaDrillProjectilePrefab = CloneProjectilePrefab("Sawmerang", "GurrenLagannSpecialProjectile");
+            ProjectileController projectileController = gigaDrillProjectilePrefab.GetComponent<ProjectileController>();
+            projectileController.ghostPrefab = shadesGhostPrefab;
+            projectileController.startSound = "";
+
+            ProjectileOverlapAttack overlapAttack = gigaDrillProjectilePrefab.GetComponent<ProjectileOverlapAttack>();
+            overlapAttack.damageCoefficient = 1.0f;
+
+            BoomerangProjectile boomerangProjectile = gigaDrillProjectilePrefab.GetComponent<BoomerangProjectile>();
+            GurrenLagannShadesProjectile gurrenLagannShadesProjectile = gigaDrillProjectilePrefab.AddComponent<GurrenLagannShadesProjectile>();
+            gurrenLagannShadesProjectile.canHitWorld = true;
+            gurrenLagannShadesProjectile.crosshairPrefab = boomerangProjectile.crosshairPrefab;
+            gurrenLagannShadesProjectile.impactSpark = boomerangProjectile.impactSpark;
+            gurrenLagannShadesProjectile.canConstrict = true;
+
+            var collider = gigaDrillProjectilePrefab.GetComponent<BoxCollider>();
+            collider.size = new Vector3(6.0f, 1.0f, 6.0f);
+
+            var hitbox = gigaDrillProjectilePrefab.GetComponentInChildren<HitBox>();
+            hitbox.transform.localScale = new Vector3(8.0f, 3.0f, 8.0f);
+
+            TTGL_SurvivorPlugin.DestroyImmediate(boomerangProjectile);
+        }
+
         private static void CreateBigBoulder()
         {
             bigBoulderPrefab = CloneProjectilePrefab("CommandoGrenadeProjectile", "GurrenBigBoulderProjectile");
@@ -192,7 +223,12 @@ namespace TTGL_Survivor.Modules
 
         private static GameObject CloneProjectilePrefab(string prefabName, string newPrefabName)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Projectiles/" + prefabName), newPrefabName);
+            var prefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Projectiles/" + prefabName);
+            if (prefab == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs / Projectiles / " + prefabName);
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(prefab, newPrefabName);
             return newPrefab;
         }
     }

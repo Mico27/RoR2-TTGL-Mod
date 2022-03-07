@@ -49,7 +49,7 @@ namespace TTGL_Survivor.Modules
             }))
             {
                 TTGL_SurvivorPlugin.instance.Logger.LogMessage("Added Gurren On Level");
-                self.directorCore.TrySpawnObject(new DirectorSpawnRequest(gurrenInteractSpawnCard, new DirectorPlacementRule
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(gurrenInteractSpawnCard, new DirectorPlacementRule
                 {
                     placementMode = DirectorPlacementRule.PlacementMode.Random
                 }, self.rng));
@@ -94,7 +94,10 @@ namespace TTGL_Survivor.Modules
             gurrenInteractSpawnCard.orientToFloor = true;
             gurrenInteractSpawnCard.slightlyRandomizeOrientation = false;
             gurrenInteractSpawnCard.skipSpawnWhenSacrificeArtifactEnabled = false;
-
+            if (gurrenInteractPrefab == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load GurrenInteractPrefab");
+            }
             PrefabAPI.RegisterNetworkPrefab(gurrenInteractPrefab);
             //TTGL_SurvivorPlugin.networkPrefabs.Add(gurrenInteractPrefab);
         }
@@ -102,7 +105,7 @@ namespace TTGL_Survivor.Modules
         private static GameObject CreateGurrenAIMaster()
         {
             return Gurren.allyPrefab;
-            //return Resources.Load<GameObject>("Prefabs/CharacterMasters/MegaDroneMaster");
+            //return LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/MegaDroneMaster");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TTGL_Survivor.SkillStates
         public static float force = 800f;
         public static float recoil = 3f;
         public static float range = 256f;
-       // public static GameObject tracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
+        // public static GameObject tracerEffectPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
 
         private float duration;
         private string muzzleString;
@@ -98,9 +98,9 @@ namespace TTGL_Survivor.SkillStates
             };
             if (maxRicochetCount > 0 && bulletAttack.isCrit)
             {
-                bulletAttack.hitCallback = delegate (ref BulletAttack.BulletHit hitInfo)
+                bulletAttack.hitCallback = delegate (BulletAttack attack, ref BulletAttack.BulletHit hitInfo)
                 {
-                    var result = bulletAttack.DefaultHitCallback(ref hitInfo);
+                    var result = BulletAttack.defaultHitCallback(attack, ref hitInfo);
                     if (hitInfo.hitHurtBox)
                     {
                         hitPoint = hitInfo.point;
@@ -110,9 +110,9 @@ namespace TTGL_Survivor.SkillStates
                     return result;
                 };
             }
-            bulletAttack.filterCallback = delegate (ref BulletAttack.BulletHit info)
+            bulletAttack.filterCallback = delegate (BulletAttack attack, ref BulletAttack.BulletHit info)
             {
-                return (!info.entityObject || info.entityObject != bulletAttack.owner) && bulletAttack.DefaultFilterCallback(ref info);
+                return (!info.entityObject || info.entityObject != bulletAttack.owner) && BulletAttack.defaultFilterCallback(attack, ref info);
             };
             bulletAttack.Fire();
             if (hitHealthComponent != null)

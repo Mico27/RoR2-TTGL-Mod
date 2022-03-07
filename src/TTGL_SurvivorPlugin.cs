@@ -30,7 +30,7 @@ namespace TTGL_Survivor
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Mico27.RideMeExtended", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
+    //[BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.DrBibop.VRAPI", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]    
@@ -41,7 +41,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.3.4";
+            MODVERSION = "0.4.0";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -163,7 +163,7 @@ namespace TTGL_Survivor
             if (obj && obj.targetBodyObject && m_SpiralPowerGauge)
             {
                 var spiralEnergy = obj.targetBodyObject.GetComponent<SpiralEnergyComponent>();
-                if (spiralEnergy)
+                if (spiralEnergy != null)
                 {
                     m_SpiralPowerGauge.gameObject.SetActive(true);
                     m_SpiralPowerGauge.source = spiralEnergy;
@@ -228,8 +228,8 @@ namespace TTGL_Survivor
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void AddBetterUI()
         {
-            //BetterUI.StatsDisplay.AddStatsDisplay("$spiralrate", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerRate);
-            //BetterUI.StatsDisplay.AddStatsDisplay("$spiralamount", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerAmount);
+            BetterUI.StatsDisplay.AddStatsDisplay("$spiralrate", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerRate);
+            BetterUI.StatsDisplay.AddStatsDisplay("$spiralamount", (BetterUI.StatsDisplay.DisplayCallback)GetSpiralPowerAmount);
             BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerBuff, developerPrefix + "_MAXSPIRALPOWER_BUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_BUFF_DESCRIPTION");
             BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerDeBuff, developerPrefix + "_MAXSPIRALPOWER_DEBUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_DEBUFF_DESCRIPTION");
             BetterUI.Buffs.RegisterBuffInfo(Buffs.canopyBuff, developerPrefix + "_CANOPY_BUFF_NAME", developerPrefix + "_CANOPY_BUFF_DESCRIPTION");
@@ -239,7 +239,7 @@ namespace TTGL_Survivor
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void AddSkillPlus()
         {
-            SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();            
+            //SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();            
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -275,7 +275,7 @@ namespace TTGL_Survivor
         {
             string value = null;
             var spiralEnergy = body.GetComponent<SpiralEnergyComponent>();
-            if (spiralEnergy)
+            if (spiralEnergy != null)
             {
                 return (spiralEnergy.charge_rate * SpiralEnergyComponent.C_SPIRALENERGYCAP).ToString("0.##");
             }
@@ -286,7 +286,7 @@ namespace TTGL_Survivor
         {
             string value = null;
             var spiralEnergy = body.GetComponent<SpiralEnergyComponent>();
-            if (spiralEnergy)
+            if (spiralEnergy != null)
             {
                 return spiralEnergy.energy.ToString("0.##");
             }

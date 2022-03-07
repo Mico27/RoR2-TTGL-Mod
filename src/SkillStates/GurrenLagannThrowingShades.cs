@@ -3,6 +3,7 @@ using EntityStates.Huntress.HuntressWeapon;
 using RoR2;
 using UnityEngine;
 using RoR2.Projectile;
+using TTGL_Survivor.Modules;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -54,7 +55,10 @@ namespace TTGL_Survivor.SkillStates
                 if (base.isAuthority)
                 {
                     Ray aimRay = base.GetAimRay();
-                    ProjectileManager.instance.FireProjectile(TTGL_Survivor.Modules.Projectiles.shadesWhirlPrefab,
+                    GameObject prefab = (Config.useLegacyGigaDrillBreak) ?
+                        TTGL_Survivor.Modules.Projectiles.gigaDrillProjectilePrefab :
+                        TTGL_Survivor.Modules.Projectiles.shadesWhirlPrefab;
+                    ProjectileManager.instance.FireProjectile(prefab,
                         aimRay.origin,
                         Util.QuaternionSafeLookRotation(aimRay.direction),
                         base.gameObject,

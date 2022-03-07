@@ -15,6 +15,7 @@ namespace TTGL_Survivor.Modules.Components
         private bool hadFullSpiralPowerBuff;
         private CharacterBody currentGigaDrillBreakerTarget;
         private GenericSkill secondarySkill;
+        private GenericSkill specialSkill;
         private SkillLocator skillLocator;
         private bool hadGigaDrillBreakPrerequisite;
         internal EntityStateMachine gigaDrillBreakTarget;
@@ -28,6 +29,7 @@ namespace TTGL_Survivor.Modules.Components
             if (this.skillLocator)
             {
                 this.secondarySkill = this.skillLocator.secondary;
+                this.specialSkill = this.skillLocator.special;                
             }
         }
 
@@ -77,17 +79,37 @@ namespace TTGL_Survivor.Modules.Components
             if (gigaDrillBreakTarget && !hadGigaDrillBreakPrerequisite)
             {
                 hadGigaDrillBreakPrerequisite = true;
-                if (this.secondarySkill)
+                if (Config.useLegacyGigaDrillBreak)
                 {
-                    this.secondarySkill.SetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                    if (this.secondarySkill)
+                    {
+                        this.secondarySkill.SetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                    }
+                }
+                else
+                {
+                    if (this.specialSkill)
+                    {
+                        this.specialSkill.SetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                    }
                 }
             }
             else if (!gigaDrillBreakTarget && hadGigaDrillBreakPrerequisite)
             {
                 hadGigaDrillBreakPrerequisite = false;
-                if (this.secondarySkill)
+                if (Config.useLegacyGigaDrillBreak)
                 {
-                    this.secondarySkill.UnsetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                    if (this.secondarySkill)
+                    {
+                        this.secondarySkill.UnsetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                    }
+                }
+                else
+                {
+                    if (this.specialSkill)
+                    {
+                        this.specialSkill.UnsetSkillOverride("GigaDrillBreak", GurrenLagann.gigaDrillBreakerSkillDef, GenericSkill.SkillOverridePriority.Contextual);
+                    }
                 }
             }
         }

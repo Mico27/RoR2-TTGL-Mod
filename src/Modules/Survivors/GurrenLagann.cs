@@ -82,7 +82,12 @@ namespace TTGL_Survivor.Modules.Survivors
 
         protected override GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
+            var commandoBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+            if (commandoBody == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterBodies/CommandoBody");
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(commandoBody, modelName);
 
             GameObject model = CreateModel(newPrefab, modelName);
 
@@ -95,7 +100,12 @@ namespace TTGL_Survivor.Modules.Survivors
 
         protected override GameObject CreatePrefab(string bodyName, string modelName)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
+            var commandoBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+            if (commandoBody == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterBodies/CommandoBody");
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(commandoBody, bodyName);
 
             GameObject model = CreateModel(newPrefab, modelName);
             Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
@@ -139,7 +149,6 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_SUBTITLE";
             bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenLagannIcon");
-            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
@@ -181,7 +190,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
             bodyComponent.hullClassification = HullClassification.Human;
 
-            bodyComponent.preferredPodPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
+            bodyComponent.preferredPodPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
 
             bodyComponent.isChampion = false;
         }
@@ -230,16 +239,14 @@ namespace TTGL_Survivor.Modules.Survivors
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
             cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
-            cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;
-            cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
             var cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
-            cameraParams.maxPitch = cameraTargetParams.cameraParams.maxPitch;
-            cameraParams.minPitch = cameraTargetParams.cameraParams.minPitch;
-            cameraParams.pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset;
-            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 3;
-            cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
+            cameraParams.data.maxPitch = cameraTargetParams.cameraParams.data.maxPitch;
+            cameraParams.data.minPitch = cameraTargetParams.cameraParams.data.minPitch;
+            cameraParams.data.pivotVerticalOffset = cameraTargetParams.cameraParams.data.pivotVerticalOffset;
+            cameraParams.data.idealLocalCameraPos = cameraTargetParams.cameraParams.data.idealLocalCameraPos.value * 3;
+            cameraParams.data.wallCushion = cameraTargetParams.cameraParams.data.wallCushion;
             cameraTargetParams.cameraParams = cameraParams;
         }
         protected override void SetupRigidbody(GameObject prefab)
@@ -312,7 +319,7 @@ namespace TTGL_Survivor.Modules.Survivors
         private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
-            Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
+            //Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -453,6 +460,32 @@ namespace TTGL_Survivor.Modules.Survivors
             TTGL_SurvivorPlugin.skillDefs.Add(gigaDrillMaximumSkillDef);
             Modules.Skills.AddSpecialSkill(characterPrefab, gigaDrillMaximumSkillDef);
 
+            if (!Config.useLegacyGigaDrillBreak)
+            {
+                SkillDef initGigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+                initGigaDrillBreakerSkillDef.skillName = "GurrenLagannGigaDrillBreakInit";
+                initGigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
+                initGigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
+                initGigaDrillBreakerSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GigaDrillBreakIcon");
+                initGigaDrillBreakerSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(GurrenLagannInitGigaDrillBreak));
+                initGigaDrillBreakerSkillDef.activationStateMachineName = "Weapon";
+                initGigaDrillBreakerSkillDef.baseMaxStock = 1;
+                initGigaDrillBreakerSkillDef.baseRechargeInterval = 16f;
+                initGigaDrillBreakerSkillDef.beginSkillCooldownOnSkillEnd = false;
+                initGigaDrillBreakerSkillDef.canceledFromSprinting = false;
+                initGigaDrillBreakerSkillDef.forceSprintDuringState = false;
+                initGigaDrillBreakerSkillDef.fullRestockOnAssign = true;
+                initGigaDrillBreakerSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
+                initGigaDrillBreakerSkillDef.isCombatSkill = true;
+                initGigaDrillBreakerSkillDef.mustKeyPress = false;
+                initGigaDrillBreakerSkillDef.cancelSprintingOnActivation = false;
+                initGigaDrillBreakerSkillDef.rechargeStock = 1;
+                initGigaDrillBreakerSkillDef.requiredStock = 1;
+                initGigaDrillBreakerSkillDef.stockToConsume = 1;
+                initGigaDrillBreakerSkillDef.keywordTokens = new string[] { "KEYWORD_BOSSONLY" };
+                TTGL_SurvivorPlugin.skillDefs.Add(initGigaDrillBreakerSkillDef);
+                Modules.Skills.AddSpecialSkill(characterPrefab, initGigaDrillBreakerSkillDef);
+            }
             gigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
             gigaDrillBreakerSkillDef.skillName = "GurrenLagannGigaDrillBreak";
             gigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
@@ -473,6 +506,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillBreakerSkillDef.rechargeStock = 1;
             gigaDrillBreakerSkillDef.requiredStock = 1;
             gigaDrillBreakerSkillDef.stockToConsume = 1;
+            gigaDrillBreakerSkillDef.keywordTokens = new string[] { "KEYWORD_BOSSONLY" };
             TTGL_SurvivorPlugin.skillDefs.Add(gigaDrillBreakerSkillDef);
 
             #endregion
@@ -499,8 +533,8 @@ namespace TTGL_Survivor.Modules.Survivors
             gurrenLagannSplitSkillDef.requiredStock = 1;
             gurrenLagannSplitSkillDef.stockToConsume = 1;
             TTGL_SurvivorPlugin.skillDefs.Add(gurrenLagannSplitSkillDef);
-            Modules.Skills.AddFirstExtraSkill(characterPrefab, gurrenLagannSplitSkillDef);
-
+            //Modules.Skills.AddFirstExtraSkill(characterPrefab, gurrenLagannSplitSkillDef);
+            Modules.Skills.AddUtilitySkill(characterPrefab, gurrenLagannSplitSkillDef);
             #endregion
         }
 
@@ -2105,27 +2139,6 @@ localScale = new Vector3(2F, 2F, 2F),
 
                 itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    keyAsset = RoR2Content.Items.CooldownOnCrit,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplaySkull"),
-childName = "Head",
-localPos = new Vector3(0.85741F, 0.40012F, 0.00001F),
-localAngles = new Vector3(270F, 90F, 0F),
-localScale = new Vector3(1.5F, 1.5F, 1.5F),
-                            limbMask = LimbFlags.None
-                        }
-                        }
-                    }
-                });
-
-                itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
                     keyAsset = RoR2Content.Items.Phasing,
                     displayRuleGroup = new DisplayRuleGroup
                     {
@@ -2485,27 +2498,6 @@ childName = "Head",
 localPos = new Vector3(0.00003F, 4.38936F, 0F),
 localAngles = new Vector3(0F, 0F, 0F),
 localScale = new Vector3(0.1F, 0.1F, 0.1F),
-                            limbMask = LimbFlags.None
-                        }
-                        }
-                    }
-                });
-
-                itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
-                    keyAsset = RoR2Content.Items.Incubator,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayAncestralIncubator"),
-childName = "LeftUpperArm",
-localPos = new Vector3(0.00014F, -0.77839F, 0.00009F),
-localAngles = new Vector3(0F, 309.4523F, 0F),
-localScale = new Vector3(0.55F, 0.5F, 0.55F),
                             limbMask = LimbFlags.None
                         }
                         }

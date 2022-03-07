@@ -19,7 +19,7 @@ namespace TTGL_Survivor.SkillStates
         public static float baseDuration = 0.6f;
         public static float throwForce = 200f;
         public static float recoil = 3f;
-        // public static GameObject tracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
+        // public static GameObject tracerEffectPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
 
         public float charge = 1f;
         private float duration;

@@ -40,7 +40,6 @@ namespace TTGL_Survivor.Modules
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_SUBTITLE";
             bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("LagannIcon");
-            bodyComponent.crosshairPrefab = Resources.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
@@ -82,7 +81,7 @@ namespace TTGL_Survivor.Modules
             bodyComponent.aimOriginTransform = modelBaseTransform.Find("AimOrigin");
             bodyComponent.hullClassification = HullClassification.Human;
 
-            bodyComponent.preferredPodPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
+            bodyComponent.preferredPodPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod");
 
             bodyComponent.isChampion = false;
         }
@@ -177,9 +176,8 @@ namespace TTGL_Survivor.Modules
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
             cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
-            cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
+            cameraTargetParams.RequestAimType(CameraTargetParams.AimType.Standard);
             cameraTargetParams.recoil = Vector2.zero;
-            cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
         }
 
@@ -210,7 +208,7 @@ namespace TTGL_Survivor.Modules
             var footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.enableFootstepDust = true;
             footstepHandler.baseFootstepString = "Play_player_footstep";
-            footstepHandler.footstepDustPrefab = Resources.Load<GameObject>("Prefabs/GenericFootstepDust");
+            footstepHandler.footstepDustPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/GenericFootstepDust");
         }
 
         protected virtual void SetupRagdoll(GameObject model)
@@ -219,7 +217,7 @@ namespace TTGL_Survivor.Modules
 
             if (!ragdollController) return;
 
-            if (ragdollMaterial == null) ragdollMaterial = Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
+            if (ragdollMaterial == null) ragdollMaterial = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
 
             foreach (Transform i in ragdollController.bones)
             {
@@ -272,7 +270,12 @@ namespace TTGL_Survivor.Modules
 
         protected virtual void CreateGenericDoppelganger(GameObject bodyPrefab, string masterName, string masterToCopy)
         {
-            GameObject gameObject = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster"), masterName);
+            var prefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster");
+            if (prefab == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterMasters/" + masterToCopy + "MonsterMaster");
+            }
+            GameObject gameObject = PrefabAPI.InstantiateClone(prefab, masterName);
             gameObject.GetComponent<CharacterMaster>().bodyPrefab = bodyPrefab;
             TTGL_SurvivorPlugin.masterPrefabs.Add(gameObject);
         }

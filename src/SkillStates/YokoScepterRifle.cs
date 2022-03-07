@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TTGL_Survivor.Orbs;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RoR2.BulletAttack;
 
 namespace TTGL_Survivor.SkillStates
 {
@@ -98,9 +99,9 @@ namespace TTGL_Survivor.SkillStates
             };
             if (maxRicochetCount > 0 && bulletAttack.isCrit)
             {
-                bulletAttack.hitCallback = delegate (ref BulletAttack.BulletHit hitInfo)
+                bulletAttack.hitCallback = delegate (BulletAttack bulletAttackRef, ref BulletHit hitInfo)
                 {
-                    var result = bulletAttack.DefaultHitCallback(ref hitInfo);
+                    var result = BulletAttack.defaultHitCallback(bulletAttackRef, ref hitInfo);
                     hasHit = true;
                     hitPoint = hitInfo.point;
                     hitDistance = hitInfo.distance;
@@ -111,9 +112,9 @@ namespace TTGL_Survivor.SkillStates
                     return result;
                 };
             }
-            bulletAttack.filterCallback = delegate (ref BulletAttack.BulletHit info)
+            bulletAttack.filterCallback = delegate (BulletAttack bulletAttackRef, ref BulletAttack.BulletHit info)
             {
-                return (!info.entityObject || info.entityObject != bulletAttack.owner) && bulletAttack.DefaultFilterCallback(ref info);
+                return (!info.entityObject || info.entityObject != bulletAttack.owner) && BulletAttack.defaultFilterCallback(bulletAttackRef, ref info);
             };
             bulletAttack.Fire();
             if (hasHit)

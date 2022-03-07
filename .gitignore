@@ -11,3 +11,9 @@ Unity/Assembly-CSharp-Editor.csproj
 Unity/ror2_TTGL_survivor.sln
 Unity/.vs/
 src/.vs/
+/src/bin
+/src/obj
+/src/libs
+/src/NetworkWeaver
+/src/TTGLSoundbank.bnk
+/src/ttglsurvivorbundle

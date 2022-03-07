@@ -39,7 +39,7 @@ namespace TTGL_Survivor.Modules
         internal static NetworkSoundEventDef gigaDrillBreakSoundEvent;
 
         // cache these and use to create our own materials
-        public static Shader hotpoo = Resources.Load<Shader>("Shaders/Deferred/HGStandard");
+        public static Shader hotpoo = LegacyResourcesAPI.Load<Shader>("Shaders/Deferred/HGStandard");
         public static Material commandoMat;
 
         internal static void PopulateAssets()
@@ -51,7 +51,7 @@ namespace TTGL_Survivor.Modules
                     mainAssetBundle = AssetBundle.LoadFromStream(assetStream);                    
                 }
             }
-                        
+                      
             using (Stream manifestResourceStream3 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.TTGLSoundbank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream3.Length];
@@ -59,6 +59,7 @@ namespace TTGL_Survivor.Modules
                 SoundAPI.SoundBanks.Add(array);
                 //MusicTrackOverride
             }
+
             fullBuffPlaySoundEvent = CreateNetworkSoundEventDef("TTGLFullBuffPlay");
             genericHitSoundEvent = CreateNetworkSoundEventDef("TTGLGenericHit");
             lagannImpactFireSoundEvent = CreateNetworkSoundEventDef("TTGLLagannImpactFire");
@@ -70,7 +71,12 @@ namespace TTGL_Survivor.Modules
             tokoRifleCritSoundEvent = CreateNetworkSoundEventDef("TTGLTokoRifleCrit");
             gigaDrillBreakSoundEvent = CreateNetworkSoundEventDef("TTGLGigaDrillBreak");
 
-            punchImpactEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniImpactVFXLoader"), "TTGLImpactPunch");
+            var omniImpactVFXLoader = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/OmniEffect/OmniImpactVFXLoader");
+            if (omniImpactVFXLoader == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/Effects/OmniEffect/OmniImpactVFXLoader");
+            }
+            punchImpactEffect = PrefabAPI.InstantiateClone(omniImpactVFXLoader, "TTGLImpactPunch");
             punchImpactEffect.AddComponent<NetworkIdentity>();
 
             TTGL_SurvivorPlugin.effectDefs.Add(new EffectDef()
@@ -81,8 +87,12 @@ namespace TTGL_Survivor.Modules
                 prefabName = punchImpactEffect.name,
                 spawnSoundEventName = punchImpactEffect.GetComponent<EffectComponent>().soundName
             });
-
-            yokoRifleBeamEffect = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerHuntressSnipe"), "TTGLYokoRifleBeamEffect");
+            var tracerHuntressSnipe = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerHuntressSnipe");
+            if (tracerHuntressSnipe == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/Effects/Tracers/TracerHuntressSnipe");
+            } 
+            yokoRifleBeamEffect = PrefabAPI.InstantiateClone(tracerHuntressSnipe, "TTGLYokoRifleBeamEffect");
             yokoRifleBeamEffect.AddComponent<NetworkIdentity>();
             yokoRifleBeamEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
             TTGL_SurvivorPlugin.effectDefs.Add(new EffectDef()

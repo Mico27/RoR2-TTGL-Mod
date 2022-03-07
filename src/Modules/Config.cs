@@ -29,8 +29,12 @@ namespace TTGL_Survivor.Modules
 
         public static bool trackVRCameraToHeadPosition;
 
+        public static bool useLegacyGigaDrillBreak;
+
         public static void ReadConfig()
         {
+            useLegacyGigaDrillBreak = Modules.Config.GetSetConfig("Gurren Lagann", "Legacy Giga Drill Break", false, "Allows the old way to use giga drill break on Gurren Lagann's secondary").Value;
+
             lagannItemDisplayEnabled = Modules.Config.GetSetConfig("Item display", "Lagann", true, "Display Items on Lagann").Value;
             gurrenItemDisplayEnabled = Modules.Config.GetSetConfig("Item display", "Gurren", true, "Display Items on Gurren").Value;
             gurrenLaganItemDisplayEnabled = Modules.Config.GetSetConfig("Item display", "Gurren Lagann", true, "Display Items on Gurren Lagann").Value;

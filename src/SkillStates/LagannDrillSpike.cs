@@ -55,10 +55,7 @@ namespace TTGL_Survivor.SkillStates
             }
             else
             {
-                if (NetworkServer.active)
-                {
-                    base.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-                }
+                base.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
                 falling = true;
                 fell = true;
                 //Slam Down Raycast
@@ -125,10 +122,7 @@ namespace TTGL_Survivor.SkillStates
             this.FireAttack();
             if (fell)
             {
-                if (NetworkServer.active)
-                {
-                    base.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
-                }
+                base.characterBody.bodyFlags &= ~CharacterBody.BodyFlags.IgnoreFallDamage;
                 if (base.isAuthority)
                 {
                     base.characterMotor.onMovementHit -= this.OnMovementHit;
@@ -183,7 +177,7 @@ namespace TTGL_Survivor.SkillStates
                     procCoefficient = GroundSlam.blastProcCoefficient,
                     radius = this.bonusMultiplier * 5f,
                     position = origin,
-                    attackerFiltering = AttackerFiltering.NeverHit,
+                    attackerFiltering = AttackerFiltering.NeverHitSelf,
                     impactEffect = EffectCatalog.FindEffectIndexFromPrefab(GroundSlam.blastImpactEffectPrefab),
                     teamIndex = base.teamComponent.teamIndex
                 }.Fire();
@@ -242,7 +236,7 @@ namespace TTGL_Survivor.SkillStates
                     procCoefficient = GroundSlam.blastProcCoefficient,
                     radius = this.bonusMultiplier * 5f,
                     position = footPosition,
-                    attackerFiltering = AttackerFiltering.NeverHit,
+                    attackerFiltering = AttackerFiltering.NeverHitSelf,
                     impactEffect = EffectCatalog.FindEffectIndexFromPrefab(GroundSlam.blastImpactEffectPrefab),
                     teamIndex = base.teamComponent.teamIndex
                 }.Fire();

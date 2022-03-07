@@ -78,7 +78,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_LAGANN_BODY_SPECIAL_BURROWER_DESCRIPTION", $"Lagann goes into drill mode and burrows into the ground to then pop out at an aimed location dealing <style=cIsDamage>3 x {100f * SkillStates.LagannBurrowerStrike.damageCoefficient}% damage</style> in its path.<style=cIsUtility>Lagann cannot be hit while burrowed.</style>");
 
             LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_NAME", "Brotherly Combining! Gurren Lagann!");
-            LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION", $"Combine into Gurren Lagann! Requires <style=cIsUtility>at least 1 spiral gauge</style> and <style=cIsUtility>Gurren must be in the party</style>.");
+            LanguageAPI.Add(prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION", $"Combine into Gurren Lagann! Requires <style=cIsUtility>at least 1 spiral gauge</style> and <style=cIsUtility>Gurren must have been found on a stage</style>.");
             
             //Gurren
             string gurrenDesc = "Gurren (グレン), a modified Gunzar, is a Gunmen captured and piloted by Kamina.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
@@ -160,6 +160,9 @@ namespace TTGL_Survivor.Modules
             
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME", "Giga Drill Maximum");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION", $"Gurren Lagann expands numerous drills from its body, dealing <style=cIsDamage>{100f * SkillStates.GurrenLagannGigaDrillMaximum.c_DamageCoefficient}% damage</style> in a large radius,<style=cIsUtility> stunning enemies.</style> Costs <style=cIsUtility>half a spiral gauge.</style>");
+
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME", "Giga Drill Break");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION", $"Gurren Lagann throws his shades like a boomerang. Upon binding a boss, press again to pierce the boss dealing <style=cIsDamage>{100f * SkillStates.GurrenLagannGigaDrillBreak.damageCoefficient}% damage.</style> <style=cIsUtility>Consumes all spiral energy and reverts to Lagann upon use.</style> Can only bind bosses.");
 
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPLIT_NAME", "Emergency Extraction");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION", $"Splits back into Gurren and Lagann, taking back control of Lagann. Doing so depletes all your spiral energy.");
@@ -259,6 +262,9 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add("GURRENLAGANNSPLIT_UPGRADE_DESCRIPTION",
                 "Increase spiral energy that can be carried over by 10% every level (Exponential)" + Environment.NewLine +
                 "Level cap: 25");
+
+            //Keywords
+            LanguageAPI.Add("KEYWORD_BOSSONLY", "<style=cKeywordName>Boss only</style><style=cSub>Only affect bosses.</style>");
 
         }
     }

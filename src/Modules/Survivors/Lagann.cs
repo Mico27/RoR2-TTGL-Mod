@@ -1,6 +1,6 @@
 ﻿using BepInEx.Configuration;
 using EntityStates;
-using ExtraSkillSlots;
+using HG.BlendableTypes;
 using R2API;
 using RoR2;
 using RoR2.Skills;
@@ -101,7 +101,12 @@ namespace TTGL_Survivor.Modules.Survivors
 
         protected override GameObject CreateDisplayPrefab(string modelName, GameObject prefab)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), modelName);
+            var commandoBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+            if (commandoBody == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterBodies/CommandoBody");
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(commandoBody, modelName);
 
             GameObject model = CreateModel(newPrefab, modelName);
 
@@ -114,7 +119,12 @@ namespace TTGL_Survivor.Modules.Survivors
 
         protected override GameObject CreatePrefab(string bodyName, string modelName)
         {
-            GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), bodyName);
+            var commandoBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody");
+            if (commandoBody == null)
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/CharacterBodies/CommandoBody");
+            }
+            GameObject newPrefab = PrefabAPI.InstantiateClone(commandoBody, bodyName);
 
             GameObject model = CreateModel(newPrefab, modelName);
             Transform modelBaseTransform = SetupModel(newPrefab, model.transform, false);
@@ -196,16 +206,14 @@ namespace TTGL_Survivor.Modules.Survivors
         {
             CameraTargetParams cameraTargetParams = prefab.GetComponent<CameraTargetParams>();
             cameraTargetParams.cameraPivotTransform = prefab.transform.Find("ModelBase").Find("CameraPivot");
-            cameraTargetParams.aimMode = CameraTargetParams.AimType.Standard;
             cameraTargetParams.recoil = Vector2.zero;
-            cameraTargetParams.idealLocalCameraPos = Vector3.zero;
             cameraTargetParams.dontRaycastToPivot = false;
             var cameraParams = ScriptableObject.CreateInstance<CharacterCameraParams>();
-            cameraParams.maxPitch = cameraTargetParams.cameraParams.maxPitch;
-            cameraParams.minPitch = cameraTargetParams.cameraParams.minPitch;
-            cameraParams.pivotVerticalOffset = cameraTargetParams.cameraParams.pivotVerticalOffset;
-            cameraParams.standardLocalCameraPos = cameraTargetParams.cameraParams.standardLocalCameraPos * 1.2f;
-            cameraParams.wallCushion = cameraTargetParams.cameraParams.wallCushion;
+            cameraParams.data.maxPitch = cameraTargetParams.cameraParams.data.maxPitch;
+            cameraParams.data.minPitch = cameraTargetParams.cameraParams.data.minPitch;
+            cameraParams.data.pivotVerticalOffset = cameraTargetParams.cameraParams.data.pivotVerticalOffset;
+            cameraParams.data.idealLocalCameraPos = cameraTargetParams.cameraParams.data.idealLocalCameraPos.value * 1.2f;
+            cameraParams.data.wallCushion = cameraTargetParams.cameraParams.data.wallCushion;
             cameraTargetParams.cameraParams = cameraParams;
         }
 
@@ -259,7 +267,7 @@ namespace TTGL_Survivor.Modules.Survivors
         private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
-            Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
+            //Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -549,7 +557,9 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannCombineSkillDef.requiredStock = 1;
             lagannCombineSkillDef.stockToConsume = 1;
             TTGL_SurvivorPlugin.skillDefs.Add(lagannCombineSkillDef);
-            Modules.Skills.AddFirstExtraSkill(characterPrefab, lagannCombineSkillDef);
+            //Modules.Skills.AddFirstExtraSkill(characterPrefab, lagannCombineSkillDef);
+            Modules.Skills.AddUtilitySkill(characterPrefab, lagannCombineSkillDef);
+            Modules.Skills.AddSpecialSkill(characterPrefab, lagannCombineSkillDef);
 
             #endregion
         }
@@ -2210,27 +2220,6 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F),
 
                 itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    keyAsset = RoR2Content.Items.CooldownOnCrit,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplaySkull"),
-childName = "Simon_Head",
-localPos = new Vector3(0F, 0.14044F, 0.05451F),
-localAngles = new Vector3(281.4445F, 179.4497F, 175.5473F),
-localScale = new Vector3(0.2F, 0.3F, 0.3F),
-                            limbMask = LimbFlags.None
-                        }
-                        }
-                    }
-                });
-
-                itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
                     keyAsset = RoR2Content.Items.Phasing,
                     displayRuleGroup = new DisplayRuleGroup
                     {
@@ -2590,27 +2579,6 @@ childName = "Head",
 localPos = new Vector3(0F, 2.81473F, 0F),
 localAngles = new Vector3(0F, 0F, 0F),
 localScale = new Vector3(0.1F, 0.1F, 0.1F),
-                            limbMask = LimbFlags.None
-                        }
-                        }
-                    }
-                });
-
-                itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
-                    keyAsset = RoR2Content.Items.Incubator,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                        {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = ItemDisplays.LoadDisplay("DisplayAncestralIncubator"),
-childName = "Right_Upper_Arm",
-localPos = new Vector3(0F, 0.4709F, 0.03725F),
-localAngles = new Vector3(90F, 0F, 0F),
-localScale = new Vector3(0.08F, 0.08F, 0.08F),
                             limbMask = LimbFlags.None
                         }
                         }
@@ -3302,8 +3270,8 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
 
             TTGL_SurvivorPlugin.skillDefs.Add(scepterSkillDef);
 
-            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
-            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 1);
+            //AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
+            //AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 1);
         }
     }
 }

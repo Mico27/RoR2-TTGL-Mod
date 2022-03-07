@@ -131,7 +131,7 @@ namespace RoR2.Projectile
 
         private void StunLockBoss()
         {
-            if (!hasHitBoss)
+            if (canConstrict && !hasHitBoss)
             {
                 HitBox[] hitBoxes = this.hitBoxGroup.hitBoxes;
                 foreach (HitBox hitBox in hitBoxes)
@@ -146,6 +146,7 @@ namespace RoR2.Projectile
                         HurtBox component = collider.GetComponent<HurtBox>();
                         if (component && component.healthComponent &&
                             component.healthComponent.body &&
+                            component.healthComponent.body.teamComponent != null &&
                             component.healthComponent.body.isBoss)
                         {
                             hasHitBoss = true;                           
@@ -246,6 +247,8 @@ namespace RoR2.Projectile
                 this.boomerangState = reader.ReadInt32();
             }
         }
+
+        public bool canConstrict = false;
         
         public float travelSpeed = 40f;
         

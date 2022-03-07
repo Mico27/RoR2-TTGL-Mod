@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{0004CC69-0E32-492A-A79C-EAA833BD63F6}" SchemaVersion="89">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{0004CC69-0E32-492A-A79C-EAA833BD63F6}" PersistMode="Standalone">
+			<ChildrenList>
+				<ActorMixer Name="Master Mixer" ID="{6057640D-6486-4420-8C11-9367DAC8E551}" ShortID="697211740">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<ActorMixer Name="SFX Mixer" ID="{A343C4FB-2FE2-40AF-9801-2E2C50F9FA7B}" ShortID="900795716">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{178CCFD2-C8EA-4AA0-94BA-9193843C0493}" ShortID="41063223">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="Volume_SFX" ID="{462BB8D9-31B5-4206-AF6E-3D311E7ED198}" WorkUnitID="{3B50D252-5692-46C7-A8E5-56C4FF20002D}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{38BB52B1-34D1-4D14-9137-5611D31CCD5F}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TTGLLagannDrill" ID="{915210F9-FD11-47E1-AD7A-5CB66D35D75A}" ShortID="302644046">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="Highpass" Type="int16">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{B8ACBBBB-16F7-484D-9E19-E8C8E0EC7D7C}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="10"/>
+															<Property Name="Min" Type="Real64" Value="-10"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{2EB388D6-8D0F-4C29-A3F8-4937BA0AE113}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="10"/>
+															<Property Name="Min" Type="Real64" Value="-10"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{10FA8DF2-1875-484E-99CC-10C8E2334A60}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="100"/>
+															<Property Name="Min" Type="Real64" Value="-100"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="TTGLDefaultAttenuation" ID="{47043587-54BF-4356-B969-FD443D494819}" WorkUnitID="{CF457AB7-43B0-4EAE-8188-17A7D48E6479}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TTGLLagannDrill4" ID="{14BE3105-E844-4ADE-87C4-F9990D9C75B1}" ShortID="111320466">
+											<Language>SFX</Language>
+											<AudioFile>TTGLLagannDrill4.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TTGLLagannDrill4" ID="{14BE3105-E844-4ADE-87C4-F9990D9C75B1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TTGLHit" ID="{51B503CC-1C94-49FD-9859-016592F4F585}" ShortID="253991685">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="TTGLDefaultAttenuation" ID="{47043587-54BF-4356-B969-FD443D494819}" WorkUnitID="{CF457AB7-43B0-4EAE-8188-17A7D48E6479}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TTGLHit1" ID="{C3D2D965-ADA3-41DE-9F58-478E0C768192}" ShortID="744259463">
+											<Language>SFX</Language>
+											<AudioFile>TTGLHit1.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TTGLHit1" ID="{C3D2D965-ADA3-41DE-9F58-478E0C768192}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TTGLPowerup" ID="{1D7AA909-CC6A-4E68-962A-0DF13DB03631}" ShortID="687934347">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="TTGLDefaultAttenuation" ID="{47043587-54BF-4356-B969-FD443D494819}" WorkUnitID="{CF457AB7-43B0-4EAE-8188-17A7D48E6479}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TTGLPowerup" ID="{3D305ADD-8867-4D04-82A4-6B00DDFEF19B}" ShortID="909168801">
+											<Language>SFX</Language>
+											<AudioFile>TTGLPowerup.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TTGLPowerup" ID="{3D305ADD-8867-4D04-82A4-6B00DDFEF19B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<RandomSequenceContainer Name="TTGLTokoRifleFire" ID="{2100852B-8F95-42C4-8CA5-D81FF0A98F7E}" ShortID="471464313">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{93D71CC3-B720-493D-A481-CF536C6E7D2C}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="10"/>
+															<Property Name="Min" Type="Real64" Value="-10"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-7</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="TTGLDefaultAttenuation" ID="{47043587-54BF-4356-B969-FD443D494819}" WorkUnitID="{CF457AB7-43B0-4EAE-8188-17A7D48E6479}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="TTGLTokoRifle1" ID="{2CB3072E-89D2-475A-9A54-F3E29FAEFD17}" ShortID="556505334">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLTokoRifle1" ID="{E17F22AD-7CED-46EE-ADF0-82BB746B914D}" ShortID="116000516">
+													<Language>SFX</Language>
+													<AudioFile>TTGLTokoRifle1.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLTokoRifle1" ID="{E17F22AD-7CED-46EE-ADF0-82BB746B914D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLTokoRifle4" ID="{FAF6711D-C6DD-49A5-BCA6-071AFEDD8B04}" ShortID="349893800">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLTokoRifle4" ID="{2002CF44-65C1-4661-979D-0BF501017407}" ShortID="817154675">
+													<Language>SFX</Language>
+													<AudioFile>TTGLTokoRifle4.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLTokoRifle4" ID="{2002CF44-65C1-4661-979D-0BF501017407}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLTokoRifle3" ID="{D968471E-D698-4552-A876-28E17D60DF58}" ShortID="302945930">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLTokoRifle3" ID="{9023956A-FD62-4EA0-9BB2-339329F49ED9}" ShortID="13922742">
+													<Language>SFX</Language>
+													<AudioFile>TTGLTokoRifle3.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLTokoRifle3" ID="{9023956A-FD62-4EA0-9BB2-339329F49ED9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLTokoRifle2" ID="{F7EC9852-A3D4-48D8-A4A9-4DD86F28CB8E}" ShortID="168459998">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLTokoRifle2" ID="{9FB29BE2-54E1-4A07-8A08-B8A12C665759}" ShortID="998061873">
+													<Language>SFX</Language>
+													<AudioFile>TTGLTokoRifle2.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLTokoRifle2" ID="{9FB29BE2-54E1-4A07-8A08-B8A12C665759}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="TTGLTokoRifleCrit" ID="{F6EC6D77-17D7-43F1-B54B-1DF5B73C65C2}" ShortID="538582717">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="2"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-11</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="TTGLDefaultAttenuation" ID="{47043587-54BF-4356-B969-FD443D494819}" WorkUnitID="{CF457AB7-43B0-4EAE-8188-17A7D48E6479}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="TTGLHit3" ID="{53C9CDEB-AAC2-4736-9BD8-B6F7332AD689}" ShortID="216174731">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLHit3" ID="{E55046C4-02CF-48C7-845A-765C1D4F0B59}" ShortID="50357662">
+													<Language>SFX</Language>
+													<AudioFile>TTGLHit3.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLHit3" ID="{E55046C4-02CF-48C7-845A-765C1D4F0B59}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLHit4" ID="{3C952133-63ED-4733-B854-3D8C52C8B702}" ShortID="1039690091">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLHit4" ID="{CA8AAF73-C60B-4DDC-A8DB-1E632840233D}" ShortID="19168513">
+													<Language>SFX</Language>
+													<AudioFile>TTGLHit4.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLHit4" ID="{CA8AAF73-C60B-4DDC-A8DB-1E632840233D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<Sound Name="TTGLLagannImpact" ID="{C02034F0-9A1C-4145-95C5-04B7B19B4905}" ShortID="717187107">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="OverridePositioning" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="TTGLDefaultAttenuation" ID="{47043587-54BF-4356-B969-FD443D494819}" WorkUnitID="{CF457AB7-43B0-4EAE-8188-17A7D48E6479}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TTGLLagannImpact" ID="{67D6DC9D-58E7-41B8-96E1-8FF07C471A01}" ShortID="504928985">
+											<Language>SFX</Language>
+											<AudioFile>TTGLLagannImpact.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TTGLLagannImpact" ID="{67D6DC9D-58E7-41B8-96E1-8FF07C471A01}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TTGLGigaDrillBreak" ID="{826009B7-A81C-488A-BDA1-B0A09B636117}" ShortID="796288072">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TTGLGigaDrillBreak" ID="{154C1345-35ED-47AA-9C6F-FB2BB2A9F951}" ShortID="577117430">
+											<Language>SFX</Language>
+											<AudioFile>TTGLGigaDrillBreak.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TTGLGigaDrillBreak" ID="{154C1345-35ED-47AA-9C6F-FB2BB2A9F951}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TTGLCombine" ID="{216CD926-518E-41ED-8408-17C14279441B}" ShortID="565990922">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>10</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TTGLCombine" ID="{8A27077D-A282-4E0C-9A4B-3C14F57D209B}" ShortID="263363224">
+											<Language>SFX</Language>
+											<AudioFile>TTGLCombine.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TTGLCombine" ID="{8A27077D-A282-4E0C-9A4B-3C14F57D209B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</ActorMixer>
+						<ActorMixer Name="Music Mixer" ID="{B64D97A6-EE04-4ED8-BEA8-6429EEB071E1}" ShortID="871865794">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<RTPCList>
+										<RTPC Name="" ID="{BF756099-DC9F-4D86-87E3-4357C39455CB}" ShortID="437308555">
+											<ReferenceList>
+												<Reference Name="ControlInput">
+													<ObjectRef Name="Volume_MSX" ID="{D7E1070A-8081-4111-A5DB-70D0BC761941}" WorkUnitID="{3B50D252-5692-46C7-A8E5-56C4FF20002D}"/>
+												</Reference>
+											</ReferenceList>
+											<Curve Name="" ID="{7D5EC057-35D0-4162-B2E0-04EDD3BCF897}">
+												<PropertyList>
+													<Property Name="Flags" Type="int32" Value="3"/>
+												</PropertyList>
+												<PointList>
+													<Point>
+														<XPos>0</XPos>
+														<YPos>-200</YPos>
+														<Flags>5</Flags>
+													</Point>
+													<Point>
+														<XPos>100</XPos>
+														<YPos>0</YPos>
+														<Flags>37</Flags>
+													</Point>
+												</PointList>
+											</Curve>
+										</RTPC>
+									</RTPCList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="TTGLPowerupMusic" ID="{C56C6BD5-AA49-4D05-873E-9914CD4336F1}" ShortID="82211395">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="TTGLMusic2" ID="{DB1FC457-7F63-4524-BB5B-0D83B0FF8612}" ShortID="355627160">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLMusic2" ID="{3A9AEF88-047F-4DDF-BB26-C6C20FEFB855}" ShortID="851599504">
+													<Language>SFX</Language>
+													<AudioFile>TTGLMusic2.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLMusic2" ID="{3A9AEF88-047F-4DDF-BB26-C6C20FEFB855}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLMusic1" ID="{96A62D15-ED1D-4769-AAA8-3181A3E80A0C}" ShortID="214371842">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLMusic1" ID="{0714F2F6-DDF4-4E9F-9A7D-D384A70EAFAB}" ShortID="873677661">
+													<Language>SFX</Language>
+													<AudioFile>TTGLMusic1.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLMusic1" ID="{0714F2F6-DDF4-4E9F-9A7D-D384A70EAFAB}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="TTGLCombineMusic" ID="{602301AA-741D-42B2-AAEC-7D9F19B13B4A}" ShortID="89324350">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="TTGLMusic3" ID="{E022A960-FE6B-48C4-9F0B-84ECAE868ED4}" ShortID="653879113">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLMusic3" ID="{18A5EBB7-5EB1-4B3E-992A-9DB41229C2A4}" ShortID="715130299">
+													<Language>SFX</Language>
+													<AudioFile>TTGLMusic3.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLMusic3" ID="{18A5EBB7-5EB1-4B3E-992A-9DB41229C2A4}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLMusic4" ID="{C1EC9659-2691-4634-8C9A-C9B549E0A715}" ShortID="432811462">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLMusic4" ID="{5B1B812E-B402-4EFA-9FF6-295CE41C06C8}" ShortID="1052558530">
+													<Language>SFX</Language>
+													<AudioFile>TTGLMusic4.wav</AudioFile>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLMusic4" ID="{5B1B812E-B402-4EFA-9FF6-295CE41C06C8}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+						</ActorMixer>
+					</ChildrenList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

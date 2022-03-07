@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="SkillModifiers\GurrenLagannSkillModifier.cs" />
+    <Compile Remove="SkillModifiers\LagannSkillModifier.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="TTGLSoundbank.bnk" />
     <None Remove="ttglsurvivorbundle" />
   </ItemGroup>
@@ -33,10 +38,6 @@
       <HintPath>libs\AncientScepter.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>libs\Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="BepInEx">
       <HintPath>libs\BepInEx.dll</HintPath>
       <Private>false</Private>
@@ -56,8 +57,8 @@
     <Reference Include="BetterUI">
       <HintPath>libs\BetterUI.dll</HintPath>
     </Reference>
-    <Reference Include="ExtraSkillSlots">
-      <HintPath>libs\ExtraSkillSlots.dll</HintPath>
+    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
+      <HintPath>libs\com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Steamworks">
       <HintPath>libs\Facepunch.Steamworks.dll</HintPath>
@@ -66,8 +67,17 @@
     <Reference Include="HGCSharpUtils">
       <HintPath>libs\HGCSharpUtils.dll</HintPath>
     </Reference>
-    <Reference Include="MMHOOK_Assembly-CSharp">
-      <HintPath>libs\MMHOOK_Assembly-CSharp.dll</HintPath>
+    <Reference Include="HGUnityUtils">
+      <HintPath>libs\HGUnityUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="KinematicCharacterController">
+      <HintPath>libs\KinematicCharacterController.dll</HintPath>
+    </Reference>
+    <Reference Include="LegacyResourcesAPI">
+      <HintPath>libs\LegacyResourcesAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="MMHOOK_RoR2">
+      <HintPath>libs\MMHOOK_RoR2.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>libs\Mono.Cecil.dll</HintPath>
@@ -106,6 +116,9 @@
     <Reference Include="RideMeExtended">
       <HintPath>libs\RideMeExtended.dll</HintPath>
     </Reference>
+    <Reference Include="RoR2">
+      <HintPath>libs\RoR2.dll</HintPath>
+    </Reference>
     <Reference Include="Skills">
       <HintPath>libs\Skills.dll</HintPath>
     </Reference>
@@ -135,10 +148,6 @@
     </Reference>
     <Reference Include="UnityEngine.DirectorModule">
       <HintPath>libs\UnityEngine.DirectorModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>libs\UnityEngine.Networking.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule">
@@ -174,8 +183,12 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SkillModifiers\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="REM First we copy the from the output folder to the NetworkWeaver folder.&#xD;&#xA;REM We store the output from robocopy in a file called robocopy which we'll delete at the end of the file.&#xD;&#xA;robocopy $(TargetDir) $(ProjectDir)\NetworkWeaver $(TargetFileName) &gt; $(TargetDir)Robocopy&#xD;&#xA;REM Then we navigate our script to the NetworkWeaver folder to make the follow up line less verbose.&#xD;&#xA;cd $(ProjectDir)\NetworkWeaver&#xD;&#xA;REM Unity.UNetWeaver.exe {path to Coremodule} {Path to Networking} {Path to output folder} {Path to the dll you want patched} {Path to all needed references for the to-be-patched dll}&#xD;&#xA;Unity.UNetWeaver.exe &quot;..\libs\UnityEngine.CoreModule.dll&quot; &quot;..\libs\UnityEngine.Networking.dll&quot; &quot;Patched/&quot;  $(TargetFileName) &quot;$(ProjectDir)\libs&quot;&#xD;&#xA;REM We store the prepatched dll disabled as a .prepatch so that you can check it if you want, but first we need to make sure that file doesn't exist already.&#xD;&#xA;IF EXIST $(TargetFileName).prepatch (&#xD;&#xA;DEL /F $(TargetFileName).prepatch&#xD;&#xA;)&#xD;&#xA;REM Then we rename the prepatched file to bla.dll.prepatch&#xD;&#xA;ren $(TargetFileName) $(TargetFileName).prepatch&#xD;&#xA;REM move our script to the Patched Folder&#xD;&#xA;cd Patched&#xD;&#xA;REM move from the current directory (.) to the projectDirectory and store the output once more to the Robocopy file.&#xD;&#xA;robocopy . $(ProjectDir)  $(TargetFileName) &gt; $(TargetDir)Robocopy&#xD;&#xA;REM Remove the patched file from the Patched folder, because the Weaver won't run if the file already exists.&#xD;&#xA;del  $(TargetFileName)&#xD;&#xA;REM Delete the holder for all robocopy output.&#xD;&#xA;del $(TargetDir)Robocopy" />
+    <Exec Command="REM First we copy the from the output folder to the NetworkWeaver folder.&#xD;&#xA;REM We store the output from robocopy in a file called robocopy which we'll delete at the end of the file.&#xD;&#xA;robocopy $(TargetDir) $(ProjectDir)\NetworkWeaver $(TargetFileName) &gt; $(TargetDir)Robocopy&#xD;&#xA;REM Then we navigate our script to the NetworkWeaver folder to make the follow up line less verbose.&#xD;&#xA;cd $(ProjectDir)\NetworkWeaver&#xD;&#xA;REM Unity.UNetWeaver.exe {path to Coremodule} {Path to Networking} {Path to output folder} {Path to the dll you want patched} {Path to all needed references for the to-be-patched dll}&#xD;&#xA;Unity.UNetWeaver.exe &quot;..\libs\UnityEngine.CoreModule.dll&quot; &quot;..\libs\com.unity.multiplayer-hlapi.Runtime.dll&quot; &quot;Patched/&quot;  $(TargetFileName) &quot;$(ProjectDir)\libs&quot;&#xD;&#xA;REM We store the prepatched dll disabled as a .prepatch so that you can check it if you want, but first we need to make sure that file doesn't exist already.&#xD;&#xA;IF EXIST $(TargetFileName).prepatch (&#xD;&#xA;DEL /F $(TargetFileName).prepatch&#xD;&#xA;)&#xD;&#xA;REM Then we rename the prepatched file to bla.dll.prepatch&#xD;&#xA;ren $(TargetFileName) $(TargetFileName).prepatch&#xD;&#xA;REM move our script to the Patched Folder&#xD;&#xA;cd Patched&#xD;&#xA;REM move from the current directory (.) to the projectDirectory and store the output once more to the Robocopy file.&#xD;&#xA;robocopy . $(ProjectDir)  $(TargetFileName) &gt; $(TargetDir)Robocopy&#xD;&#xA;REM Remove the patched file from the Patched folder, because the Weaver won't run if the file already exists.&#xD;&#xA;del  $(TargetFileName)&#xD;&#xA;REM Delete the holder for all robocopy output.&#xD;&#xA;del $(TargetDir)Robocopy" />
   </Target>
 
 </Project>
