@@ -575,6 +575,13 @@
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="TTGLCombineMusic" ID="{602301AA-741D-42B2-AAEC-7D9F19B13B4A}" ShortID="89324350">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
@@ -633,6 +640,137 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="TTGLMusic4" ID="{5B1B812E-B402-4EFA-9FF6-295CE41C06C8}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="TTGLEyeCatch" ID="{355F2354-F3B9-4C3B-B472-FE265DA1BDF9}" ShortID="270688432">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="TTGLEyeCatch3" ID="{E8EB1BC1-B621-44FB-8335-2C59324AE212}" ShortID="61147683">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLEyeCatch3" ID="{747100EC-0FCF-418C-B410-38480D0E18B4}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>TTGLEyeCatch3.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="767967847"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLEyeCatch3" ID="{747100EC-0FCF-418C-B410-38480D0E18B4}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLEyeCatch4" ID="{D26D03F1-D40C-4E44-A78B-B31C44A8B923}" ShortID="1067740861">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLEyeCatch4" ID="{A0EA8CE3-98E9-4C67-BDAC-8FAF2176C419}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>TTGLEyeCatch4.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="802878450"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLEyeCatch4" ID="{A0EA8CE3-98E9-4C67-BDAC-8FAF2176C419}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLEyeCatch1" ID="{307FD765-E9C1-4E15-B522-3219B8519223}" ShortID="1039114215">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLEyeCatch1" ID="{95963C02-26AA-4686-95E0-9A320A269D9F}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>TTGLEyeCatch1.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="525583956"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLEyeCatch1" ID="{95963C02-26AA-4686-95E0-9A320A269D9F}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="TTGLEyeCatch2" ID="{FC4F0EE5-DBCC-400A-83F9-2BB6B995A431}" ShortID="807594348">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5CA06311-88AC-45BB-822A-A500EA7CA0FC}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{C225D23D-629E-448E-831F-8D6CA9212214}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="TTGLEyeCatch2" ID="{47B0CF82-91E8-45EE-B525-D7D82B399954}">
+													<PropertyList>
+														<Property Name="LoopBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="LoopEnd" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimBegin" Type="Real64" Value="-0.001"/>
+														<Property Name="TrimEnd" Type="Real64" Value="-0.001"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>TTGLEyeCatch2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="307782632"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="TTGLEyeCatch2" ID="{47B0CF82-91E8-45EE-B525-D7D82B399954}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>

@@ -114,6 +114,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             model.AddComponent<CharacterModel>().baseRendererInfos = prefab.GetComponentInChildren<CharacterModel>().baseRendererInfos;
 
+            model.AddComponent<LagannDisplayController>();
             return model.gameObject;
         }
 

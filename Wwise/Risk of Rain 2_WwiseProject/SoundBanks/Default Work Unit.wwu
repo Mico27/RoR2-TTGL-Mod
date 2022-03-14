@@ -9,6 +9,7 @@
 						<ObjectRef Name="TTGLGenericHit" ID="{5E02B0BB-D9FC-43FA-BC23-CFDD2C81787D}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TTGLFullBuffPlay" ID="{5715318B-A1BF-4817-93E7-C770FF2F77BF}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TTGLCombineMusicPause" ID="{AB046B21-82D8-485B-AD8E-69E19DF5E710}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="TTGLEyeCatch" ID="{E66A20FC-F325-4884-872B-F6A1C67581E9}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TTGLFullBuffPause" ID="{F49F585B-5AD9-48E0-B91D-E81484EF9CCE}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TTGLLagannImpactFire" ID="{B223054D-C4F3-4959-9C8B-BF684295639F}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TTGLCombine" ID="{8D5325A8-49F6-49C3-BAE2-D11F8D8B2F3E}" WorkUnitID="{70CCE346-91EF-40F1-B322-60B81D1EEF3C}" Origin="Manual" Filter="7"/>

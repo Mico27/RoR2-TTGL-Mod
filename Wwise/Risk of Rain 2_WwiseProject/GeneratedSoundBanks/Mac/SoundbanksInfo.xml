@@ -16,7 +16,7 @@
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="1397621075" Language="SFX" Hash="2433475294">
+		<SoundBank Id="1397621075" Language="SFX" Hash="4268347388">
 			<ObjectPath>\SoundBanks\Default Work Unit\TTGLSoundbank</ObjectPath>
 			<ShortName>TTGLSoundbank</ShortName>
 			<Path>TTGLSoundbank.bnk</Path>
@@ -49,6 +49,26 @@
 						<File Id="111320466" Language="SFX">
 							<ShortName>TTGLLagannDrill4.wav</ShortName>
 							<Path>SFX\TTGLLagannDrill4_0D5756A9.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2894571872" Name="TTGLEyeCatch" ObjectPath="\Events\Default Work Unit\TTGLEyeCatch">
+					<IncludedMemoryFiles>
+						<File Id="307782632" Language="SFX">
+							<ShortName>TTGLEyeCatch2.wav</ShortName>
+							<Path>SFX\TTGLEyeCatch2_3F75BDB9.wem</Path>
+						</File>
+						<File Id="525583956" Language="SFX">
+							<ShortName>TTGLEyeCatch1.wav</ShortName>
+							<Path>SFX\TTGLEyeCatch1_3F75BDB9.wem</Path>
+						</File>
+						<File Id="767967847" Language="SFX">
+							<ShortName>TTGLEyeCatch3.wav</ShortName>
+							<Path>SFX\TTGLEyeCatch3_3F75BDB9.wem</Path>
+						</File>
+						<File Id="802878450" Language="SFX">
+							<ShortName>TTGLEyeCatch4.wav</ShortName>
+							<Path>SFX\TTGLEyeCatch4_3F75BDB9.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>

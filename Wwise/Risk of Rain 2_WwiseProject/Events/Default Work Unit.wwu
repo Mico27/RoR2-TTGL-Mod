@@ -225,6 +225,20 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="TTGLEyeCatch" ID="{E66A20FC-F325-4884-872B-F6A1C67581E9}">
+					<ChildrenList>
+						<Action Name="" ID="{AD98C7C8-D7BC-46BD-A731-400F4FC27258}" ShortID="105298685">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TTGLEyeCatch" ID="{355F2354-F3B9-4C3B-B472-FE265DA1BDF9}" WorkUnitID="{0004CC69-0E32-492A-A79C-EAA833BD63F6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
