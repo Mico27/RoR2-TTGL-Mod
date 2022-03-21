@@ -20,6 +20,7 @@ namespace TTGL_Survivor.SkillStates
         public static float maxDuration = 1.5f;
         public static float damageCoefficient = 10f;
         private string playbackRateString = "BurrowerStrike.playbackRate";
+        public const float procCoefficient = 2f;
 
         public Vector3 spawnLocation;
         public Vector3 spawnRotation;
@@ -63,7 +64,7 @@ namespace TTGL_Survivor.SkillStates
                 damageColorIndex = DamageColorIndex.WeakPoint,
                 inflictor = base.gameObject,
                 procChainMask = default(ProcChainMask),
-                procCoefficient = 1f,
+                procCoefficient = procCoefficient,
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
                 hitEffectPrefab = Modules.Assets.punchImpactEffect,

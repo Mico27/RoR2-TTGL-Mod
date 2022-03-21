@@ -21,6 +21,7 @@ namespace TTGL_Survivor.SkillStates
         public static int explosionCount = 2;
         public static float explosionInterval = 2f;
         public static string soundString = "TTGLGigaDrillBreak";
+        public static float procCoefficient = 1000000f;
         protected Animator animator;
         protected CharacterBody gigaDrillBreakTarget;
         private float duration;
@@ -161,6 +162,7 @@ namespace TTGL_Survivor.SkillStates
                         inflictor = base.gameObject,
                         teamIndex = TeamComponent.GetObjectTeam(base.gameObject),
                         baseDamage = this.damageStat * GurrenLagannGigaDrillBreak.damageCoefficient,
+                        procCoefficient = procCoefficient,
                         baseForce = ExplosionAttack.force,
                         position = target,
                         radius = GurrenLagannGigaDrillBreak.radius,

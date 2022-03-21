@@ -318,6 +318,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Primary
             SkillDef tripleSlashSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)tripleSlashSkillDef).name = "GurrenTripleSlash";
             tripleSlashSkillDef.skillName = "GurrenTripleSlash";
             tripleSlashSkillDef.skillNameToken = prefix + "_GURREN_BODY_TRIPLESLASH_NAME";
             tripleSlashSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_TRIPLESLASH_DESCRIPTION";
@@ -344,6 +345,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Secondary
             SkillDef throwinShadesSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)throwinShadesSkillDef).name = "GurrenDrillBlaster";
             throwinShadesSkillDef.skillName = "GurrenDrillBlaster";
             throwinShadesSkillDef.skillNameToken = prefix + "_GURREN_BODY_DRILLBLASTER_NAME";
             throwinShadesSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_DRILLBLASTER_DESCRIPTION";
@@ -370,6 +372,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Utility
             SkillDef rollSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)rollSkillDef).name = "GurrenRoll";
             rollSkillDef.skillName = "GurrenRoll";
             rollSkillDef.skillNameToken = prefix + "_GURREN_BODY_ROLL_NAME";
             rollSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_ROLL_DESCRIPTION";
@@ -397,6 +400,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #region Special
 
             GroundSkillDef rockThrowSkillDef = ScriptableObject.CreateInstance<GroundSkillDef>();
+            ((ScriptableObject)rockThrowSkillDef).name = "GurrenLiftBoulder";
             rockThrowSkillDef.skillName = "GurrenLiftBoulder";
             rockThrowSkillDef.skillNameToken = prefix + "_GURREN_BODY_BOULDERTHROW_NAME";
             rockThrowSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_BOULDERTHROW_DESCRIPTION";

@@ -268,7 +268,7 @@ namespace TTGL_Survivor.Modules.Survivors
         private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
-            //Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
+            Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -285,6 +285,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #region Primary
 
             SkillDef drillRushSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)drillRushSkillDef).name = "LagannDrillRush";
             drillRushSkillDef.skillName = "LagannDrillRush";
             drillRushSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME";
             drillRushSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION";
@@ -309,6 +310,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddPrimarySkill(characterPrefab, drillRushSkillDef);
 
             SkillDef drillSpikeSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)drillSpikeSkillDef).name = "LagannDrillSpike";
             drillSpikeSkillDef.skillName = "LagannDrillSpike";
             drillSpikeSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILLSPIKE_NAME";
             drillSpikeSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILLSPIKE_DESCRIPTION";
@@ -337,6 +339,7 @@ namespace TTGL_Survivor.Modules.Survivors
             SkillStates.YokoShootRifle.maxRicochetCount = (TTGL_SurvivorPlugin.skillPlusInstalled) ? 2 : 6;
             SkillStates.YokoShootRifle.resetBouncedObjects = (TTGL_SurvivorPlugin.skillPlusInstalled) ? false : true;
             shootRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)shootRifleSkillDef).name = "YokoShootRifle";
             shootRifleSkillDef.skillName = "YokoShootRifle";
             shootRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME";
             shootRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION";
@@ -361,6 +364,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddSecondarySkill(characterPrefab, shootRifleSkillDef);
 
             explosiveRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)explosiveRifleSkillDef).name = "YokoExplosiveRifle";
             explosiveRifleSkillDef.skillName = "YokoExplosiveRifle";
             explosiveRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME";
             explosiveRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION";
@@ -384,6 +388,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddSecondarySkill(characterPrefab, explosiveRifleSkillDef);
             
             piercingRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)piercingRifleSkillDef).name = "YokoPiercingRifle";
             piercingRifleSkillDef.skillName = "YokoPiercingRifle";
             piercingRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_PIERCING_NAME";
             piercingRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_PIERCING_DESCRIPTION";
@@ -410,6 +415,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Utility
             SkillDef spiralBurstSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)spiralBurstSkillDef).name = "LagannSpiralBurst";
             spiralBurstSkillDef.skillName = "LagannSpiralBurst";
             spiralBurstSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME";
             spiralBurstSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION";
@@ -433,6 +439,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddUtilitySkill(characterPrefab, spiralBurstSkillDef);
 
             SkillDef toggleCanopySkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)toggleCanopySkillDef).name = "LagannToggleCanopy";
             toggleCanopySkillDef.skillName = "LagannToggleCanopy";
             toggleCanopySkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME";
             toggleCanopySkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION";
@@ -456,6 +463,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddUtilitySkill(characterPrefab, toggleCanopySkillDef);
 
             canopyOverrideSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)canopyOverrideSkillDef).name = "LagannDisableRifle";
             canopyOverrideSkillDef.skillName = prefix + "LagannDisableRifle";
             canopyOverrideSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
             canopyOverrideSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION";
@@ -463,6 +471,7 @@ namespace TTGL_Survivor.Modules.Survivors
             TTGL_SurvivorPlugin.skillDefs.Add(canopyOverrideSkillDef);
 
             ShieldBarrirerSkillDef spiralConversionSkillDef = ScriptableObject.CreateInstance<ShieldBarrirerSkillDef>();
+            ((ScriptableObject)spiralConversionSkillDef).name = "LagannSpiralConversion";
             spiralConversionSkillDef.skillName = "LagannSpiralConversion";
             spiralConversionSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME";
             spiralConversionSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION";
@@ -489,6 +498,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #region Special
             AimLagannImpact.maxRebound = (TTGL_SurvivorPlugin.skillPlusInstalled) ? 2 : 4;
             SkillDef lagannImpactSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)lagannImpactSkillDef).name = "LagannImpact";
             lagannImpactSkillDef.skillName = "LagannImpact";
             lagannImpactSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME";
             lagannImpactSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION";
@@ -512,6 +522,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddSpecialSkill(characterPrefab, lagannImpactSkillDef);
 
             SkillDef lagannBurrowerStrikeSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)lagannBurrowerStrikeSkillDef).name = "LagannBurrowerStrike";
             lagannBurrowerStrikeSkillDef.skillName = "LagannBurrowerStrike";
             lagannBurrowerStrikeSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_BURROWER_NAME";
             lagannBurrowerStrikeSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_BURROWER_DESCRIPTION";
@@ -538,6 +549,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #region FirstExtra
             LagannCombineSkillDef lagannCombineSkillDef = ScriptableObject.CreateInstance<LagannCombineSkillDef>();
             lagannCombineSkillDef.energyCost = LagannCombine.energyCost;
+            ((ScriptableObject)lagannCombineSkillDef).name = "LagannCombine";
             lagannCombineSkillDef.skillName = "LagannCombine";
             lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";
@@ -558,9 +570,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannCombineSkillDef.requiredStock = 1;
             lagannCombineSkillDef.stockToConsume = 1;
             TTGL_SurvivorPlugin.skillDefs.Add(lagannCombineSkillDef);
-            //Modules.Skills.AddFirstExtraSkill(characterPrefab, lagannCombineSkillDef);
-            Modules.Skills.AddUtilitySkill(characterPrefab, lagannCombineSkillDef);
-            Modules.Skills.AddSpecialSkill(characterPrefab, lagannCombineSkillDef);
+            Modules.Skills.AddFirstExtraSkill(characterPrefab, lagannCombineSkillDef);
 
             #endregion
         }

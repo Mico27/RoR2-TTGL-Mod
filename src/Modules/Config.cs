@@ -14,6 +14,7 @@ namespace TTGL_Survivor.Modules
         public static bool lagannItemDisplayEnabled;
         public static bool gurrenItemDisplayEnabled;
         public static bool gurrenLaganItemDisplayEnabled;
+        public static bool eyecatchEnabled;
 
         public static bool spiralGaugeEnabled;
         public static Vector2 spiralGaugeAnchorMin;
@@ -47,6 +48,7 @@ namespace TTGL_Survivor.Modules
             spiralGaugeAnchoredPosition = Modules.Config.GetSetConfig("Spiral Gauge", "AnchoredPosition", new Vector2(-20, 200), "Spiral Gauge AnchoredPosition").Value;
             spiralGaugeLocalScale = Modules.Config.GetSetConfig("Spiral Gauge", "LocalScale", new Vector3(2, 2, 2), "Spiral Gauge LocalScale").Value;
 
+            eyecatchEnabled = Modules.Config.GetSetConfig("Character selection eye catch", "Enabled", true, "Plays the eye catch animation on character selection").Value;
             ttglMusicEnabled = Modules.Config.GetSetConfig("TTGLMusic", "Enabled", true, "Set to false to disable TTGL music").Value;
             ttglShowCombiningAnimation = Modules.Config.GetSetConfig("Gurren Lagann Combine Cinematic", "Frequency", FrequencyConfig.Always, "Set the frequency at which the cinematic plays").Value;
             woopsEnabled = Modules.Config.GetSetConfig("WoopsSkin", "Enabled", false, "Set to true to enable woops skin").Value;

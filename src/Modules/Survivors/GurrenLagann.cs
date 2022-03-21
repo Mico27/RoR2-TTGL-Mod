@@ -319,7 +319,7 @@ namespace TTGL_Survivor.Modules.Survivors
         private void CreateSkills()
         {
             Modules.Skills.CreateSkillFamilies(characterPrefab);
-            //Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
+            Modules.Skills.CreateFirstExtraSkillFamily(characterPrefab);
 
             string prefix = TTGL_SurvivorPlugin.developerPrefix;
 
@@ -335,6 +335,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Primary
             SkillDef spiralingComboSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)spiralingComboSkillDef).name = "GurrenLagannSpiralingCombo";
             spiralingComboSkillDef.skillName = "GurrenLagannSpiralingCombo";
             spiralingComboSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME";
             spiralingComboSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION";
@@ -361,6 +362,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Secondary
             SkillDef throwingShadesSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)throwingShadesSkillDef).name = "GurrenLagannThrowingShades";
             throwingShadesSkillDef.skillName = "GurrenLagannThrowingShades";
             throwingShadesSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME";
             throwingShadesSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION";
@@ -388,6 +390,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region Utility
             SkillDef tornadoKickSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)tornadoKickSkillDef).name = "GurrenLagannTornadoKick";
             tornadoKickSkillDef.skillName = "GurrenLagannTornadoKick";
             tornadoKickSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME";
             tornadoKickSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION";
@@ -411,6 +414,7 @@ namespace TTGL_Survivor.Modules.Survivors
             Modules.Skills.AddUtilitySkill(characterPrefab, tornadoKickSkillDef);
 
             ShieldBarrirerSkillDef spiralConversionSkillDef = ScriptableObject.CreateInstance<ShieldBarrirerSkillDef>();
+            ((ScriptableObject)spiralConversionSkillDef).name = "GurrenLagannSpiralConversion";
             spiralConversionSkillDef.skillName = "GurrenLagannSpiralConversion";
             spiralConversionSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME";
             spiralConversionSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION";
@@ -438,6 +442,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             SpiralEnergySkillDef gigaDrillMaximumSkillDef = ScriptableObject.CreateInstance<SpiralEnergySkillDef>();
             gigaDrillMaximumSkillDef.energyCost = GurrenLagannGigaDrillMaximum.energyCost;
+            ((ScriptableObject)gigaDrillMaximumSkillDef).name = "GurrenLagannGigaDrillMaximum";
             gigaDrillMaximumSkillDef.skillName = "GurrenLagannGigaDrillMaximum";
             gigaDrillMaximumSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
             gigaDrillMaximumSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION";
@@ -463,6 +468,7 @@ namespace TTGL_Survivor.Modules.Survivors
             if (!Config.useLegacyGigaDrillBreak)
             {
                 SkillDef initGigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+                ((ScriptableObject)initGigaDrillBreakerSkillDef).name = "GurrenLagannGigaDrillBreakInit";
                 initGigaDrillBreakerSkillDef.skillName = "GurrenLagannGigaDrillBreakInit";
                 initGigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
                 initGigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
@@ -487,6 +493,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 Modules.Skills.AddSpecialSkill(characterPrefab, initGigaDrillBreakerSkillDef);
             }
             gigaDrillBreakerSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)gigaDrillBreakerSkillDef).name = "GurrenLagannGigaDrillBreak";
             gigaDrillBreakerSkillDef.skillName = "GurrenLagannGigaDrillBreak";
             gigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
             gigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
@@ -513,6 +520,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region FirstExtra
             SkillDef gurrenLagannSplitSkillDef = ScriptableObject.CreateInstance<SkillDef>();
+            ((ScriptableObject)gurrenLagannSplitSkillDef).name = "GurrenLagannSplit";
             gurrenLagannSplitSkillDef.skillName = "GurrenLagannSplit";
             gurrenLagannSplitSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPLIT_NAME";
             gurrenLagannSplitSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION";
@@ -533,8 +541,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gurrenLagannSplitSkillDef.requiredStock = 1;
             gurrenLagannSplitSkillDef.stockToConsume = 1;
             TTGL_SurvivorPlugin.skillDefs.Add(gurrenLagannSplitSkillDef);
-            //Modules.Skills.AddFirstExtraSkill(characterPrefab, gurrenLagannSplitSkillDef);
-            Modules.Skills.AddUtilitySkill(characterPrefab, gurrenLagannSplitSkillDef);
+            Modules.Skills.AddFirstExtraSkill(characterPrefab, gurrenLagannSplitSkillDef);
             #endregion
         }
 

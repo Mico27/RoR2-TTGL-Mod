@@ -18,13 +18,13 @@ namespace TTGL_Survivor.SkillStates
         public const float c_SpeedCoefficient = 64.0f;
         public const float c_BouncingMaxTime = 0.5f;
         public const string c_HitboxGroupName = "LagannImpactHitbox";
+        public const float procCoefficient = 2f;
 
         public Tuple<Vector3, Vector3>[] TrajectoryNodes { get; set; }
         public int CurrentNodeIndex;
         private int m_TrajectoryNodeCount; 
         private OverlapAttack overlapAttack;
         protected float pushForce = 300f;
-        protected float procCoefficient = 2f;
         private bool cancelled;
         private Transform rootTransform;
 
@@ -74,7 +74,7 @@ namespace TTGL_Survivor.SkillStates
                 damageColorIndex = DamageColorIndex.Default,
                 inflictor = base.gameObject,
                 procChainMask = default(ProcChainMask),
-                procCoefficient = this.procCoefficient,
+                procCoefficient = procCoefficient,
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
                 hitEffectPrefab = Modules.Assets.punchImpactEffect,

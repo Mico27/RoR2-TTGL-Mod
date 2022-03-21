@@ -10,6 +10,7 @@ namespace TTGL_Survivor.SkillStates
     public class GurrenLagannUppercut : GurrenLagannBaseCombo
     {
         public const float c_DamageCoefficient = 2.8f;
+        public const float procCoefficient = 0.3f;
 
         protected override void PlayAttackAnimation()
         {
@@ -24,7 +25,7 @@ namespace TTGL_Survivor.SkillStates
             attack.inflictor = base.gameObject;
             attack.teamIndex = base.GetTeam();
             attack.damage = c_DamageCoefficient * baseDamageCoeficient * this.damageStat;
-            attack.procCoefficient = 0.3f;
+            attack.procCoefficient = procCoefficient;
             attack.hitEffectPrefab = this.hitEffectPrefab;
             attack.forceVector = Vector3.zero;
             attack.pushAwayForce = 0f;

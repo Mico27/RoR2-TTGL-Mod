@@ -14,35 +14,38 @@ namespace TTGL_Survivor.Modules.Components
         static int previousIndex = -1;
         public void OnEnable()
         {
-            var mannequinSlotController = this.gameObject.GetComponentInParent<SurvivorMannequinSlotController>();            ;
-            isAuthority = NetworkUser.readOnlyLocalPlayersList.Any((x) => x == mannequinSlotController.networkUser);
-            if (isAuthority)
+            if (Config.eyecatchEnabled)
             {
-                modelAnimator = this.GetComponent<Animator>();
-                eyeCatchEventId = AkSoundEngine.PostEvent("TTGLEyeCatch", this.gameObject);
-                this.PlayAnimation("EyeCatch", "TTGLEyeCatchAnim");
-                var randomStateIndex = new System.Random().Next(0, 3);
-                if (randomStateIndex == previousIndex)
+                var mannequinSlotController = this.gameObject.GetComponentInParent<SurvivorMannequinSlotController>(); ;
+                isAuthority = NetworkUser.readOnlyLocalPlayersList.Any((x) => x == mannequinSlotController.networkUser);
+                if (isAuthority)
                 {
-                    randomStateIndex++;
-                    if (randomStateIndex == 3)
+                    modelAnimator = this.GetComponent<Animator>();
+                    eyeCatchEventId = AkSoundEngine.PostEvent("TTGLEyeCatch", this.gameObject);
+                    this.PlayAnimation("EyeCatch", "TTGLEyeCatchAnim");
+                    var randomStateIndex = new System.Random().Next(0, 3);
+                    if (randomStateIndex == previousIndex)
                     {
-                        randomStateIndex = 0;
+                        randomStateIndex++;
+                        if (randomStateIndex == 3)
+                        {
+                            randomStateIndex = 0;
+                        }
+                    }
+                    previousIndex = randomStateIndex;
+                    switch (randomStateIndex)
+                    {
+                        case 0:
+                            this.PlayAnimation("Base Layer", "TTGLSurvivorMenuSingle1");
+                            break;
+                        case 1:
+                            this.PlayAnimation("Base Layer", "TTGLSurvivorMenuSingle2");
+                            break;
+                        default:
+                            this.PlayAnimation("Base Layer", "TTGLSurvivorMenuSingle3");
+                            break;
                     }
                 }
-                previousIndex = randomStateIndex;
-                switch (randomStateIndex)
-                {
-                    case 0:
-                        this.PlayAnimation("Base Layer", "TTGLSurvivorMenuSingle1");
-                        break;
-                    case 1:
-                        this.PlayAnimation("Base Layer", "TTGLSurvivorMenuSingle2");
-                        break;
-                    default:
-                        this.PlayAnimation("Base Layer", "TTGLSurvivorMenuSingle3");
-                        break;
-                }                
             }
         }
         

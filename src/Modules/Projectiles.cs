@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TTGL_Survivor.Modules.Components;
+using TTGL_Survivor.SkillStates;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -116,6 +117,7 @@ namespace TTGL_Survivor.Modules
 
             ProjectileOverlapAttack overlapAttack = shadesWhirlPrefab.GetComponent<ProjectileOverlapAttack>();
             overlapAttack.damageCoefficient = 1.0f;
+            overlapAttack.overlapProcCoefficient = GurrenLagannThrowingShades.procCoefficient;
 
             BoomerangProjectile boomerangProjectile = shadesWhirlPrefab.GetComponent<BoomerangProjectile>();
             GurrenLagannShadesProjectile gurrenLagannShadesProjectile = shadesWhirlPrefab.AddComponent<GurrenLagannShadesProjectile>();
@@ -142,6 +144,7 @@ namespace TTGL_Survivor.Modules
 
             ProjectileOverlapAttack overlapAttack = gigaDrillProjectilePrefab.GetComponent<ProjectileOverlapAttack>();
             overlapAttack.damageCoefficient = 1.0f;
+            overlapAttack.overlapProcCoefficient = GurrenLagannInitGigaDrillBreak.procCoefficient;
 
             BoomerangProjectile boomerangProjectile = gigaDrillProjectilePrefab.GetComponent<BoomerangProjectile>();
             GurrenLagannShadesProjectile gurrenLagannShadesProjectile = gigaDrillProjectilePrefab.AddComponent<GurrenLagannShadesProjectile>();

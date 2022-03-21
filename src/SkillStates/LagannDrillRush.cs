@@ -14,13 +14,13 @@ namespace TTGL_Survivor.SkillStates
     {
         public static float damageCoefficient = 3.0f;        
         public static float spiralEnergyPercentagePerHit = 0f;
+        public static float procCoefficient = 0.75f;
 
         public int swingIndex;
 
         protected string hitboxName = "DrillRushHitbox";
 
-        protected DamageType damageType = DamageType.BypassArmor;
-        protected float procCoefficient = 1f;
+        protected DamageType damageType = DamageType.BypassArmor;        
         protected float pushForce = 500f;
         protected Vector3 bonusForce = Vector3.zero;
         protected float baseDuration = 0.8f;
@@ -98,7 +98,7 @@ namespace TTGL_Survivor.SkillStates
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = damageCoefficient * this.damageStat;
-            this.attack.procCoefficient = this.procCoefficient;
+            this.attack.procCoefficient = procCoefficient;
             this.attack.hitEffectPrefab = this.hitEffectPrefab;
             this.attack.forceVector = this.bonusForce;
             this.attack.pushAwayForce = this.pushForce;

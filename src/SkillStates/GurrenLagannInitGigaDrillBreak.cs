@@ -11,7 +11,7 @@ namespace TTGL_Survivor.SkillStates
     {
         public static float energyCost = 50f;
         public static float damageCoefficient = 2.5f;
-        public static float procCoefficient = 1f;
+        public static float procCoefficient = 10f;
         public static float baseDuration = 2.3f;
         public static float throwForce = 200f;
 

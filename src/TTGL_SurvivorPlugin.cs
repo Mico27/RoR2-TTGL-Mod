@@ -30,7 +30,7 @@ namespace TTGL_Survivor
     [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Mico27.RideMeExtended", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
-    //[BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.DrBibop.VRAPI", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInPlugin(MODUID, MODNAME, MODVERSION)]    
@@ -41,7 +41,7 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.4.0";
+            MODVERSION = "0.4.1";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = MODAUTHOR;
         // soft dependency 
@@ -234,12 +234,40 @@ namespace TTGL_Survivor
             BetterUI.Buffs.RegisterBuffInfo(Buffs.maxSpiralPowerDeBuff, developerPrefix + "_MAXSPIRALPOWER_DEBUFF_NAME", developerPrefix + "_MAXSPIRALPOWER_DEBUFF_DESCRIPTION");
             BetterUI.Buffs.RegisterBuffInfo(Buffs.canopyBuff, developerPrefix + "_CANOPY_BUFF_NAME", developerPrefix + "_CANOPY_BUFF_DESCRIPTION");
             BetterUI.Buffs.RegisterBuffInfo(Buffs.kaminaBuff, developerPrefix + "_GURREN_BODY_PASSIVE_NAME", developerPrefix + "_GURREN_BODY_PASSIVE_DESCRIPTION");
+            BetterUI.ProcCoefficientCatalog.AddSkill("LagannDrillRush", "Drill Rush", LagannDrillRush.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("LagannDrillSpike", "Drill Spike", LagannDrillSpike.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("YokoShootRifle", "Yoko's Rifle", YokoShootRifle.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("YokoExplosiveRifle", "Yoko's Rifle - Explosive rounds", YokoExplosiveRifle.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("YokoPiercingRifle", "Yoko's Rifle - Charging pierce rounds", YokoPiercingRifle.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("LagannSpiralBurst", "Spiral Burst", LagannSpiralBurst.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("LagannImpact", "Lagann Impact (Bounce mode)", LagannImpact.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("LagannBurrowerStrike", "Lagann Impact (Burrow mode)", LagannBurrowerStrike.procCoefficient);
+            List<BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo> spiralComboProcList = new List<BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo>();
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Leg sweep", procCoefficient = GurrenLagannLegSweep.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Crescent kick", procCoefficient = GurrenLagannInsideCrescentKick.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Uppercut", procCoefficient = GurrenLagannUppercut.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Hook punch", procCoefficient = GurrenLagannHookPunch.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Right stab", procCoefficient = GurrenLagannStabbingRight.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "MMA kick", procCoefficient = GurrenLagannMmaKick.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Upward thrust", procCoefficient = GurrenLagannUpwardThrust.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Left stab", procCoefficient = GurrenLagannStabbingLeft.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Martelo", procCoefficient = GurrenLagannMartelo2.procCoefficient });
+            spiralComboProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Thrust slash", procCoefficient = GurrenLagannThrustSlash.procCoefficient });
+            BetterUI.ProcCoefficientCatalog.AddSkill("GurrenLagannSpiralingCombo", spiralComboProcList);
+            BetterUI.ProcCoefficientCatalog.AddSkill("GurrenLagannThrowingShades", "Throwin' Shades", GurrenLagannThrowingShades.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("GurrenLagannTornadoKick", "Tornado Kick", GurrenLagannTornadoKick.procCoefficient);
+            BetterUI.ProcCoefficientCatalog.AddSkill("GurrenLagannGigaDrillMaximum", "Giga Drill Maximum", GurrenLagannGigaDrillMaximum.procCoefficient);
+            List<BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo> gigaDrillBreakProcList = new List<BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo>();
+            gigaDrillBreakProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Throwin' Shades", procCoefficient = GurrenLagannInitGigaDrillBreak.procCoefficient });
+            gigaDrillBreakProcList.Add(new BetterUI.ProcCoefficientCatalog.ProcCoefficientInfo() { name = "Giga Drill Break", procCoefficient = GurrenLagannGigaDrillBreak.procCoefficient });
+            BetterUI.ProcCoefficientCatalog.AddSkill("GurrenLagannGigaDrillBreakInit", gigaDrillBreakProcList);
+            BetterUI.ProcCoefficientCatalog.AddSkill("GurrenLagannGigaDrillBreak", "Giga Drill Break", GurrenLagannGigaDrillBreak.procCoefficient);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void AddSkillPlus()
         {
-            //SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();            
+            SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();            
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

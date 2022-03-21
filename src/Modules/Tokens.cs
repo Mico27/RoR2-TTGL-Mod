@@ -149,6 +149,17 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME", "Spiraling Combo");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION", $"Gurren Lagann deals a series of melee attacks for around <style=cIsDamage>{230f}-{540}% damage</style>. <style=cIsUtility>Drills ignores armor.</style>");
 
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_LEGSWEEP_NAME", "Leg sweep");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_INSIDECRESCENTKICK_NAME", "Crescent kick");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_UPPERCUT_NAME", "Uppercut");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_HOOKPUNCH_NAME", "Hook punch");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_STABBINGRIGHT_NAME", "Right stab");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_MMAKICK_NAME", "MMA kick");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_UPWARDTHRUST_NAME", "Upward thrust");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_STABBINGLEFT_NAME", "Left stab");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_MARTELO_NAME", "Martelo");
+            LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_THRUSTSLASH_NAME", "Thrust slash");
+
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME", "Throwin' Shades");
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION", $"Gurren Lagann throws his shades like a boomerang, dealing <style=cIsDamage>{100f * SkillStates.GurrenLagannThrowingShades.damageCoefficient}% damage</style>");
 

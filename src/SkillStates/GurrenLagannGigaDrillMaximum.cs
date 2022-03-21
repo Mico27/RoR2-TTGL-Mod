@@ -16,6 +16,7 @@ namespace TTGL_Survivor.SkillStates
         public static float energyCost = 50f;
         public static float c_DamageCoefficient = 7.5f;
         public static bool canBypassArmor = false;
+        public static float procCoefficient = 1.5f;
         public int comboCounter;
         protected string hitboxName = "DammageHitbox";
 
@@ -53,7 +54,7 @@ namespace TTGL_Survivor.SkillStates
             attack.inflictor = base.gameObject;
             attack.teamIndex = base.GetTeam();
             attack.damage = c_DamageCoefficient * this.damageStat;
-            attack.procCoefficient = 1.5f;
+            attack.procCoefficient = procCoefficient;
             attack.hitEffectPrefab = this.hitEffectPrefab;
             attack.forceVector = Vector3.zero;
             attack.pushAwayForce = 0f;

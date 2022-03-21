@@ -15,7 +15,7 @@ namespace TTGL_Survivor.SkillStates
     public class YokoPiercingRifle : BaseSkillState
     {
         public static float damageCoefficient = 1.5f;
-        public static float procCoefficient = 1f;
+        public static float procCoefficient = 1.5f;
         public static float baseDuration = 0.6f;
         public static float throwForce = 200f;
         public static float recoil = 3f;

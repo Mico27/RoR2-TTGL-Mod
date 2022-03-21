@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="SkillModifiers\GurrenLagannSkillModifier.cs" />
-    <Compile Remove="SkillModifiers\LagannSkillModifier.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="TTGLSoundbank.bnk" />
     <None Remove="ttglsurvivorbundle" />
   </ItemGroup>
@@ -59,6 +54,9 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>libs\com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="ExtraSkillSlots">
+      <HintPath>..\..\RoR2-FixVoidFog-Mod\src\libs\ExtraSkillSlots.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Steamworks">
       <HintPath>libs\Facepunch.Steamworks.dll</HintPath>
@@ -181,10 +179,6 @@
       <HintPath>libs\Zio.dll</HintPath>
       <Private>false</Private>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SkillModifiers\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

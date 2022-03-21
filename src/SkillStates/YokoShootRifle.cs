@@ -14,7 +14,7 @@ namespace TTGL_Survivor.SkillStates
         public static int maxRicochetCount = 6;
         public static bool resetBouncedObjects = true;
         public static float damageCoefficient = 2.0f;
-        public static float procCoefficient = 1f;
+        public static float procCoefficient = 0.9f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
         public static float recoil = 3f;

@@ -21,6 +21,7 @@ namespace TTGL_Survivor.SkillStates
         public static float damageCoefficient = 4.0f;
         public static float attackStartTime = 0.2f;
         public static float baseEarlyExitTime = 0.3f;
+        public static float procCoefficient = 0.9f;
 
 
         public float bonusMultiplier = 1f;
@@ -174,7 +175,7 @@ namespace TTGL_Survivor.SkillStates
                     crit = base.RollCrit(),
                     damageType = DamageType.BypassArmor,
                     falloffModel = BlastAttack.FalloffModel.None,
-                    procCoefficient = GroundSlam.blastProcCoefficient,
+                    procCoefficient = procCoefficient,
                     radius = this.bonusMultiplier * 5f,
                     position = origin,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
@@ -233,7 +234,7 @@ namespace TTGL_Survivor.SkillStates
                     crit = base.RollCrit(),
                     damageType = DamageType.Generic,
                     falloffModel = BlastAttack.FalloffModel.Linear,
-                    procCoefficient = GroundSlam.blastProcCoefficient,
+                    procCoefficient = procCoefficient,
                     radius = this.bonusMultiplier * 5f,
                     position = footPosition,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,

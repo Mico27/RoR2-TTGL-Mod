@@ -17,6 +17,7 @@ namespace TTGL_Survivor.SkillStates
         public static float finalSpeedCoefficient = 2.5f;
         public static float damageCoefficient = 2.5f;
         public static float jumpVelocity = 7f;
+        public static float procCoefficient = 1f;
 
         public static string horizontalBurstHitboxName = "SpiralBurst1Hitbox";
         public static string verticalBurstHitboxName = "SpiralBurst2Hitbox";
@@ -34,7 +35,6 @@ namespace TTGL_Survivor.SkillStates
         protected float duration = 0f;
         protected DamageType damageType = DamageType.Generic;
         
-        protected float procCoefficient = 1f;
         protected float pushForce = 300f;
         protected Vector3 bonusForce = Vector3.zero;
         protected float attackStartTime = 0.0f;
@@ -78,7 +78,6 @@ namespace TTGL_Survivor.SkillStates
             this.RecalculateBurstSpeed(isVertical);
             
             this.damageType = DamageType.BypassArmor;
-            this.procCoefficient = 1f;
             this.pushForce = 500f;
             this.bonusForce = Vector3.zero;
             this.attackStartTime = 0.1f;
@@ -102,7 +101,7 @@ namespace TTGL_Survivor.SkillStates
             this.attack.inflictor = base.gameObject;
             this.attack.teamIndex = base.GetTeam();
             this.attack.damage = LagannSpiralBurst.damageCoefficient * this.damageStat;
-            this.attack.procCoefficient = this.procCoefficient;
+            this.attack.procCoefficient = procCoefficient;
             this.attack.hitEffectPrefab = this.hitEffectPrefab;
             this.attack.forceVector = this.bonusForce;
             this.attack.pushAwayForce = this.pushForce;

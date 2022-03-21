@@ -1,5 +1,5 @@
 ﻿using EntityStates;
-//using ExtraSkillSlots;
+using ExtraSkillSlots;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -66,7 +66,7 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.skillFamilies.Add(specialFamily);
         }
 
-        /*
+        
         internal static void CreateFirstExtraSkillFamily(GameObject targetPrefab)
         {
             ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
@@ -80,7 +80,7 @@ namespace TTGL_Survivor.Modules
             skillLocator.extraFirst._skillFamily = firstExtraFamily;
             TTGL_SurvivorPlugin.skillFamilies.Add(firstExtraFamily);
         }
-        */
+        
         // this could all be a lot cleaner but at least it's simple and easy to work with
         internal static void AddPrimarySkill(GameObject targetPrefab, SkillDef skillDef)
         {
@@ -142,7 +142,7 @@ namespace TTGL_Survivor.Modules
             };
         }
 
-        /*
+        
         internal static void AddFirstExtraSkill(GameObject targetPrefab, SkillDef skillDef)
         {
             ExtraSkillLocator skillLocator = targetPrefab.GetComponent<ExtraSkillLocator>();
@@ -159,7 +159,7 @@ namespace TTGL_Survivor.Modules
                 };
             }
         }
-        */
+        
     }
 }
 
