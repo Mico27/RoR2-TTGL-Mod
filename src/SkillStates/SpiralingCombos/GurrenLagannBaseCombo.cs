@@ -90,7 +90,7 @@ namespace TTGL_Survivor.SkillStates
         public override void OnExit()
         {
             if (!this.hasFired) this.FireAttack();
-
+            base.PlayAnimation("FullBody, Override", "BufferEmpty");
             base.OnExit();
         }
 

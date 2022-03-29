@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{FDC8D1F2-D4F2-477A-9843-E29A1FE80BBE}" SchemaVersion="89">
+	<States>
+		<WorkUnit Name="Default Work Unit" ID="{FDC8D1F2-D4F2-477A-9843-E29A1FE80BBE}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="gameplaySongChoice2" ID="{6CDAE763-F263-4DB1-9908-54C3D0F7E0A1}">
+					<ChildrenList>
+						<State Name="None" ID="{15A24EC1-7A0A-4D4F-8D89-12787570EE68}"/>
+						<State Name="MyJazzSong" ID="{D905A500-0291-4913-8C25-028F6CA3ADFB}"/>
+						<State Name="Decompression_Loop" ID="{1A2F2BFA-96BD-4CF2-8C15-48446CA0A2DB}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="bossStatus" ID="{B3638993-DDAD-4C80-81F7-1CBC31506AEB}">
+					<ChildrenList>
+						<State Name="None" ID="{23791884-AF1F-404B-86B1-966674E39D0B}"/>
+						<State Name="alive" ID="{5C0FCFEA-5F81-422D-B00B-FF1880F70942}"/>
+						<State Name="dead" ID="{2881CAC3-0D17-4E55-BB5F-67A6669205E5}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="enemyType" ID="{7AC7469E-FF13-40F1-BA38-C15403047EFD}">
+					<ChildrenList>
+						<State Name="None" ID="{2DFF2BFD-734C-47F3-87A3-635552BC1178}"/>
+						<State Name="elite" ID="{3CC70142-B09B-4825-99BF-0D9B3F2BF9C0}"/>
+						<State Name="normal" ID="{5381E0F8-68CA-4703-97EE-59E1CDE0A32E}"/>
+						<State Name="boss" ID="{11D4D5CD-5C8A-4A50-9F7D-E4AE2D8ACCE6}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="ghostStatus" ID="{64CE039C-D045-45EF-8213-2C5A146E5245}">
+					<ChildrenList>
+						<State Name="None" ID="{C9E3DA15-9745-41C2-8A08-6548840235AB}"/>
+						<State Name="true" ID="{312B3952-CDAD-4562-96C0-81020E820E12}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Music_menu" ID="{2A0D5C42-8939-4095-BEFA-FE5E1B2D8BF4}">
+					<ChildrenList>
+						<State Name="None" ID="{B3778BA6-EF82-479F-AF81-5F79A3308B4E}"/>
+						<State Name="OpeningCutScene1" ID="{30A2DC1F-ACD1-4D4C-85D1-9905F2FB63DD}"/>
+						<State Name="OpeningCutScene2" ID="{9791AA19-A538-4171-9368-84472959FC37}"/>
+						<State Name="Logbook2" ID="{2B5F57D9-EEC0-4541-9915-160B9B0F3FEA}"/>
+						<State Name="OutroCutsceneFULL" ID="{A2F62DDA-994B-47F5-949B-C513C4EE3A45}"/>
+						<State Name="OutroCutsceneB" ID="{E2329B57-B3E0-4908-93EB-BBFA06A47331}"/>
+						<State Name="OutroCutsceneA" ID="{CDA6323A-7709-4E25-B4DB-15DBB1DBE4C0}"/>
+						<State Name="Main" ID="{A39F28B3-DDF5-4B0C-AF03-5E85596A9D73}"/>
+						<State Name="Prismatic" ID="{4C8A1FDD-643E-4C49-B0D7-35FC680CB2BB}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="Music_system" ID="{49E8752C-7BE4-47B9-A6B1-842BD9C53467}">
+					<ChildrenList>
+						<State Name="None" ID="{2703E566-5103-4B60-A728-88F4D23FD971}"/>
+						<State Name="Bossfight" ID="{EBD46EBB-D410-4D4D-A744-F3E36DC8FFF8}"/>
+						<State Name="Gameplay" ID="{9A7E407B-7644-4293-A6B1-DA255E9B77C1}"/>
+						<State Name="Menu" ID="{2AEF28E0-26A5-42A7-BB18-CC7803FA2F6F}"/>
+						<State Name="SecretLevel" ID="{5471E793-5397-4CE3-A97D-9C4E0FA3F289}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="TABStatus" ID="{5F5E8461-9ABA-4171-BB3B-35F29D3D3296}">
+					<ChildrenList>
+						<State Name="None" ID="{2006E816-0C7C-4C63-A2C0-32F643CA0761}"/>
+						<State Name="off" ID="{94ABACAC-2428-4F05-8B01-11FD3B66ED1E}"/>
+						<State Name="on" ID="{28679D71-49E5-4789-9E1F-0CCEC94AD389}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="teleporterZone" ID="{5CF67B46-E801-4537-B43A-97DA4032205E}">
+					<ChildrenList>
+						<State Name="None" ID="{D93100BB-316E-4CC3-97A5-33570824FAB2}"/>
+						<State Name="OUT" ID="{E3DD47E6-43DF-4E67-9FEB-C4F9967DB790}"/>
+						<State Name="IN" ID="{D8DF9690-DB4F-4277-A834-4866628A12D8}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="bossPhase" ID="{6CC79024-FB1E-45DA-95C5-B9D367BC268C}">
+					<ChildrenList>
+						<State Name="None" ID="{ACDBE11F-062A-4099-A35B-5FD54219666A}"/>
+						<State Name="phase1" ID="{0B9C14D0-77ED-4C76-8315-EF1B219C4C6C}"/>
+						<State Name="phase2" ID="{A6F754E3-9437-40FE-9384-DD8C2B0388DA}"/>
+						<State Name="phase3" ID="{547CD9A1-682D-4F04-AC9C-8E556751BA58}"/>
+						<State Name="phase4" ID="{F9E25658-6D03-45AC-9150-94AC56FE1407}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</States>
+</WwiseDocument>

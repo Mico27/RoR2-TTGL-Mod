@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{4E69B6C5-F0CD-4548-B9CC-5337E4ABE66B}" SchemaVersion="97">
+	<Busses>
+		<WorkUnit Name="Default Work Unit" ID="{4E69B6C5-F0CD-4548-B9CC-5337E4ABE66B}" PersistMode="Standalone">
+			<ChildrenList>
+				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<ReferenceList>
+						<Reference Name="AudioDevice">
+							<ObjectRef Name="System" ID="{BE1D29F8-4743-40BA-B13B-B5366BD022FE}" WorkUnitID="{A6AE3E36-C546-46BC-B237-A004DEF24376}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="MSX_BEACON" ID="{A6533025-6238-4E7B-AC66-DA32C07B0C0E}"/>
+						<Bus Name="MSX_BUS" ID="{A613F71D-0E04-4550-81C7-D619012D53E3}"/>
+						<Bus Name="SFX_BUS" ID="{99C05C62-B724-4EE7-B7B2-314F537C90BC}">
+							<ChildrenList>
+								<Bus Name="HDR" ID="{52E6CAC9-03B4-4363-83A3-CF3E7DA43614}"/>
+							</ChildrenList>
+						</Bus>
+					</ChildrenList>
+				</Bus>
+				<Bus Name="Master Secondary Bus" ID="{2AF9B9C6-6EF1-46E9-B5F2-E30C9E602C74}">
+					<ReferenceList>
+						<Reference Name="AudioDevice">
+							<ObjectRef Name="System" ID="{BE1D29F8-4743-40BA-B13B-B5366BD022FE}" WorkUnitID="{A6AE3E36-C546-46BC-B237-A004DEF24376}"/>
+						</Reference>
+					</ReferenceList>
+				</Bus>
+			</ChildrenList>
+		</WorkUnit>
+	</Busses>
+</WwiseDocument>

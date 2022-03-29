@@ -28,11 +28,12 @@ namespace TTGL_Survivor.SkillStates
             this.animator = base.GetModelAnimator();
             this.muzzleString = "Muzzle";
 
-            base.PlayAnimation("Gesture, Override", "ShootRifle", "ShootRifle.playbackRate", this.duration);
+            base.PlayAnimation("Yoko", "ShootRifle", "ShootRifle.playbackRate", this.duration);
         }
 
         public override void OnExit()
         {
+            base.PlayAnimation("Yoko", "BufferEmpty");
             base.OnExit();
         }
 

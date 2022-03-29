@@ -60,7 +60,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TTGLSurvivorMenuSingle3
+  m_Name: TTGLEyeCatch3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -86,7 +86,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TTGLSurvivorMenuSingle2
+  m_Name: TTGLEyeCatch2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -186,7 +186,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TTGLSurvivorMenuSingle1
+  m_Name: TTGLEyeCatch1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

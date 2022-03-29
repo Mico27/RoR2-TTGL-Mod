@@ -31,7 +31,7 @@ namespace TTGL_Survivor.SkillStates
             Util.PlaySound(BaseChargeFist.enterSFXString, base.gameObject);
             this.chargeLoopSFX = Util.PlaySound(BaseChargeFist.startChargeLoopSFXString, base.gameObject);
             this.chargeEffect = UnityEngine.Object.Instantiate<GameObject>(
-              Assets.mainAssetBundle.LoadAsset<GameObject>("YokoRifleCharge"),
+              Assets.LoadAsset<GameObject>("YokoRifleCharge"),
               muzzleTransform
               );
         }

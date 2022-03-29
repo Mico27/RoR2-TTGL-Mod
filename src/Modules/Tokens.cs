@@ -197,7 +197,7 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_CANOPY_BUFF_NAME", "Canopy activated");
             LanguageAPI.Add(prefix + "_CANOPY_BUFF_DESCRIPTION", "+150 armor and is immune to movement impairing effects");
 
-            
+
             //Skill++
             LanguageAPI.Add("LAGANNDRILLRUSH_UPGRADE_DESCRIPTION",
                 "Increase damage by 10% every level (Linear)" + Environment.NewLine +

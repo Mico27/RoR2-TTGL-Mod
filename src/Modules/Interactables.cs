@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.Modules.Survivors;
+using UnityEngine.AddressableAssets;
 
 namespace TTGL_Survivor.Modules
 {
@@ -60,8 +61,8 @@ namespace TTGL_Survivor.Modules
 
         private static void CreateGurrenSummonInteractableSpawnCard()
         {
-            gurrenInteractSpawnCard = ScriptableObject.CreateInstance<InteractableSpawnCard>();            
-            var gurrenInteractPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("GurrenInteractPrefab");            
+            gurrenInteractSpawnCard = ScriptableObject.CreateInstance<InteractableSpawnCard>();
+            var gurrenInteractPrefab = Modules.Assets.LoadAsset<GameObject>("GurrenInteractPrefab");            
             gurrenInteractPrefab.AddComponent<NetworkIdentity>();
             var childLocator = gurrenInteractPrefab.GetComponent<ChildLocator>();
             var model = childLocator.FindChild("Model");

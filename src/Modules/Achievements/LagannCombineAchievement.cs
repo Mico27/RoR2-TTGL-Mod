@@ -3,6 +3,7 @@ using System;
 using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.SkillStates;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace TTGL_Survivor.Modules.Achievements
 {
@@ -14,7 +15,7 @@ namespace TTGL_Survivor.Modules.Achievements
         public override string PrerequisiteUnlockableIdentifier { get; } = TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_PREREQUISITE_ID";
         public override string UnlockableNameToken { get; } = TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_UNLOCKABLE_NAME";
         public override string AchievementDescToken { get; } = TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_ACHIEVEMENT_DESC";
-        public override Sprite Sprite { get; } = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenLagannIcon");
+        public override Sprite Sprite { get; } = Modules.Assets.LoadAsset<Sprite>("GurrenLagannIcon");
 
         public override Func<string> GetHowToUnlock { get; } = (() => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
                             {

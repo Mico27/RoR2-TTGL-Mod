@@ -237,6 +237,7 @@ namespace TTGL_Survivor.SkillStates
         public override void OnExit()
         {
             //if (base.cameraTargetParams) base.cameraTargetParams.fovOverride = -1f;
+            base.PlayAnimation("FullBody, Override", "BufferEmpty");
             base.OnExit();
 
             if (NetworkServer.active) base.characterBody.RemoveBuff(Buffs.HiddenInvincibility);

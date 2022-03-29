@@ -86,7 +86,7 @@ namespace TTGL_Survivor.SkillStates
         protected virtual void CreateChargeEffect()
         {
             this.chargeEffect = UnityEngine.Object.Instantiate<GameObject>(
-               Assets.mainAssetBundle.LoadAsset<GameObject>("SpiralSlowCharge"),
+               Assets.LoadAsset<GameObject>("SpiralSlowCharge"),
                base.characterBody.coreTransform
                );
         }

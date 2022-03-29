@@ -32,7 +32,7 @@ namespace TTGL_Survivor.SkillStates
             this.duration = YokoShootRifle.baseDuration / this.attackSpeedStat;
             base.characterBody.SetAimTimer(2f);
             this.muzzleString = "Muzzle";
-            base.PlayAnimation("Gesture, Override", "ShootRifle", "ShootRifle.playbackRate", 2f * this.duration);
+            base.PlayAnimation("Yoko", "ShootRifle", "ShootRifle.playbackRate", 2f * this.duration);
             base.characterBody.AddSpreadBloom(1.5f);
             EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
             Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
@@ -58,6 +58,7 @@ namespace TTGL_Survivor.SkillStates
 
         public override void OnExit()
         {
+            base.PlayAnimation("Yoko", "BufferEmpty");
             base.OnExit();
         }
         

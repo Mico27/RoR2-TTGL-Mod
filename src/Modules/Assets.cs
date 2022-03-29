@@ -7,13 +7,17 @@ using RoR2.Audio;
 using System.Collections.Generic;
 using System;
 using R2API;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets.ResourceLocators;
 
 namespace TTGL_Survivor.Modules
 {
-    internal static class Assets
+    public static class Assets
     {
+        public static string ResourcesPath => System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         // the assetbundle to load assets from
-        internal static AssetBundle mainAssetBundle;
+        internal static uint soundBankId;
 
         // particle effects
         internal static GameObject punchImpactEffect;
@@ -44,19 +48,23 @@ namespace TTGL_Survivor.Modules
 
         internal static void PopulateAssets()
         {
-            if (mainAssetBundle == null)
-            {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.ttglsurvivorbundle"))
-                {
-                    mainAssetBundle = AssetBundle.LoadFromStream(assetStream);                    
-                }
-            }
-                      
+            //if (mainAssetBundle == null)
+            //{
+            //using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.ttglsurvivorbundle"))
+            //{
+            //mainAssetBundle = AssetBundle.LoadFromStream(assetStream);                    
+            //}
+            //}
+
+            var test = System.IO.Path.Combine(ResourcesPath, "Resources", "catalog_2022.03.28.04.16.55.json");
+            Addressables.LoadContentCatalogAsync(test, true).WaitForCompletion();
+
+
             using (Stream manifestResourceStream3 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.TTGLSoundbank.bnk"))
             {
                 byte[] array = new byte[manifestResourceStream3.Length];
                 manifestResourceStream3.Read(array, 0, array.Length);
-                SoundAPI.SoundBanks.Add(array);
+                soundBankId = SoundAPI.SoundBanks.Add(array);
                 //MusicTrackOverride
             }
 
@@ -91,7 +99,7 @@ namespace TTGL_Survivor.Modules
             if (tracerHuntressSnipe == null)
             {
                 TTGL_SurvivorPlugin.instance.Logger.LogError("Could not load Prefabs/Effects/Tracers/TracerHuntressSnipe");
-            } 
+            }
             yokoRifleBeamEffect = PrefabAPI.InstantiateClone(tracerHuntressSnipe, "TTGLYokoRifleBeamEffect");
             yokoRifleBeamEffect.AddComponent<NetworkIdentity>();
             yokoRifleBeamEffect.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
@@ -112,6 +120,20 @@ namespace TTGL_Survivor.Modules
             specialExplosion = Assets.LoadEffect("SpecialExplosion", 5.0f);
             drillPopEffect = Assets.LoadEffect("DrillPopEffect", 2.0f, true);
             earthMoundEffect = Assets.LoadEffect("EarthMoundEffect", 2.0f);
+        }
+
+        public static T LoadAsset<T>(string ressourceName)
+        {
+            var result = Addressables.LoadAssetAsync<T>(ressourceName).WaitForCompletion();
+            if (result != null)
+            {
+                return result;
+            } 
+            else
+            {
+                TTGL_SurvivorPlugin.instance.Logger.LogError("Failed to LoadAsset - ressourceName: " + ressourceName);
+            }
+            return default(T);
         }
 
         internal static NetworkSoundEventDef CreateNetworkSoundEventDef(string eventName)
@@ -139,7 +161,7 @@ namespace TTGL_Survivor.Modules
 
         private static GameObject LoadEffect(string resourceName, float duration, bool applyScale = false)
         {
-            GameObject newEffect = mainAssetBundle.LoadAsset<GameObject>(resourceName);
+            GameObject newEffect = Modules.Assets.LoadAsset<GameObject>(resourceName);
 
             newEffect.AddComponent<DestroyOnTimer>().duration = duration;
             newEffect.AddComponent<NetworkIdentity>();

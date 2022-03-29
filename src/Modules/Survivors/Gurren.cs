@@ -121,7 +121,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.bodyColor = new Color(0.25f, 0.65f, 0.25f);
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURREN_BODY_SUBTITLE";
-            bodyComponent.portraitIcon = Modules.Assets.mainAssetBundle.LoadAsset<Texture>("GurrenIcon");
+            bodyComponent.portraitIcon = Modules.Assets.LoadAsset<Texture>("GurrenIcon");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
@@ -232,7 +232,7 @@ namespace TTGL_Survivor.Modules.Survivors
             var footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.enableFootstepDust = true;
             footstepHandler.baseFootstepString = "Play_player_footstep";
-            footstepHandler.footstepDustPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("DustDirtyPoofSoft");
+            footstepHandler.footstepDustPrefab = Modules.Assets.LoadAsset<GameObject>("DustDirtyPoofSoft");
         }
         
         private void CreateAlly(GameObject bodyPrefab, string masterName, string masterToCopy)
@@ -312,7 +312,7 @@ namespace TTGL_Survivor.Modules.Survivors
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = prefix + "_GURREN_BODY_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = prefix + "_GURREN_BODY_PASSIVE_DESCRIPTION";
-            skillLocator.passiveSkill.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("KaminaSpiritIcon");
+            skillLocator.passiveSkill.icon = Modules.Assets.LoadAsset<Sprite>("KaminaSpiritIcon");
 
             #endregion
 
@@ -322,7 +322,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tripleSlashSkillDef.skillName = "GurrenTripleSlash";
             tripleSlashSkillDef.skillNameToken = prefix + "_GURREN_BODY_TRIPLESLASH_NAME";
             tripleSlashSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_TRIPLESLASH_DESCRIPTION";
-            tripleSlashSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("TripleSlashIcon");
+            tripleSlashSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("TripleSlashIcon");
             tripleSlashSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenTripleSlash));
             tripleSlashSkillDef.activationStateMachineName = "Body";
             tripleSlashSkillDef.baseMaxStock = 1;
@@ -349,7 +349,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwinShadesSkillDef.skillName = "GurrenDrillBlaster";
             throwinShadesSkillDef.skillNameToken = prefix + "_GURREN_BODY_DRILLBLASTER_NAME";
             throwinShadesSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_DRILLBLASTER_DESCRIPTION";
-            throwinShadesSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenDrillBlasterIcon");
+            throwinShadesSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("GurrenDrillBlasterIcon");
             throwinShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenDrillBlaster));
             throwinShadesSkillDef.activationStateMachineName = "Weapon";
             throwinShadesSkillDef.baseMaxStock = 1;
@@ -376,7 +376,7 @@ namespace TTGL_Survivor.Modules.Survivors
             rollSkillDef.skillName = "GurrenRoll";
             rollSkillDef.skillNameToken = prefix + "_GURREN_BODY_ROLL_NAME";
             rollSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_ROLL_DESCRIPTION";
-            rollSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("RollIcon");
+            rollSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("RollIcon");
             rollSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenRoll));
             rollSkillDef.activationStateMachineName = "Body";
             rollSkillDef.baseMaxStock = 1;
@@ -404,7 +404,7 @@ namespace TTGL_Survivor.Modules.Survivors
             rockThrowSkillDef.skillName = "GurrenLiftBoulder";
             rockThrowSkillDef.skillNameToken = prefix + "_GURREN_BODY_BOULDERTHROW_NAME";
             rockThrowSkillDef.skillDescriptionToken = prefix + "_GURREN_BODY_BOULDERTHROW_DESCRIPTION";
-            rockThrowSkillDef.icon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("BoulderThrowIcon");
+            rockThrowSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("BoulderThrowIcon");
             rockThrowSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLiftBoulder));
             rockThrowSkillDef.activationStateMachineName = "Body";
             rockThrowSkillDef.baseMaxStock = 1;
@@ -443,7 +443,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region DefaultSkin
             SkinDef defaultSkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_DEFAULT_SKIN_NAME",
-                Assets.mainAssetBundle.LoadAsset<Sprite>("DefaultSkinIcon"),
+                Assets.LoadAsset<Sprite>("DefaultSkinIcon"),
                 defaultRenderers,
                 mainRenderer,
                 model);

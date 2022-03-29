@@ -2,6 +2,7 @@
 using System;
 using TTGL_Survivor.Modules.Components;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace TTGL_Survivor.Modules.Achievements
 {
@@ -13,7 +14,7 @@ namespace TTGL_Survivor.Modules.Achievements
         public override string PrerequisiteUnlockableIdentifier { get; } = TTGL_SurvivorPlugin.developerPrefix + "_GURRENFOUND_PREREQUISITE_ID";
         public override string UnlockableNameToken { get; } = TTGL_SurvivorPlugin.developerPrefix + "_GURRENFOUND_UNLOCKABLE_NAME";
         public override string AchievementDescToken { get; } = TTGL_SurvivorPlugin.developerPrefix + "_GURRENFOUND_ACHIEVEMENT_DESC";
-        public override Sprite Sprite { get; } = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("GurrenIcon");
+        public override Sprite Sprite { get; } = Modules.Assets.LoadAsset<Sprite>("GurrenIcon");
 
         public override Func<string> GetHowToUnlock { get; } = (() => Language.GetStringFormatted("UNLOCK_VIA_ACHIEVEMENT_FORMAT", new object[]
                             {

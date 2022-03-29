@@ -82,6 +82,7 @@ namespace TTGL_Survivor
                 Modules.CostTypeDefs.RegisterCostTypeDefs();
                 Modules.Interactables.RegisterInteractables();
                 Modules.Tokens.AddTokens();
+                new TTGLIntro().CreateScene();
                 Hooks();
                 if (betterUIInstalled)
                 {
@@ -184,7 +185,7 @@ namespace TTGL_Survivor
                     m_SpiralPowerGauge = hud.mainUIPanel.GetComponentInChildren<SpiralPowerGauge>();
                     if (!m_SpiralPowerGauge)
                     {
-                        var spiralPowerPanel = Instantiate(Modules.Assets.mainAssetBundle.LoadAsset<GameObject>("SpiralPowerPanel"));
+                        var spiralPowerPanel = Instantiate(Modules.Assets.LoadAsset<GameObject>("SpiralPowerPanel"));
                         m_SpiralPowerGauge = spiralPowerPanel.AddComponent<SpiralPowerGauge>();
                         spiralPowerPanel.transform.SetParent(hud.mainUIPanel.transform);
                         var rectTransform = spiralPowerPanel.GetComponent<RectTransform>();
@@ -341,6 +342,7 @@ namespace TTGL_Survivor
             contentPack.skillFamilies.Add(skillFamilies.ToArray());
             contentPack.survivorDefs.Add(survivorDefinitions.ToArray());
             contentPack.unlockableDefs.Add(unlockableDefs.ToArray());
+            contentPack.sceneDefs.Add(sceneDefs.ToArray());
             args.ReportProgress(1f);
             yield break;
         }
@@ -373,6 +375,7 @@ namespace TTGL_Survivor
         internal static List<SkillDef> skillDefs = new List<SkillDef>();
         internal static List<Type> entityStates = new List<Type>();
         internal static List<UnlockableDef> unlockableDefs = new List<UnlockableDef>();
+        internal static List<SceneDef> sceneDefs = new List<SceneDef>();
 
         public new ManualLogSource Logger
         {

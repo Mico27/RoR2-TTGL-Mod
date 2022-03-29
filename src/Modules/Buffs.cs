@@ -4,6 +4,7 @@ using RoR2;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace TTGL_Survivor.Modules
 {
@@ -29,7 +30,7 @@ namespace TTGL_Survivor.Modules
         {
             var buffDef = ScriptableObject.CreateInstance<BuffDef>();
             buffDef.name = buffName;
-            buffDef.iconSprite = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>(iconPath);
+            buffDef.iconSprite = Modules.Assets.LoadAsset<Sprite>(iconPath);
             buffDef.buffColor = buffColor;
             buffDef.canStack = canStack;
             buffDef.isDebuff = isDebuff;

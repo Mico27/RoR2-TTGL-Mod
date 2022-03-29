@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -255427816, guid: 951ce57ad9993c1f840a4dceb5f8b763, type: 3}
+  m_Name: muIntroCutscene
+  m_EditorClassIdentifier:
+  soundBank:
+    idInternal: 0
+    valueGuidInternal:
+    WwiseObjectReference: {fileID: 11400000, guid: 7b9b632216af4114d8daf87839dc6d42, type: 2}
+  states:
+  - idInternal: 0
+    valueGuidInternal:
+    groupIdInternal: 0
+    groupGuidInternal:
+    WwiseObjectReference: {fileID: 11400000, guid: 0bf78d307067b3b42b2a42daa1025bf9, type: 2}
+  - idInternal: 0
+    valueGuidInternal:
+    groupIdInternal: 0
+    groupGuidInternal:
+    WwiseObjectReference: {fileID: 11400000, guid: 4e22e09c5f975aa48b99502e36c5f8db, type: 2}
+  - idInternal: 0
+    valueGuidInternal:
+    groupIdInternal: 0
+    groupGuidInternal:
+    WwiseObjectReference: {fileID: 11400000, guid: 831299302ab6aed4d8664c8b550cc132, type: 2}
+  comment: 'No music
+
+	'

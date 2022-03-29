@@ -21,7 +21,7 @@ namespace TTGL_Survivor.Modules
 
         private static void CreateGurrenLagannShadesConstrictVisualEffect()
         {
-            gurrenLagannShadesBindingEffect = Assets.mainAssetBundle.LoadAsset<GameObject>("GurrenLagannShadesBindingEffect");
+            gurrenLagannShadesBindingEffect = Assets.LoadAsset<GameObject>("GurrenLagannShadesBindingEffect");
             gurrenLagannShadesBindingEffect.AddComponent<GurrenLagannShadesConstrictComponent>();
 
         }

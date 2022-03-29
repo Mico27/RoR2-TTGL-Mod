@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -794597441, guid: 951ce57ad9993c1f840a4dceb5f8b763, type: 3}
+  m_Name: intro
+  m_EditorClassIdentifier:
+  sceneAddress:
+    m_AssetGUID: 330d792ae1727574e969e68ce8e966d2
+    m_SubObjectName:
+    m_SubObjectType:
+  baseSceneNameOverride:
+  sceneType: 0
+  isOfflineScene: 1
+  stageOrder: 0
+  requiredExpansion: {fileID: 0}
+  nameToken:
+  subtitleToken:
+  previewTexture: {fileID: 0}
+  portalMaterial: {fileID: 0}
+  portalSelectionMessageString:
+  shouldIncludeInLogbook: 0
+  loreToken:
+  dioramaPrefab: {fileID: 0}
+  mainTrack: {fileID: 11400000, guid: 7296c3313769bd4489e2828178b03084, type: 2}
+  bossTrack: {fileID: 0}
+  suppressPlayerEntry: 0
+  suppressNpcEntry: 0
+  blockOrbitalSkills: 0
+  validForRandomSelection: 0
+  destinationsGroup: {fileID: 0}
+  destinations: []
+  preferredPortalPrefab: {fileID: 0}

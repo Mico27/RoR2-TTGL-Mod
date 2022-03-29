@@ -7,6 +7,7 @@ using System.Text;
 using TTGL_Survivor.Modules.Components;
 using TTGL_Survivor.SkillStates;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace TTGL_Survivor.Modules
@@ -215,7 +216,7 @@ namespace TTGL_Survivor.Modules
 
         private static GameObject CreateGhostPrefab(string ghostName)
         {
-            GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
+            GameObject ghostPrefab = Modules.Assets.LoadAsset<GameObject>(ghostName);
             ghostPrefab.AddComponent<NetworkIdentity>();
             ghostPrefab.AddComponent<ProjectileGhostController>();
 

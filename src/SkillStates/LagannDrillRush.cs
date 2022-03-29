@@ -200,9 +200,13 @@ namespace TTGL_Survivor.SkillStates
                 }
             }
 
-            if (base.fixedAge >= this.duration && base.isAuthority)
+            if (base.fixedAge >= this.duration)
             {
-                this.outer.SetNextStateToMain();
+                base.PlayAnimation("Gesture, Override", "BufferEmpty");
+                if (base.isAuthority)
+                {
+                    this.outer.SetNextStateToMain();
+                }
                 return;
             }
         }
