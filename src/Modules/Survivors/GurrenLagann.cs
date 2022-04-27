@@ -68,8 +68,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 #endregion
 
                 displayPrefab = CreateDisplayPrefab("GurrenLagannMenuPrefab", characterPrefab);
-                var lagannCombineUnlockable = Unlockables.AddUnlockable<LagannCombineAchievement>(true);
-                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", lagannCombineUnlockable, 12.3f);
+                RegisterNewSurvivor(characterPrefab, displayPrefab, new Color(0.25f, 0.65f, 0.25f), "GURRENLAGANN", Unlockables.lagannCombineUnlockable, 12.3f);
 
                 CreateHurtBoxes();
                 CreateHitboxes();

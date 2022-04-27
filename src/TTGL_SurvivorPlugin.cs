@@ -41,9 +41,9 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.4.1";
+            MODVERSION = "0.4.4";
         // a prefix for name tokens to prevent conflicts
-        public const string developerPrefix = MODAUTHOR;
+        public const string developerPrefix = "MICO27";
         // soft dependency 
         public static bool scepterInstalled = false;
         public static bool betterUIInstalled = false;
@@ -75,14 +75,15 @@ namespace TTGL_Survivor
                 Modules.States.RegisterStates();
                 Modules.Buffs.RegisterBuffs();
                 Modules.Projectiles.RegisterProjectiles();
-                Modules.TemporaryVisualEffects.RegisterTemporaryVisualEffects();                
+                Modules.TemporaryVisualEffects.RegisterTemporaryVisualEffects();
+                Modules.Unlockables.AddUnlockables();
                 new Lagann().CreateCharacter();
                 new Gurren().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
                 Modules.CostTypeDefs.RegisterCostTypeDefs();
                 Modules.Interactables.RegisterInteractables();
                 Modules.Tokens.AddTokens();
-                new TTGLIntro().CreateScene();
+                //new TTGLIntro().CreateScene();
                 Hooks();
                 if (betterUIInstalled)
                 {

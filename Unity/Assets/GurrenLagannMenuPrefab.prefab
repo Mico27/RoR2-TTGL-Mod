@@ -10854,14 +10854,14 @@ GameObject:
   m_Component:
   - component: {fileID: 6177367222834147479}
   - component: {fileID: 7006766461225721408}
-  - component: {fileID: 1703654804127392621}
+  - component: {fileID: 4903902303397378621}
   m_Layer: 0
   m_Name: SpecialMoveCameraSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6177367222834147479
 Transform:
   m_ObjectHideFlags: 0
@@ -10895,7 +10895,7 @@ LookAtConstraint:
   m_Sources:
   - sourceTransform: {fileID: 6882994866637374003}
     weight: 1
---- !u!20 &1703654804127392621
+--- !u!20 &4903902303397378621
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

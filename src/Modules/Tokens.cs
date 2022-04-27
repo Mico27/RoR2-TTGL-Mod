@@ -179,9 +179,8 @@ namespace TTGL_Survivor.Modules
             LanguageAPI.Add(prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION", $"Splits back into Gurren and Lagann, taking back control of Lagann. Doing so depletes all your spiral energy.");
 
             //Achievements
-            LanguageAPI.Add(prefix + "_LAGANNCOMBINE_ACHIEVEMENT_NAME", "To Hell with Your Combi!");
-            LanguageAPI.Add(prefix + "_LAGANNCOMBINE_UNLOCKABLE_NAME", "To Hell with Your Combi!");
-            LanguageAPI.Add(prefix + "_LAGANNCOMBINE_ACHIEVEMENT_DESC", "Combine into Gurren Lagann.");
+            LanguageAPI.Add("ACHIEVEMENT_" + prefix + "_LAGANNCOMBINE_ACHIEVEMENT_ID_NAME", "To Hell with Your Combi!");
+            LanguageAPI.Add("ACHIEVEMENT_" + prefix + "_LAGANNCOMBINE_ACHIEVEMENT_ID_DESCRIPTION", "Combine into Gurren Lagann.");
 
             //Interactables
             LanguageAPI.Add(prefix + "_GURREN_INTERACTABLE_NAME", "Gurren");

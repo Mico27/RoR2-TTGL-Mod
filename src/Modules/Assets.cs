@@ -56,8 +56,8 @@ namespace TTGL_Survivor.Modules
             //}
             //}
 
-            var test = System.IO.Path.Combine(ResourcesPath, "Resources", "catalog_2022.03.28.04.16.55.json");
-            Addressables.LoadContentCatalogAsync(test, true).WaitForCompletion();
+            var test = System.IO.Path.Combine(ResourcesPath, "catalog_2022.04.20.04.13.04.json");
+            Addressables.LoadContentCatalogAsync(test, true, "ror2_ttgl_mod").WaitForCompletion();
 
 
             using (Stream manifestResourceStream3 = Assembly.GetExecutingAssembly().GetManifestResourceStream("TTGL_Survivor.TTGLSoundbank.bnk"))

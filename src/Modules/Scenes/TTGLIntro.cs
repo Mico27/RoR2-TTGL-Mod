@@ -16,6 +16,7 @@ using TTGL_Survivor.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Animations;
+using UnityEngine.SceneManagement;
 
 namespace TTGL_Survivor.Modules.Survivors
 {
@@ -27,7 +28,8 @@ namespace TTGL_Survivor.Modules.Survivors
             //sceneEnabled = Modules.Config.CharacterEnableConfig("TTGLIntro");
 
             if (true)//sceneEnabled.Value)
-            {                
+            {
+                /*
                 var sceneDef = ScriptableObject.CreateInstance<SceneDef>();
                 ((ScriptableObject)sceneDef).name = "TTGL_intro";
                 sceneDef.cachedName = "TTGL_intro";
@@ -37,12 +39,15 @@ namespace TTGL_Survivor.Modules.Survivors
                 sceneDef.loreToken = "TTGL_intro_LoreToken";
                 sceneDef.shouldIncludeInLogbook = false;
                 TTGL_SurvivorPlugin.sceneDefs.Add(sceneDef);
+                */
 
-                On.RoR2.SceneCatalog.Init += SceneCatalog_Init;
+                //On.RoR2.SceneCatalog.Init += SceneCatalog_Init;
                 //Music;
-                
+
+                SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+
                 var d = new SoundAPI.Music.CustomMusicData();
-                d.BanksFolderPath = System.IO.Path.Combine(Assets.ResourcesPath, "Banks");
+                d.BanksFolderPath = Assets.ResourcesPath;
                 d.BepInPlugin = TTGL_SurvivorPlugin.instance.Info.Metadata;
                 d.InitBankName = "TTGL_Init.bnk";
                 d.PlayMusicSystemEventName = "Play_TTGLMusic";
@@ -70,6 +75,29 @@ namespace TTGL_Survivor.Modules.Survivors
 
                 SoundAPI.Music.Add(d);
                 
+            }
+        }
+
+        private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+        {
+            if (arg0.name == "intro")
+            {
+                GameObject.Find("CutsceneController").GetComponentInChildren<StartEvent>().action.RemoveAllListeners();
+                TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Set 2 - Cabin"));
+                TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Set 4 - Cargo"));
+                TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Set 1 - Space"));
+                TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Set 3 - Space, Small Planet"));
+                TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("cutscene intro"));
+                TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("MainArea"));
+                //TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Cutscene Space Skybox"));
+                //TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("GlobalPostProcessVolume"));
+                //TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Scene Camera").GetComponent<BlurOptimized>());
+                //TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Scene Camera").GetComponent<TranslucentImageSource>());
+                //TTGL_SurvivorPlugin.DestroyImmediate(GameObject.Find("Scene Camera").GetComponent<PostProcessLayer>());
+                var sceneCamera = GameObject.Find("Scene Camera");
+                var scenaMatchCamera = sceneCamera.GetComponent<MatchCamera>();
+                var introRoot = Addressables.InstantiateAsync("TTGL_intro_root").WaitForCompletion();
+                scenaMatchCamera.srcCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             }
         }
 

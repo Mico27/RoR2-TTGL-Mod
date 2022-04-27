@@ -500,7 +500,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1096567998449739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1395413934, guid: da77c7bbf69f36aba145560542327715, type: 3}
+  m_Script: {fileID: 1395413934, guid: f06026ae4400b8d4f98bf0110c280569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1103986599267650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1395413934, guid: da77c7bbf69f36aba145560542327715, type: 3}
+  m_Script: {fileID: 1395413934, guid: f06026ae4400b8d4f98bf0110c280569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
@@ -4244,9 +4244,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277399127662827}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1395413934, guid: da77c7bbf69f36aba145560542327715, type: 3}
+  m_Script: {fileID: 1395413934, guid: f06026ae4400b8d4f98bf0110c280569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
@@ -4661,9 +4661,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4125970403417828}
   - component: {fileID: 54979120629653904}
-  - component: {fileID: 114855456485216049}
-  - component: {fileID: 114083982020153920}
-  - component: {fileID: 114138029388939318}
   m_Layer: 0
   m_Name: Colony Ship Jet FX
   m_TagString: Untagged
@@ -4706,66 +4703,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114855456485216049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367085863159849}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1752031980, guid: b2ac317a67c438eb8fd6ed06da7572d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerList: d96bb42a958ca0ea
-  useOtherObject: 0
-  actionOnEventType: 0
-  curveInterpolation: 4
-  enableActionOnEvent: 0
-  m_callbackData: {fileID: 0}
-  playingId: 0
-  soundEmitterObject: {fileID: 0}
-  transitionDuration: 0
-  valueGuid: 
---- !u!114 &114083982020153920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367085863159849}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1752031980, guid: b2ac317a67c438eb8fd6ed06da7572d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerList: f7e1664c
-  useOtherObject: 0
-  actionOnEventType: 0
-  curveInterpolation: 4
-  enableActionOnEvent: 0
-  m_callbackData: {fileID: 0}
-  playingId: 0
-  soundEmitterObject: {fileID: 0}
-  transitionDuration: 0
-  valueGuid: 
---- !u!114 &114138029388939318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367085863159849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -130519023, guid: b2ac317a67c438eb8fd6ed06da7572d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEnvironmentAware: 1
-  isStaticObject: 0
-  m_posOffsetData: {fileID: 0}
-  listenerMask: 1
 --- !u!1 &1379135793838452
 GameObject:
   m_ObjectHideFlags: 0
@@ -7544,7 +7481,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1399194820757953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1395413934, guid: da77c7bbf69f36aba145560542327715, type: 3}
+  m_Script: {fileID: 1395413934, guid: f06026ae4400b8d4f98bf0110c280569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
@@ -7563,6 +7500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4493721757606808}
   - component: {fileID: 108439449740710183}
+  - component: {fileID: 8162269290950126520}
   m_Layer: 0
   m_Name: Point Light, Yellow
   m_TagString: Untagged
@@ -7645,6 +7583,19 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &8162269290950126520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400927795621524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a8af5c80ac73f4980685540872a5b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light: {fileID: 108439449740710183}
 --- !u!1 &1402206297934107
 GameObject:
   m_ObjectHideFlags: 0
@@ -10753,10 +10704,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1866279268625646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1395413934, guid: da77c7bbf69f36aba145560542327715, type: 3}
+  m_Script: {fileID: 1395413934, guid: f06026ae4400b8d4f98bf0110c280569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
+  _speed: 0
   _slowRotationSpeed: 15
   _fastRotationSpeed: 20
   _rotateAroundAxis: 1
