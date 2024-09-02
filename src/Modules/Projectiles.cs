@@ -60,7 +60,7 @@ namespace TTGL_Survivor.Modules
             impactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
             impactExplosion.blastRadius = 5f;
             impactExplosion.lifetime = 0.5f;
-            impactExplosion.impactEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
+            impactExplosion.impactEffect = Modules.TTGLAssets.yokoRifleExplosiveRoundExplosion;
             impactExplosion.timerAfterImpact = true;
             impactExplosion.lifetimeAfterImpact = 0.1f;
             ProjectileController projectileController = explosiveRifleClustersPrefab.GetComponent<ProjectileController>();
@@ -87,7 +87,7 @@ namespace TTGL_Survivor.Modules
             impactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
             impactExplosion.blastRadius = 20f;           
             impactExplosion.lifetime = 12f;
-            impactExplosion.impactEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
+            impactExplosion.impactEffect = Modules.TTGLAssets.yokoRifleExplosiveRoundExplosion;
             impactExplosion.timerAfterImpact = true;
             impactExplosion.lifetimeAfterImpact = 0.1f;
             ProjectileController projectileController = explosiveRifleRoundPrefab.GetComponent<ProjectileController>();
@@ -97,7 +97,7 @@ namespace TTGL_Survivor.Modules
 
         public static void UpdateYokoExposionScale(float scale)
         {
-            var explosionEffect = Modules.Assets.yokoRifleExplosiveRoundExplosion;
+            var explosionEffect = Modules.TTGLAssets.yokoRifleExplosiveRoundExplosion;
             explosionEffect.transform.localScale = Vector3.one * (5f * scale);
             ProjectileImpactExplosion impactExplosion = explosiveRifleRoundPrefab.GetComponent<ProjectileImpactExplosion>();
             impactExplosion.blastRadius = (20f * scale);
@@ -185,7 +185,7 @@ namespace TTGL_Survivor.Modules
             impactExplosion.blastRadius = 40f;            
             impactExplosion.lifetime = 12f;
             impactExplosion.timerAfterImpact = false;
-            impactExplosion.impactEffect = Modules.Assets.gurrenBrokenBoulderEffect;
+            impactExplosion.impactEffect = Modules.TTGLAssets.gurrenBrokenBoulderEffect;
             impactExplosion.explosionSoundString = "Play_golem_impact";
             ProjectileController projectileController = bigBoulderPrefab.GetComponent<ProjectileController>();
             projectileController.ghostPrefab = CreateGhostPrefab("BigBoulderPrefab");
@@ -216,7 +216,7 @@ namespace TTGL_Survivor.Modules
 
         private static GameObject CreateGhostPrefab(string ghostName)
         {
-            GameObject ghostPrefab = Modules.Assets.LoadAsset<GameObject>(ghostName);
+            GameObject ghostPrefab = Modules.TTGLAssets.LoadAsset<GameObject>(ghostName);
             ghostPrefab.AddComponent<NetworkIdentity>();
             ghostPrefab.AddComponent<ProjectileGhostController>();
 

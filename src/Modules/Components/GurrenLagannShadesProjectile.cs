@@ -85,7 +85,7 @@ namespace RoR2.Projectile
             {
                 case 0:
                     this.rigidbody.velocity = this.travelSpeed * base.transform.forward;
-                    this.stopwatch += Time.fixedDeltaTime;
+                    this.stopwatch += Time.deltaTime;
                     if (this.stopwatch >= this.maxFlyStopwatch)
                     {
                         this.stopwatch = 0f;
@@ -94,7 +94,7 @@ namespace RoR2.Projectile
                     }
                     break;
                 case 1:
-                    this.stopwatch += Time.fixedDeltaTime;
+                    this.stopwatch += Time.deltaTime;
                     float num = this.stopwatch / this.transitionDuration;
                     Vector3 a = this.CalculatePullDirection();
                     this.rigidbody.velocity = Vector3.Lerp(this.travelSpeed * base.transform.forward, this.travelSpeed * a, num);
@@ -107,7 +107,7 @@ namespace RoR2.Projectile
                     }
                     break;
                 case 2:
-                    this.stopwatch += Time.fixedDeltaTime;
+                    this.stopwatch += Time.deltaTime;
                     bool flag = this.Reel();
                     this.canHitWorld = false;
                     Vector3 a2 = this.CalculatePullDirection();

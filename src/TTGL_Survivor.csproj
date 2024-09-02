@@ -1,23 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Projectiles\**" />
     <EmbeddedResource Remove="Projectiles\**" />
     <None Remove="Projectiles\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="TTGLSoundbank.bnk" />
-    <None Remove="ttglsurvivorbundle" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="TTGLSoundbank.bnk" />
-    <EmbeddedResource Include="ttglsurvivorbundle" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +18,21 @@
     <Reference Include="0Harmony">
       <HintPath>libs\0Harmony.dll</HintPath>
       <Private>false</Private>
+    </Reference>
+    <Reference Include="Ak.Wwise.Api.WAAPI">
+      <HintPath>libs\Ak.Wwise.Api.WAAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="AK.Wwise.Unity.API">
+      <HintPath>libs\AK.Wwise.Unity.API.dll</HintPath>
+    </Reference>
+    <Reference Include="AK.Wwise.Unity.API.WwiseTypes">
+      <HintPath>libs\AK.Wwise.Unity.API.WwiseTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="AK.Wwise.Unity.MonoBehaviour">
+      <HintPath>libs\AK.Wwise.Unity.MonoBehaviour.dll</HintPath>
+    </Reference>
+    <Reference Include="AK.Wwise.Unity.Timeline">
+      <HintPath>libs\AK.Wwise.Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="AncientScepter">
       <HintPath>libs\AncientScepter.dll</HintPath>
@@ -48,9 +53,6 @@
     <Reference Include="BepInEx.Preloader">
       <HintPath>libs\BepInEx.Preloader.dll</HintPath>
       <Private>false</Private>
-    </Reference>
-    <Reference Include="BetterUI">
-      <HintPath>libs\BetterUI.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>libs\com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
@@ -107,6 +109,24 @@
     </Reference>
     <Reference Include="R2API">
       <HintPath>libs\R2API.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API.ContentManagement">
+      <HintPath>libs\R2API.ContentManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API.Core">
+      <HintPath>libs\R2API.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API.DamageType">
+      <HintPath>libs\R2API.DamageType.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API.Language">
+      <HintPath>libs\R2API.Language.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API.Prefab">
+      <HintPath>libs\R2API.Prefab.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API.Sound">
+      <HintPath>libs\R2API.Sound.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>libs\Rewired_Core.dll</HintPath>
@@ -172,13 +192,6 @@
     </Reference>
     <Reference Include="UnityEngine.UNETModule">
       <HintPath>libs\UnityEngine.UNETModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="VRAPI">
-      <HintPath>libs\VRAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="Wwise">
-      <HintPath>libs\Wwise.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Zio">

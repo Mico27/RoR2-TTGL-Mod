@@ -160,7 +160,7 @@ namespace TTGL_Survivor.SkillStates
         {
             if (base.isAuthority)
             {
-                EffectManager.SpawnEffect(Assets.drillPopEffect, new EffectData
+                EffectManager.SpawnEffect(TTGLAssets.drillPopEffect, new EffectData
                 {
                     origin = origin,
                     rotation = rotation,
@@ -211,7 +211,7 @@ namespace TTGL_Survivor.SkillStates
                 base.characterMotor.moveDirection = base.inputBank.moveVector;
                 base.characterDirection.moveVector = base.characterMotor.moveDirection;
                 CharacterMotor characterMotor = base.characterMotor;
-                characterMotor.velocity.y = characterMotor.velocity.y + GroundSlam.verticalAcceleration * Time.fixedDeltaTime;
+                characterMotor.velocity.y = characterMotor.velocity.y + GroundSlam.verticalAcceleration * Time.deltaTime;
             }
         }
 

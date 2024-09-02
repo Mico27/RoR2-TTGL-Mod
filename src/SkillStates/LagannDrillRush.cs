@@ -72,8 +72,8 @@ namespace TTGL_Survivor.SkillStates
             base.OnEnter();
             this.spiralEnergy = base.GetComponent<SpiralEnergyComponent>();
             this.muzzleString = swingIndex % 2 == 0 ? "LeftDrillMuzzle" : "RightDrillMuzzle";
-            this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
-            this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
+            this.hitEffectPrefab = Modules.TTGLAssets.punchImpactEffect;
+            this.impactSound = Modules.TTGLAssets.drillRushHitSoundEvent.index;
             
             this.duration = this.baseDuration / this.attackSpeedStat;
             this.earlyExitTime = this.baseEarlyExitTime / this.attackSpeedStat;
@@ -166,7 +166,7 @@ namespace TTGL_Survivor.SkillStates
         {
             base.FixedUpdate();
 
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
 
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
@@ -177,7 +177,7 @@ namespace TTGL_Survivor.SkillStates
 
             if (!this.inHitPause)
             {
-                this.stopwatch += Time.fixedDeltaTime;
+                this.stopwatch += Time.deltaTime;
             }
             else
             {

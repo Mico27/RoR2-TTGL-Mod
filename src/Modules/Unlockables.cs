@@ -31,7 +31,7 @@ namespace TTGL_Survivor.Modules
                                 Language.GetString("ACHIEVEMENT_" +TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_ACHIEVEMENT_ID_DESCRIPTION")
                             }));
             lagannCombineUnlockable.sortScore = 200;
-            lagannCombineUnlockable.achievementIcon = Modules.Assets.LoadAsset<Sprite>("GurrenLagannIcon");
+            lagannCombineUnlockable.achievementIcon = Modules.TTGLAssets.LoadAsset<Sprite>("GurrenLagannIcon");
 
 
             TTGL_SurvivorPlugin.unlockableDefs.Add(lagannCombineUnlockable);

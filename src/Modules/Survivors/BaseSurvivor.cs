@@ -40,7 +40,7 @@ namespace TTGL_Survivor.Modules
             bodyComponent.bodyColor = new Color(0.25f, 0.65f, 0.25f);
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_SUBTITLE";
-            bodyComponent.portraitIcon = Modules.Assets.LoadAsset<Texture>("LagannIcon");
+            bodyComponent.portraitIcon = Modules.TTGLAssets.LoadAsset<Texture>("LagannIcon");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
@@ -128,7 +128,7 @@ namespace TTGL_Survivor.Modules
             TTGL_SurvivorPlugin.DestroyImmediate(main.transform.Find("CameraPivot").gameObject);
             TTGL_SurvivorPlugin.DestroyImmediate(main.transform.Find("AimOrigin").gameObject);
 
-            return Modules.Assets.LoadAsset<GameObject>(modelName);
+            return Modules.TTGLAssets.LoadAsset<GameObject>(modelName);
         }
 
         protected virtual void SetupCharacterModel(GameObject prefab, CustomRendererInfo[] rendererInfo, int mainRendererIndex)
@@ -155,7 +155,7 @@ namespace TTGL_Survivor.Modules
 
             characterModel.autoPopulateLightInfos = true;
             characterModel.invisibilityCount = 0;
-            characterModel.temporaryOverlays = new List<TemporaryOverlay>();
+            characterModel.temporaryOverlays = new List<TemporaryOverlayInstance>();
 
             characterModel.mainSkinnedMeshRenderer = characterModel.baseRendererInfos[mainRendererIndex].renderer.GetComponent<SkinnedMeshRenderer>();
         }

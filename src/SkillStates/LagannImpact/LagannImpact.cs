@@ -77,8 +77,8 @@ namespace TTGL_Survivor.SkillStates
                 procCoefficient = procCoefficient,
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
-                hitEffectPrefab = Modules.Assets.punchImpactEffect,
-                impactSound = Modules.Assets.drillRushHitSoundEvent.index,
+                hitEffectPrefab = Modules.TTGLAssets.punchImpactEffect,
+                impactSound = Modules.TTGLAssets.drillRushHitSoundEvent.index,
             };
         }
 
@@ -129,7 +129,7 @@ namespace TTGL_Survivor.SkillStates
                     }
                     else
                     {
-                        base.characterMotor.rootMotion += currentDirection * (c_SpeedCoefficient * Time.fixedDeltaTime);
+                        base.characterMotor.rootMotion += currentDirection * (c_SpeedCoefficient * Time.deltaTime);
                     }
                 }
             }

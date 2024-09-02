@@ -144,7 +144,7 @@ namespace TTGL_Survivor.SkillStates
         {            
             if (explosionIndex == 0)
             {
-                EffectManager.SpawnEffect(Assets.specialExplosion, new EffectData
+                EffectManager.SpawnEffect(TTGLAssets.specialExplosion, new EffectData
                 {
                     origin = target,
                     scale = 1f

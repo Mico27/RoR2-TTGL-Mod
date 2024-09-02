@@ -39,7 +39,7 @@ namespace TTGL_Survivor.Modules
 
         private void FixedUpdate()
         {
-            durationCounter += Time.fixedDeltaTime;
+            durationCounter += Time.deltaTime;
             if (durationCounter >= duration)
             {
                 this.visualState = 1;
@@ -103,7 +103,7 @@ namespace TTGL_Survivor.Modules
                         {
                             if (entityStateMachine.state is GurrenLagannShadesConstrictState)
                             {
-                                entityStateMachine.SetInterruptState(EntityStateCatalog.InstantiateState(entityStateMachine.mainStateType), InterruptPriority.Death);
+                                entityStateMachine.SetInterruptState(EntityStateCatalog.InstantiateState(ref entityStateMachine.mainStateType), InterruptPriority.Death);
                             }
                         }
                     }
@@ -115,7 +115,7 @@ namespace TTGL_Survivor.Modules
         {
             if (this.visualState == 1)
             {
-                deleteCounter += Time.fixedDeltaTime;
+                deleteCounter += Time.deltaTime;
                 if (deleteCounter >= 0.5f)
                 {
                     UnityEngine.Object.Destroy(base.gameObject);

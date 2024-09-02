@@ -80,8 +80,8 @@ namespace TTGL_Survivor.SkillStates
             this.attackEndTime = 0.75f;
             this.baseEarlyExitTime = 0.25f;
             this.hitStopDuration = 0.115f;
-            this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
-            this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
+            this.hitEffectPrefab = Modules.TTGLAssets.punchImpactEffect;
+            this.impactSound = Modules.TTGLAssets.drillRushHitSoundEvent.index;
 
             this.duration = this.baseDuration / this.attackSpeedStat;
             this.earlyExitTime = this.baseEarlyExitTime / this.attackSpeedStat;
@@ -141,7 +141,7 @@ namespace TTGL_Survivor.SkillStates
         {
             base.FixedUpdate();
 
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
 
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
@@ -152,7 +152,7 @@ namespace TTGL_Survivor.SkillStates
 
             if (!this.inHitPause)
             {
-                this.stopwatch += Time.fixedDeltaTime;
+                this.stopwatch += Time.deltaTime;
             }
             else
             {

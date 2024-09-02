@@ -81,7 +81,7 @@ namespace TTGL_Survivor.SkillStates
                 }
                 return;
             }
-            m_BouncingTime += Time.fixedDeltaTime;
+            m_BouncingTime += Time.deltaTime;
         }
 
         public override void OnExit()

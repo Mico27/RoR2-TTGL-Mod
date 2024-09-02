@@ -10,7 +10,7 @@ namespace TTGL_Survivor.Modules.Achievements
 {
     [RegisterAchievement(TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_ACHIEVEMENT_ID",
            TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_UNLOCKABLE_ID",
-           TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_PREREQUISITE_ID")]
+           TTGL_SurvivorPlugin.developerPrefix + "_LAGANNCOMBINE_PREREQUISITE_ID", 5)]
     internal class LagannCombineAchievement : BaseAchievement
     {
         public override BodyIndex LookUpRequiredBodyIndex()

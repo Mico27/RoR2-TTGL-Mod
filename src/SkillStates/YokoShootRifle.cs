@@ -33,7 +33,7 @@ namespace TTGL_Survivor.SkillStates
             this.muzzleString = "Muzzle";
             base.PlayAnimation("Yoko", "ShootRifle", "ShootRifle.playbackRate", 2f * this.duration);
             base.characterBody.AddSpreadBloom(1.5f);
-            EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
+            EffectManager.SimpleMuzzleFlash(Modules.TTGLAssets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
             Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
             base.AddRecoil(-1f * YokoShootRifle.recoil, -2f * YokoShootRifle.recoil, -0.5f * YokoShootRifle.recoil, 0.5f * YokoShootRifle.recoil);
             if (base.isAuthority)
@@ -91,11 +91,11 @@ namespace TTGL_Survivor.SkillStates
                 sniper = false,
                 stopperMask = LayerIndex.CommonMasks.bullet,
                 weapon = null,
-                tracerEffectPrefab = Modules.Assets.yokoRifleBeamEffect,
+                tracerEffectPrefab = Modules.TTGLAssets.yokoRifleBeamEffect,
                 spreadPitchScale = 0f,
                 spreadYawScale = 0f,
                 queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
-                hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect,
+                hitEffectPrefab = Modules.TTGLAssets.yokoRifleHitSmallEffect,
             };
             if (maxRicochetCount > 0 && bulletAttack.isCrit)
             {
@@ -130,8 +130,8 @@ namespace TTGL_Survivor.SkillStates
                 critRicochetOrb.duration = 0.1f;
                 critRicochetOrb.bouncedObjects = new List<HealthComponent>();
                 critRicochetOrb.range = Mathf.Max(30f, hitDistance);
-                critRicochetOrb.tracerEffectPrefab = Modules.Assets.yokoRifleBeamEffect;
-                critRicochetOrb.hitEffectPrefab = Modules.Assets.yokoRifleHitSmallEffect;
+                critRicochetOrb.tracerEffectPrefab = Modules.TTGLAssets.yokoRifleBeamEffect;
+                critRicochetOrb.hitEffectPrefab = Modules.TTGLAssets.yokoRifleHitSmallEffect;
                 critRicochetOrb.hitSoundString = "TTGLTokoRifleCrit";
                 critRicochetOrb.origin = hitPoint;
                 critRicochetOrb.bouncedObjects.Add(hitHealthComponent);

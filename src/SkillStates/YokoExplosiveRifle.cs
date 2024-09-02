@@ -42,7 +42,7 @@ namespace TTGL_Survivor.SkillStates
             if (!this.hasFired)
             {
                 this.hasFired = true;
-                EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(Modules.TTGLAssets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
                 Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
 
                 if (base.isAuthority)

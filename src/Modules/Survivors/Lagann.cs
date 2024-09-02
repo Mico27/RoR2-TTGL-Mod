@@ -278,7 +278,7 @@ namespace TTGL_Survivor.Modules.Survivors
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = prefix + "_LAGANN_BODY_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = prefix + "_LAGANN_BODY_PASSIVE_DESCRIPTION";
-            skillLocator.passiveSkill.icon = Modules.Assets.LoadAsset<Sprite>("SpiralPowerIcon");
+            skillLocator.passiveSkill.icon = Modules.TTGLAssets.LoadAsset<Sprite>("SpiralPowerIcon");
 
             #endregion
 
@@ -289,7 +289,7 @@ namespace TTGL_Survivor.Modules.Survivors
             drillRushSkillDef.skillName = "LagannDrillRush";
             drillRushSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_NAME";
             drillRushSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILL_DESCRIPTION";
-            drillRushSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("DrillRushIcon");
+            drillRushSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("DrillRushIcon");
             drillRushSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannDrillRush));
             drillRushSkillDef.activationStateMachineName = "Slide";
             drillRushSkillDef.baseMaxStock = 1;
@@ -314,7 +314,7 @@ namespace TTGL_Survivor.Modules.Survivors
             drillSpikeSkillDef.skillName = "LagannDrillSpike";
             drillSpikeSkillDef.skillNameToken = prefix + "_LAGANN_BODY_PRIMARY_DRILLSPIKE_NAME";
             drillSpikeSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_PRIMARY_DRILLSPIKE_DESCRIPTION";
-            drillSpikeSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("DrillSpikeIcon");
+            drillSpikeSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("DrillSpikeIcon");
             drillSpikeSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannDrillSpike));
             drillSpikeSkillDef.activationStateMachineName = "Slide";
             drillSpikeSkillDef.baseMaxStock = 1;
@@ -343,7 +343,7 @@ namespace TTGL_Survivor.Modules.Survivors
             shootRifleSkillDef.skillName = "YokoShootRifle";
             shootRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_NAME";
             shootRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_RIFLE_DESCRIPTION";
-            shootRifleSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("YokoRifleIcon");
+            shootRifleSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("YokoRifleIcon");
             shootRifleSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoShootRifle));
             shootRifleSkillDef.activationStateMachineName = "Weapon";
             shootRifleSkillDef.baseMaxStock = 1;
@@ -368,7 +368,7 @@ namespace TTGL_Survivor.Modules.Survivors
             explosiveRifleSkillDef.skillName = "YokoExplosiveRifle";
             explosiveRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_NAME";
             explosiveRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_EXPLOSION_DESCRIPTION";
-            explosiveRifleSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("YokoRifleExplosionIcon");
+            explosiveRifleSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("YokoRifleExplosionIcon");
             explosiveRifleSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoExplosiveRifle));
             explosiveRifleSkillDef.activationStateMachineName = "Weapon";
             explosiveRifleSkillDef.baseMaxStock = 1;
@@ -392,7 +392,7 @@ namespace TTGL_Survivor.Modules.Survivors
             piercingRifleSkillDef.skillName = "YokoPiercingRifle";
             piercingRifleSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_PIERCING_NAME";
             piercingRifleSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_PIERCING_DESCRIPTION";
-            piercingRifleSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("YokoRifleChargeIcon");
+            piercingRifleSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("YokoRifleChargeIcon");
             piercingRifleSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoPiercingRifleCharging));
             piercingRifleSkillDef.activationStateMachineName = "Weapon";
             piercingRifleSkillDef.baseMaxStock = 3;
@@ -419,7 +419,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralBurstSkillDef.skillName = "LagannSpiralBurst";
             spiralBurstSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_NAME";
             spiralBurstSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALBURST_DESCRIPTION";
-            spiralBurstSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("SpiralBurstIcon");
+            spiralBurstSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("SpiralBurstIcon");
             spiralBurstSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannSpiralBurst));
             spiralBurstSkillDef.activationStateMachineName = "Slide";
             spiralBurstSkillDef.baseMaxStock = 1;
@@ -443,7 +443,7 @@ namespace TTGL_Survivor.Modules.Survivors
             toggleCanopySkillDef.skillName = "LagannToggleCanopy";
             toggleCanopySkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_NAME";
             toggleCanopySkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_TOGGLECANOPY_DESCRIPTION";
-            toggleCanopySkillDef.icon = Modules.Assets.LoadAsset<Sprite>("ToggleCanopyIcon");
+            toggleCanopySkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("ToggleCanopyIcon");
             toggleCanopySkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannToggleCanopy));
             toggleCanopySkillDef.activationStateMachineName = "Weapon";
             toggleCanopySkillDef.baseMaxStock = 1;
@@ -467,7 +467,7 @@ namespace TTGL_Survivor.Modules.Survivors
             canopyOverrideSkillDef.skillName = prefix + "LagannDisableRifle";
             canopyOverrideSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_NAME";
             canopyOverrideSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_DISABLERIFLE_DESCRIPTION";
-            canopyOverrideSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("DisableYokoRifleIcon");
+            canopyOverrideSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("DisableYokoRifleIcon");
             TTGL_SurvivorPlugin.skillDefs.Add(canopyOverrideSkillDef);
 
             ShieldBarrirerSkillDef spiralConversionSkillDef = ScriptableObject.CreateInstance<ShieldBarrirerSkillDef>();
@@ -475,7 +475,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralConversionSkillDef.skillName = "LagannSpiralConversion";
             spiralConversionSkillDef.skillNameToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME";
             spiralConversionSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION";
-            spiralConversionSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("SpiralConversionIcon");
+            spiralConversionSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("SpiralConversionIcon");
             spiralConversionSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.LagannSpiralConversion));
             spiralConversionSkillDef.activationStateMachineName = "Body";
             spiralConversionSkillDef.baseMaxStock = 1;
@@ -502,7 +502,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannImpactSkillDef.skillName = "LagannImpact";
             lagannImpactSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_NAME";
             lagannImpactSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_IMPACT_DESCRIPTION";
-            lagannImpactSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("LagannImpactIcon");
+            lagannImpactSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("LagannImpactIcon");
             lagannImpactSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannImpact));
             lagannImpactSkillDef.activationStateMachineName = "Body";
             lagannImpactSkillDef.baseMaxStock = 1;
@@ -526,7 +526,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannBurrowerStrikeSkillDef.skillName = "LagannBurrowerStrike";
             lagannBurrowerStrikeSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SPECIAL_BURROWER_NAME";
             lagannBurrowerStrikeSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SPECIAL_BURROWER_DESCRIPTION";
-            lagannBurrowerStrikeSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("LagannImpactIcon");
+            lagannBurrowerStrikeSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("LagannImpactIcon");
             lagannBurrowerStrikeSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PrepareLagannBurrowerStrike));
             lagannBurrowerStrikeSkillDef.activationStateMachineName = "Body";
             lagannBurrowerStrikeSkillDef.baseMaxStock = 1;
@@ -553,7 +553,7 @@ namespace TTGL_Survivor.Modules.Survivors
             lagannCombineSkillDef.skillName = "LagannCombine";
             lagannCombineSkillDef.skillNameToken = prefix + "_LAGANN_BODY_COMBINE_NAME";
             lagannCombineSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_COMBINE_DESCRIPTION";
-            lagannCombineSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("LagannCombineIcon");
+            lagannCombineSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("LagannCombineIcon");
             lagannCombineSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(LagannCombine));
             lagannCombineSkillDef.activationStateMachineName = "Body";
             lagannCombineSkillDef.baseMaxStock = 1;
@@ -593,7 +593,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region DefaultSkin
             SkinDef defaultSkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_DEFAULT_SKIN_NAME",
-                Assets.LoadAsset<Sprite>("DefaultSkinIcon"),
+                TTGLAssets.LoadAsset<Sprite>("DefaultSkinIcon"),
                 defaultRenderers,
                 mainRenderer,
                 model);
@@ -620,7 +620,7 @@ namespace TTGL_Survivor.Modules.Survivors
             if (woopsEnabled)
             {
                 SkinDef woopsSkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_LAGANN_BODY_WOOPS_SKIN_NAME",
-                Assets.LoadAsset<Sprite>("WoopsSkinIcon"),
+                TTGLAssets.LoadAsset<Sprite>("WoopsSkinIcon"),
                 defaultRenderers,
                 mainRenderer,
                 model);
@@ -3262,7 +3262,7 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
             scepterSkillDef.skillName = "YokoScepterRifle";
             scepterSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME";
             scepterSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION";
-            scepterSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("YokoRifleAncientScepterIcon");
+            scepterSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("YokoRifleAncientScepterIcon");
             scepterSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoScepterRifle));
             scepterSkillDef.activationStateMachineName = "Weapon";
             scepterSkillDef.baseMaxStock = 1;

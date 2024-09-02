@@ -31,7 +31,7 @@ namespace TTGL_Survivor.SkillStates
             this.m_LineRenderer = base.gameObject.AddComponent<LineRenderer>();
             this.m_LineRenderer.startWidth = 0.5f;
             this.m_LineRenderer.endWidth = 0.5f;
-            this.m_LineRenderer.material = Modules.Assets.LoadAsset<Material>("SparksMat");
+            this.m_LineRenderer.material = Modules.TTGLAssets.LoadAsset<Material>("SparksMat");
             this.m_LineRenderer.startColor = Color.green;
             this.m_LineRenderer.endColor = Color.white;
             this.m_LineRenderer.textureMode = LineTextureMode.Tile;

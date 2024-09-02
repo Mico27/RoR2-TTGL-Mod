@@ -143,7 +143,7 @@ namespace TTGL_Survivor.SkillStates
             base.FixedUpdate();
             bool isVertical = (this.burstDirection == Vector3.up);
             this.RecalculateBurstSpeed(isVertical);
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
                 base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
@@ -153,7 +153,7 @@ namespace TTGL_Survivor.SkillStates
 
             if (!this.inHitPause)
             {
-                this.stopwatch += Time.fixedDeltaTime;
+                this.stopwatch += Time.deltaTime;
             }
             else
             {

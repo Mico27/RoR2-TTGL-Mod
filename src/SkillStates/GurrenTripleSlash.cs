@@ -56,8 +56,8 @@ namespace TTGL_Survivor.SkillStates
             this.baseDuration = 4.0f;
             this.hitStopDuration = 0.115f;
             base.characterBody.SetAimTimer(2f);
-            this.hitEffectPrefab = Modules.Assets.punchImpactEffect;
-            this.impactSound = Modules.Assets.drillRushHitSoundEvent.index;
+            this.hitEffectPrefab = Modules.TTGLAssets.punchImpactEffect;
+            this.impactSound = Modules.TTGLAssets.drillRushHitSoundEvent.index;
 
             this.duration = this.baseDuration / this.attackSpeedStat;
             this.hasFired = false;
@@ -94,7 +94,7 @@ namespace TTGL_Survivor.SkillStates
         {
             base.FixedUpdate();
             var currentDamageWindow = damageWindows.FirstOrDefault();
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
 
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
@@ -105,8 +105,8 @@ namespace TTGL_Survivor.SkillStates
 
             if (!this.inHitPause)
             {
-                this.stopwatch += Time.fixedDeltaTime;
-                this.resetAttackStopwatch += Time.fixedDeltaTime;
+                this.stopwatch += Time.deltaTime;
+                this.resetAttackStopwatch += Time.deltaTime;
             }
             else
             {
@@ -118,7 +118,7 @@ namespace TTGL_Survivor.SkillStates
                 this.stopwatch >= (this.duration * currentDamageWindow.Item1) && 
                 this.stopwatch <= (this.duration * currentDamageWindow.Item2))
             {
-                this.PullEnemies(Time.fixedDeltaTime);
+                this.PullEnemies(Time.deltaTime);
                 this.FireAttack();
             }
 

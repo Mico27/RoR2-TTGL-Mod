@@ -87,8 +87,8 @@ namespace TTGL_Survivor.SkillStates
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            this.totalStopwatch += Time.fixedDeltaTime;
-            this.stopwatch += Time.fixedDeltaTime;
+            this.totalStopwatch += Time.deltaTime;
+            this.stopwatch += Time.deltaTime;
             AkSoundEngine.SetRTPCValueByPlayingID(GoldGatFire.windUpRTPC, Mathf.InverseLerp(GoldGatFire.minFireFrequency, GoldGatFire.maxFireFrequency, this.fireFrequency) * 100f, this.loopSoundID);
             
             if (this.stopwatch > 1f / this.fireFrequency)

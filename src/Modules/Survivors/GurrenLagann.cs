@@ -148,7 +148,7 @@ namespace TTGL_Survivor.Modules.Survivors
             bodyComponent.bodyColor = new Color(0.25f, 0.65f, 0.25f);
             bodyComponent.baseNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_NAME";
             bodyComponent.subtitleNameToken = TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_SUBTITLE";
-            bodyComponent.portraitIcon = Modules.Assets.LoadAsset<Texture>("GurrenLagannIcon");
+            bodyComponent.portraitIcon = Modules.TTGLAssets.LoadAsset<Texture>("GurrenLagannIcon");
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
             bodyComponent.rootMotionInMainState = false;
@@ -260,7 +260,7 @@ namespace TTGL_Survivor.Modules.Survivors
             var footstepHandler = model.AddComponent<FootstepHandler>();
             footstepHandler.enableFootstepDust = true;
             footstepHandler.baseFootstepString = "Play_player_footstep";
-            footstepHandler.footstepDustPrefab = Modules.Assets.LoadAsset<GameObject>("DustDirtyPoofSoft");
+            footstepHandler.footstepDustPrefab = Modules.TTGLAssets.LoadAsset<GameObject>("DustDirtyPoofSoft");
         }
 
         private void CreateHurtBoxes()
@@ -329,7 +329,7 @@ namespace TTGL_Survivor.Modules.Survivors
             skillLocator.passiveSkill.enabled = true;
             skillLocator.passiveSkill.skillNameToken = prefix + "_GURRENLAGANN_BODY_PASSIVE_NAME";
             skillLocator.passiveSkill.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_PASSIVE_DESCRIPTION";
-            skillLocator.passiveSkill.icon = Modules.Assets.LoadAsset<Sprite>("SpiralPowerIcon");
+            skillLocator.passiveSkill.icon = Modules.TTGLAssets.LoadAsset<Sprite>("SpiralPowerIcon");
 
             #endregion
 
@@ -339,7 +339,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralingComboSkillDef.skillName = "GurrenLagannSpiralingCombo";
             spiralingComboSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_NAME";
             spiralingComboSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPIRALINGCOMBO_DESCRIPTION";
-            spiralingComboSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("SpiralComboIcon");
+            spiralingComboSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("SpiralComboIcon");
             spiralingComboSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSpiralingCombo));
             spiralingComboSkillDef.activationStateMachineName = "Body";
             spiralingComboSkillDef.baseMaxStock = 1;
@@ -366,7 +366,7 @@ namespace TTGL_Survivor.Modules.Survivors
             throwingShadesSkillDef.skillName = "GurrenLagannThrowingShades";
             throwingShadesSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_NAME";
             throwingShadesSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_THROWINGSHADES_DESCRIPTION";
-            throwingShadesSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("GurrenLagannShadeThrowIcon");
+            throwingShadesSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("GurrenLagannShadeThrowIcon");
             throwingShadesSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannThrowingShades));
             throwingShadesSkillDef.activationStateMachineName = "Weapon";
             throwingShadesSkillDef.baseMaxStock = 2;
@@ -394,7 +394,7 @@ namespace TTGL_Survivor.Modules.Survivors
             tornadoKickSkillDef.skillName = "GurrenLagannTornadoKick";
             tornadoKickSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_NAME";
             tornadoKickSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_TORNADOKICK_DESCRIPTION";
-            tornadoKickSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("HuricaneKickIcon");
+            tornadoKickSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("HuricaneKickIcon");
             tornadoKickSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannTornadoKick));
             tornadoKickSkillDef.activationStateMachineName = "Slide";
             tornadoKickSkillDef.baseMaxStock = 1;
@@ -418,7 +418,7 @@ namespace TTGL_Survivor.Modules.Survivors
             spiralConversionSkillDef.skillName = "GurrenLagannSpiralConversion";
             spiralConversionSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_NAME";
             spiralConversionSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_UTILITY_SPIRALCONVERSION_DESCRIPTION";
-            spiralConversionSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("SpiralConversionIcon");
+            spiralConversionSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("SpiralConversionIcon");
             spiralConversionSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSpiralConversion));
             spiralConversionSkillDef.activationStateMachineName = "Body";
             spiralConversionSkillDef.baseMaxStock = 1;
@@ -446,7 +446,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillMaximumSkillDef.skillName = "GurrenLagannGigaDrillMaximum";
             gigaDrillMaximumSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_NAME";
             gigaDrillMaximumSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLMAXIMUM_DESCRIPTION";
-            gigaDrillMaximumSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("GigaDrillMaximumIcon");
+            gigaDrillMaximumSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("GigaDrillMaximumIcon");
             gigaDrillMaximumSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(GurrenLagannGigaDrillMaximum));
             gigaDrillMaximumSkillDef.activationStateMachineName = "Body";
             gigaDrillMaximumSkillDef.baseMaxStock = 1;
@@ -472,7 +472,7 @@ namespace TTGL_Survivor.Modules.Survivors
                 initGigaDrillBreakerSkillDef.skillName = "GurrenLagannGigaDrillBreakInit";
                 initGigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
                 initGigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
-                initGigaDrillBreakerSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("GigaDrillBreakIcon");
+                initGigaDrillBreakerSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("GigaDrillBreakIcon");
                 initGigaDrillBreakerSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(GurrenLagannInitGigaDrillBreak));
                 initGigaDrillBreakerSkillDef.activationStateMachineName = "Weapon";
                 initGigaDrillBreakerSkillDef.baseMaxStock = 1;
@@ -497,7 +497,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gigaDrillBreakerSkillDef.skillName = "GurrenLagannGigaDrillBreak";
             gigaDrillBreakerSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_NAME";
             gigaDrillBreakerSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_GIGADRILLBREAK_DESCRIPTION";
-            gigaDrillBreakerSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("GigaDrillBreakIcon");
+            gigaDrillBreakerSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("GigaDrillBreakIcon");
             gigaDrillBreakerSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannGigaDrillBreak));
             gigaDrillBreakerSkillDef.activationStateMachineName = "Body";
             gigaDrillBreakerSkillDef.baseMaxStock = 1;
@@ -524,7 +524,7 @@ namespace TTGL_Survivor.Modules.Survivors
             gurrenLagannSplitSkillDef.skillName = "GurrenLagannSplit";
             gurrenLagannSplitSkillDef.skillNameToken = prefix + "_GURRENLAGANN_BODY_SPLIT_NAME";
             gurrenLagannSplitSkillDef.skillDescriptionToken = prefix + "_GURRENLAGANN_BODY_SPLIT_DESCRIPTION";
-            gurrenLagannSplitSkillDef.icon = Modules.Assets.LoadAsset<Sprite>("GurrenLagannSplitIcon");
+            gurrenLagannSplitSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("GurrenLagannSplitIcon");
             gurrenLagannSplitSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.GurrenLagannSplit));
             gurrenLagannSplitSkillDef.activationStateMachineName = "Body";
             gurrenLagannSplitSkillDef.baseMaxStock = 1;
@@ -561,7 +561,7 @@ namespace TTGL_Survivor.Modules.Survivors
 
             #region DefaultSkin
             SkinDef defaultSkin = Modules.Skins.CreateSkinDef(TTGL_SurvivorPlugin.developerPrefix + "_GURRENLAGANN_BODY_DEFAULT_SKIN_NAME",
-                Assets.LoadAsset<Sprite>("DefaultSkinIcon"),
+                TTGLAssets.LoadAsset<Sprite>("DefaultSkinIcon"),
                 defaultRenderers,
                 mainRenderer,
                 model);

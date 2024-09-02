@@ -62,7 +62,7 @@ namespace TTGL_Survivor.Modules
         private static void CreateGurrenSummonInteractableSpawnCard()
         {
             gurrenInteractSpawnCard = ScriptableObject.CreateInstance<InteractableSpawnCard>();
-            var gurrenInteractPrefab = Modules.Assets.LoadAsset<GameObject>("GurrenInteractPrefab");            
+            var gurrenInteractPrefab = Modules.TTGLAssets.LoadAsset<GameObject>("GurrenInteractPrefab");            
             gurrenInteractPrefab.AddComponent<NetworkIdentity>();
             var childLocator = gurrenInteractPrefab.GetComponent<ChildLocator>();
             var model = childLocator.FindChild("Model");

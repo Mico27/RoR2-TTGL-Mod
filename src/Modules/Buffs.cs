@@ -30,7 +30,7 @@ namespace TTGL_Survivor.Modules
         {
             var buffDef = ScriptableObject.CreateInstance<BuffDef>();
             buffDef.name = buffName;
-            buffDef.iconSprite = Modules.Assets.LoadAsset<Sprite>(iconPath);
+            buffDef.iconSprite = Modules.TTGLAssets.LoadAsset<Sprite>(iconPath);
             buffDef.buffColor = buffColor;
             buffDef.canStack = canStack;
             buffDef.isDebuff = isDebuff;

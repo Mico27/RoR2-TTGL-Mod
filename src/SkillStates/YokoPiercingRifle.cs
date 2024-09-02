@@ -34,7 +34,7 @@ namespace TTGL_Survivor.SkillStates
             this.muzzleString = "Muzzle";
             base.PlayAnimation("Yoko", "ShootRifle", "ShootRifle.playbackRate", 2f * this.duration);
             base.characterBody.AddSpreadBloom(1.5f);
-            EffectManager.SimpleMuzzleFlash(Modules.Assets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
+            EffectManager.SimpleMuzzleFlash(Modules.TTGLAssets.yokoRifleMuzzleSmallEffect, base.gameObject, this.muzzleString, false);
             Util.PlaySound("TTGLTokoRifleFire", base.gameObject);
             base.AddRecoil(-1f * YokoPiercingRifle.recoil, -2f * YokoPiercingRifle.recoil, -0.5f * YokoPiercingRifle.recoil, 0.5f * YokoPiercingRifle.recoil);
             if (base.isAuthority)

@@ -112,11 +112,11 @@ namespace TTGL_Survivor.Modules
             var hasKaminaBuff = this.body.HasBuff(Modules.Buffs.kaminaBuff);
             if (energyUptimeStopwatch < C_MaxEnergyUptime)
             {
-                energyUptimeStopwatch += Time.fixedDeltaTime;
+                energyUptimeStopwatch += Time.deltaTime;
             }
             if (trottleUpdateTime < C_MaxTrottleUpdateTime)
             {
-                trottleUpdateTime += Time.fixedDeltaTime;
+                trottleUpdateTime += Time.deltaTime;
             }
             if (trottleUpdateTime >= C_MaxTrottleUpdateTime)
             {
@@ -154,7 +154,7 @@ namespace TTGL_Survivor.Modules
                     this.body.statsDirty = true;
                 }
             }
-            this.NetworkEnergy = Mathf.Clamp(this.energy + this.charge_rate * Time.fixedDeltaTime * C_SPIRALENERGYCAP, 0.0f, C_SPIRALENERGYCAP);
+            this.NetworkEnergy = Mathf.Clamp(this.energy + this.charge_rate * Time.deltaTime * C_SPIRALENERGYCAP, 0.0f, C_SPIRALENERGYCAP);
                         
             if (!this.hadFullBuff && !hasFullEnergyDeBuff && this.energy >= C_SPIRALENERGYCAP)
             {
@@ -188,7 +188,7 @@ namespace TTGL_Survivor.Modules
         }
         private void UpdateGurrenPassive()
         {
-            checkGurrenPassiveStopWatch += Time.fixedDeltaTime;
+            checkGurrenPassiveStopWatch += Time.deltaTime;
             if (checkGurrenPassiveStopWatch > checkGurrenPassiveInterval)
             {
                 checkGurrenPassiveStopWatch = 0f;

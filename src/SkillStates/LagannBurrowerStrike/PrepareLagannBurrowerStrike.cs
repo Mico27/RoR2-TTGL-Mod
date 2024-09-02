@@ -83,8 +83,8 @@ namespace TTGL_Survivor.SkillStates
                 procCoefficient = 1f,
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
-                hitEffectPrefab = Modules.Assets.punchImpactEffect,
-                impactSound = Modules.Assets.drillRushHitSoundEvent.index,
+                hitEffectPrefab = Modules.TTGLAssets.punchImpactEffect,
+                impactSound = Modules.TTGLAssets.drillRushHitSoundEvent.index,
             };
         }
 
@@ -105,7 +105,7 @@ namespace TTGL_Survivor.SkillStates
             }
             else
             {
-                burrowingTimer += Time.fixedDeltaTime;
+                burrowingTimer += Time.deltaTime;
                 if (burrowingTimer >= burrowingDuration)
                 {
                     this.SetNextState();
@@ -146,7 +146,7 @@ namespace TTGL_Survivor.SkillStates
         {
             if (base.isAuthority)
             {
-                attackResetTimer += Time.fixedDeltaTime;
+                attackResetTimer += Time.deltaTime;
                 if (attackResetTimer >= this.attackResetDuration)
                 {
                     attackResetTimer = 0f;
@@ -167,13 +167,13 @@ namespace TTGL_Survivor.SkillStates
                 base.characterMotor.moveDirection = base.inputBank.moveVector;
                 base.characterDirection.moveVector = base.characterMotor.moveDirection;
                 CharacterMotor characterMotor = base.characterMotor;
-                characterMotor.velocity.y = characterMotor.velocity.y + GroundSlam.verticalAcceleration * Time.fixedDeltaTime;
+                characterMotor.velocity.y = characterMotor.velocity.y + GroundSlam.verticalAcceleration * Time.deltaTime;
             }
         }
 
         private void ProcessHitLag()
         {
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
                 base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
@@ -201,7 +201,7 @@ namespace TTGL_Survivor.SkillStates
 
         private void DisplayMound()
         {
-            EffectManager.SpawnEffect(Assets.earthMoundEffect, new EffectData
+            EffectManager.SpawnEffect(TTGLAssets.earthMoundEffect, new EffectData
             {
                 origin = base.characterBody.footPosition,
                 rotation = base.transform.rotation

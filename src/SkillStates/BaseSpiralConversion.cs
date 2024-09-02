@@ -86,7 +86,7 @@ namespace TTGL_Survivor.SkillStates
         protected virtual void CreateChargeEffect()
         {
             this.chargeEffect = UnityEngine.Object.Instantiate<GameObject>(
-               Assets.LoadAsset<GameObject>("SpiralSlowCharge"),
+               TTGLAssets.LoadAsset<GameObject>("SpiralSlowCharge"),
                base.characterBody.coreTransform
                );
         }
@@ -105,7 +105,7 @@ namespace TTGL_Survivor.SkillStates
         private void ConvertSpiralEnergy()
         {
             var healthComponent = base.healthComponent;
-            var cost = healthComponent.fullCombinedHealth * conversionSpeed * Time.fixedDeltaTime;
+            var cost = healthComponent.fullCombinedHealth * conversionSpeed * Time.deltaTime;
             var initialCost = cost;
             if (cost > 0f && healthComponent.barrier > 0f)
             {

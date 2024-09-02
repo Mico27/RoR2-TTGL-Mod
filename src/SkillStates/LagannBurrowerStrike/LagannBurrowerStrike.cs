@@ -67,8 +67,8 @@ namespace TTGL_Survivor.SkillStates
                 procCoefficient = procCoefficient,
                 teamIndex = base.characterBody.teamComponent.teamIndex,
                 hitBoxGroup = hitBoxGroup,
-                hitEffectPrefab = Modules.Assets.punchImpactEffect,
-                impactSound = Modules.Assets.drillRushHitSoundEvent.index,
+                hitEffectPrefab = Modules.TTGLAssets.punchImpactEffect,
+                impactSound = Modules.TTGLAssets.drillRushHitSoundEvent.index,
             };
             base.characterMotor.useGravity = false;
             if (NetworkServer.active)
@@ -79,7 +79,7 @@ namespace TTGL_Survivor.SkillStates
             {
                 base.characterMotor.onMovementHit += this.OnMovementHit;
             }
-            EffectManager.SpawnEffect(Assets.earthMoundEffect, new EffectData
+            EffectManager.SpawnEffect(TTGLAssets.earthMoundEffect, new EffectData
             {
                 origin = this.spawnLocation,
                 rotation = Util.QuaternionSafeLookRotation(this.spawnRotation) * Quaternion.Euler(new Vector3(90, 0, 0))
@@ -131,7 +131,7 @@ namespace TTGL_Survivor.SkillStates
         {
             if (base.isAuthority)
             {
-                attackResetTimer += Time.fixedDeltaTime;
+                attackResetTimer += Time.deltaTime;
                 if (attackResetTimer >= this.attackResetDuration)
                 {
                     attackResetTimer = 0f;
@@ -153,14 +153,14 @@ namespace TTGL_Survivor.SkillStates
                 this.rootTransform.rotation = newRotation;
                 if (base.isAuthority && base.characterMotor)
                 {
-                    base.characterMotor.rootMotion += this.spawnRotation * (c_SpeedCoefficient * Time.fixedDeltaTime);
+                    base.characterMotor.rootMotion += this.spawnRotation * (c_SpeedCoefficient * Time.deltaTime);
                 }
             }
         }
 
         private void ProcessHitLag()
         {
-            this.hitPauseTimer -= Time.fixedDeltaTime;
+            this.hitPauseTimer -= Time.deltaTime;
             if (this.hitPauseTimer <= 0f && this.inHitPause)
             {
                 base.ConsumeHitStopCachedState(this.hitStopCachedState, base.characterMotor, this.animator);
@@ -169,7 +169,7 @@ namespace TTGL_Survivor.SkillStates
             }
             if (!this.inHitPause)
             {
-                this.stopwatch += Time.fixedDeltaTime;
+                this.stopwatch += Time.deltaTime;
             }
             else
             {

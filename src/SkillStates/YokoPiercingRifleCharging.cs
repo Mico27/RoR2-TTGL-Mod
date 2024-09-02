@@ -31,7 +31,7 @@ namespace TTGL_Survivor.SkillStates
             Util.PlaySound(BaseChargeFist.enterSFXString, base.gameObject);
             this.chargeLoopSFX = Util.PlaySound(BaseChargeFist.startChargeLoopSFXString, base.gameObject);
             this.chargeEffect = UnityEngine.Object.Instantiate<GameObject>(
-              Assets.LoadAsset<GameObject>("YokoRifleCharge"),
+              TTGLAssets.LoadAsset<GameObject>("YokoRifleCharge"),
               muzzleTransform
               );
         }
@@ -44,7 +44,7 @@ namespace TTGL_Survivor.SkillStates
             var percentUsedStock = ((maxStock > 0f) ? Mathf.Clamp01((maxStock - stock) / maxStock) : 0f) * 100f;
             AkSoundEngine.SetRTPCValueByPlayingID("loaderShift_chargeAmount", percentUsedStock, this.chargeLoopSFX);
             this.chargeEffect.transform.localScale = Vector3.one * (this.charge / 5f);
-            this.durationStopWatch += Time.fixedDeltaTime;
+            this.durationStopWatch += Time.deltaTime;
             if (this.durationStopWatch > chargeDuration)
             {
                 base.characterBody.SetAimTimer(this.chargeDuration);

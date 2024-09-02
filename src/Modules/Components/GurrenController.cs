@@ -45,7 +45,7 @@ namespace TTGL_Survivor.Modules.Components
             {
                 return;
             }
-            checkPassiveStopWatch += Time.fixedDeltaTime;
+            checkPassiveStopWatch += Time.deltaTime;
             if (checkPassiveStopWatch > checkPassiveInterval)
             {
                 checkPassiveStopWatch = 0f;

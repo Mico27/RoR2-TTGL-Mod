@@ -68,7 +68,7 @@ namespace TTGL_Survivor.RideMeExtendedAddin
                 {
                     if (seat.SeatUser)
                     {
-                        seat.SeatUser.CallCmdExitSeat();
+                        seat.SeatUser.CmdExitSeat();
                     }
                 }
             }
@@ -79,7 +79,7 @@ namespace TTGL_Survivor.RideMeExtendedAddin
             var riderController = rider.GetComponent<RideMeExtended.RiderController>();
             if (riderController && riderController.CurrentSeat != null)
             {
-                riderController.CallCmdExitSeat();
+                riderController.CmdExitSeat();
             }
         }
     }
