@@ -39,10 +39,6 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
-            {
-                TTGL_SurvivorPlugin.ExpulseAnyRider(base.gameObject);
-            }
             this.fired = false;
             this.animator = base.GetModelAnimator();
             this.explosionIndex = 0;

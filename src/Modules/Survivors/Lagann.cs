@@ -94,8 +94,6 @@ namespace TTGL_Survivor.Modules.Survivors
                 CreateSkins();
                 InitializeItemDisplays();
                 CreateGenericDoppelganger(characterPrefab, "LagannMonsterMaster", "Merc");
-
-                if (TTGL_SurvivorPlugin.scepterInstalled) CreateScepterSkills();
             }
         }
 
@@ -336,8 +334,8 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
 
             #region Secondary
-            SkillStates.YokoShootRifle.maxRicochetCount = (TTGL_SurvivorPlugin.skillPlusInstalled) ? 2 : 6;
-            SkillStates.YokoShootRifle.resetBouncedObjects = (TTGL_SurvivorPlugin.skillPlusInstalled) ? false : true;
+            SkillStates.YokoShootRifle.maxRicochetCount = 6;
+            SkillStates.YokoShootRifle.resetBouncedObjects = true;
             shootRifleSkillDef = ScriptableObject.CreateInstance<SkillDef>();
             ((ScriptableObject)shootRifleSkillDef).name = "YokoShootRifle";
             shootRifleSkillDef.skillName = "YokoShootRifle";
@@ -496,7 +494,7 @@ namespace TTGL_Survivor.Modules.Survivors
             #endregion
 
             #region Special
-            AimLagannImpact.maxRebound = (TTGL_SurvivorPlugin.skillPlusInstalled) ? 2 : 4;
+            AimLagannImpact.maxRebound = 4;
             SkillDef lagannImpactSkillDef = ScriptableObject.CreateInstance<SkillDef>();
             ((ScriptableObject)lagannImpactSkillDef).name = "LagannImpact";
             lagannImpactSkillDef.skillName = "LagannImpact";
@@ -3250,39 +3248,6 @@ localScale = new Vector3(0.1233F, 0.1233F, 0.1233F),
 
             itemDisplayRuleSet.keyAssetRuleGroups = itemDisplayRules.ToArray();
             itemDisplayRuleSet.GenerateRuntimeValues();
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void CreateScepterSkills()
-        {
-            string prefix = TTGL_SurvivorPlugin.developerPrefix;
-
-            scepterSkillDef = ScriptableObject.CreateInstance<SkillDef>();
-
-            scepterSkillDef.skillName = "YokoScepterRifle";
-            scepterSkillDef.skillNameToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_NAME";
-            scepterSkillDef.skillDescriptionToken = prefix + "_LAGANN_BODY_SECONDARY_SCEPTER_RIFLE_DESCRIPTION";
-            scepterSkillDef.icon = Modules.TTGLAssets.LoadAsset<Sprite>("YokoRifleAncientScepterIcon");
-            scepterSkillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.YokoScepterRifle));
-            scepterSkillDef.activationStateMachineName = "Weapon";
-            scepterSkillDef.baseMaxStock = 1;
-            scepterSkillDef.baseRechargeInterval = 1f;
-            scepterSkillDef.beginSkillCooldownOnSkillEnd = false;
-            scepterSkillDef.canceledFromSprinting = false;
-            scepterSkillDef.forceSprintDuringState = false;
-            scepterSkillDef.fullRestockOnAssign = true;
-            scepterSkillDef.interruptPriority = EntityStates.InterruptPriority.Skill;
-            scepterSkillDef.isCombatSkill = true;
-            scepterSkillDef.mustKeyPress = false;
-            scepterSkillDef.cancelSprintingOnActivation = false;
-            scepterSkillDef.rechargeStock = 1;
-            scepterSkillDef.requiredStock = 1;
-            scepterSkillDef.stockToConsume = 1;
-
-            TTGL_SurvivorPlugin.skillDefs.Add(scepterSkillDef);
-
-            //AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 0);
-            //AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(scepterSkillDef, "LagannBody", SkillSlot.Secondary, 1);
         }
     }
 }

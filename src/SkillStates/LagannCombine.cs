@@ -32,11 +32,6 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
-            {
-                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
-                TTGL_SurvivorPlugin.ExpulseAnyRider(base.gameObject);
-            }
             this.cinematicFrequence = Modules.Config.ttglShowCombiningAnimation;
             if (DisplayCinematic())
             {

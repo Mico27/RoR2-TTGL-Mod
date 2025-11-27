@@ -21,7 +21,7 @@ namespace TTGL_Survivor.Modules.Components
             if (this.purchaseInteraction)
             {
                 //this.purchaseInteraction.costType = CostTypeIndex.Money;
-                this.purchaseInteraction.costType = (CostTypeIndex)CostTypeDefs.getCostTypeIndex(CostTypeDefs.costTypeDefGurrenSummon);
+                this.purchaseInteraction.costType = CostTypeIndex.LunarCoin;
                 this.purchaseInteraction.cost = 2;
                 this.purchaseInteraction.Networkcost = 2;
                 this.purchaseInteraction.onPurchase.AddListener(delegate (Interactor interactor)

@@ -15,9 +15,6 @@ using RoR2.ContentManagement;
 using System.Collections.Generic;
 using RoR2.Skills;
 using System.Collections;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using UnityEngine.Networking;
 using HG;
 
 [module: UnverifiableCode]
@@ -25,9 +22,6 @@ using HG;
 
 namespace TTGL_Survivor
 {
-    [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.cwmlolzlz.skills", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.Mico27.RideMeExtended", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.KingEnderBrine.ExtraSkillSlots", BepInDependency.DependencyFlags.HardDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
@@ -39,13 +33,10 @@ namespace TTGL_Survivor
             MODNAME = "TTGL_Survivor",
             MODAUTHOR = "Mico27",
             MODUID = "com." + MODAUTHOR + "." + MODNAME,
-            MODVERSION = "0.5.1";
+            MODVERSION = "0.5.5";
         // a prefix for name tokens to prevent conflicts
         public const string developerPrefix = "MICO27";
         // soft dependency 
-        public static bool scepterInstalled = false;
-        public static bool skillPlusInstalled = false;
-        public static bool rideMeExtendedInstalled = false;
 
         public static TTGL_SurvivorPlugin instance;
 
@@ -62,9 +53,6 @@ namespace TTGL_Survivor
             instance = this;
             try
             {
-                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter")) scepterInstalled = true;
-                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.cwmlolzlz.skills")) skillPlusInstalled = true;
-                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Mico27.RideMeExtended")) rideMeExtendedInstalled = true;
                 Modules.TTGLAssets.PopulateAssets();
                 Modules.Config.ReadConfig();
                 Modules.ItemDisplays.PopulateDisplays();
@@ -76,19 +64,10 @@ namespace TTGL_Survivor
                 new Lagann().CreateCharacter();
                 new Gurren().CreateCharacter();
                 new GurrenLagann().CreateCharacter();
-                Modules.CostTypeDefs.RegisterCostTypeDefs();
                 Modules.Interactables.RegisterInteractables();
                 Modules.Tokens.AddTokens();
                 //new TTGLIntro().CreateScene();
                 Hooks();
-                if (skillPlusInstalled)
-                {
-                    AddSkillPlus();
-                }
-                if (rideMeExtendedInstalled)
-                {
-                    AddRideMeExtended();
-                }
             }
             catch (Exception e)
             {
@@ -216,52 +195,6 @@ namespace TTGL_Survivor
         }
 
         #endregion
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void AddSkillPlus()
-        {
-            SkillsPlusPlus.SkillModifierManager.LoadSkillModifiers();            
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void AddRideMeExtended()
-        {
-            RideMeExtendedAddin.RideMeExtendedAddin.AddRideMeExtended();
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public static void ExpulseAnyRider(GameObject gameObject)
-        {
-            RideMeExtendedAddin.RideMeExtendedAddin.ExpulseAnyRider(gameObject);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public static void ExitSeat(GameObject gameObject)
-        {
-            RideMeExtendedAddin.RideMeExtendedAddin.ExitSeat(gameObject);
-        }
-        
-        private static string GetSpiralPowerRate(CharacterBody body)
-        {
-            string value = null;
-            var spiralEnergy = body.GetComponent<SpiralEnergyComponent>();
-            if (spiralEnergy != null)
-            {
-                return (spiralEnergy.charge_rate * SpiralEnergyComponent.C_SPIRALENERGYCAP).ToString("0.##");
-            }
-            return value;
-        }
-
-        private static string GetSpiralPowerAmount(CharacterBody body)
-        {
-            string value = null;
-            var spiralEnergy = body.GetComponent<SpiralEnergyComponent>();
-            if (spiralEnergy != null)
-            {
-                return spiralEnergy.energy.ToString("0.##");
-            }
-            return value;
-        }
 
         private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider)
         {

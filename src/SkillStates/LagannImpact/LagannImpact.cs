@@ -31,10 +31,6 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
-            {
-                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
-            }
             if (NetworkServer.active)
             {
                 base.characterBody.AddBuff(Buffs.HiddenInvincibility);

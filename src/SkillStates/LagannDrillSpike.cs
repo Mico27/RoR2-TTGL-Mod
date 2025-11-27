@@ -42,10 +42,6 @@ namespace TTGL_Survivor.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            if (TTGL_SurvivorPlugin.rideMeExtendedInstalled)
-            {
-                TTGL_SurvivorPlugin.ExitSeat(base.gameObject);
-            }
             this.duration = LagannDrillSpike.baseDuration / this.attackSpeedStat;
             this.earlyExitTime = LagannDrillSpike.baseEarlyExitTime / this.attackSpeedStat;
             this.hasFired = false;
