@@ -17,6 +17,7 @@ namespace TTGL_Survivor.Modules
         {
             SurvivorDef survivorDef = ScriptableObject.CreateInstance<SurvivorDef>();
             survivorDef.cachedName = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME";
+            survivorDef.displayNameToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_NAME";
             survivorDef.descriptionToken = TTGL_SurvivorPlugin.developerPrefix + "_" + namePrefix + "_BODY_DESCRIPTION";
             survivorDef.primaryColor = charColor;
             survivorDef.bodyPrefab = bodyPrefab;
